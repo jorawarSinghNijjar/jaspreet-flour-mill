@@ -3,12 +3,18 @@
     src: url("fonts/OpenSans-Regular.ttf");
 }
 
+//Headings
 
 .h2{
     -fx-font-size: 20;
     -fx-font-weight:700;
     -fx-tex-fill: #17252A;
 }
+
+.p-3{
+    -fx-padding: 30;
+}
+
 
 .root{
     -fx-background-color: #3AAFA9;

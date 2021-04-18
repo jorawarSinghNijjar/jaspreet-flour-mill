@@ -13,7 +13,6 @@ public class AuthController{
 
     @FXML
     public void handleLogin(ActionEvent event) throws IOException{
-        System.out.println("Login Successfull");
         FXMLLoader loader = new FXMLLoader(App.class.getResource("dashboard.fxml"));
         App.getScene().setRoot(loader.load());
     }

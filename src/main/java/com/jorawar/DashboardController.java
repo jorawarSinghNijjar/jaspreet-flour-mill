@@ -6,6 +6,8 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -70,7 +72,7 @@ public class DashboardController {
                 showViewTransaction();
                 break;
             case "Settings":
-//                showSettings();
+                showSettings();
                 break;
             case "Home":
 //                showHome();
@@ -185,10 +187,105 @@ public class DashboardController {
                         "Parmeet",
                         "Santokh"));
 
-        Text HeadingText = new Text("Transaction Details for Customer Name");
-        VBox vBox = new VBox(tableView);
+        Text headingText = new Text("Transaction Details for Customer Name");
+        headingText.getStyleClass().addAll("h2");
+
+        HBox titleBar = new HBox();
+        titleBar.getChildren().add(headingText);
+        titleBar.getStyleClass().add("p-3");
+        titleBar.setAlignment(Pos.CENTER);
+        VBox vBox = new VBox(titleBar,tableView);
+        VBox.setVgrow(tableView,Priority.ALWAYS);
         dashboard.setCenter(vBox);
 
+    }
+
+    public void showSettings(){
+        GridPane gridPane = new GridPane();
+        gridPane.setAlignment(Pos.CENTER);
+        gridPane.setHgap(20);
+        gridPane.setVgap(35);
+
+        Text headingText = new Text("Settings");
+        headingText.getStyleClass().addAll("h2");
+
+        HBox titleBar = new HBox();
+        titleBar.getChildren().add(headingText);
+        titleBar.getStyleClass().add("p-3");
+        titleBar.setAlignment(Pos.CENTER);
+
+        Button registerEmployeeBtn = new Button("Register Employee");
+
+        registerEmployeeBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                showRegisterEmployeeView();
+            }
+        });
+
+        gridPane.add(titleBar, 0,0,2,1);
+        gridPane.add(registerEmployeeBtn,0,1,2,1);
+
+        dashboard.setCenter(gridPane);
+    }
+
+    public void showRegisterEmployeeView(){
+        GridPane addEmployeeView = new GridPane();
+        addEmployeeView.setAlignment(Pos.CENTER);
+        addEmployeeView.setHgap(20);
+        addEmployeeView.setVgap(30);
+
+        Text heading = new Text("Enter Employee Details");
+
+        Label employeeNameLabel = new Label("Employee Name:");
+        TextField employeeNameInput = new TextField();
+        Label employeeUsernameLabel = new Label("Username:");
+        TextField employeeUsernameInput = new TextField();
+        Label employeePasswordLabel = new Label("Password:");
+        PasswordField employeePasswordInput = new PasswordField();
+        Label employeeContactNumberLabel = new Label("Contact Number");
+        TextField employeeContactNumberInput = new TextField();
+        Label employeeAddressLabel = new Label("Address:");
+        TextField employeeAddressInput = new TextField();
+        Label employeeDesignationLabel = new Label("Job Designation:");
+        TextField employeeDesignationInput = new TextField();
+        Label employeeDOBLabel = new Label("Date of Birth: ");
+        DatePicker employeeDOBInput = new DatePicker();
+
+        Button registerBtn = new Button("Register");
+        registerBtn.getStyleClass().add("secondary-btn");
+        registerBtn.setPrefWidth(250);
+
+        addEmployeeView.add(heading,0,0,2,1);
+        addEmployeeView.add(employeeNameLabel,0,1);
+        addEmployeeView.add(employeeUsernameLabel,0,2);
+        addEmployeeView.add(employeePasswordLabel,0,3);
+        addEmployeeView.add(employeeContactNumberLabel,0,4);
+        addEmployeeView.add(employeeAddressLabel,0,5);
+        addEmployeeView.add(employeeDesignationLabel,0,6);
+        addEmployeeView.add(employeeDOBLabel,0,7);
+
+        addEmployeeView.add(employeeNameInput,1,1);
+        addEmployeeView.add(employeeUsernameInput,1,2);
+        addEmployeeView.add(employeePasswordInput,1,3);
+        addEmployeeView.add(employeeContactNumberInput,1,4);
+        addEmployeeView.add(employeeAddressInput,1,5);
+        addEmployeeView.add(employeeDesignationInput,1,6);
+        addEmployeeView.add(employeeDOBInput,1,7);
+
+        addEmployeeView.add(registerBtn,0,9,2,1);
+
+        Button backBtn = new Button("Back");
+        backBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                showSettings();
+            }
+        });
+
+        addEmployeeView.add(backBtn,0,8,2,1);
+
+        dashboard.setCenter(addEmployeeView);
     }
 
 
