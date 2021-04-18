@@ -1,0 +1,47 @@
+@font-face{
+    font-family: "OpenSans";
+    src: url("fonts/OpenSans-Regular.ttf");
+}
+
+
+.h2{
+    -fx-font-size: 20;
+    -fx-font-weight:700;
+    -fx-tex-fill: #17252A;
+}
+
+.root{
+    -fx-background-color: #3AAFA9;
+    -fx-font-family: "OpenSans";
+    -fx-text-fill: #17252A;
+    -fx-font-size:14;
+}
+
+.label{
+    -fx-font-weight:600;
+}
+
+.small-text{
+    -fx-font-size:10;
+}
+
+
+
+.primary-btn{
+    -fx-background-color: #DEF2F1;
+    -fx-text-fill: #17252A;
+    -fx-font-weight:400;
+    -fx-padding: 5 30;
+}
+
+.secondary-btn{
+    -fx-background-color: #272635;
+    -fx-text-fill: white;
+    -fx-font-weight:400;
+    -fx-padding: 5 30;
+}
+
+#menu{
+    -fx-background-color: #272635;
+}
+

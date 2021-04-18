@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.text.Text?>
+<?import com.jfoenix.controls.JFXDrawer?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import java.net.URL?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.jorawar.DashboardController"
+            prefHeight="400.0"
+            prefWidth="600.0"
+            styleClass="root"
+            fx:id="dashboard"
+>
+
+    <left>
+        <VBox prefWidth="200">
+            <ListView fx:id="menu"
+                      VBox.vgrow="ALWAYS">
+
+            </ListView>
+        </VBox>
+    </left>
+<!--    <center>-->
+<!--        <Pane fx:id="selectedMenuItemView" style="-fx-background-color:red;">-->
+<!--            <GridPane alignment="CENTER"-->
+<!--                      hgap="20"-->
+<!--                      vgap="35"-->
+
+<!--            >-->
+<!--            </GridPane>-->
+<!--        </Pane>-->
+
+<!--            <Text styleClass="h2"-->
+<!--                  GridPane.rowIndex="0"-->
+<!--                  GridPane.columnIndex="0"-->
+<!--                  GridPane.columnSpan="2"-->
+<!--                  GridPane.halignment="CENTER"-->
+<!--            >-->
+<!--                Enter transaction details-->
+<!--            </Text>-->
+<!--            <Label GridPane.rowIndex="1"-->
+<!--                   GridPane.columnIndex="0">Customer ID:-->
+<!--            </Label>-->
+<!--            <Label GridPane.rowIndex="2"-->
+<!--                   GridPane.columnIndex="0">Atta Pickup Qty:-->
+<!--            </Label>-->
+<!--            <Label GridPane.rowIndex="3"-->
+<!--                   GridPane.columnIndex="0"-->
+<!--            >-->
+<!--                Grinding Charges Paid:-->
+<!--            </Label>-->
+<!--            <Label GridPane.rowIndex="4"-->
+<!--                   GridPane.columnIndex="0">Order Picked By:-->
+<!--            </Label>-->
+<!--            <Label GridPane.rowIndex="5"-->
+<!--                   GridPane.columnIndex="0">Cashier Name:-->
+<!--            </Label>-->
+<!--            <TextField GridPane.rowIndex="1"-->
+<!--                       GridPane.columnIndex="1"/>-->
+<!--            <TextField GridPane.rowIndex="2"-->
+<!--                       GridPane.columnIndex="1"/>-->
+<!--            <TextField GridPane.rowIndex="3"-->
+<!--                       GridPane.columnIndex="1"/>-->
+<!--            <TextField GridPane.rowIndex="4"-->
+<!--                       GridPane.columnIndex="1"/>-->
+<!--            <Label GridPane.rowIndex="5"-->
+<!--                   GridPane.columnIndex="1">Santokh-->
+<!--            </Label>-->
+
+<!--            <JFXButton GridPane.rowIndex="6"-->
+<!--                       GridPane.columnIndex="0"-->
+<!--                       GridPane.columnSpan="2"-->
+<!--                       GridPane.halignment="CENTER"-->
+<!--                       styleClass="secondary-btn"-->
+<!--                       prefWidth="250"-->
+<!--            >-->
+<!--                Submit-->
+<!--            </JFXButton>-->
+
+
+<!--    </center>-->
+    <stylesheets>
+        <URL value="@css/main.css"/>
+    </stylesheets>
+</BorderPane>

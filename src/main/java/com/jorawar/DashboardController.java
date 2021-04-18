@@ -1,0 +1,197 @@
+package com.jorawar;
+
+import com.jorawar.model.Transaction;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.*;
+import javafx.scene.text.Text;
+import javafx.util.Callback;
+
+public class DashboardController {
+    @FXML
+    private ListView<String> menu;
+
+    @FXML
+    private BorderPane dashboard;
+
+    @FXML
+    public void initialize() {
+        populateMenu();
+        observeSelectedMenuItemView();
+    }
+
+    public void populateMenu() {
+        ObservableList<String> menuItems = FXCollections.observableArrayList(
+                "Home","Add Transaction", "View Transaction", "Settings"
+        );
+        menu.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
+            @Override
+            public ListCell<String> call(ListView<String> stringListView) {
+                return new ListCell<>(){
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                            setText(item);
+                            setStyle("-fx-control-inner-background: #272635; -fx-font-weight: bold;");
+                    }
+                };
+            }
+        });
+        menu.setItems(menuItems);
+
+    }
+
+    private void observeSelectedMenuItemView(){
+        menu.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if(newValue != null){
+                    String selectMenuItem = menu.getSelectionModel().getSelectedItem();
+                    showSelectedMenuItemView(selectMenuItem);
+                }
+            }
+        });
+    }
+
+    private void showSelectedMenuItemView(String selectedMenuItem){
+        System.out.println(selectedMenuItem);
+        switch (selectedMenuItem){
+            case "Add Transaction":
+                showAddTransaction();
+                break;
+            case "View Transaction":
+                showViewTransaction();
+                break;
+            case "Settings":
+//                showSettings();
+                break;
+            case "Home":
+//                showHome();
+                break;
+            default:
+                System.out.println("Nothing selected");
+        }
+    }
+
+    private void showAddTransaction(){
+//        selectedMenuItemView.getChildren().clear();
+        GridPane gridPane = new GridPane();
+        gridPane.setAlignment(Pos.CENTER);
+        gridPane.setHgap(20);
+        gridPane.setVgap(35);
+
+        Text heading = new Text("Enter transaction details");
+
+        Label customerIdLabel = new Label("Customer ID:");
+        TextField customerIdInput = new TextField();
+        Label attaPickUpQtyLabel = new Label("Atta Pickup Qty:");
+        TextField attaPickUpQtyInput = new TextField();
+        Label grindingChargesPaidLabel = new Label("Grinding Charges Paid:");
+        TextField grindingChargesPaidInput = new TextField();
+        Label orderPickedByLabel = new Label("Order Picked By:");
+        TextField orderPickedByInput = new TextField();
+        Label cashierNameLabel = new Label("Cashier:");
+        Label cashierName = new Label();
+        cashierName.setText("Santokh");
+
+        Button submitBtn = new Button("Submit");
+        submitBtn.getStyleClass().add("secondary-btn");
+        submitBtn.setPrefWidth(250);
+
+        gridPane.add(heading,0,0,2,1);
+        gridPane.add(customerIdLabel,0,1);
+        gridPane.add(attaPickUpQtyLabel,0,2);
+        gridPane.add(grindingChargesPaidLabel,0,3);
+        gridPane.add(orderPickedByLabel,0,4);
+        gridPane.add(cashierNameLabel,0,5);
+
+        gridPane.add(customerIdInput,1,1);
+        gridPane.add(attaPickUpQtyInput,1,2);
+        gridPane.add(grindingChargesPaidInput,1,3);
+        gridPane.add(orderPickedByInput,1,4);
+        gridPane.add(cashierName,1,5);
+
+        gridPane.add(submitBtn,0,7,2,1);
+
+        dashboard.setCenter(gridPane);
+
+
+    }
+
+    private void showViewTransaction(){
+
+        TableView tableView = new TableView();
+
+        tableView.setColumnResizePolicy(new Callback<TableView.ResizeFeatures, Boolean>() {
+            @Override
+            public Boolean call(TableView.ResizeFeatures resizeFeatures) {
+                return true;
+            }
+        });
+
+        TableColumn<Transaction, String> transactionIdColumn = new TableColumn<>("Transaction ID");
+        transactionIdColumn.setCellValueFactory(new PropertyValueFactory<>("transactionId"));
+        transactionIdColumn.setPrefWidth(100);
+
+        TableColumn<Transaction, String> dateColumn = new TableColumn<>("Date");
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+
+        TableColumn<Transaction, Double> attaPickupQtyColumn = new TableColumn<>("Atta Pickup Qty");
+        attaPickupQtyColumn.setCellValueFactory(new PropertyValueFactory<>("attaPickupQty"));
+
+        TableColumn<Transaction, Double> grindingChargesPaidColumn = new TableColumn<>("Grinding Charges Paid");
+        grindingChargesPaidColumn.setCellValueFactory(new PropertyValueFactory<>("grindingChargesPaid"));
+
+        TableColumn<Transaction, Double> customerBalanceGrindingChargesColumn = new TableColumn<>("Balance Grinding Charges");
+        customerBalanceGrindingChargesColumn.setCellValueFactory(new PropertyValueFactory<>("customerBalanceGrindingCharges"));
+
+        TableColumn<Transaction, Double> customerStoredAttaBalanceQtyColumn = new TableColumn<>("Stored Atta Balance Qty");
+        customerStoredAttaBalanceQtyColumn.setCellValueFactory(new PropertyValueFactory<>("customerStoredAttaBalanceQty"));
+
+        TableColumn<Transaction, String> orderPickedByColumn = new TableColumn<>("Order Picked By");
+        orderPickedByColumn.setCellValueFactory(new PropertyValueFactory<>("orderPickedBy"));
+
+        TableColumn<Transaction, String> cashierNameColumn = new TableColumn<>("Cashier");
+        cashierNameColumn.setCellValueFactory(new PropertyValueFactory<>("cashierName"));
+
+        tableView.getColumns().add(transactionIdColumn);
+        tableView.getColumns().add(dateColumn);
+        tableView.getColumns().add(attaPickupQtyColumn);
+        tableView.getColumns().add(grindingChargesPaidColumn);
+        tableView.getColumns().add(customerBalanceGrindingChargesColumn);
+        tableView.getColumns().add(customerStoredAttaBalanceQtyColumn);
+        tableView.getColumns().add(orderPickedByColumn);
+        tableView.getColumns().add(cashierNameColumn);
+
+        tableView.getItems().add(
+                new Transaction(
+                        "12",
+                        25,
+                        40,
+                        "Rahul",
+                        "Santokh"));
+        tableView.getItems().add(
+                new Transaction(
+                        "13",
+                        13,
+                        30,
+                        "Parmeet",
+                        "Santokh"));
+
+        Text HeadingText = new Text("Transaction Details for Customer Name");
+        VBox vBox = new VBox(tableView);
+        dashboard.setCenter(vBox);
+
+    }
+
+
+
+
+}
