@@ -1,13 +1,12 @@
 package com.jorawar;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jorawar.model.Employee;
 import com.jorawar.model.Transaction;
-import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -15,6 +14,20 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 
 public class DashboardController {
     @FXML
@@ -51,13 +64,10 @@ public class DashboardController {
     }
 
     private void observeSelectedMenuItemView(){
-        menu.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
-                if(newValue != null){
-                    String selectMenuItem = menu.getSelectionModel().getSelectedItem();
-                    showSelectedMenuItemView(selectMenuItem);
-                }
+        menu.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
+            if(newValue != null){
+                String selectMenuItem = menu.getSelectionModel().getSelectedItem();
+                showSelectedMenuItemView(selectMenuItem);
             }
         });
     }
@@ -131,12 +141,7 @@ public class DashboardController {
 
         TableView tableView = new TableView();
 
-        tableView.setColumnResizePolicy(new Callback<TableView.ResizeFeatures, Boolean>() {
-            @Override
-            public Boolean call(TableView.ResizeFeatures resizeFeatures) {
-                return true;
-            }
-        });
+        tableView.setColumnResizePolicy((Callback<TableView.ResizeFeatures, Boolean>) resizeFeatures -> true);
 
         TableColumn<Transaction, String> transactionIdColumn = new TableColumn<>("Transaction ID");
         transactionIdColumn.setCellValueFactory(new PropertyValueFactory<>("transactionId"));
@@ -216,12 +221,9 @@ public class DashboardController {
 
         Button registerEmployeeBtn = new Button("Register Employee");
 
-        registerEmployeeBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                showRegisterEmployeeView();
-            }
-        });
+        registerEmployeeBtn.setOnAction(
+                actionEvent -> showRegisterEmployeeView()
+        );
 
         gridPane.add(titleBar, 0,0,2,1);
         gridPane.add(registerEmployeeBtn,0,1,2,1);
@@ -252,10 +254,6 @@ public class DashboardController {
         Label employeeDOBLabel = new Label("Date of Birth: ");
         DatePicker employeeDOBInput = new DatePicker();
 
-        Button registerBtn = new Button("Register");
-        registerBtn.getStyleClass().add("secondary-btn");
-        registerBtn.setPrefWidth(250);
-
         addEmployeeView.add(heading,0,0,2,1);
         addEmployeeView.add(employeeNameLabel,0,1);
         addEmployeeView.add(employeeUsernameLabel,0,2);
@@ -273,15 +271,52 @@ public class DashboardController {
         addEmployeeView.add(employeeDesignationInput,1,6);
         addEmployeeView.add(employeeDOBInput,1,7);
 
+        Button registerBtn = new Button("Register");
+        registerBtn.getStyleClass().add("secondary-btn");
+        registerBtn.setPrefWidth(250);
+
+        registerBtn.setOnAction(actionEvent -> {
+            String name = employeeNameInput.getText();
+            String username = employeeUsernameInput.getText();
+            String password = employeePasswordInput.getText();
+            String contactNumber = employeeContactNumberInput.getText();
+            String address = employeeAddressInput.getText();
+            String jobDesignation = employeeDesignationInput.getText();
+            LocalDate dob = employeeDOBInput.getValue();
+
+            Employee employee = new Employee(name,username,password,contactNumber,address,jobDesignation,dob);
+
+//            // HTTP post request
+//            try{
+//                CloseableHttpClient httpClient = HttpClients.createDefault();
+//                HttpPost httpPost = new HttpPost("http://localhost:8080/employees/");
+//
+//                List<NameValuePair> params = new ArrayList<>();
+//                HttpResponse httpResponse = httpClient.execute(httpPost);
+//
+//                System.out.println("Request Type: "+httpPost.getMethod());
+//                System.out.println(httpResponse.getStatusLine());
+//
+//                String jsonResponse = EntityUtils.toString(httpResponse.getEntity());
+//                ObjectMapper objectMapper = new ObjectMapper();
+//
+//                Employee[] employees = objectMapper.readValue(jsonResponse,Employee[].class);
+//                List<Employee> employeesList = new ArrayList<>(Arrays.asList(employees));
+//                employeesList.forEach(x -> System.out.println(x.getName()));
+//
+//            }catch(Exception e){
+//                e.printStackTrace();
+//            }
+
+
+        });
+
         addEmployeeView.add(registerBtn,0,9,2,1);
 
         Button backBtn = new Button("Back");
-        backBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                showSettings();
-            }
-        });
+        backBtn.setOnAction(
+                actionEvent -> showSettings()
+        );
 
         addEmployeeView.add(backBtn,0,8,2,1);
 

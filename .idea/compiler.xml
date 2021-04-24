@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="js-flour-mill" />
         <module name="jaspreetFlourMill" />
+        <module name="jaspreetFlourMillClient" />
       </profile>
     </annotationProcessing>
   </component>
