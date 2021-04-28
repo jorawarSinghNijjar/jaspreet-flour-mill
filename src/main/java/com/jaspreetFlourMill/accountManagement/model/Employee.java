@@ -1,10 +1,14 @@
 package com.jaspreetFlourMill.accountManagement.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Employee {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Employee implements Serializable {
     private Integer employeeId;
     private String name;
     private String username;
@@ -90,5 +94,19 @@ public class Employee {
 
     public void setDob(String dob) {
         this.dob = dob;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "employeeId=" + employeeId +
+                ", name='" + name + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", contactNumber='" + contactNumber + '\'' +
+                ", address='" + address + '\'' +
+                ", jobDesignation='" + jobDesignation + '\'' +
+                ", dob='" + dob + '\'' +
+                '}';
     }
 }

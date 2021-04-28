@@ -29,13 +29,17 @@
            GridPane.columnIndex="0">Username:
     </Label>
     <TextField GridPane.rowIndex="1"
-               GridPane.columnIndex="1"></TextField>
+               GridPane.columnIndex="1"
+               fx:id="userIdField"
+    ></TextField>
     <Label styleClass="label"
            GridPane.rowIndex="2"
            GridPane.columnIndex="0">Password:
     </Label>
     <PasswordField GridPane.rowIndex="2"
-                   GridPane.columnIndex="1"/>
+                   GridPane.columnIndex="1"
+                   fx:id="passwordField"
+    />
     <Hyperlink styleClass="small-text"
                GridPane.rowIndex="3"
                GridPane.columnIndex="1">Forgot Password ?

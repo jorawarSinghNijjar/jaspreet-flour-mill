@@ -1,38 +1,67 @@
 package com.jaspreetFlourMill.accountManagement.controllers;
 
+import com.jaspreetFlourMill.accountManagement.StageReadyEvent;
 import com.jaspreetFlourMill.accountManagement.model.Employee;
 import com.jaspreetFlourMill.accountManagement.model.Transaction;
 
 
+import com.jaspreetFlourMill.accountManagement.util.UserSession;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Callback;
+import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
+import org.springframework.context.ApplicationListener;
+import org.springframework.http.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 
 @Component
 @FxmlView("/views/dashboard.fxml")
 
-public class DashboardController {
+public class DashboardController implements ApplicationListener<StageReadyEvent> {
     @FXML
     private ListView<String> menu;
 
     @FXML
     private BorderPane dashboard;
 
+    private Stage stage;
+    private final FxWeaver fxWeaver;
+
+    public DashboardController(FxWeaver fxWeaver) {
+        this.fxWeaver = fxWeaver;
+    }
+
+    @Override
+    public void onApplicationEvent(StageReadyEvent event) {
+        stage = event.getStage();
+    }
+
     @FXML
     public void initialize() {
         populateMenu();
         observeSelectedMenuItemView();
+
+//        // GET request for Eemployees
+//        RestTemplate restTemplate = new RestTemplate();
+//        String url
+//                = "http://localhost:8080/employees";
+//        ResponseEntity<String> response
+//                = restTemplate.getForEntity(url, String.class);
+//        System.out.println(response);
     }
 
     public void populateMenu() {
@@ -189,7 +218,16 @@ public class DashboardController {
         headingText.getStyleClass().addAll("h2");
 
         HBox titleBar = new HBox();
+        Button logoutBtn = new Button("Logout");
+
+        logoutBtn.setOnAction(actionEvent -> {
+            AuthController.currentSession.cleanSession();
+            stage.setScene(new Scene(fxWeaver.loadView(AuthController.class),1300,700));
+            stage.show();
+        });
+
         titleBar.getChildren().add(headingText);
+        titleBar.getChildren().add(logoutBtn);
         titleBar.getStyleClass().add("p-3");
         titleBar.setAlignment(Pos.CENTER);
         VBox vBox = new VBox(titleBar,tableView);
@@ -217,6 +255,7 @@ public class DashboardController {
         registerEmployeeBtn.setOnAction(
                 actionEvent -> showRegisterEmployeeView()
         );
+
 
         gridPane.add(titleBar, 0,0,2,1);
         gridPane.add(registerEmployeeBtn,0,1,2,1);
@@ -277,7 +316,26 @@ public class DashboardController {
             String jobDesignation = employeeDesignationInput.getText();
             LocalDate dob = employeeDOBInput.getValue();
 
-            Employee employee = new Employee(name,username,password,contactNumber,address,jobDesignation,dob);
+            // Password Encoding
+            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+            String encodedPassword = bCryptPasswordEncoder.encode(password);
+
+            Employee employee = new Employee(name,username,encodedPassword,contactNumber,address,jobDesignation,dob);
+
+            // POST request to register employee
+            final String uri =  "http://localhost:8080/employees/";
+            RestTemplate restTemplate = new RestTemplate();
+
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+            HttpEntity<Employee> req = new HttpEntity<>(employee,httpHeaders);
+            ResponseEntity<String> result = restTemplate.exchange(uri,HttpMethod.POST,req,String.class);
+            System.out.println(result.getBody());
+
+            if(result != null){
+                showSettings();
+            }
 
         });
 
@@ -292,7 +350,6 @@ public class DashboardController {
 
         dashboard.setCenter(addEmployeeView);
     }
-
 
 
 
