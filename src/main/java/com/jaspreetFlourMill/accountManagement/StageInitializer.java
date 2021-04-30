@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import net.rgielen.fxweaver.core.FxWeaver;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
@@ -28,7 +29,8 @@ public class StageInitializer implements ApplicationListener<StageReadyEvent> {
     public void onApplicationEvent(StageReadyEvent event){
 
         stage = event.getStage();
-        stage.setScene(new Scene(fxWeaver.loadView(ContentController.class),1366,768));
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.setScene(new Scene(fxWeaver.loadView(AuthController.class),500,400));
         stage.show();
 
     }

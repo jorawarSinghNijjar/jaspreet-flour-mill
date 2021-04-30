@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.context.ApplicationListener;
@@ -52,7 +53,9 @@ public class AuthController implements ApplicationListener<StageReadyEvent> {
 
             if(userId.equals("admin") && password.equals("admin")){
                 currentSession = UserSession.getInstance(userId, UserSession.UserType.ADMIN);
-                stage.setScene(new Scene(fxWeaver.loadView(ContentController.class),1300,700));
+                stage.setScene(new Scene(fxWeaver.loadView(ContentController.class),1366,768));
+                stage.setX(0);
+                stage.setY(0);
                 stage.show();
                 return;
             }
@@ -81,7 +84,7 @@ public class AuthController implements ApplicationListener<StageReadyEvent> {
         }
 
 
-        stage.setScene(new Scene(fxWeaver.loadView(ContentController.class),1300,700));
+        stage.setScene(new Scene(fxWeaver.loadView(ContentController.class),1366,768));
         stage.show();
     }
 

@@ -1,60 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.Label?>
+<?import java.net.URL?>
 <?import javafx.scene.control.Button?>
-<?import javafx.geometry.Insets?>
-
-<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.text.Text?>
-<?import java.net.URL?>
-<?import javafx.scene.control.Hyperlink?>
-<GridPane alignment="CENTER"
-          xmlns="http://javafx.com/javafx/8.0.171"
-          xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="com.jaspreetFlourMill.accountManagement.controllers.AuthController"
-          hgap="10"
-          vgap="10"
-          styleClass="root"
->
-    <Text styleClass="h2"
-          GridPane.halignment="CENTER"
-          GridPane.columnIndex="0"
-          GridPane.columnSpan="2">Login
-    </Text>
-    <Label styleClass="label"
-           GridPane.rowIndex="1"
-           GridPane.columnIndex="0">Username:
-    </Label>
-    <TextField GridPane.rowIndex="1"
-               GridPane.columnIndex="1"
-               fx:id="userIdField"
-    ></TextField>
-    <Label styleClass="label"
-           GridPane.rowIndex="2"
-           GridPane.columnIndex="0">Password:
-    </Label>
-    <PasswordField GridPane.rowIndex="2"
-                   GridPane.columnIndex="1"
-                   fx:id="passwordField"
-    />
-    <Hyperlink styleClass="small-text"
-               GridPane.rowIndex="3"
-               GridPane.columnIndex="1">Forgot Password ?
-    </Hyperlink>
-    <Button styleClass="primary-btn"
-               GridPane.rowIndex="4"
-               GridPane.columnIndex="1"
-               GridPane.halignment="RIGHT"
-                   onAction="#handleLogin"
-    >
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane prefHeight="400.0" prefWidth="500.0" styleClass="login-form" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.AuthController">
+    <GridPane layoutX="126.0" layoutY="123.0" prefHeight="155.0" prefWidth="250.0" vgap="10.0">
+        <Label prefHeight="50.0" prefWidth="80.0" styleClass="label" GridPane.columnIndex="0" GridPane.rowIndex="1">Username:
+        </Label>
+        <TextField fx:id="userIdField" prefHeight="35.0" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <Label prefHeight="50.0" prefWidth="80.0" styleClass="label" text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="2">Password:
+        </Label>
+        <PasswordField fx:id="passwordField" prefHeight="35.0" prefWidth="170.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <Hyperlink alignment="CENTER_RIGHT" prefHeight="21.0" prefWidth="147.0" styleClass="small-text" text="Forgot Password ?" GridPane.columnIndex="1" GridPane.rowIndex="3">Forgot Password ?
+        </Hyperlink>
+        <stylesheets>
+            <URL value="@css/main.css" />
+        </stylesheets>
+      <columnConstraints>
+         <ColumnConstraints maxWidth="106.0" minWidth="72.0" prefWidth="82.0" />
+         <ColumnConstraints maxWidth="158.0" minWidth="124.0" prefWidth="148.0" />
+      </columnConstraints>
+      <rowConstraints>
+         <RowConstraints />
+         <RowConstraints maxHeight="37.0" minHeight="50.0" prefHeight="50.0" />
+         <RowConstraints maxHeight="37.0" minHeight="50.0" prefHeight="37.0" />
+         <RowConstraints maxHeight="31.0" minHeight="25.0" prefHeight="25.0" />
+      </rowConstraints>
+    </GridPane>
+   <Label alignment="CENTER" layoutX="196.0" layoutY="59.0" prefHeight="49.0" prefWidth="108.0" styleClass="h2" stylesheets="@css/main.css" text="Sign In" />
+     <Button alignment="CENTER" layoutX="199.0" layoutY="303.0" onAction="#handleLogin" styleClass="secondary-btn" stylesheets="@css/main.css" text="Sign In">
 
 
-        Login
-    </Button>
-    <stylesheets>
-        <URL value="@css/main.css"/>
-    </stylesheets>
-</GridPane>
+            Login
+        </Button>
+
+
+</AnchorPane>

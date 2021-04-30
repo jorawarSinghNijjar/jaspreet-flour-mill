@@ -39,12 +39,17 @@
     -fx-font-size:14;
 }
 
+.login-form{
+    -fx-background-color: #FFFAFA;
+}
+
 .label{
     -fx-font-weight:600;
 }
 
 .small-text{
     -fx-font-size:10;
+    -fx-text-fill: #272635;
 }
 
 
@@ -59,7 +64,8 @@
 .secondary-btn{
     -fx-background-color: #272635;
     -fx-text-fill: white;
-    -fx-font-weight:400;
+    -fx-font-size: 14;
+    -fx-font-weight:600;
     -fx-padding: 5 30;
 }
 

@@ -50,8 +50,6 @@
             <Insets top="40.0" />
          </padding>
       </VBox>
-      <AnchorPane fx:id="addTransactionContainer" layoutX="230.0" layoutY="-16.0" prefHeight="400.0" prefWidth="568.0" />
-      <AnchorPane fx:id="customerDetailsContainer" layoutX="793.0" layoutY="-2.0" prefHeight="400.0" prefWidth="568.0" />
-      <AnchorPane fx:id="transactionDetailsContainer" layoutX="229.0" layoutY="385.0" prefHeight="387.0" prefWidth="1139.0" />
+      <AnchorPane fx:id="contentContainer" layoutX="230.0" prefHeight="768.0" prefWidth="1136.0" />
    </children>
 </AnchorPane>
