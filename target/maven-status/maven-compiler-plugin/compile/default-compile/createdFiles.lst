@@ -1,4 +1,5 @@
 com\jaspreetFlourMill\accountManagement\controllers\DashboardController$1$1.class
+com\jaspreetFlourMill\accountManagement\controllers\ContentController.class
 com\jaspreetFlourMill\accountManagement\controllers\DashboardController$1.class
 com\jaspreetFlourMill\accountManagement\StageInitializer.class
 com\jaspreetFlourMill\accountManagement\AppUI.class
@@ -8,5 +9,6 @@ com\jaspreetFlourMill\accountManagement\StageReadyEvent.class
 com\jaspreetFlourMill\accountManagement\model\Transaction.class
 com\jaspreetFlourMill\accountManagement\controllers\DashboardController.class
 com\jaspreetFlourMill\accountManagement\util\UserSession.class
+com\jaspreetFlourMill\accountManagement\controllers\TransactionDetailController.class
 com\jaspreetFlourMill\accountManagement\controllers\AuthController.class
 com\jaspreetFlourMill\accountManagement\model\Employee.class

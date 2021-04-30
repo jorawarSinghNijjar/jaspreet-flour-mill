@@ -54,14 +54,6 @@ public class DashboardController implements ApplicationListener<StageReadyEvent>
     public void initialize() {
         populateMenu();
         observeSelectedMenuItemView();
-
-//        // GET request for Eemployees
-//        RestTemplate restTemplate = new RestTemplate();
-//        String url
-//                = "http://localhost:8080/employees";
-//        ResponseEntity<String> response
-//                = restTemplate.getForEntity(url, String.class);
-//        System.out.println(response);
     }
 
     public void populateMenu() {

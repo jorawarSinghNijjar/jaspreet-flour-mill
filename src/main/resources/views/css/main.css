@@ -1,14 +1,30 @@
+/*Colors used:
+1. #17252A
+2. #3AAFA9
+3. #DEF2F1
+4. #272635
+5. #52515d
+*/
+
 @font-face{
     font-family: "OpenSans";
     src: url("fonts/OpenSans-Regular.ttf");
 }
 
-//Headings
+/* Headings */
 
 .h2{
     -fx-font-size: 20;
     -fx-font-weight:700;
     -fx-tex-fill: #17252A;
+}
+
+.h4{
+    -fx-font-size:15;
+}
+
+.h5{
+    -fx-font-size: 14;
 }
 
 .p-3{
@@ -47,7 +63,28 @@
     -fx-padding: 5 30;
 }
 
+.secondary-btn:hover{
+-fx-background-color: #52515d;
+-fx-cursor: hand;
+}
+
+.menu-btn{
+-fx-background-color: #272635;
+-fx-text-fill: #ffffff;
+-fx-font-weight: bold;
+}
+
+.menu-btn:hover{
+-fx-background-color: #52515d;
+-fx-cursor: hand;
+}
+
 #menu{
     -fx-background-color: #272635;
+}
+
+.table-items{
+    -fx-text-fill: #2B7A78;
+    -fx-font-weight: 700;
 }
 

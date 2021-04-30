@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="368.0" prefWidth="1136.0" style="-fx-border-style: solid hidden hidden hidden; -fx-border-color: #272635; -fx-border-width: 3;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.TransactionDetailController">
+   <children>
+      <HBox layoutY="3.0" prefHeight="68.0" prefWidth="1136.0" spacing="5.0" style="-fx-background-color: #DEF2F1;">
+         <children>
+            <Label alignment="CENTER" prefHeight="45.0" prefWidth="140.0" styleClass="h5" stylesheets="@css/main.css" text="Transaction ID" />
+            <Label alignment="CENTER" prefHeight="45.0" prefWidth="140.0" styleClass="h5" stylesheets="@css/main.css" text="Time" />
+            <Label alignment="CENTER" prefHeight="45.0" prefWidth="140.0" styleClass="h5" stylesheets="@css/main.css" text="Atta Pickup Qty" />
+            <Label alignment="CENTER" prefHeight="44.0" prefWidth="140.0" styleClass="h5" stylesheets="@css/main.css" text="Grinding charges paid" wrapText="true" />
+            <Label alignment="CENTER" prefHeight="44.0" prefWidth="140.0" styleClass="h5" stylesheets="@css/main.css" text="Customer Balance Grinding" textAlignment="CENTER" wrapText="true" />
+            <Label alignment="CENTER" prefHeight="44.0" prefWidth="140.0" styleClass="h5" stylesheets="@css/main.css" text="Customer's Stored Wheat Qty Balance" textAlignment="CENTER" wrapText="true" />
+            <Label alignment="CENTER" prefHeight="45.0" prefWidth="140.0" styleClass="h5" stylesheets="@css/main.css" text="Order Picked By" textAlignment="CENTER" wrapText="true" />
+            <Label alignment="CENTER" prefHeight="44.0" prefWidth="140.0" styleClass="h5" stylesheets="@css/main.css" text="Cashier " />
+         </children>
+         <padding>
+            <Insets top="10.0" />
+         </padding>
+      </HBox>
+      <VBox fx:id="detailItemContainer" layoutY="58.0" prefHeight="310.0" prefWidth="1136.0" />
+   </children>
+   <padding>
+      <Insets top="5.0" />
+   </padding>
+</AnchorPane>

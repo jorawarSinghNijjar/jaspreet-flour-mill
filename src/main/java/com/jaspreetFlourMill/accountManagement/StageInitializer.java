@@ -1,6 +1,8 @@
 package com.jaspreetFlourMill.accountManagement;
 
 import com.jaspreetFlourMill.accountManagement.controllers.AuthController;
+import com.jaspreetFlourMill.accountManagement.controllers.ContentController;
+import com.jaspreetFlourMill.accountManagement.controllers.DashboardController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -26,7 +28,7 @@ public class StageInitializer implements ApplicationListener<StageReadyEvent> {
     public void onApplicationEvent(StageReadyEvent event){
 
         stage = event.getStage();
-        stage.setScene(new Scene(fxWeaver.loadView(AuthController.class),1300,700));
+        stage.setScene(new Scene(fxWeaver.loadView(ContentController.class),1366,768));
         stage.show();
 
     }
