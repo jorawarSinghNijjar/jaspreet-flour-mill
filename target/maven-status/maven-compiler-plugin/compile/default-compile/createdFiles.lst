@@ -2,6 +2,8 @@ com\jaspreetFlourMill\accountManagement\controllers\ContentController.class
 com\jaspreetFlourMill\accountManagement\StageInitializer.class
 com\jaspreetFlourMill\accountManagement\util\UserSession$UserType.class
 com\jaspreetFlourMill\accountManagement\StageReadyEvent.class
+com\jaspreetFlourMill\accountManagement\model\Customer.class
+com\jaspreetFlourMill\accountManagement\controllers\RegisterCustomerController.class
 com\jaspreetFlourMill\accountManagement\util\UserSession.class
 com\jaspreetFlourMill\accountManagement\controllers\TransactionDetailController.class
 com\jaspreetFlourMill\accountManagement\controllers\AuthController.class

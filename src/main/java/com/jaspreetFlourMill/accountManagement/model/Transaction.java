@@ -1,11 +1,15 @@
 package com.jaspreetFlourMill.accountManagement.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.UUID;
 
-public class Transaction {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Transaction implements Serializable {
     private String customerId;
     private String transactionId;
     private String date;
@@ -31,6 +35,10 @@ public class Transaction {
 
         this.customerBalanceGrindingCharges = 100;
         this.customerStoredAttaBalanceQty = 300;
+    }
+
+    public Transaction(){
+
     }
 
     public String getCustomerId() {
