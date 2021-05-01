@@ -11,6 +11,8 @@ com\jaspreetFlourMill\accountManagement\controllers\DashboardController$1$1.clas
 com\jaspreetFlourMill\accountManagement\controllers\DashboardController$1.class
 com\jaspreetFlourMill\accountManagement\AppUI.class
 com\jaspreetFlourMill\accountManagement\AccountManagementApplication.class
+com\jaspreetFlourMill\accountManagement\controllers\AddTransactionController.class
 com\jaspreetFlourMill\accountManagement\model\Transaction.class
 com\jaspreetFlourMill\accountManagement\controllers\DashboardController.class
+com\jaspreetFlourMill\accountManagement\controllers\CustomerDetailsController.class
 com\jaspreetFlourMill\accountManagement\model\Employee.class

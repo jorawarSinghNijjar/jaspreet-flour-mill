@@ -101,7 +101,9 @@ public class RegisterCustomerController implements Initializable, ApplicationLis
 
             HttpEntity<Customer> req = new HttpEntity<>(newCustomer,httpHeaders);
             ResponseEntity<String> result = restTemplate.exchange(uri, HttpMethod.POST,req,String.class);
+            
             System.out.println(result.getBody());
+
         }
     }
 

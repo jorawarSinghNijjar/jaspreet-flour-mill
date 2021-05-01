@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -10,16 +9,12 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-border-color: #17252A; -fx-border-width: 3; -fx-border-style: hidden hidden hidden solid;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="customerDetailsPane" prefHeight="400.0" prefWidth="600.0" style="-fx-border-color: #17252A; -fx-border-width: 3; -fx-border-style: hidden hidden hidden solid;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.CustomerDetailsController">
    <children>
       <Label alignment="CENTER" layoutX="-5.0" layoutY="14.0" prefHeight="50.0" prefWidth="611.0" styleClass="h2" stylesheets="@css/main.css" text="Customer Details" AnchorPane.topAnchor="14.0" />
       <HBox alignment="CENTER" layoutY="54.0" prefHeight="164.0" prefWidth="600.0">
          <children>
-            <ImageView fitHeight="133.0" fitWidth="238.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/adhaar-card.png" />
-               </image>
-            </ImageView>
+            <ImageView fx:id="customerIdProofImage" fitHeight="133.0" fitWidth="238.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </HBox>
       <GridPane layoutX="25.0" layoutY="215.0" prefHeight="136.0" prefWidth="289.0">
@@ -40,7 +35,7 @@
             <Label prefHeight="27.0" prefWidth="216.0" text="Qty Deduction (Processing)" GridPane.rowIndex="2" />
             <Label prefHeight="34.0" prefWidth="151.0" text="Initial Wheat Qty" GridPane.rowIndex="3" />
             <Label prefHeight="28.0" prefWidth="154.0" text="Current Wheat Balance" GridPane.rowIndex="4" />
-            <Label prefHeight="28.0" prefWidth="102.0" text="35624" GridPane.columnIndex="1" />
+            <Label fx:id="customerIdDisplay" prefHeight="28.0" prefWidth="102.0" text="35624" GridPane.columnIndex="1" />
             <Label prefHeight="28.0" prefWidth="102.0" text="200kg" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label prefHeight="28.0" prefWidth="102.0" text="20kg" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label prefHeight="27.0" prefWidth="104.0" text="180kg" GridPane.columnIndex="1" GridPane.rowIndex="3" />
@@ -60,15 +55,15 @@
         </rowConstraints>
          <children>
             <Label prefHeight="48.0" prefWidth="118.0" text="Address" />
-            <Label alignment="TOP_LEFT" prefHeight="93.0" prefWidth="117.0" text="H.No.12 Sherpur Road, Ludhiana" wrapText="true" GridPane.columnIndex="1" GridPane.rowSpan="2">
+            <Label fx:id="customerAddress" alignment="TOP_LEFT" prefHeight="93.0" prefWidth="117.0" wrapText="true" GridPane.columnIndex="1" GridPane.rowSpan="2">
                <padding>
                   <Insets top="5.0" />
                </padding>
             </Label>
             <Label prefHeight="32.0" prefWidth="118.0" text="Phone Number" GridPane.rowIndex="2" />
-            <Label prefHeight="17.0" prefWidth="119.0" text="9463479452" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="customerPhoneNumber" prefHeight="17.0" prefWidth="119.0" text="9463479452" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <Label prefHeight="29.0" prefWidth="118.0" text="Ration Card No." GridPane.rowIndex="3" />
-            <Label prefHeight="29.0" prefWidth="117.0" text="65448864" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label fx:id="customerRationCardNo" prefHeight="29.0" prefWidth="117.0" text="65448864" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
       </GridPane>
    </children>
