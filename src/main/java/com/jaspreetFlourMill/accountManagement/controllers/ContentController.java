@@ -1,6 +1,7 @@
 package com.jaspreetFlourMill.accountManagement.controllers;
 
 import com.jaspreetFlourMill.accountManagement.StageReadyEvent;
+import com.jaspreetFlourMill.accountManagement.util.NavigationHandler;
 import com.jaspreetFlourMill.accountManagement.util.UserSession;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -20,6 +21,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
@@ -55,6 +57,10 @@ public class ContentController implements  Initializable, ApplicationListener<St
 
     private FxControllerAndView<CustomerDetailsController,Node> customerDetailsCV;
 
+    private FxControllerAndView<RegisterCustomerController,Node> registerCustomerControllerCV;
+
+    public static NavigationHandler navigationHandler;
+
     public ContentController(FxWeaver fxWeaver) {
         this.fxWeaver = fxWeaver;
     }
@@ -68,6 +74,15 @@ public class ContentController implements  Initializable, ApplicationListener<St
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Image avatar = new Image("/images/avatar.png");
         avatarFrame.setFill(new ImagePattern(avatar));
+
+        showHome();
+
+        navigationHandler = new NavigationHandler() {
+            @Override
+            public void handleShowHome() {
+                showHome();
+            }
+        };
 
     }
 
@@ -121,16 +136,6 @@ public class ContentController implements  Initializable, ApplicationListener<St
             contentContainer.getChildren().clear();
             System.out.println("Show add transaction");
             //Load add transaction view
-//            Node addTransactionNode = (Node) FXMLLoader.load(
-//                    getClass().getResource("/views/addTransaction.fxml")
-//            );
-
-//            addTransactionLoader = new FXMLLoader(getClass().getResource("/views/addTransaction.fxml"));
-//            Node addTransactionNode = (Node) addTransactionLoader.load();
-//            AddTransactionController addTransactionController = addTransactionLoader.getController();
-//            addTransactionController.customerIdInput.textProperty().addListener(((observableValue, s, t1) ->
-//                    System.out.println(t1)
-//            ));
 
             addTransactionCV = fxWeaver.load(AddTransactionController.class);
             customerDetailsCV = fxWeaver.load(CustomerDetailsController.class);
@@ -153,13 +158,7 @@ public class ContentController implements  Initializable, ApplicationListener<St
                 addTransactionContainer.getChildren().add(view);
             });
 
-//
 //            //Load customer details view
-//            Node customerDetailsNode = (Node) FXMLLoader.load(
-//                    getClass().getResource("/views/customerDetails.fxml")
-//            );
-
-
 
             customerDetailsContainer = new AnchorPane();
 
@@ -220,10 +219,13 @@ public class ContentController implements  Initializable, ApplicationListener<St
         try {
             contentContainer.getChildren().clear();
             //Load Register Customer View
-            Node registerCustomerNode = (Node) FXMLLoader.load(
-              getClass().getResource("/views/registerCustomer.fxml")
-            );
-            contentContainer.getChildren().add(registerCustomerNode);
+//            Node registerCustomerNode = (Node) FXMLLoader.load(
+//              getClass().getResource("/views/registerCustomer.fxml")
+//            );
+            registerCustomerControllerCV = fxWeaver.load(RegisterCustomerController.class);
+            registerCustomerControllerCV.getView().ifPresent(view ->{
+                contentContainer.getChildren().add(view);
+            });
 
         } catch (Exception e) {
             e.printStackTrace();

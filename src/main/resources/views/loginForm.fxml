@@ -18,7 +18,7 @@
         <TextField fx:id="userIdField" prefHeight="35.0" prefWidth="129.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
         <Label prefHeight="50.0" prefWidth="80.0" styleClass="label" text="Password:" GridPane.columnIndex="0" GridPane.rowIndex="2">Password:
         </Label>
-        <PasswordField fx:id="passwordField" prefHeight="35.0" prefWidth="170.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <PasswordField fx:id="passwordField" onKeyPressed="#handleLoginKeyPress" prefHeight="35.0" prefWidth="170.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
         <Hyperlink alignment="CENTER_RIGHT" prefHeight="21.0" prefWidth="147.0" styleClass="small-text" text="Forgot Password ?" GridPane.columnIndex="1" GridPane.rowIndex="3">Forgot Password ?
         </Hyperlink>
         <stylesheets>

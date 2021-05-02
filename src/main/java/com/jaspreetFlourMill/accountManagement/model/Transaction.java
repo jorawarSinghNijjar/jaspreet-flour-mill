@@ -1,6 +1,8 @@
 package com.jaspreetFlourMill.accountManagement.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.sun.javafx.beans.IDProperty;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -10,19 +12,23 @@ import java.util.UUID;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Transaction implements Serializable {
-    private String customerId;
+    private Integer customerId;
     private String transactionId;
     private String date;
     private double attaPickupQty;
+    private double grindingCharges;
     private double grindingChargesPaid;
     private double customerBalanceGrindingCharges;
     private double customerStoredAttaBalanceQty;
     private String orderPickedBy;
     private String cashierName;
 
-    public Transaction(String customerId,double attaPickupQty, double grindingChargesPaid, String orderPickedBy, String cashierName) {
+    public Transaction(Integer customerId,double attaPickupQty,double grindingCharges, double grindingChargesPaid,
+                       String orderPickedBy,
+                       String cashierName) {
         this.customerId = customerId;
         this.attaPickupQty = attaPickupQty;
+        this.grindingCharges = grindingCharges;
         this.grindingChargesPaid = grindingChargesPaid;
         this.orderPickedBy = orderPickedBy;
         this.cashierName = cashierName;
@@ -33,19 +39,42 @@ public class Transaction implements Serializable {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm:ss");
         this.date = formatter.format(dateTime);
 
-        this.customerBalanceGrindingCharges = 100;
-        this.customerStoredAttaBalanceQty = 300;
+        this.customerBalanceGrindingCharges = grindingCharges - grindingChargesPaid;
+
+
+
+        // Update Database
+        try{
+            CustomerAccount customerAccount = CustomerAccount.getCustomerAccount(customerId);
+
+            // Update customerBalanceGrindingCharges to database
+            double currentGrindingChargesBalance = customerAccount.getGrindingChargesBalance();
+            customerAccount.setGrindingChargesBalance(currentGrindingChargesBalance+customerBalanceGrindingCharges);
+
+            double currentStoredWheatBalance = customerAccount.getCurrentWheatBalance();
+            customerAccount.setCurrentWheatBalance(currentStoredWheatBalance-attaPickupQty);
+
+            this.customerStoredAttaBalanceQty = currentStoredWheatBalance-attaPickupQty;
+
+            CustomerAccount.updateCustomerAccount(customerId,customerAccount);
+        }
+        catch(Exception e){
+            e.getMessage();
+        }
+
+
     }
 
     public Transaction(){
 
     }
 
-    public String getCustomerId() {
+
+    public Integer getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(String customerId) {
+    public void setCustomerId(Integer customerId) {
         this.customerId = customerId;
     }
 
@@ -111,5 +140,21 @@ public class Transaction implements Serializable {
 
     public void setCashierName(String cashierName) {
         this.cashierName = cashierName;
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "customerId=" + customerId +
+                ", transactionId='" + transactionId + '\'' +
+                ", date='" + date + '\'' +
+                ", attaPickupQty=" + attaPickupQty +
+                ", grindingCharges=" + grindingCharges +
+                ", grindingChargesPaid=" + grindingChargesPaid +
+                ", customerBalanceGrindingCharges=" + customerBalanceGrindingCharges +
+                ", customerStoredAttaBalanceQty=" + customerStoredAttaBalanceQty +
+                ", orderPickedBy='" + orderPickedBy + '\'' +
+                ", cashierName='" + cashierName + '\'' +
+                '}';
     }
 }

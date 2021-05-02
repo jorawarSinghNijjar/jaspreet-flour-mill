@@ -8,10 +8,10 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="700.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="700.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.DepositWheatController">
     <children>
         <Label alignment="CENTER" layoutX="280.0" layoutY="60.0" prefHeight="54.0" prefWidth="261.0" styleClass="h2" stylesheets="@css/main.css" text="Enter Deposit Information" textAlignment="CENTER" />
-        <GridPane layoutX="150.0" layoutY="130.0" prefHeight="138.0" prefWidth="500.0">
+        <GridPane layoutX="150.0" layoutY="130.0" prefHeight="170.0" prefWidth="500.0">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="276.0" minWidth="10.0" prefWidth="163.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="398.0" minWidth="10.0" prefWidth="398.0" />
@@ -19,14 +19,17 @@
             <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
                 <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Customer ID" />
                 <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Wheat Deposit Qty" GridPane.rowIndex="1" />
-                <TextField prefHeight="35.0" GridPane.columnIndex="1" />
-                <TextField prefHeight="35.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <TextField fx:id="customerIdInputDepositPage" prefHeight="35.0" GridPane.columnIndex="1" />
+                <TextField fx:id="wheatDepositQtyInput" prefHeight="35.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label prefHeight="49.0" prefWidth="132.0" styleClass="h5" stylesheets="@css/main.css" text="Wheat Processing Deduction Qty" wrapText="true" GridPane.rowIndex="2" />
+            <TextField fx:id="wheatProcessingDeductionQtyInput" prefHeight="35.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             </children>
         </GridPane>
-        <Button layoutX="250.0" layoutY="315.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="300.0" styleClass="secondary-btn" stylesheets="@css/main.css" text="Submit" />
+        <Button layoutX="250.0" layoutY="315.0" mnemonicParsing="false" onAction="#submitWheatDeposit" prefHeight="35.0" prefWidth="300.0" styleClass="secondary-btn" stylesheets="@css/main.css" text="Submit" />
     </children>
 </AnchorPane>

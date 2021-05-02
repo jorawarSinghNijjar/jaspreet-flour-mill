@@ -1,6 +1,7 @@
 package com.jaspreetFlourMill.accountManagement.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
 import java.io.Serializable;
@@ -110,5 +111,12 @@ public class Customer implements Serializable {
 
     public void setCustomerId(Integer customerId) {
         this.customerId = customerId;
+    }
+
+    public static Customer getCustomer(Integer id) throws Exception{
+        String uri = "http://localhost:8080/customers/" + id;
+        RestTemplate restTemplate = new RestTemplate();
+        Customer responseEntity = restTemplate.getForObject(uri,Customer.class);
+        return responseEntity;
     }
 }

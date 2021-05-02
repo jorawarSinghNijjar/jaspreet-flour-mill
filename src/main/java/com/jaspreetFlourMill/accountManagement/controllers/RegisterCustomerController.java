@@ -2,16 +2,18 @@ package com.jaspreetFlourMill.accountManagement.controllers;
 
 import com.jaspreetFlourMill.accountManagement.StageReadyEvent;
 import com.jaspreetFlourMill.accountManagement.model.Customer;
-import com.jaspreetFlourMill.accountManagement.model.Employee;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Callback;
+import net.rgielen.fxweaver.core.FxControllerAndView;
+import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.context.ApplicationListener;
 import org.springframework.http.*;
@@ -24,7 +26,12 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 @Component
+@FxmlView("/views/registerCustomer.fxml")
 public class RegisterCustomerController implements Initializable, ApplicationListener<StageReadyEvent> {
+
+    private FxControllerAndView<ContentController, Node> contentControllerCV;
+
+    private final FxWeaver fxWeaver;
 
     private Stage stage;
 
@@ -50,6 +57,10 @@ public class RegisterCustomerController implements Initializable, ApplicationLis
 
     @FXML
     private TextField customerAdhaarNoField;
+
+    public RegisterCustomerController(FxWeaver fxWeaver) {
+        this.fxWeaver = fxWeaver;
+    }
 
     @Override
     public void onApplicationEvent(StageReadyEvent event) {
@@ -101,11 +112,12 @@ public class RegisterCustomerController implements Initializable, ApplicationLis
 
             HttpEntity<Customer> req = new HttpEntity<>(newCustomer,httpHeaders);
             ResponseEntity<String> result = restTemplate.exchange(uri, HttpMethod.POST,req,String.class);
-            
-            System.out.println(result.getBody());
 
+            if(result != null){
+                System.out.println(result.getBody());
+                ContentController.navigationHandler.handleShowHome();
+            }
         }
     }
-
 
 }

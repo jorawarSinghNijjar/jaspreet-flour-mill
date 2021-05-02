@@ -191,20 +191,20 @@ public class DashboardController implements ApplicationListener<StageReadyEvent>
         tableView.getColumns().add(orderPickedByColumn);
         tableView.getColumns().add(cashierNameColumn);
 
-        tableView.getItems().add(
-                new Transaction(
-                        "12",
-                        25,
-                        40,
-                        "Rahul",
-                        "Santokh"));
-        tableView.getItems().add(
-                new Transaction(
-                        "13",
-                        13,
-                        30,
-                        "Parmeet",
-                        "Santokh"));
+//        tableView.getItems().add(
+//                new Transaction(
+//                        "12",
+//                        25,
+//                        40,
+//                        "Rahul",
+//                        "Santokh"));
+//        tableView.getItems().add(
+//                new Transaction(
+//                        "13",
+//                        13,
+//                        30,
+//                        "Parmeet",
+//                        "Santokh"));
 
         Text headingText = new Text("Transaction Details for Customer Name");
         headingText.getStyleClass().addAll("h2");

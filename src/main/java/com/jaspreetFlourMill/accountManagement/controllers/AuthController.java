@@ -7,6 +7,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import net.rgielen.fxweaver.core.FxWeaver;
@@ -39,8 +41,25 @@ public class AuthController implements ApplicationListener<StageReadyEvent> {
     private void initialize(){
 
     }
+
+    @FXML
+    public void handleLoginKeyPress(KeyEvent event){
+        if(event.getCode() == KeyCode.ENTER){
+            login();
+        }
+    }
+
     @FXML
     public void handleLogin(ActionEvent event) {
+       login();
+    }
+
+    @Override
+    public void onApplicationEvent(StageReadyEvent event) {
+        stage = event.getStage();
+    }
+
+    public void login(){
         String userId = userIdField.getText();
         String password = passwordField.getText();
 
@@ -86,11 +105,6 @@ public class AuthController implements ApplicationListener<StageReadyEvent> {
 
         stage.setScene(new Scene(fxWeaver.loadView(ContentController.class),1366,768));
         stage.show();
-    }
-
-    @Override
-    public void onApplicationEvent(StageReadyEvent event) {
-        stage = event.getStage();
     }
 
 

@@ -1,6 +1,7 @@
 package com.jaspreetFlourMill.accountManagement.controllers;
 
 import com.jaspreetFlourMill.accountManagement.model.Customer;
+import com.jaspreetFlourMill.accountManagement.model.CustomerAccount;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -41,6 +42,19 @@ public class CustomerDetailsController implements Initializable {
     @FXML
     private ImageView customerIdProofImage;
 
+    @FXML
+    private Label wheatQtyStored;
+
+    @FXML
+    private Label qtyDeduction;
+
+    @FXML
+    private Label initialWheatQty;
+
+    @FXML
+    private Label currentWheatBalance;
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -49,12 +63,24 @@ public class CustomerDetailsController implements Initializable {
     public void updateCustomerDetails(String id){
         try{
             Customer updatedCustomer = this.getCustomer(id);
+            CustomerAccount updatedCustomerAccount = CustomerAccount.getCustomerAccount(Integer.parseInt(id));
 
             customerIdDisplay.setText(updatedCustomer.getCustomerId().toString());
             customerAddress.setText(updatedCustomer.getAddress());
             customerPhoneNumber.setText(updatedCustomer.getPhoneNumber());
             customerRationCardNo.setText(updatedCustomer.getRationCardNo());
             customerIdProofImage.setImage(new Image(new FileInputStream(updatedCustomer.getIdProof())));
+
+            String wheatQtyStoredDisplay = updatedCustomerAccount.getWheatDepositQty() + " kg";
+            String qtyDeductionDisplay = updatedCustomerAccount.getWheatProcessingDeductionQty() + " kg";
+            String initialWheatQtyDisplay = updatedCustomerAccount.getInitialWheatQty() + " kg";
+            String currentWheatBalanceDisplay = updatedCustomerAccount.getCurrentWheatBalance() + " kg";
+
+            wheatQtyStored.setText(wheatQtyStoredDisplay);
+            qtyDeduction.setText(qtyDeductionDisplay);
+            initialWheatQty.setText(initialWheatQtyDisplay);
+            currentWheatBalance.setText(currentWheatBalanceDisplay);
+
         }
         catch(Exception e){
             e.getMessage();

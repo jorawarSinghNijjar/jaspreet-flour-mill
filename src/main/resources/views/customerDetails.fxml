@@ -36,10 +36,10 @@
             <Label prefHeight="34.0" prefWidth="151.0" text="Initial Wheat Qty" GridPane.rowIndex="3" />
             <Label prefHeight="28.0" prefWidth="154.0" text="Current Wheat Balance" GridPane.rowIndex="4" />
             <Label fx:id="customerIdDisplay" prefHeight="28.0" prefWidth="102.0" text="35624" GridPane.columnIndex="1" />
-            <Label prefHeight="28.0" prefWidth="102.0" text="200kg" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label prefHeight="28.0" prefWidth="102.0" text="20kg" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label prefHeight="27.0" prefWidth="104.0" text="180kg" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label prefHeight="28.0" prefWidth="102.0" text="100kg" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label fx:id="wheatQtyStored" prefHeight="28.0" prefWidth="102.0" text="200kg" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label fx:id="qtyDeduction" prefHeight="28.0" prefWidth="102.0" text="20kg" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label fx:id="initialWheatQty" prefHeight="27.0" prefWidth="104.0" text="180kg" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label fx:id="currentWheatBalance" prefHeight="28.0" prefWidth="102.0" text="100kg" GridPane.columnIndex="1" GridPane.rowIndex="4" />
          </children>
       </GridPane>
       <GridPane layoutX="325.0" layoutY="215.0" prefHeight="136.0" prefWidth="235.0">
