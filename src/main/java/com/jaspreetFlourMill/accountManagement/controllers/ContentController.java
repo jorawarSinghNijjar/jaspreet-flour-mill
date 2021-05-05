@@ -59,7 +59,15 @@ public class ContentController implements  Initializable, ApplicationListener<St
 
     private FxControllerAndView<RegisterCustomerController,Node> registerCustomerControllerCV;
 
+    private FxControllerAndView<TransactionDetailController, Node> transactionDetailsCV;
+
+    private FxControllerAndView<DepositWheatController, Node> depositWheatCV;
+
+    private FxControllerAndView<RegisterEmployeeController, Node> registerEmployeeCV;
+
     public static NavigationHandler navigationHandler;
+
+
 
     public ContentController(FxWeaver fxWeaver) {
         this.fxWeaver = fxWeaver;
@@ -139,12 +147,15 @@ public class ContentController implements  Initializable, ApplicationListener<St
 
             addTransactionCV = fxWeaver.load(AddTransactionController.class);
             customerDetailsCV = fxWeaver.load(CustomerDetailsController.class);
+            transactionDetailsCV = fxWeaver.load(TransactionDetailController.class);
 
             AddTransactionController addTransactionController = addTransactionCV.getController();
 
             addTransactionController.customerIdInput.textProperty().addListener((
                     (observableValue, oldValue, newValue) -> {
                 customerDetailsCV.getController().updateCustomerDetails(newValue);
+                transactionDetailsCV.getController().clearTransactionDisplay();
+                transactionDetailsCV.getController().renderTransactions(newValue);
             }
             ));
 
@@ -171,11 +182,11 @@ public class ContentController implements  Initializable, ApplicationListener<St
                 customerDetailsContainer.getChildren().add(view);
             });
 
-
-            //Load transaction details view
-            Node transactionDetailsNode = (Node) FXMLLoader.load(
-                    getClass().getResource("/views/transactionDetails.fxml")
-            );
+//
+//            //Load transaction details view
+//            Node transactionDetailsNode = (Node) FXMLLoader.load(
+//                    getClass().getResource("/views/transactionDetails.fxml")
+//            );
 
             transactionDetailsContainer = new AnchorPane();
             transactionDetailsContainer.setPrefHeight(368);
@@ -183,7 +194,11 @@ public class ContentController implements  Initializable, ApplicationListener<St
             transactionDetailsContainer.setLayoutX(0);
             transactionDetailsContainer.setLayoutY(400);
 
-            transactionDetailsContainer.getChildren().add(transactionDetailsNode);
+            transactionDetailsCV.getView().ifPresent(view -> {
+                transactionDetailsContainer.getChildren().add(view);
+
+            });
+
 
 
             // Load all nodes on contentContainer
@@ -203,12 +218,17 @@ public class ContentController implements  Initializable, ApplicationListener<St
         try{
             contentContainer.getChildren().clear();
             //Load Deposit Wheat View
-            Node depositWheatNode = (Node) FXMLLoader.load(
-                    getClass().getResource("/views/depositWheat.fxml")
-            );
-            contentContainer.getChildren().add(depositWheatNode);
+            depositWheatCV = fxWeaver.load(DepositWheatController.class);
+//            Node depositWheatNode = (Node) FXMLLoader.load(
+//                    getClass().getResource("/views/depositWheat.fxml")
+//            );
+
+            depositWheatCV.getView().ifPresent(view -> {
+                contentContainer.getChildren().add(view);
+            });
+
         }
-        catch(IOException e){
+        catch(Exception e){
             e.printStackTrace();
         }
     }
@@ -239,10 +259,14 @@ public class ContentController implements  Initializable, ApplicationListener<St
         try {
             contentContainer.getChildren().clear();
             //Load Register Employee View
-            Node employeeNode = (Node) FXMLLoader.load(
-                    getClass().getResource("/views/registerEmployee.fxml")
-            );
-            contentContainer.getChildren().add(employeeNode);
+            registerEmployeeCV = fxWeaver.load(RegisterEmployeeController.class);
+//            Node employeeNode = (Node) FXMLLoader.load(
+//                    getClass().getResource("/views/registerEmployee.fxml")
+//            );
+            registerEmployeeCV.getView().ifPresent(view -> {
+                contentContainer.getChildren().add(view);
+            });
+
 
         } catch (Exception e) {
             e.printStackTrace();

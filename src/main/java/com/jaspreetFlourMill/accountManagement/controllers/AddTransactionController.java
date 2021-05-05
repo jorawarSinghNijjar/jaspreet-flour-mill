@@ -1,5 +1,6 @@
 package com.jaspreetFlourMill.accountManagement.controllers;
 
+import com.jaspreetFlourMill.accountManagement.model.Customer;
 import com.jaspreetFlourMill.accountManagement.model.Transaction;
 import com.jaspreetFlourMill.accountManagement.util.UserSession;
 import javafx.event.ActionEvent;
@@ -11,7 +12,9 @@ import javafx.scene.control.TextField;
 import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -45,26 +48,55 @@ public class AddTransactionController implements Initializable {
 
     @FXML
     public void submitTransaction(ActionEvent event){
+        int customerId = Integer.parseInt(customerIdInput.getText());
         double attaPickupQty = Double.parseDouble(attaPickupQtyInput.getText());
         double grindingChargesPaid = Double.parseDouble(grindingChargesPaidInput.getText());
         double grindingCharges = Double.parseDouble(grindingChargesInput.getText());
         String orderPickedBy = orderPickedByInput.getText();
         String cashierName = cashierNameLabel.getText();
 
-        Transaction newTransaction = new Transaction(
-                2,
-                attaPickupQty,
-                grindingCharges,
-                grindingChargesPaid,
-                orderPickedBy,
-                cashierName
-        );
+        try{
+            Customer customer = Customer.getCustomer(customerId);
 
-        System.out.println(newTransaction.toString());
+            Transaction newTransaction = new Transaction(
+                    customer,
+                    attaPickupQty,
+                    grindingCharges,
+                    grindingChargesPaid,
+                    orderPickedBy,
+                    cashierName
+            );
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText("Transaction submitted successfully");
-        alert.show();
+            System.out.println(newTransaction.toString());
+
+            if(newTransaction != null){
+                // POST request to register employee
+                final String uri =  "http://localhost:8080/transactions/";
+                RestTemplate restTemplate = new RestTemplate();
+
+                HttpHeaders httpHeaders = new HttpHeaders();
+                httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+                HttpEntity<Transaction> req = new HttpEntity<>(newTransaction,httpHeaders);
+                ResponseEntity<String> result = restTemplate.exchange(uri, HttpMethod.POST,req,String.class);
+
+                if(result != null){
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setContentText("Transaction submitted successfully");
+                    alert.show();
+                    customerIdInput.setText("");
+                    attaPickupQtyInput.setText("");
+                    grindingChargesInput.setText("");
+                    grindingChargesPaidInput.setText("");
+                    orderPickedByInput.setText("");
+                }
+            }
+
+        }
+        catch(Exception e){
+            e.getMessage();
+        }
+
     }
 
 }

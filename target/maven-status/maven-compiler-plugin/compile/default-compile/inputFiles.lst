@@ -3,6 +3,7 @@ G:\jorawarSingh\development\javaProjects\jaspreetFlourMillClient\src\main\java\c
 G:\jorawarSingh\development\javaProjects\jaspreetFlourMillClient\src\main\java\com\jaspreetFlourMill\accountManagement\controllers\DashboardController.java
 G:\jorawarSingh\development\javaProjects\jaspreetFlourMillClient\src\main\java\com\jaspreetFlourMill\accountManagement\controllers\AuthController.java
 G:\jorawarSingh\development\javaProjects\jaspreetFlourMillClient\src\main\java\com\jaspreetFlourMill\accountManagement\controllers\TransactionDetailController.java
+G:\jorawarSingh\development\javaProjects\jaspreetFlourMillClient\src\main\java\com\jaspreetFlourMill\accountManagement\controllers\TransactionDetailItemController.java
 G:\jorawarSingh\development\javaProjects\jaspreetFlourMillClient\src\main\java\com\jaspreetFlourMill\accountManagement\StageReadyEvent.java
 G:\jorawarSingh\development\javaProjects\jaspreetFlourMillClient\src\main\java\com\jaspreetFlourMill\accountManagement\model\Customer.java
 G:\jorawarSingh\development\javaProjects\jaspreetFlourMillClient\src\main\java\com\jaspreetFlourMill\accountManagement\controllers\DepositWheatController.java
@@ -10,6 +11,7 @@ G:\jorawarSingh\development\javaProjects\jaspreetFlourMillClient\src\main\java\c
 G:\jorawarSingh\development\javaProjects\jaspreetFlourMillClient\src\main\java\com\jaspreetFlourMill\accountManagement\AccountManagementApplication.java
 G:\jorawarSingh\development\javaProjects\jaspreetFlourMillClient\src\main\java\com\jaspreetFlourMill\accountManagement\StageInitializer.java
 G:\jorawarSingh\development\javaProjects\jaspreetFlourMillClient\src\main\java\com\jaspreetFlourMill\accountManagement\util\NavigationHandler.java
+G:\jorawarSingh\development\javaProjects\jaspreetFlourMillClient\src\main\java\com\jaspreetFlourMill\accountManagement\controllers\RegisterEmployeeController.java
 G:\jorawarSingh\development\javaProjects\jaspreetFlourMillClient\src\main\java\com\jaspreetFlourMill\accountManagement\model\Transaction.java
 G:\jorawarSingh\development\javaProjects\jaspreetFlourMillClient\src\main\java\com\jaspreetFlourMill\accountManagement\util\UserSession.java
 G:\jorawarSingh\development\javaProjects\jaspreetFlourMillClient\src\main\java\com\jaspreetFlourMill\accountManagement\controllers\CustomerDetailsController.java

@@ -12,7 +12,8 @@ import java.util.UUID;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Transaction implements Serializable {
-    private Integer customerId;
+//    private Integer customerId;
+    private Customer customer;
     private String transactionId;
     private String date;
     private double attaPickupQty;
@@ -23,10 +24,10 @@ public class Transaction implements Serializable {
     private String orderPickedBy;
     private String cashierName;
 
-    public Transaction(Integer customerId,double attaPickupQty,double grindingCharges, double grindingChargesPaid,
+    public Transaction(Customer customer,double attaPickupQty,double grindingCharges, double grindingChargesPaid,
                        String orderPickedBy,
                        String cashierName) {
-        this.customerId = customerId;
+        this.customer = customer;
         this.attaPickupQty = attaPickupQty;
         this.grindingCharges = grindingCharges;
         this.grindingChargesPaid = grindingChargesPaid;
@@ -45,7 +46,7 @@ public class Transaction implements Serializable {
 
         // Update Database
         try{
-            CustomerAccount customerAccount = CustomerAccount.getCustomerAccount(customerId);
+            CustomerAccount customerAccount = CustomerAccount.getCustomerAccount(customer.getCustomerId());
 
             // Update customerBalanceGrindingCharges to database
             double currentGrindingChargesBalance = customerAccount.getGrindingChargesBalance();
@@ -56,7 +57,7 @@ public class Transaction implements Serializable {
 
             this.customerStoredAttaBalanceQty = currentStoredWheatBalance-attaPickupQty;
 
-            CustomerAccount.updateCustomerAccount(customerId,customerAccount);
+            CustomerAccount.updateCustomerAccount(customer.getCustomerId(),customerAccount);
         }
         catch(Exception e){
             e.getMessage();
@@ -70,13 +71,6 @@ public class Transaction implements Serializable {
     }
 
 
-    public Integer getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
-    }
 
     public String getTransactionId() {
         return transactionId;
@@ -145,7 +139,7 @@ public class Transaction implements Serializable {
     @Override
     public String toString() {
         return "Transaction{" +
-                "customerId=" + customerId +
+                "customerId=" + customer.getCustomerId() +
                 ", transactionId='" + transactionId + '\'' +
                 ", date='" + date + '\'' +
                 ", attaPickupQty=" + attaPickupQty +
@@ -156,5 +150,13 @@ public class Transaction implements Serializable {
                 ", orderPickedBy='" + orderPickedBy + '\'' +
                 ", cashierName='" + cashierName + '\'' +
                 '}';
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }

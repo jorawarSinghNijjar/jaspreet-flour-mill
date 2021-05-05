@@ -3,15 +3,15 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 
-<HBox fx:id="transactionDetailItem" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="1136.0" spacing="5.0" style="-fx-background-color: #FEFFFF;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<HBox fx:id="transactionDetailItem" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="1136.0" spacing="5.0" style="-fx-background-color: #FEFFFF;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.TransactionDetailItemController">
    <children>
-      <Label alignment="CENTER" prefHeight="50.0" prefWidth="140.0" styleClass="table-items" stylesheets="@css/main.css" text="65234" textAlignment="CENTER" wrapText="true" />
-      <Label alignment="CENTER" prefHeight="50.0" prefWidth="140.0" styleClass="table-items" stylesheets="@css/main.css" text="April 28, 2021 7:32 p.m" textAlignment="CENTER" wrapText="true" />
-      <Label alignment="CENTER" prefHeight="50.0" prefWidth="140.0" styleClass="table-items" stylesheets="@css/main.css" text="10 kg" />
-      <Label alignment="CENTER" prefHeight="54.0" prefWidth="140.0" styleClass="table-items" stylesheets="@css/main.css" text="0.00" />
-      <Label alignment="CENTER" prefHeight="54.0" prefWidth="140.0" styleClass="table-items" stylesheets="@css/main.css" text="150.00" />
-      <Label alignment="CENTER" prefHeight="54.0" prefWidth="140.0" styleClass="table-items" stylesheets="@css/main.css" text="140 kg" />
-      <Label alignment="CENTER" prefHeight="50.0" prefWidth="140.0" styleClass="table-items" stylesheets="@css/main.css" text="Surjeet Singh" textAlignment="CENTER" wrapText="true" />
-      <Label alignment="CENTER" prefHeight="50.0" prefWidth="140.0" styleClass="table-items" stylesheets="@css/main.css" text="Maninder" textAlignment="CENTER" wrapText="true" />
+      <Label fx:id="transactionIdLabel" alignment="CENTER" prefHeight="50.0" prefWidth="140.0" styleClass="table-items" stylesheets="@css/main.css" text="65234" textAlignment="CENTER" wrapText="true" />
+      <Label fx:id="timeStampLabel" alignment="CENTER" prefHeight="50.0" prefWidth="140.0" styleClass="table-items" stylesheets="@css/main.css" text="April 28, 2021 7:32 p.m" textAlignment="CENTER" wrapText="true" />
+      <Label fx:id="attaPickupQtyLabel" alignment="CENTER" layoutX="1008.0" layoutY="10.0" prefHeight="50.0" prefWidth="140.0" styleClass="table-items" stylesheets="@css/main.css" text="10 kg" />
+      <Label fx:id="grindingChargesPaidLabel" alignment="CENTER" prefHeight="54.0" prefWidth="140.0" styleClass="table-items" stylesheets="@css/main.css" text="150.00" />
+      <Label fx:id="grindingBalanceLabel" alignment="CENTER" prefHeight="54.0" prefWidth="140.0" styleClass="table-items" stylesheets="@css/main.css" text="140.00" />
+      <Label fx:id="storedWheatBalanceLabel" alignment="CENTER" prefHeight="54.0" prefWidth="140.0" styleClass="table-items" stylesheets="@css/main.css" text="150kg" />
+      <Label fx:id="orderPickedByLabel" alignment="CENTER" prefHeight="50.0" prefWidth="140.0" styleClass="table-items" stylesheets="@css/main.css" text="Surjeet Singh" textAlignment="CENTER" wrapText="true" />
+      <Label fx:id="cashierLabel" alignment="CENTER" prefHeight="50.0" prefWidth="140.0" styleClass="table-items" stylesheets="@css/main.css" text="Maninder" textAlignment="CENTER" wrapText="true" />
    </children>
 </HBox>
