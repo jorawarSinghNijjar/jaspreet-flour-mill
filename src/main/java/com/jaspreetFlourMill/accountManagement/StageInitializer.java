@@ -1,17 +1,11 @@
 package com.jaspreetFlourMill.accountManagement;
 
 import com.jaspreetFlourMill.accountManagement.controllers.AuthController;
-import com.jaspreetFlourMill.accountManagement.controllers.ContentController;
-import com.jaspreetFlourMill.accountManagement.controllers.DashboardController;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import net.rgielen.fxweaver.core.FxWeaver;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 @Component

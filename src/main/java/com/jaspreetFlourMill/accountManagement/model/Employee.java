@@ -9,9 +9,8 @@ import java.time.format.DateTimeFormatter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Employee implements Serializable {
-    private Integer employeeId;
+    private String employeeId;
     private String name;
-    private String username;
     private String password;
     private String contactNumber;
     private String address;
@@ -22,9 +21,8 @@ public class Employee implements Serializable {
 
     }
 
-    public Employee(String name, String username, String password, String contactNumber, String address, String jobDesignation, LocalDate dob) {
+    public Employee(String name, String password, String contactNumber, String address, String jobDesignation, LocalDate dob) {
         this.name = name;
-        this.username = username;
         this.password = password;
         this.contactNumber = contactNumber;
         this.address = address;
@@ -33,10 +31,10 @@ public class Employee implements Serializable {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
         this.dob = formatter.format(dob);
 
-//        this.employeeId = dob + name;
+        this.employeeId = name.substring(0,3) + "00" + dob.getMonthValue();
     }
 
-    public Integer getEmployeeId() {
+    public String getEmployeeId() {
         return employeeId;
     }
 
@@ -48,15 +46,7 @@ public class Employee implements Serializable {
         this.name = name;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
+       public String getPassword() {
         return password;
     }
 
@@ -101,7 +91,6 @@ public class Employee implements Serializable {
         return "Employee{" +
                 "employeeId=" + employeeId +
                 ", name='" + name + '\'' +
-                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", contactNumber='" + contactNumber + '\'' +
                 ", address='" + address + '\'' +

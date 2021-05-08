@@ -8,20 +8,28 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import jiconfont.icons.font_awesome.FontAwesome;
+import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
+import jiconfont.javafx.IconFontFX;
+import jiconfont.javafx.IconNode;
 import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
@@ -29,9 +37,11 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Stack;
 
 
 @Component
@@ -67,6 +77,31 @@ public class ContentController implements  Initializable, ApplicationListener<St
 
     public static NavigationHandler navigationHandler;
 
+    @FXML
+    private Button homeButton;
+
+    @FXML
+    private Button addTransactionButton;
+
+    @FXML
+    private Button wheatDepositButton;
+
+    @FXML
+    private Button registerCustomerButton;
+
+    @FXML
+    private Button registerEmployeeButton;
+
+    @FXML
+    private Button signOutButton;
+
+    @FXML
+    private VBox sideMenuBox;
+
+    @FXML
+    private AnchorPane baseContainer;
+
+    private boolean modalMounted = false;
 
 
     public ContentController(FxWeaver fxWeaver) {
@@ -80,8 +115,15 @@ public class ContentController implements  Initializable, ApplicationListener<St
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+
         Image avatar = new Image("/images/avatar.png");
         avatarFrame.setFill(new ImagePattern(avatar));
+
+        //Hide not admin content
+        if(!AuthController.currentSession.getUserType().equals(UserSession.UserType.ADMIN)){
+            sideMenuBox.getChildren().remove(registerEmployeeButton);
+        }
 
         showHome();
 
@@ -91,6 +133,37 @@ public class ContentController implements  Initializable, ApplicationListener<St
                 showHome();
             }
         };
+
+        // Icons
+        IconFontFX.register(GoogleMaterialDesignIcons.getIconFont());
+        IconFontFX.register(FontAwesome.getIconFont());
+
+        IconNode homeIcon = new IconNode(GoogleMaterialDesignIcons.HOME);
+        homeIcon.setIconSize(18);
+        homeIcon.setFill(Color.WHITE);
+
+        IconNode plusSquare = new IconNode(FontAwesome.PLUS_SQUARE);
+        plusSquare.setIconSize(18);
+        plusSquare.setFill(Color.WHITE);
+
+        IconNode customerCard = new IconNode(FontAwesome.ADDRESS_CARD_O);
+        customerCard.setIconSize(18);
+        customerCard.setFill(Color.WHITE);
+
+        IconNode employeeAdd = new IconNode(FontAwesome.USER_PLUS);
+        employeeAdd.setIconSize(18);
+        employeeAdd.setFill(Color.WHITE);
+
+        IconNode unlock = new IconNode(FontAwesome.UNLOCK);
+        unlock.setIconSize(18);
+        unlock.setFill(Color.WHITE);
+
+        homeButton.setGraphic(homeIcon);
+        registerCustomerButton.setGraphic(customerCard);
+        registerEmployeeButton.setGraphic(employeeAdd);
+        signOutButton.setGraphic(unlock);
+        addTransactionButton.setGraphic(plusSquare);
+        wheatDepositButton.setGraphic(plusSquare);
 
     }
 
@@ -158,6 +231,23 @@ public class ContentController implements  Initializable, ApplicationListener<St
                 transactionDetailsCV.getController().renderTransactions(newValue);
             }
             ));
+
+
+            customerDetailsCV.getController().customerIdProofImage.setOnMouseEntered(e -> {
+                ImageView modalImage = new ImageView();
+                try{
+                    modalImage.setImage(new Image(
+                            new FileInputStream(customerDetailsCV.getController().idProofImageUri)
+                    ));
+                    modalImage.setFitWidth(500);
+                    modalImage.setFitHeight(350);
+                    this.showImageModal(modalImage);
+                }
+                catch(Exception exception){
+                    exception.getMessage();
+                }
+
+            });
 
             addTransactionContainer = new AnchorPane();
 
@@ -285,6 +375,48 @@ public class ContentController implements  Initializable, ApplicationListener<St
         }
     }
 
+    public void showImageModal(Node node){
+        if(modalMounted){
+            return;
+        }
+        VBox modal = new VBox();
+        modal.setMinWidth(500);
+        modal.setMinHeight(400);
+        modal.setMaxWidth(600);
+        modal.setMaxHeight(400);
+        modal.setLayoutX(400);
+        modal.setLayoutY(200);
+        modal.setStyle("-fx-background-color: rgb(222,242,241) ;" +
+                " -fx-background-radius: 10;" +
+                " -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);");
+        modal.setAlignment(Pos.TOP_CENTER);
+
+        IconNode cancelIcon = new IconNode(FontAwesome.TIMES);
+        cancelIcon.setIconSize(20);
+        cancelIcon.setFill(Color.BLACK);
+        Button closeButton = new Button();
+        closeButton.getStyleClass().add("transparent-btn");
+        closeButton.setPrefWidth(30);
+        closeButton.setPrefHeight(30);
+        closeButton.setAlignment(Pos.TOP_RIGHT);
+        closeButton.setLayoutX(550);
+        closeButton.setLayoutY(10);
+        closeButton.setGraphic(cancelIcon);
+
+        closeButton.setOnAction(e -> {
+            baseContainer.getChildren().remove(modal);
+            modalMounted = false;
+        });
+
+        HBox hBox = new HBox();
+        hBox.getChildren().add(closeButton);
+        hBox.setAlignment(Pos.TOP_RIGHT);
+        hBox.setPrefWidth(600);
+        modal.getChildren().add(hBox);
+        modal.getChildren().add(node);
+        baseContainer.getChildren().add(modal);
+        modalMounted = true;
+    }
 
 
 }

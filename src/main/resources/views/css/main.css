@@ -94,3 +94,12 @@
     -fx-font-weight: 700;
 }
 
+.transparent-btn{
+    -fx-background-color: rgba(255,255,255,0);
+    -fx-border-style: hidden hidden hidden hidden;
+}
+
+.transparent-btn:hover{
+    -fx-cursor: hand;
+}
+

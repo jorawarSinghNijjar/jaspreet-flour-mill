@@ -7,12 +7,12 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<AnchorPane minHeight="768.0" minWidth="1366.0" prefHeight="768.0" prefWidth="1366.0" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.ContentController">
+<AnchorPane fx:id="baseContainer" minHeight="768.0" minWidth="1366.0" prefHeight="768.0" prefWidth="1366.0" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.ContentController">
    <children>
-      <VBox id="menu" alignment="TOP_CENTER" layoutY="-2.0" prefHeight="776.0" prefWidth="230.0" stylesheets="@css/main.css">
+      <VBox id="menu" fx:id="sideMenuBox" alignment="TOP_CENTER" layoutY="-2.0" prefHeight="776.0" prefWidth="230.0" stylesheets="@css/main.css">
          <children>
             <Circle fx:id="avatarFrame" cache="true" fill="DODGERBLUE" radius="59.0" stroke="BLACK" strokeType="INSIDE" />
-            <Button mnemonicParsing="false" onAction="#showHome" prefHeight="60.0" prefWidth="229.0" stylesheets="@css/main.css" text="Home">
+            <Button fx:id="homeButton" mnemonicParsing="false" onAction="#showHome" prefHeight="60.0" prefWidth="229.0" stylesheets="@css/main.css" text="Home">
                <styleClass>
                   <String fx:value="menu-btn" />
                   <String fx:value="h4" />
@@ -21,31 +21,31 @@
                   <Insets top="40.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#showAddTransaction" prefHeight="60.0" prefWidth="229.0" stylesheets="@css/main.css" text="Add Transaction">
+            <Button fx:id="addTransactionButton" mnemonicParsing="false" onAction="#showAddTransaction" prefHeight="60.0" prefWidth="229.0" stylesheets="@css/main.css" text="Add Transaction">
                <styleClass>
                   <String fx:value="menu-btn" />
                   <String fx:value="h4" />
                </styleClass>
             </Button>
-            <Button mnemonicParsing="false" onAction="#showDepositWheat" prefHeight="60.0" prefWidth="229.0" stylesheets="@css/main.css" text="Wheat Deposit">
+            <Button fx:id="wheatDepositButton" mnemonicParsing="false" onAction="#showDepositWheat" prefHeight="60.0" prefWidth="229.0" stylesheets="@css/main.css" text="Wheat Deposit">
                <styleClass>
                   <String fx:value="menu-btn" />
                   <String fx:value="h4" />
                </styleClass>
             </Button>
-            <Button mnemonicParsing="false" onAction="#showRegisterCustomer" prefHeight="60.0" prefWidth="229.0" stylesheets="@css/main.css" text="Register Customer">
+            <Button fx:id="registerCustomerButton" mnemonicParsing="false" onAction="#showRegisterCustomer" prefHeight="60.0" prefWidth="229.0" stylesheets="@css/main.css" text="Register Customer">
                <styleClass>
                   <String fx:value="menu-btn" />
                   <String fx:value="h4" />
                </styleClass>
             </Button>
-            <Button graphicTextGap="20.0" mnemonicParsing="false" onAction="#showRegisterEmployee" prefHeight="60.0" prefWidth="229.0" stylesheets="@css/main.css" text="Register Employee">
+            <Button fx:id="registerEmployeeButton" mnemonicParsing="false" onAction="#showRegisterEmployee" prefHeight="60.0" prefWidth="229.0" stylesheets="@css/main.css" text="Register Employee">
                <styleClass>
                   <String fx:value="menu-btn" />
                   <String fx:value="h4" />
                </styleClass>
             </Button>
-            <Button mnemonicParsing="false" onAction="#signOut" prefHeight="60.0" prefWidth="229.0" stylesheets="@css/main.css" text="Sign Out">
+            <Button fx:id="signOutButton" mnemonicParsing="false" onAction="#signOut" prefHeight="60.0" prefWidth="229.0" stylesheets="@css/main.css" text="Sign Out">
                <styleClass>
                   <String fx:value="menu-btn" />
                   <String fx:value="h4" />
