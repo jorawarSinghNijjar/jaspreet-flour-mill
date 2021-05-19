@@ -61,6 +61,9 @@ public class CustomerDetailsController implements Initializable {
     @FXML
     private Label currentWheatBalance;
 
+    @FXML
+    private Label grindingRate;
+
     public String idProofImageUri;
 //
 //    private ImageView modalImage;
@@ -110,11 +113,13 @@ public class CustomerDetailsController implements Initializable {
             String qtyDeductionDisplay = updatedCustomerAccount.getWheatProcessingDeductionQty() + " kg";
             String initialWheatQtyDisplay = updatedCustomerAccount.getInitialWheatQty() + " kg";
             String currentWheatBalanceDisplay = updatedCustomerAccount.getCurrentWheatBalance() + " kg";
+            String grindingRateDisplay = updatedCustomerAccount.getGrindingRate() + " kg";
 
             wheatQtyStored.setText(wheatQtyStoredDisplay);
             qtyDeduction.setText(qtyDeductionDisplay);
             initialWheatQty.setText(initialWheatQtyDisplay);
             currentWheatBalance.setText(currentWheatBalanceDisplay);
+            grindingRate.setText(grindingRateDisplay);
 
         }
         catch(Exception e){

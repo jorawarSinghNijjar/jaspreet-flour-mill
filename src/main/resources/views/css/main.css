@@ -74,6 +74,25 @@
 -fx-cursor: hand;
 }
 
+.utility-btn{
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #FF4136 ;
+    -fx-border-radius: 8;
+    -fx-border-width: 3;
+    -fx-border-style: solid;
+    -fx-border-color: #FF4136;
+    -fx-font-size: 13;
+    -fx-font-weight:700;
+    -fx-padding: 5 5;
+}
+
+.utility-btn:hover{
+    -fx-background-color: #FF4136;
+    -fx-text-fill: #ffffff ;
+    -fx-border-radius: 8;
+    -fx-cursor:hand;
+}
+
 .menu-btn{
 -fx-background-color: #272635;
 -fx-text-fill: #ffffff;
@@ -102,4 +121,5 @@
 .transparent-btn:hover{
     -fx-cursor: hand;
 }
+
 

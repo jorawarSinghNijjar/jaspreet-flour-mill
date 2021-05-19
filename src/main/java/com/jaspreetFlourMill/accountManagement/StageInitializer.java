@@ -23,7 +23,7 @@ public class StageInitializer implements ApplicationListener<StageReadyEvent> {
     public void onApplicationEvent(StageReadyEvent event){
 
         stage = event.getStage();
-        stage.initStyle(StageStyle.UNDECORATED);
+//        stage.initStyle(StageStyle.UNDECORATED);
         stage.setScene(new Scene(fxWeaver.loadView(AuthController.class),500,400));
         stage.show();
 

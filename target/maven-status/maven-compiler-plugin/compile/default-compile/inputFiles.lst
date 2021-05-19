@@ -1,6 +1,5 @@
 G:\jorawarSingh\development\javaProjects\jaspreetFlourMillClient\src\main\java\com\jaspreetFlourMill\accountManagement\services\RestService.java
 G:\jorawarSingh\development\javaProjects\jaspreetFlourMillClient\src\main\java\com\jaspreetFlourMill\accountManagement\AppUI.java
-G:\jorawarSingh\development\javaProjects\jaspreetFlourMillClient\src\main\java\com\jaspreetFlourMill\accountManagement\controllers\DashboardController.java
 G:\jorawarSingh\development\javaProjects\jaspreetFlourMillClient\src\main\java\com\jaspreetFlourMill\accountManagement\controllers\AuthController.java
 G:\jorawarSingh\development\javaProjects\jaspreetFlourMillClient\src\main\java\com\jaspreetFlourMill\accountManagement\controllers\TransactionDetailController.java
 G:\jorawarSingh\development\javaProjects\jaspreetFlourMillClient\src\main\java\com\jaspreetFlourMill\accountManagement\controllers\TransactionDetailItemController.java
@@ -18,4 +17,5 @@ G:\jorawarSingh\development\javaProjects\jaspreetFlourMillClient\src\main\java\c
 G:\jorawarSingh\development\javaProjects\jaspreetFlourMillClient\src\main\java\com\jaspreetFlourMill\accountManagement\controllers\AddTransactionController.java
 G:\jorawarSingh\development\javaProjects\jaspreetFlourMillClient\src\main\java\com\jaspreetFlourMill\accountManagement\controllers\RegisterCustomerController.java
 G:\jorawarSingh\development\javaProjects\jaspreetFlourMillClient\src\main\java\com\jaspreetFlourMill\accountManagement\model\Employee.java
+G:\jorawarSingh\development\javaProjects\jaspreetFlourMillClient\src\main\java\com\jaspreetFlourMill\accountManagement\controllers\ModalImageViewController.java
 G:\jorawarSingh\development\javaProjects\jaspreetFlourMillClient\src\main\java\com\jaspreetFlourMill\accountManagement\controllers\ContentController.java

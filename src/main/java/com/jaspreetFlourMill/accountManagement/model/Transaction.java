@@ -17,6 +17,7 @@ public class Transaction implements Serializable {
     private String transactionId;
     private String date;
     private double attaPickupQty;
+    private double grindingRate;
     private double grindingCharges;
     private double grindingChargesPaid;
     private double customerBalanceGrindingCharges;
@@ -24,11 +25,13 @@ public class Transaction implements Serializable {
     private String orderPickedBy;
     private String cashierName;
 
-    public Transaction(Customer customer,double attaPickupQty,double grindingCharges, double grindingChargesPaid,
+    public Transaction(Customer customer,double attaPickupQty,double grindingRate,double grindingCharges,
+                       double grindingChargesPaid,
                        String orderPickedBy,
                        String cashierName) {
         this.customer = customer;
         this.attaPickupQty = attaPickupQty;
+        this.grindingRate = grindingRate;
         this.grindingCharges = grindingCharges;
         this.grindingChargesPaid = grindingChargesPaid;
         this.orderPickedBy = orderPickedBy;
@@ -56,6 +59,8 @@ public class Transaction implements Serializable {
             customerAccount.setCurrentWheatBalance(currentStoredWheatBalance-attaPickupQty);
 
             this.customerStoredAttaBalanceQty = currentStoredWheatBalance-attaPickupQty;
+
+            customerAccount.setGrindingRate(this.grindingRate);
 
             CustomerAccount.updateCustomerAccount(customer.getCustomerId(),customerAccount);
         }
@@ -135,6 +140,15 @@ public class Transaction implements Serializable {
     public void setCashierName(String cashierName) {
         this.cashierName = cashierName;
     }
+
+    public double getGrindingRate() {
+        return grindingRate;
+    }
+
+    public void setGrindingRate(double grindingRate) {
+        this.grindingRate = grindingRate;
+    }
+
 
     @Override
     public String toString() {

@@ -45,6 +45,7 @@ public class TransactionDetailController implements Initializable {
         String transactionId = "";
         String time ="";
         double attaPickupQty=0.00;
+        double grindingRate=0.00;
         double grindingChargesPaid=0.00;
         double grindingBalance=0.00;
         double storedWheatBalance=0.00;
@@ -69,6 +70,7 @@ public class TransactionDetailController implements Initializable {
                 time = transactions.get(i).getDate();
                 attaPickupQty = transactions.get(i).getAttaPickupQty();
                 grindingBalance = transactions.get(i).getCustomerBalanceGrindingCharges();
+                grindingRate = transactions.get(i).getGrindingRate();
                 grindingChargesPaid = transactions.get(i).getGrindingChargesPaid();
                 storedWheatBalance = transactions.get(i).getCustomerStoredAttaBalanceQty();
                 orderPickedBy = transactions.get(i).getOrderPickedBy();
@@ -78,6 +80,7 @@ public class TransactionDetailController implements Initializable {
                         transactionId,
                         time,
                         attaPickupQty,
+                        grindingRate,
                         grindingChargesPaid,
                         grindingBalance,
                         storedWheatBalance,

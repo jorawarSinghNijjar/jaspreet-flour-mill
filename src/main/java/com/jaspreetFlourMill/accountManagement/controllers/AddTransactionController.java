@@ -6,6 +6,7 @@ import com.jaspreetFlourMill.accountManagement.util.UserSession;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -30,6 +31,9 @@ public class AddTransactionController implements Initializable {
     private TextField attaPickupQtyInput;
 
     @FXML
+    private TextField grindingRateInput;
+
+    @FXML
     private TextField grindingChargesInput;
 
     @FXML
@@ -41,17 +45,51 @@ public class AddTransactionController implements Initializable {
     @FXML
     private Label cashierNameLabel;
 
+    private double grindingCharges;
+
+    private FxControllerAndView<CustomerDetailsController, Node> customerDetailsCV;
+
+    private FxControllerAndView<TransactionDetailController, Node> transactionDetailsCV;
+
+    private final FxWeaver fxWeaver;
+
+    public AddTransactionController(FxWeaver fxWeaver) {
+        this.fxWeaver = fxWeaver;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        customerDetailsCV = fxWeaver.load(CustomerDetailsController.class);
+        transactionDetailsCV = fxWeaver.load(TransactionDetailController.class);
+
         cashierNameLabel.setText("Jaspreet Singh");
+
+        grindingRateInput.textProperty().addListener( (observableValue, oldValue, newValue) -> {
+            if(attaPickupQtyInput.getText() != ""){
+                grindingCharges = Double.parseDouble(attaPickupQtyInput.getText())
+                        * Double.parseDouble(newValue);
+                grindingChargesInput.setText(String.valueOf(grindingCharges));
+            }
+
+        });
+
+        attaPickupQtyInput.textProperty().addListener( (observableValue, oldValue, newValue) -> {
+            if(grindingRateInput.getText() != "") {
+                grindingCharges = Double.parseDouble(grindingRateInput.getText())
+                        * Double.parseDouble(newValue);
+                grindingChargesInput.setText(String.valueOf(grindingCharges));
+            }
+        });
     }
+
+
 
     @FXML
     public void submitTransaction(ActionEvent event){
         int customerId = Integer.parseInt(customerIdInput.getText());
         double attaPickupQty = Double.parseDouble(attaPickupQtyInput.getText());
+        double grindingRate = Double.parseDouble(grindingRateInput.getText());
         double grindingChargesPaid = Double.parseDouble(grindingChargesPaidInput.getText());
-        double grindingCharges = Double.parseDouble(grindingChargesInput.getText());
         String orderPickedBy = orderPickedByInput.getText();
         String cashierName = cashierNameLabel.getText();
 
@@ -61,6 +99,7 @@ public class AddTransactionController implements Initializable {
             Transaction newTransaction = new Transaction(
                     customer,
                     attaPickupQty,
+                    grindingRate,
                     grindingCharges,
                     grindingChargesPaid,
                     orderPickedBy,
@@ -84,11 +123,17 @@ public class AddTransactionController implements Initializable {
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setContentText("Transaction submitted successfully");
                     alert.show();
-                    customerIdInput.setText("");
+
                     attaPickupQtyInput.setText("");
                     grindingChargesInput.setText("");
                     grindingChargesPaidInput.setText("");
                     orderPickedByInput.setText("");
+                    grindingRateInput.setText("");
+
+
+                    customerDetailsCV.getController().updateCustomerDetails(String.valueOf(customerId));
+                    transactionDetailsCV.getController().clearTransactionDisplay();
+                    transactionDetailsCV.getController().renderTransactions(String.valueOf(customerId));
                 }
             }
 

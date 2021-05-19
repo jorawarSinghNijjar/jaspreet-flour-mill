@@ -18,6 +18,7 @@ public class CustomerAccount implements Serializable {
     private double initialWheatQty;
     private double currentWheatBalance;
     private double grindingChargesBalance;
+    private double grindingRate;
     private String startDate;
 
     public CustomerAccount(Customer customer, double wheatDepositQty, double wheatProcessingDeductionQty) {
@@ -95,6 +96,14 @@ public class CustomerAccount implements Serializable {
 
     public void setCustomerAccountId(Integer customerAccountId) {
         this.customerAccountId = customerAccountId;
+    }
+
+    public double getGrindingRate() {
+        return grindingRate;
+    }
+
+    public void setGrindingRate(double grindingRate) {
+        this.grindingRate = grindingRate;
     }
 
     public double getGrindingChargesBalance() {

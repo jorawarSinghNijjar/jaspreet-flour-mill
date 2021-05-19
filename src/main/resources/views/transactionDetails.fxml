@@ -20,7 +20,7 @@
             <Label alignment="CENTER" prefHeight="44.0" prefWidth="140.0" styleClass="h5" stylesheets="@css/main.css" text="Cashier " />
          </children>
          <padding>
-            <Insets top="10.0" />
+            <Insets right="80.0" top="10.0" />
          </padding>
       </HBox>
       <VBox fx:id="detailItemContainer" layoutY="58.0" prefHeight="310.0" prefWidth="1136.0" />

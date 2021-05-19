@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 
@@ -13,5 +15,13 @@
       <Label fx:id="storedWheatBalanceLabel" alignment="CENTER" prefHeight="54.0" prefWidth="140.0" styleClass="table-items" stylesheets="@css/main.css" text="150kg" />
       <Label fx:id="orderPickedByLabel" alignment="CENTER" prefHeight="50.0" prefWidth="140.0" styleClass="table-items" stylesheets="@css/main.css" text="Surjeet Singh" textAlignment="CENTER" wrapText="true" />
       <Label fx:id="cashierLabel" alignment="CENTER" prefHeight="50.0" prefWidth="140.0" styleClass="table-items" stylesheets="@css/main.css" text="Maninder" textAlignment="CENTER" wrapText="true" />
+      <Button mnemonicParsing="false" onAction="#printTransaction" prefWidth="100.0" styleClass="utility-btn" stylesheets="@css/main.css" text="Print">
+         <HBox.margin>
+            <Insets top="2.0" />
+         </HBox.margin>
+      </Button>
    </children>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
 </HBox>
