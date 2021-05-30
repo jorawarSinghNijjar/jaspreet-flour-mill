@@ -45,15 +45,21 @@ public class Transaction implements Serializable {
 
         this.customerBalanceGrindingCharges = grindingCharges - grindingChargesPaid;
 
-
-
         // Update Database
         try{
             CustomerAccount customerAccount = CustomerAccount.getCustomerAccount(customer.getCustomerId());
 
             // Update customerBalanceGrindingCharges to database
             double currentGrindingChargesBalance = customerAccount.getGrindingChargesBalance();
-            customerAccount.setGrindingChargesBalance(currentGrindingChargesBalance+customerBalanceGrindingCharges);
+
+            double updatedGrindingChargesBalance =
+                    currentGrindingChargesBalance + customerBalanceGrindingCharges;
+
+            customerAccount.setGrindingChargesBalance(updatedGrindingChargesBalance);
+
+            // Add previous customerBalance Grinding Charges
+
+            this.customerBalanceGrindingCharges = updatedGrindingChargesBalance;
 
             double currentStoredWheatBalance = customerAccount.getCurrentWheatBalance();
             customerAccount.setCurrentWheatBalance(currentStoredWheatBalance-attaPickupQty);

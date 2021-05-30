@@ -69,6 +69,9 @@ public class TransactionDetailController implements Initializable {
                 transactionId = transactions.get(i).getTransactionId();
                 time = transactions.get(i).getDate();
                 attaPickupQty = transactions.get(i).getAttaPickupQty();
+                System.out.println("Customer balance" +
+                        transactions.get(i).getCustomerBalanceGrindingCharges());
+
                 grindingBalance = transactions.get(i).getCustomerBalanceGrindingCharges();
                 grindingRate = transactions.get(i).getGrindingRate();
                 grindingChargesPaid = transactions.get(i).getGrindingChargesPaid();
