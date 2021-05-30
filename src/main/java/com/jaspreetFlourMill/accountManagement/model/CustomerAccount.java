@@ -110,6 +110,13 @@ public class CustomerAccount implements Serializable {
         return grindingChargesBalance;
     }
 
+    public void addWheatToAccount(double wheatDepositQty, double wheatProcessingDeductionQty){
+        this.wheatDepositQty += wheatDepositQty;
+        this.initialWheatQty += (wheatDepositQty-wheatProcessingDeductionQty);
+        this.currentWheatBalance = this.initialWheatQty;
+        this.wheatProcessingDeductionQty += wheatProcessingDeductionQty;
+    }
+
     // Get Customer account by id from DB
 
     public static CustomerAccount getCustomerAccount(Integer id) throws Exception{

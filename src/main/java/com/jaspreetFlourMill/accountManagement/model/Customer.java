@@ -92,18 +92,6 @@ public class Customer implements Serializable {
         this.idProof = idProof;
     }
 
-    @Override
-    public String toString() {
-        return "Customer{" +
-                "name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", rationCardNo='" + rationCardNo + '\'' +
-                ", dob='" + dob + '\'' +
-                ", adhaarNo='" + adhaarNo + '\'' +
-                ", idProof=" + idProof +
-                '}';
-    }
 
     public Integer getCustomerId() {
         return customerId;
@@ -118,5 +106,19 @@ public class Customer implements Serializable {
         RestTemplate restTemplate = new RestTemplate();
         Customer responseEntity = restTemplate.getForObject(uri,Customer.class);
         return responseEntity;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "customerId=" + customerId +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", rationCardNo='" + rationCardNo + '\'' +
+                ", dob='" + dob + '\'' +
+                ", adhaarNo='" + adhaarNo + '\'' +
+                ", idProof='" + idProof + '\'' +
+                '}';
     }
 }

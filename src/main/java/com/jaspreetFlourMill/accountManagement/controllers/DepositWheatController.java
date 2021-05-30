@@ -39,25 +39,40 @@ public class DepositWheatController implements Initializable {
         try{
             Customer customer = Customer.getCustomer(customerId);
 
-            CustomerAccount newCustomerAccount = new CustomerAccount(customer,wheatDepositQty,
-                    wheatProcessingDeductionQty);
+            CustomerAccount fetchedCustomerAccount = CustomerAccount.getCustomerAccount(customerId);
 
-            System.out.println(newCustomerAccount.toString());
+            if(fetchedCustomerAccount != null){
+                System.out.println("Updating Customer Account --> "
+                        + fetchedCustomerAccount.getCustomerAccountId());
 
-            if(newCustomerAccount != null){
-                // POST request to register employee
-                final String uri =  "http://localhost:8080/customer-accounts/";
-                RestTemplate restTemplate = new RestTemplate();
+                fetchedCustomerAccount.addWheatToAccount(wheatDepositQty,wheatProcessingDeductionQty);
+                CustomerAccount.updateCustomerAccount(customerId,fetchedCustomerAccount);
 
-                HttpHeaders httpHeaders = new HttpHeaders();
-                httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+                System.out.println("\n Customer Account Update Successful");
+                ContentController.navigationHandler.handleShowHome();
+            }
+            else
+                {
+                CustomerAccount newCustomerAccount = new CustomerAccount(customer,wheatDepositQty,
+                        wheatProcessingDeductionQty);
 
-                HttpEntity<CustomerAccount> req = new HttpEntity<>(newCustomerAccount,httpHeaders);
-                ResponseEntity<String> result = restTemplate.exchange(uri, HttpMethod.POST,req,String.class);
+                System.out.println("Updating Customer Account for" + newCustomerAccount.getCustomer().getName());
 
-                if(result != null){
-                    System.out.println(result.getBody());
-                    ContentController.navigationHandler.handleShowHome();
+                if(newCustomerAccount != null){
+                    // POST request to register employee
+                    final String uri =  "http://localhost:8080/customer-accounts/";
+                    RestTemplate restTemplate = new RestTemplate();
+
+                    HttpHeaders httpHeaders = new HttpHeaders();
+                    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+                    HttpEntity<CustomerAccount> req = new HttpEntity<>(newCustomerAccount,httpHeaders);
+                    ResponseEntity<String> result = restTemplate.exchange(uri, HttpMethod.POST,req,String.class);
+                    System.out.println(result);
+                    if(result != null){
+                        System.out.println("Customer Acccount Created Successfully "+result.getBody());
+                        ContentController.navigationHandler.handleShowHome();
+                    }
                 }
             }
         }

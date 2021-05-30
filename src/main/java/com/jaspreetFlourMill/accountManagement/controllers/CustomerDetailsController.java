@@ -121,6 +121,8 @@ public class CustomerDetailsController implements Initializable {
             currentWheatBalance.setText(currentWheatBalanceDisplay);
             grindingRate.setText(grindingRateDisplay);
 
+
+
         }
         catch(Exception e){
             e.getMessage();
@@ -131,7 +133,7 @@ public class CustomerDetailsController implements Initializable {
         String uri =  "http://localhost:8080/customers/"+ id;
         RestTemplate restTemplate = new RestTemplate();
         Customer responseEntity = restTemplate.getForObject(uri,Customer.class);
-
+        System.out.println("Updated Customer" + responseEntity.toString());
         return responseEntity;
     }
 
