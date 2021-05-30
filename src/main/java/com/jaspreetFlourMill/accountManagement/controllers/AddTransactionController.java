@@ -1,6 +1,7 @@
 package com.jaspreetFlourMill.accountManagement.controllers;
 
 import com.jaspreetFlourMill.accountManagement.model.Customer;
+import com.jaspreetFlourMill.accountManagement.model.Employee;
 import com.jaspreetFlourMill.accountManagement.model.Transaction;
 import com.jaspreetFlourMill.accountManagement.util.UserSession;
 import javafx.event.ActionEvent;
@@ -14,6 +15,7 @@ import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.http.*;
+import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -45,6 +47,8 @@ public class AddTransactionController implements Initializable {
     @FXML
     private Label cashierNameLabel;
 
+    private String cashierName;
+
     private double grindingCharges;
 
     private FxControllerAndView<CustomerDetailsController, Node> customerDetailsCV;
@@ -62,8 +66,8 @@ public class AddTransactionController implements Initializable {
         customerDetailsCV = fxWeaver.load(CustomerDetailsController.class);
         transactionDetailsCV = fxWeaver.load(TransactionDetailController.class);
 
-        cashierNameLabel.setText("Jaspreet Singh");
-
+        cashierName = this.getEmployeeName(AuthController.currentSession.getUserId());
+        cashierNameLabel.setText(cashierName);
         grindingRateInput.textProperty().addListener( (observableValue, oldValue, newValue) -> {
             if(attaPickupQtyInput.getText() != ""){
                 grindingCharges = Double.parseDouble(attaPickupQtyInput.getText())
@@ -91,7 +95,6 @@ public class AddTransactionController implements Initializable {
         double grindingRate = Double.parseDouble(grindingRateInput.getText());
         double grindingChargesPaid = Double.parseDouble(grindingChargesPaidInput.getText());
         String orderPickedBy = orderPickedByInput.getText();
-        String cashierName = cashierNameLabel.getText();
 
         try{
             Customer customer = Customer.getCustomer(customerId);
@@ -142,6 +145,23 @@ public class AddTransactionController implements Initializable {
             e.getMessage();
         }
 
+    }
+
+    private String getEmployeeName(String employeeId){
+        if(employeeId != null || !employeeId.isEmpty()){
+            try {
+                String uri = "http://localhost:8080/employees/" + employeeId;
+                RestTemplate restTemplate = new RestTemplate();
+                Employee responseEntity = restTemplate.getForObject(uri,Employee.class);
+                return responseEntity.getName();
+            }
+            catch(Exception e){
+                System.out.println("Failed to retrieve employee name");
+                e.getMessage();
+            }
+        }
+        System.out.println("Please enter a valid employee id");
+        return "";
     }
 
 }
