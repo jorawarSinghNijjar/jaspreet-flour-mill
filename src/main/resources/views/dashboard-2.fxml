@@ -21,6 +21,12 @@
                   <Insets top="40.0" />
                </VBox.margin>
             </Button>
+            <Button fx:id="customersButton" mnemonicParsing="false" onAction="#showCustomers" prefHeight="60.0" prefWidth="229.0" stylesheets="@css/main.css" text="Customers">
+               <styleClass>
+                  <String fx:value="menu-btn" />
+                  <String fx:value="h4" />
+               </styleClass>
+            </Button>
             <Button fx:id="addTransactionButton" mnemonicParsing="false" onAction="#showAddTransaction" prefHeight="60.0" prefWidth="229.0" stylesheets="@css/main.css" text="Add Transaction">
                <styleClass>
                   <String fx:value="menu-btn" />

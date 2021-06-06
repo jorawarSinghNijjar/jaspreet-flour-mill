@@ -122,4 +122,23 @@
     -fx-cursor: hand;
 }
 
+.list-item{
+    -fx-padding: 8 10;
+    -fx-background-color: #2B7A78;
+    -fx-text-fill: white;
+    -fx-border-style: hidden hidden solid hidden;
+    -fx-border-color: white;
+    -fx-border-width: 2;
+}
+.list-item:hover{
+    -fx-background-color: white;
+    -fx-text-fill: #2B7A78;
+    -fx-cursor: hand;
+}
+
+.no-border{
+    -fx-border-style: hidden hidden hidden hidden;
+}
+
+
 

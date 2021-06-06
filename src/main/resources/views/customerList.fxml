@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="768.0" prefWidth="1136.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.CustomerListController">
+   <children>
+      <TextField fx:id="searchCustomerTextField" layoutX="15.0" layoutY="58.0" prefHeight="40.0" prefWidth="1100.0" promptText="Enter customer name ...." />
+      <VBox fx:id="customerListBox" layoutX="14.0" layoutY="107.0" prefHeight="650.0" prefWidth="250.0" stylesheets="@css/main.css" />
+      <HBox fx:id="customerDetailsFromList" alignment="CENTER" layoutX="264.0" layoutY="113.0" prefHeight="650.0" prefWidth="850.0" />
+      <Label layoutX="15.0" layoutY="14.0" prefHeight="31.0" prefWidth="176.0" styleClass="h2" stylesheets="@css/main.css" text="Search Customers" />
+   </children>
+</AnchorPane>

@@ -63,6 +63,8 @@ public class ContentController implements  Initializable, ApplicationListener<St
     @FXML
     private Circle avatarFrame;
 
+    private FxControllerAndView<CustomerListController,Node> customerListCV;
+
     private FxControllerAndView<AddTransactionController,Node> addTransactionCV;
 
     private FxControllerAndView<CustomerDetailsController,Node> customerDetailsCV;
@@ -82,6 +84,9 @@ public class ContentController implements  Initializable, ApplicationListener<St
 
     @FXML
     private Button addTransactionButton;
+
+    @FXML
+    private Button customersButton;
 
     @FXML
     private Button wheatDepositButton;
@@ -142,6 +147,14 @@ public class ContentController implements  Initializable, ApplicationListener<St
         homeIcon.setIconSize(18);
         homeIcon.setFill(Color.WHITE);
 
+        IconNode groupIcon = new IconNode(GoogleMaterialDesignIcons.GROUP);
+        groupIcon.setIconSize(18);
+        groupIcon.setFill(Color.WHITE);
+
+        IconNode assignmentIcon = new IconNode(GoogleMaterialDesignIcons.ASSIGNMENT);
+        assignmentIcon.setIconSize(18);
+        assignmentIcon.setFill(Color.WHITE);
+
         IconNode plusSquare = new IconNode(FontAwesome.PLUS_SQUARE);
         plusSquare.setIconSize(18);
         plusSquare.setFill(Color.WHITE);
@@ -162,8 +175,9 @@ public class ContentController implements  Initializable, ApplicationListener<St
         registerCustomerButton.setGraphic(customerCard);
         registerEmployeeButton.setGraphic(employeeAdd);
         signOutButton.setGraphic(unlock);
-        addTransactionButton.setGraphic(plusSquare);
+        addTransactionButton.setGraphic(assignmentIcon);
         wheatDepositButton.setGraphic(plusSquare);
+        customersButton.setGraphic(groupIcon);
 
     }
 
@@ -209,6 +223,16 @@ public class ContentController implements  Initializable, ApplicationListener<St
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    public void showCustomers(){
+        contentContainer.getChildren().clear();
+        customerListCV = fxWeaver.load(CustomerListController.class);
+
+        customerListCV.getView().ifPresent(view -> {
+            contentContainer.getChildren().add(view);
+        });
     }
 
     @FXML

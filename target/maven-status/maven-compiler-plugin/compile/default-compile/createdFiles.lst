@@ -15,6 +15,7 @@ com\jaspreetFlourMill\accountManagement\AppUI.class
 com\jaspreetFlourMill\accountManagement\AccountManagementApplication.class
 com\jaspreetFlourMill\accountManagement\controllers\DepositWheatController.class
 com\jaspreetFlourMill\accountManagement\controllers\AddTransactionController.class
+com\jaspreetFlourMill\accountManagement\controllers\CustomerListController.class
 com\jaspreetFlourMill\accountManagement\model\Transaction.class
 com\jaspreetFlourMill\accountManagement\controllers\RegisterEmployeeController.class
 com\jaspreetFlourMill\accountManagement\controllers\TransactionDetailItemController.class

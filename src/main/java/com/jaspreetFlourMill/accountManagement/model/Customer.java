@@ -1,6 +1,7 @@
 package com.jaspreetFlourMill.accountManagement.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
@@ -8,6 +9,7 @@ import java.io.Serializable;
 import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Customer implements Serializable {
@@ -99,6 +101,14 @@ public class Customer implements Serializable {
 
     public void setCustomerId(Integer customerId) {
         this.customerId = customerId;
+    }
+
+    public static Customer[] getAllCustomers() throws Exception{
+        String uri = "http://localhost:8080/customers";
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Customer[]> responseEntity = restTemplate.getForEntity(uri,Customer[].class);
+        Customer[] customers = responseEntity.getBody();
+        return customers;
     }
 
     public static Customer getCustomer(Integer id) throws Exception{
