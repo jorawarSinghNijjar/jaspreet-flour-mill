@@ -90,6 +90,12 @@
     -fx-background-color: #FF4136;
     -fx-text-fill: #ffffff ;
     -fx-border-radius: 8;
+    -fx-border-width: 3;
+    -fx-border-style: solid;
+    -fx-border-color: #FF4136;
+    -fx-font-size: 13;
+    -fx-font-weight:700;
+    -fx-padding: 5 5;
     -fx-cursor:hand;
 }
 

@@ -3,11 +3,15 @@ com\jaspreetFlourMill\accountManagement\StageInitializer.class
 com\jaspreetFlourMill\accountManagement\util\NavigationHandler.class
 com\jaspreetFlourMill\accountManagement\util\UserSession$UserType.class
 com\jaspreetFlourMill\accountManagement\StageReadyEvent.class
+com\jaspreetFlourMill\accountManagement\util\Util.class
+com\jaspreetFlourMill\accountManagement\model\SalesToday.class
 com\jaspreetFlourMill\accountManagement\model\Customer.class
+com\jaspreetFlourMill\accountManagement\model\Sales.class
 com\jaspreetFlourMill\accountManagement\controllers\ModalImageViewController.class
 com\jaspreetFlourMill\accountManagement\model\CustomerAccount.class
 com\jaspreetFlourMill\accountManagement\controllers\ContentController$1.class
 com\jaspreetFlourMill\accountManagement\controllers\RegisterCustomerController.class
+com\jaspreetFlourMill\accountManagement\model\SalesList.class
 com\jaspreetFlourMill\accountManagement\util\UserSession.class
 com\jaspreetFlourMill\accountManagement\controllers\TransactionDetailController.class
 com\jaspreetFlourMill\accountManagement\controllers\AuthController.class
@@ -18,6 +22,7 @@ com\jaspreetFlourMill\accountManagement\controllers\AddTransactionController.cla
 com\jaspreetFlourMill\accountManagement\controllers\CustomerListController.class
 com\jaspreetFlourMill\accountManagement\model\Transaction.class
 com\jaspreetFlourMill\accountManagement\controllers\RegisterEmployeeController.class
+com\jaspreetFlourMill\accountManagement\controllers\HomeController.class
 com\jaspreetFlourMill\accountManagement\controllers\TransactionDetailItemController.class
 com\jaspreetFlourMill\accountManagement\controllers\CustomerDetailsController.class
 com\jaspreetFlourMill\accountManagement\model\Employee.class

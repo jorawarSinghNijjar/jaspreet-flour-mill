@@ -2,8 +2,8 @@ package com.jaspreetFlourMill.accountManagement.controllers;
 
 import com.jaspreetFlourMill.accountManagement.model.Customer;
 import com.jaspreetFlourMill.accountManagement.model.Employee;
+import com.jaspreetFlourMill.accountManagement.model.Sales;
 import com.jaspreetFlourMill.accountManagement.model.Transaction;
-import com.jaspreetFlourMill.accountManagement.util.UserSession;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,7 +15,6 @@ import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.http.*;
-import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -98,7 +97,7 @@ public class AddTransactionController implements Initializable {
 
         try{
             Customer customer = Customer.getCustomer(customerId);
-
+            System.out.println("Grinding Charges ---->" + grindingCharges);
             Transaction newTransaction = new Transaction(
                     customer,
                     attaPickupQty,
@@ -109,7 +108,7 @@ public class AddTransactionController implements Initializable {
                     cashierName
             );
 
-            System.out.println(newTransaction.toString());
+//            System.out.println("New transaction: " + newTransaction.toString());
 
             if(newTransaction != null){
                 // POST request to register employee
@@ -121,8 +120,16 @@ public class AddTransactionController implements Initializable {
 
                 HttpEntity<Transaction> req = new HttpEntity<>(newTransaction,httpHeaders);
                 ResponseEntity<String> result = restTemplate.exchange(uri, HttpMethod.POST,req,String.class);
-
+//                System.out.println(result);
                 if(result != null){
+//                    System.out.println("Before calling update sales....");
+                    this.updateSales(
+                            newTransaction.getDate(),
+                            attaPickupQty,
+                            grindingCharges,
+                            grindingChargesPaid
+                    );
+
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setContentText("Transaction submitted successfully");
                     alert.show();
@@ -132,7 +139,6 @@ public class AddTransactionController implements Initializable {
                     grindingChargesPaidInput.setText("");
                     orderPickedByInput.setText("");
                     grindingRateInput.setText("");
-
 
                     customerDetailsCV.getController().updateCustomerDetails(String.valueOf(customerId));
                     transactionDetailsCV.getController().clearTransactionDisplay();
@@ -162,6 +168,38 @@ public class AddTransactionController implements Initializable {
         }
         System.out.println("Please enter a valid employee id");
         return "";
+    }
+
+    private void updateSales(String date, Double attaPickupQty, Double grindingCharges, Double grindingChargesPaid) throws Exception{
+//        System.out.println("Inside update sales");
+        // Get current Sales for this date
+        Sales sales = Sales.getSalesForToday(date);
+//        System.out.println("Sales retrieved: " + sales);
+
+        if(sales != null){
+            String currentDate = sales.getDate();
+            Double currentTotalWheatSold = sales.getTotalWheatSold();
+            Double currentTotalGrindingChargesPaid = sales.getTotalGrindingChargesPaid();
+            Double currentTotalGrindingCharges = sales.getTotalGrindingCharges();
+
+            // Update sales table for this date
+            currentTotalWheatSold += attaPickupQty;
+            currentTotalGrindingCharges += grindingCharges;
+            currentTotalGrindingChargesPaid += grindingChargesPaid;
+
+            Sales updatedSales = new Sales(currentDate,currentTotalWheatSold,currentTotalGrindingCharges,
+                    currentTotalGrindingChargesPaid);
+
+            String updateResult = Sales.updateSales(currentDate,updatedSales);
+
+            System.out.println(updateResult);
+        }
+        else{
+            Sales newSale = new Sales(date,attaPickupQty,grindingCharges,grindingChargesPaid);
+            System.out.println("New Sale: " + newSale);
+            Sales.saveSales(newSale);
+        }
+
     }
 
 }

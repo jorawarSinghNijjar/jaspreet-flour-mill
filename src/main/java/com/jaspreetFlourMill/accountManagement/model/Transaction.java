@@ -16,6 +16,7 @@ public class Transaction implements Serializable {
     private Customer customer;
     private String transactionId;
     private String date;
+    private String time;
     private double attaPickupQty;
     private double grindingRate;
     private double grindingCharges;
@@ -40,8 +41,10 @@ public class Transaction implements Serializable {
         this.transactionId = uuid.toString();
 
         LocalDateTime dateTime = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm:ss");
-        this.date = formatter.format(dateTime);
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
+        this.date = dateFormat.format(dateTime);
+        this.time = timeFormat.format(dateTime);
 
         this.customerBalanceGrindingCharges = grindingCharges - grindingChargesPaid;
 
@@ -154,7 +157,13 @@ public class Transaction implements Serializable {
     public void setGrindingRate(double grindingRate) {
         this.grindingRate = grindingRate;
     }
+    public String getTime() {
+        return time;
+    }
 
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     @Override
     public String toString() {
