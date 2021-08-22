@@ -104,7 +104,7 @@ public class Sales implements Serializable {
         this.year = year;
     }
 
-    public static Sales[] getSalesForMonth(String month, String year){
+    public static Sales[] getSalesForMonth(int month, int year){
 
         try{
             System.out.println("Retrieving sales for month: " + month + "-" + year );
@@ -121,7 +121,7 @@ public class Sales implements Serializable {
 
     }
 
-    public static Sales[] getSalesForYear(String year){
+    public static Sales[] getSalesForYear(int year){
 
         try{
             System.out.println("Retrieving sales for year: " + year );

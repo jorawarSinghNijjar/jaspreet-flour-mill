@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
 <AnchorPane fx:id="homeContainer" prefHeight="768.0" prefWidth="1136.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.HomeController">
    <children>
-      <Label layoutX="798.0" layoutY="32.0" prefHeight="28.0" prefWidth="75.0" text="Sales Today" />
-      <GridPane layoutX="752.0" layoutY="100.0" prefHeight="139.0" prefWidth="200.0">
+      <Label layoutX="368.0" layoutY="21.0" prefHeight="49.0" prefWidth="229.0" styleClass="h2" stylesheets="@css/main.css" text="Sales Summary" />
+      <GridPane layoutX="679.0" layoutY="88.0" prefHeight="139.0" prefWidth="259.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -21,13 +21,17 @@
           <RowConstraints maxHeight="51.0" minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label prefHeight="28.0" prefWidth="105.0" text="Wheat Sold " />
+            <Label prefHeight="28.0" prefWidth="131.0" text="Wheat Sold " />
             <Label fx:id="wheatSoldDisplay" alignment="CENTER" prefHeight="22.0" prefWidth="106.0" text="0" textAlignment="CENTER" GridPane.columnIndex="1" />
-            <Label prefHeight="62.0" prefWidth="75.0" text="Grinding Charges Paid" wrapText="true" GridPane.rowIndex="1" />
+            <Label prefHeight="59.0" prefWidth="130.0" text="Grinding Charges Paid" wrapText="true" GridPane.rowIndex="1" />
             <Label fx:id="grindingChargesPaidDisplay" alignment="CENTER" contentDisplay="CENTER" prefHeight="22.0" prefWidth="108.0" text="0" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label prefHeight="49.0" prefWidth="99.0" text="Grinding Charges" GridPane.rowIndex="2" />
+            <Label prefHeight="49.0" prefWidth="147.0" text="Grinding Charges" GridPane.rowIndex="2" />
             <Label fx:id="grindingChargesDisplay" alignment="CENTER" prefHeight="17.0" prefWidth="117.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
+      <ComboBox fx:id="salesSummaryTypeComboBox" layoutX="61.0" layoutY="100.0" prefWidth="150.0" promptText="Select sales period" />
+      <ComboBox fx:id="salesMonthComboBox" layoutX="61.0" layoutY="145.0" prefWidth="150.0" promptText="Select month" />
+      <ComboBox fx:id="salesYearComboBox" layoutX="61.0" layoutY="183.0" prefWidth="150.0" promptText="Select year" />
+      <ComboBox fx:id="salesYearforMonthComboBox" layoutX="261.0" layoutY="145.0" prefWidth="150.0" promptText="Select year for month" />
    </children>
 </AnchorPane>
