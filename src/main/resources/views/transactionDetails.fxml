@@ -14,7 +14,8 @@
             <Label alignment="CENTER" prefHeight="45.0" prefWidth="140.0" styleClass="h5" stylesheets="@css/main.css" text="Transaction ID" />
             <Label alignment="CENTER" prefHeight="45.0" prefWidth="140.0" styleClass="h5" stylesheets="@css/main.css" text="Time" />
             <Label alignment="CENTER" prefHeight="45.0" prefWidth="140.0" styleClass="h5" stylesheets="@css/main.css" text="Atta Pickup Qty" />
-            <Label alignment="CENTER" prefHeight="44.0" prefWidth="140.0" styleClass="h5" stylesheets="@css/main.css" text="Grinding charges paid" wrapText="true" />
+            <Label alignment="CENTER" prefHeight="44.0" prefWidth="140.0" styleClass="h5" stylesheets="@css/main.css" text="Grinding Charges" wrapText="true" />
+            <Label alignment="CENTER" prefHeight="44.0" prefWidth="140.0" styleClass="h5" stylesheets="@css/main.css" text="Grinding charges paid" textAlignment="CENTER" wrapText="true" />
             <Label alignment="CENTER" prefHeight="44.0" prefWidth="140.0" styleClass="h5" stylesheets="@css/main.css" text="Customer Balance Grinding" textAlignment="CENTER" wrapText="true" />
             <Label alignment="CENTER" prefHeight="44.0" prefWidth="140.0" styleClass="h5" stylesheets="@css/main.css" text="Customer's Stored Wheat Qty Balance" textAlignment="CENTER" wrapText="true" />
             <Label alignment="CENTER" prefHeight="45.0" prefWidth="140.0" styleClass="h5" stylesheets="@css/main.css" text="Order Picked By" textAlignment="CENTER" wrapText="true" />
@@ -28,7 +29,7 @@
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="1120.0">
                <children>
-                  <VBox fx:id="detailItemContainer" prefHeight="300.0" prefWidth="1120.0" />
+                  <VBox fx:id="detailItemContainer" layoutX="-7.0" prefHeight="300.0" prefWidth="1120.0" />
                </children>
             </AnchorPane>
         </content>

@@ -165,6 +165,15 @@ public class Transaction implements Serializable {
         this.time = time;
     }
 
+    public double getGrindingCharges() {
+        return grindingCharges;
+    }
+
+    public void setGrindingCharges(double grindingCharges) {
+        this.grindingCharges = grindingCharges;
+    }
+
+
     @Override
     public String toString() {
         return "Transaction{" +

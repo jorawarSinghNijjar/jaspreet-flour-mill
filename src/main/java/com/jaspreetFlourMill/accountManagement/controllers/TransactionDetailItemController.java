@@ -44,6 +44,9 @@ public class TransactionDetailItemController implements Initializable, Applicati
     private Label attaPickupQtyLabel;
 
     @FXML
+    private Label grindingChargesLabel;
+
+    @FXML
     private Label grindingChargesPaidLabel;
 
     @FXML
@@ -65,6 +68,7 @@ public class TransactionDetailItemController implements Initializable, Applicati
 
     public  void setTransactionDetails(
             String transactionId, String time, double attaPickupQty,
+            double grindingCharges,
             double grindingRate,
             double grindingChargesPaid, double grindingBalance,
             double storedWheatBalance, String orderPickedBy,
@@ -73,6 +77,7 @@ public class TransactionDetailItemController implements Initializable, Applicati
         transactionIdLabel.setText(transactionId);
         timeStampLabel.setText(time);
         attaPickupQtyLabel.setText(String.valueOf(attaPickupQty));
+        grindingChargesLabel.setText(String.valueOf(grindingCharges));
         grindingChargesPaidLabel.setText(grindingChargesPaid + " @ Rs." + grindingRate +"/kg");
         grindingBalanceLabel.setText(String.valueOf(grindingBalance));
         storedWheatBalanceLabel.setText(String.valueOf(storedWheatBalance));

@@ -68,19 +68,25 @@ public class AddTransactionController implements Initializable {
         cashierName = this.getEmployeeName(AuthController.currentSession.getUserId());
         cashierNameLabel.setText(cashierName);
         grindingRateInput.textProperty().addListener( (observableValue, oldValue, newValue) -> {
-            if(attaPickupQtyInput.getText() != ""){
-                grindingCharges = Double.parseDouble(attaPickupQtyInput.getText())
-                        * Double.parseDouble(newValue);
-                grindingChargesInput.setText(String.valueOf(grindingCharges));
+            String attaPickupQtyInputText = attaPickupQtyInput.getText();
+            if( !attaPickupQtyInputText.isEmpty() && attaPickupQtyInputText !=null){
+                if(!newValue.isEmpty() && newValue != null) {
+                    grindingCharges = Double.parseDouble(attaPickupQtyInputText)
+                            * Double.parseDouble(newValue);
+                    grindingChargesInput.setText(String.valueOf(grindingCharges));
+                }
             }
 
         });
 
         attaPickupQtyInput.textProperty().addListener( (observableValue, oldValue, newValue) -> {
-            if(grindingRateInput.getText() != "") {
-                grindingCharges = Double.parseDouble(grindingRateInput.getText())
-                        * Double.parseDouble(newValue);
-                grindingChargesInput.setText(String.valueOf(grindingCharges));
+            String grindingRateInputText = grindingRateInput.getText();
+            if( !grindingRateInputText.isEmpty() && grindingRateInputText !=null) {
+                if(!newValue.isEmpty() && newValue != null) {
+                    grindingCharges = Double.parseDouble(grindingRateInputText)
+                            * Double.parseDouble(newValue);
+                    grindingChargesInput.setText(String.valueOf(grindingCharges));
+                }
             }
         });
     }
