@@ -68,7 +68,7 @@ public class TransactionDetailItemController implements Initializable, Applicati
 
     private Printer currentPrinter;
 
-    private String selectedTransactionId;
+//    private String selectedTransactionId;
 
     @FXML
     private Button pageSetupBtn;
@@ -139,12 +139,12 @@ public class TransactionDetailItemController implements Initializable, Applicati
 
         Node node = (Node)e.getSource();
         Node selectedTransactionIdLabel = node.getParent().getChildrenUnmodifiable().get(0);
-        selectedTransactionId = ((Label)selectedTransactionIdLabel).getText();
+        String selectedTransactionId = ((Label)selectedTransactionIdLabel).getText();
 
         printBtn.setOnAction(PrintEvent -> {
             transactionPrintPreviewCV.getView().ifPresent(view -> {
                 System.out.println(view);
-                printSetup(view,stage);
+                printSetup(view,stage,selectedTransactionId,currentPrinter);
             });
         });
 
@@ -153,7 +153,7 @@ public class TransactionDetailItemController implements Initializable, Applicati
         stage.show();
     }
 
-    private void printSetup(Node node, Stage owner)
+    public void printSetup(Node node, Stage owner,String selectedTransactionId, Printer currentPrinter)
     {
         PrinterJob job = PrinterJob.createPrinterJob();
         job.setPrinter(currentPrinter);
@@ -209,12 +209,12 @@ public class TransactionDetailItemController implements Initializable, Applicati
 
         boolean proceed = job.showPageSetupDialog(owner);
         if(proceed){
-            this.printPreview(node,job);
+            this.printPreview(node,job,selectedTransactionId, currentPrinter);
         }
 
     }
 
-    private boolean printPreview(Node node, PrinterJob job){
+    private boolean printPreview(Node node, PrinterJob job, String selectedTransactionId, Printer currentPrinter){
         TransactionPrintPreviewController transactionPrintPreviewController =
                 transactionPrintPreviewCV.getController();
         Transaction transaction = null;
@@ -224,7 +224,7 @@ public class TransactionDetailItemController implements Initializable, Applicati
         catch(Exception e){
             e.getMessage();
         }
-        if(transaction != null){
+        if(transaction != null & currentPrinter !=null){
             System.out.println("Previewing Transaction"
                     + transaction.getTransactionId()
                     +" before printing...");
@@ -232,8 +232,6 @@ public class TransactionDetailItemController implements Initializable, Applicati
 
             stage.show();
             transactionPrintPreviewController.populateTransactionRow(transaction,currentPrinter);
-
-
 
             return  true;
         }
@@ -246,6 +244,6 @@ public class TransactionDetailItemController implements Initializable, Applicati
 
     @Override
     public void onApplicationEvent(StageReadyEvent event) {
-        stage = event.getStage();
+        this.stage = event.getStage();
     }
 }

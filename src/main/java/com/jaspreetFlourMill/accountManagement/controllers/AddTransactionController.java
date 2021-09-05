@@ -1,29 +1,41 @@
 package com.jaspreetFlourMill.accountManagement.controllers;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jaspreetFlourMill.accountManagement.StageReadyEvent;
 import com.jaspreetFlourMill.accountManagement.model.Customer;
 import com.jaspreetFlourMill.accountManagement.model.Employee;
 import com.jaspreetFlourMill.accountManagement.model.Sales;
 import com.jaspreetFlourMill.accountManagement.model.Transaction;
+import javafx.collections.ObservableSet;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.print.Printer;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
+import org.springframework.context.ApplicationListener;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import javax.swing.*;
+import javax.swing.text.html.Option;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 @Component
 @FxmlView("/views/addTransaction.fxml")
-public class AddTransactionController implements Initializable {
+public class AddTransactionController implements Initializable, ApplicationListener<StageReadyEvent> {
 
     @FXML
     public TextField customerIdInput;
@@ -50,11 +62,19 @@ public class AddTransactionController implements Initializable {
 
     private double grindingCharges;
 
+    private Printer currentPrinter;
+
     private FxControllerAndView<CustomerDetailsController, Node> customerDetailsCV;
 
     private FxControllerAndView<TransactionDetailController, Node> transactionDetailsCV;
 
+    private FxControllerAndView<TransactionDetailItemController,Node> transactionDetailItemCV;
+
+    private FxControllerAndView<TransactionPrintPreviewController,Node> transactionPrintPreviewCV;
+
     private final FxWeaver fxWeaver;
+    private Stage stage;
+
 
     public AddTransactionController(FxWeaver fxWeaver) {
         this.fxWeaver = fxWeaver;
@@ -64,6 +84,8 @@ public class AddTransactionController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         customerDetailsCV = fxWeaver.load(CustomerDetailsController.class);
         transactionDetailsCV = fxWeaver.load(TransactionDetailController.class);
+        transactionDetailItemCV = fxWeaver.load(TransactionDetailItemController.class);
+        transactionPrintPreviewCV = fxWeaver.load(TransactionPrintPreviewController.class);
 
         cashierName = this.getEmployeeName(AuthController.currentSession.getUserId());
         cashierNameLabel.setText(cashierName);
@@ -136,9 +158,22 @@ public class AddTransactionController implements Initializable {
                             grindingChargesPaid
                     );
 
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setContentText("Transaction submitted successfully");
-                    alert.show();
+                    // Confirmation dialog for printing the transaction
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Confirmation Dialog");
+                    alert.setHeaderText("Transaction Successful !");
+                    alert.setContentText("Do you want to print the transaction?");
+
+                    Optional<ButtonType> response = alert.showAndWait();
+                    if (response.get() == ButtonType.OK){
+                        // ... user chose OK
+                        System.out.println("Printing Transaction...");
+                        this.printTransaction(newTransaction.getTransactionId());
+
+                    } else {
+                        // ... user chose CANCEL or closed the dialog
+                        System.out.println("Transaction printing cancelled");
+                    }
 
                     attaPickupQtyInput.setText("");
                     grindingChargesInput.setText("");
@@ -158,6 +193,57 @@ public class AddTransactionController implements Initializable {
         }
 
     }
+
+    // Print Transaction
+    public void printTransaction(String transactionId){
+        ObservableSet<Printer> printers = Printer.getAllPrinters();
+
+        ListView listView = new ListView();
+
+        Label jobStatus = new Label();
+
+        // Create the Status Box
+        HBox jobStatusBox = new HBox(5, new Label("Job Status: "), jobStatus);
+//        pageSetupBtn = new Button("Page Setup");
+
+        for(Printer printer: printers){
+            listView.getItems().add(printer.getName());
+        }
+
+        listView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                for(Printer printer: printers){
+                    if(printer.getName().matches(listView.getSelectionModel().getSelectedItem().toString())){
+                        currentPrinter = printer;
+                        System.out.println("Current Printer: " + currentPrinter.getName());
+                    }
+                }
+            }
+        });
+        VBox vBox = new VBox(10);
+        Label label = new Label("Printers");
+        Button printBtn = new Button("Print");
+        vBox.getChildren().addAll(label,listView,printBtn,jobStatusBox);
+        vBox.setPrefSize(400,250);
+        vBox.setStyle("-fx-padding: 10;");
+
+//        Node node = (Node)e.getSource();
+//        Node selectedTransactionIdLabel = node.getParent().getChildrenUnmodifiable().get(0);
+//        selectedTransactionId = ((Label)selectedTransactionIdLabel).getText();
+
+        printBtn.setOnAction(PrintEvent -> {
+            transactionPrintPreviewCV.getView().ifPresent(view -> {
+                System.out.println(view);
+                transactionDetailItemCV.getController().printSetup(view,stage,transactionId,currentPrinter);
+            });
+        });
+
+        Scene scene = new Scene(vBox, 400,300);
+        this.stage.setScene(scene);
+        this.stage.show();
+    }
+
 
     private String getEmployeeName(String employeeId){
         if(employeeId != null || !employeeId.isEmpty()){
@@ -208,4 +294,8 @@ public class AddTransactionController implements Initializable {
 
     }
 
+    @Override
+    public void onApplicationEvent(StageReadyEvent event) {
+        this.stage = event.getStage();
+    }
 }

@@ -55,15 +55,14 @@ public class TransactionPrintPreviewController implements Initializable, Applica
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
             nextPage = false;
-//            currentPrintRow = CustomerAccount.getCustomerAccount();
-            backToHomeBtn = new Button("Back");
-            backToHomeBtn.setOnAction(ActionEvent -> {
-                stage.setScene(new Scene(fxWeaver.loadView(ContentController.class),1366,768));
-                stage.setX(0);
-                stage.setY(0);
-                stage.show();
-            });
-            transactionPrintPreviewContainer.getChildren().add(backToHomeBtn);
+//            backToHomeBtn = new Button("Back");
+//            backToHomeBtn.setOnAction(ActionEvent -> {
+//                stage.setScene(new Scene(fxWeaver.loadView(ContentController.class),1366,768));
+//                stage.setX(0);
+//                stage.setY(0);
+//                stage.show();
+//            });
+//            transactionPrintPreviewContainer.getChildren().add(backToHomeBtn);
         transactionPrintPreviewContainer.setStyle("-fx-background-color:white;");
 
         printPageVBox = new VBox();
@@ -295,29 +294,9 @@ public class TransactionPrintPreviewController implements Initializable, Applica
 
         boolean proceed = job.showPageSetupDialog(owner);
 
-//        if(proceed){
-//            // Show the print setup dialog
-//            proceed = job.showPrintDialog(owner);
-//        }
-
-//        pageSetupBtn.setOnAction(new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(ActionEvent event) {
-//                pageSetup(job, node, owner);
-//            }
-//        });
-
         if(proceed){
             print(job,node);
         }
-
-//        if (proceed && printPreviewProceed)
-//        {
-//            print(job,node);
-//        }
-//        else{
-//            System.out.println("Printing did not proceed to page setup");
-//        }
     }
 
 
@@ -339,6 +318,11 @@ public class TransactionPrintPreviewController implements Initializable, Applica
             }
 
             job.endJob();
+
+            stage.setScene(new Scene(fxWeaver.loadView(ContentController.class),1366,768));
+            stage.setX(0);
+            stage.setY(0);
+            stage.show();
         }
         else{
             System.out.println("Printing failed....");
