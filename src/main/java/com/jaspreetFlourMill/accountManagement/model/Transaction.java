@@ -197,4 +197,11 @@ public class Transaction implements Serializable {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
+    public static Transaction getTransaction(String id) throws Exception{
+        String uri = "http://localhost:8080/transactions/" + id;
+        RestTemplate restTemplate = new RestTemplate();
+        Transaction responseEntity = restTemplate.getForObject(uri,Transaction.class);
+        return responseEntity;
+    }
 }

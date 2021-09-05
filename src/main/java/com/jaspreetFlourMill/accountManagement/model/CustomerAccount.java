@@ -20,6 +20,7 @@ public class CustomerAccount implements Serializable {
     private double grindingChargesBalance;
     private double grindingRate;
     private String startDate;
+    private int rowsPrinted;
 
     public CustomerAccount(Customer customer, double wheatDepositQty, double wheatProcessingDeductionQty) {
         this.customer = customer;
@@ -31,6 +32,23 @@ public class CustomerAccount implements Serializable {
         LocalDateTime dateTime = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm:ss");
         this.startDate = formatter.format(dateTime);
+        this.rowsPrinted = 0;
+    }
+
+    public int getRowsPrinted() {
+        return rowsPrinted;
+    }
+
+    public void setRowsPrinted(int rowsPrinted) {
+        this.rowsPrinted = rowsPrinted;
+    }
+
+    public void incrementRow(){
+        this.rowsPrinted++;
+    }
+
+    public void printNextPage(){
+        this.rowsPrinted = 0;
     }
 
     public void setWheatProcessingDeductionQty(double wheatProcessingDeductionQty) {
@@ -127,6 +145,23 @@ public class CustomerAccount implements Serializable {
     }
 
     public static String updateCustomerAccount(Integer id,CustomerAccount customerAccount) throws Exception{
+        String uri = "http://localhost:8080/customer-accounts/" + id;
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<CustomerAccount> req = new HttpEntity<>(customerAccount,httpHeaders);
+        ResponseEntity<String> responseEntity = restTemplate.exchange(uri, HttpMethod.PUT,req,String.class);
+        return responseEntity.getBody();
+    }
+
+    public static String updatePrintedRow(Integer id, boolean nextPage) throws Exception{
+        CustomerAccount customerAccount = CustomerAccount.getCustomerAccount(id);
+        if(nextPage){
+            customerAccount.printNextPage();
+        }
+        customerAccount.incrementRow();
+
         String uri = "http://localhost:8080/customer-accounts/" + id;
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders httpHeaders = new HttpHeaders();

@@ -146,5 +146,11 @@
     -fx-border-style: hidden hidden hidden hidden;
 }
 
+.right-border{
+    -fx-border-style: hidden solid hidden hidden;
+    -fx-border-color: grey;
+}
+
+
 
 

@@ -1,36 +1,38 @@
 package com.jaspreetFlourMill.accountManagement.controllers;
 
 import com.jaspreetFlourMill.accountManagement.StageReadyEvent;
-import com.sun.javafx.print.PrintHelper;
-import com.sun.javafx.print.Units;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import com.jaspreetFlourMill.accountManagement.model.Transaction;
 import javafx.collections.ObservableSet;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.print.*;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
+import net.rgielen.fxweaver.core.FxControllerAndView;
+import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
 
+import javax.print.event.PrintEvent;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 @Component
 @FxmlView("/views/transactionDetailItem.fxml")
 public class TransactionDetailItemController implements Initializable, ApplicationListener<StageReadyEvent> {
     private Stage stage;
+
+    private FxControllerAndView<TransactionPrintPreviewController,Node> transactionPrintPreviewCV;
 
     @FXML
     private HBox transactionDetailItem;
@@ -61,9 +63,24 @@ public class TransactionDetailItemController implements Initializable, Applicati
     @FXML
     private Label cashierLabel;
 
+    @FXML
+    private Label jobStatus;
+
+    private Printer currentPrinter;
+
+    private String selectedTransactionId;
+
+    @FXML
+    private Button pageSetupBtn;
+    private final FxWeaver fxWeaver;
+
+    public TransactionDetailItemController(FxWeaver fxWeaver) {
+        this.fxWeaver = fxWeaver;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        transactionPrintPreviewCV = fxWeaver.load(TransactionPrintPreviewController.class);
     }
 
     public  void setTransactionDetails(
@@ -92,19 +109,43 @@ public class TransactionDetailItemController implements Initializable, Applicati
 
         ListView listView = new ListView();
 
+        jobStatus = new Label();
+
+        // Create the Status Box
+        HBox jobStatusBox = new HBox(5, new Label("Job Status: "), jobStatus);
+//        pageSetupBtn = new Button("Page Setup");
+
         for(Printer printer: printers){
             listView.getItems().add(printer.getName());
         }
 
+        listView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                for(Printer printer: printers){
+                    if(printer.getName().matches(listView.getSelectionModel().getSelectedItem().toString())){
+                        currentPrinter = printer;
+                        System.out.println("Current Printer: " + currentPrinter.getName());
+                    }
+                }
+            }
+        });
         VBox vBox = new VBox(10);
         Label label = new Label("Printers");
         Button printBtn = new Button("Print");
-        vBox.getChildren().addAll(label,listView,printBtn);
+        vBox.getChildren().addAll(label,listView,printBtn,jobStatusBox);
         vBox.setPrefSize(400,250);
         vBox.setStyle("-fx-padding: 10;");
 
-        printBtn.setOnAction(printEvent -> {
-            print(transactionDetailItem);
+        Node node = (Node)e.getSource();
+        Node selectedTransactionIdLabel = node.getParent().getChildrenUnmodifiable().get(0);
+        selectedTransactionId = ((Label)selectedTransactionIdLabel).getText();
+
+        printBtn.setOnAction(PrintEvent -> {
+            transactionPrintPreviewCV.getView().ifPresent(view -> {
+                System.out.println(view);
+                printSetup(view,stage);
+            });
         });
 
         Scene scene = new Scene(vBox, 400,300);
@@ -112,35 +153,94 @@ public class TransactionDetailItemController implements Initializable, Applicati
         stage.show();
     }
 
-    private void print(Node node){
-        Printer printer = Printer.getDefaultPrinter();
-        Paper paper = PrintHelper.createPaper("160X90", 160, 90, Units.MM);
-        PageLayout pageLayout = printer.createPageLayout(
-                paper, PageOrientation.LANDSCAPE, Printer.MarginType.DEFAULT
+    private void printSetup(Node node, Stage owner)
+    {
+        PrinterJob job = PrinterJob.createPrinterJob();
+        job.setPrinter(currentPrinter);
+        Paper paper = job.getJobSettings().getPageLayout().getPaper();
+        PageLayout pageLayout = currentPrinter.createPageLayout(
+                paper,PageOrientation.LANDSCAPE,Printer.MarginType.DEFAULT
         );
-
-        PrinterJob printerJob = PrinterJob.createPrinterJob(printer);
-
-        boolean proceed = printerJob.showPageSetupDialog(stage);
+        System.out.println("PageLayout: " + pageLayout);
+        job.getJobSettings().setPageLayout(pageLayout);
 
 
 
-        if(proceed){
-            System.out.println("Creating a printing job.....");
-            if(printerJob != null){
-                boolean printed = printerJob.printPage(pageLayout,node);
+        // Printable area
+        double pWidth = pageLayout.getPrintableWidth();
+        double pHeight = pageLayout.getPrintableHeight();
+        System.out.println("Printable area is " + pWidth + " width and "
+                + pHeight + " height.");
 
-                if(printed){
-                    printerJob.endJob();
-                }
-                else{
-                    System.out.println("Printing Failed......");
-                }
-            }
-            else{
-                System.out.println("Could not create a printing job");
-            }
+        // Node's (Image) dimensions
+        double nWidth = node.getBoundsInParent().getWidth();
+        double nHeight = node.getBoundsInParent().getHeight();
+        System.out.println("Node's dimensions are " + nWidth + " width and "
+                + nHeight + " height");
+
+        // How much space is left? Or is the image to big?
+        double widthLeft = pWidth - nWidth;
+        double heightLeft = pHeight - nHeight;
+        System.out.println("Width left: " + widthLeft
+                + " height left: " + heightLeft);
+
+        // scale the image to fit the page in width, height or both
+        double scale = 0;
+
+        if (widthLeft < heightLeft) {
+            scale = pWidth / nWidth;
+        } else {
+            scale = pHeight / nHeight;
         }
+
+        // preserve ratio (both values are the same)
+        node.getTransforms().add(new Scale(scale, scale));
+
+        // after scale you can check the size fit in the printable area
+        double newWidth = node.getBoundsInParent().getWidth();
+        double newHeight = node.getBoundsInParent().getHeight();
+        System.out.println("New Node's dimensions: " + newWidth
+                + " width " + newHeight + " height");
+
+
+        if (job == null) {
+            return;
+        }
+
+        boolean proceed = job.showPageSetupDialog(owner);
+        if(proceed){
+            this.printPreview(node,job);
+        }
+
+    }
+
+    private boolean printPreview(Node node, PrinterJob job){
+        TransactionPrintPreviewController transactionPrintPreviewController =
+                transactionPrintPreviewCV.getController();
+        Transaction transaction = null;
+        try{
+             transaction = Transaction.getTransaction(selectedTransactionId);
+        }
+        catch(Exception e){
+            e.getMessage();
+        }
+        if(transaction != null){
+            System.out.println("Previewing Transaction"
+                    + transaction.getTransactionId()
+                    +" before printing...");
+            stage.setScene(new Scene(fxWeaver.loadView(TransactionPrintPreviewController.class),1056,400));
+
+            stage.show();
+            transactionPrintPreviewController.populateTransactionRow(transaction,currentPrinter);
+
+
+
+            return  true;
+        }
+        return false;
+    }
+
+    private void createPrintPageNode(Node node){
 
     }
 

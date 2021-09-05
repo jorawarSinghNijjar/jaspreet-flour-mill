@@ -70,8 +70,6 @@ public class TransactionDetailController implements Initializable {
                 transactionId = transactions.get(i).getTransactionId();
                 time = transactions.get(i).getDate() +" " + transactions.get(i).getTime();
                 attaPickupQty = transactions.get(i).getAttaPickupQty();
-                System.out.println("Customer balance" +
-                        transactions.get(i).getCustomerBalanceGrindingCharges());
                 grindingCharges = transactions.get(i).getGrindingCharges();
                 grindingBalance = transactions.get(i).getCustomerBalanceGrindingCharges();
                 grindingRate = transactions.get(i).getGrindingRate();
@@ -111,7 +109,6 @@ public class TransactionDetailController implements Initializable {
 
         List<Transaction> transactions = new ArrayList<>();
         for(Transaction transaction: responseEntity){
-            System.out.println(transaction.getTransactionId());
             transactions.add(transaction);
         }
 

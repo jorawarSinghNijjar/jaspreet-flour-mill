@@ -1,4 +1,6 @@
 com\jaspreetFlourMill\accountManagement\controllers\ContentController.class
+com\jaspreetFlourMill\accountManagement\controllers\TransactionPrintPreviewController.class
+com\jaspreetFlourMill\accountManagement\controllers\TransactionDetailItemController$1.class
 com\jaspreetFlourMill\accountManagement\StageInitializer.class
 com\jaspreetFlourMill\accountManagement\util\NavigationHandler.class
 com\jaspreetFlourMill\accountManagement\util\UserSession$UserType.class

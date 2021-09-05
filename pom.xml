@@ -116,6 +116,11 @@
 			<artifactId>jiconfont-font_awesome</artifactId>
 			<version>4.7.0.1</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional>
+		</dependency>
 	</dependencies>
 
 	<build>
