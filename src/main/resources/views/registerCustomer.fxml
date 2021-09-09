@@ -10,13 +10,14 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="700.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.RegisterCustomerController">
+<AnchorPane prefHeight="700.0" prefWidth="800.0" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.RegisterCustomerController">
    <children>
       <Label alignment="CENTER" layoutX="280.0" layoutY="60.0" prefHeight="54.0" prefWidth="228.0" styleClass="h2" stylesheets="@css/main.css" text="Enter Customer Details" textAlignment="CENTER" />
-      <GridPane layoutX="150.0" layoutY="130.0" prefHeight="450.0" prefWidth="500.0">
+      <GridPane fx:id="customerDetailFormGrid" hgap="20.0" layoutX="96.0" layoutY="130.0" prefHeight="450.0" prefWidth="650.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="276.0" minWidth="10.0" prefWidth="163.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="398.0" minWidth="10.0" prefWidth="398.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="276.0" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="398.0" minWidth="10.0" prefWidth="250.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="398.0" minWidth="10.0" prefWidth="250.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />

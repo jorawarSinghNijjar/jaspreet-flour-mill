@@ -13,6 +13,7 @@ com\jaspreetFlourMill\accountManagement\controllers\ModalImageViewController.cla
 com\jaspreetFlourMill\accountManagement\model\CustomerAccount.class
 com\jaspreetFlourMill\accountManagement\controllers\AddTransactionController$1.class
 com\jaspreetFlourMill\accountManagement\controllers\ContentController$1.class
+com\jaspreetFlourMill\accountManagement\util\ValidatedResponse.class
 com\jaspreetFlourMill\accountManagement\controllers\RegisterCustomerController.class
 com\jaspreetFlourMill\accountManagement\model\SalesList.class
 com\jaspreetFlourMill\accountManagement\util\UserSession.class
@@ -27,6 +28,7 @@ com\jaspreetFlourMill\accountManagement\model\Transaction.class
 com\jaspreetFlourMill\accountManagement\controllers\RegisterEmployeeController.class
 com\jaspreetFlourMill\accountManagement\controllers\HomeController.class
 com\jaspreetFlourMill\accountManagement\controllers\TransactionDetailItemController.class
+com\jaspreetFlourMill\accountManagement\util\FormValidation.class
 com\jaspreetFlourMill\accountManagement\util\PrintTransaction.class
 com\jaspreetFlourMill\accountManagement\controllers\CustomerDetailsController.class
 com\jaspreetFlourMill\accountManagement\model\Employee.class

@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="368.0" prefWidth="1136.0" style="-fx-border-style: solid hidden hidden hidden; -fx-border-color: #272635; -fx-border-width: 3;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.TransactionDetailController">
+<AnchorPane stylesheets="@css/main.css" prefHeight="368.0" prefWidth="1136.0" style="-fx-border-style: solid hidden hidden hidden; -fx-border-color: #272635; -fx-border-width: 3;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.TransactionDetailController">
    <children>
       <HBox layoutY="3.0" prefHeight="68.0" prefWidth="1136.0" spacing="5.0" style="-fx-background-color: #DEF2F1;">
          <children>

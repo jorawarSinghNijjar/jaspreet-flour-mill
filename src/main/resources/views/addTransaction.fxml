@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="400.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.AddTransactionController">
+<AnchorPane prefHeight="400.0" prefWidth="500.0" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.AddTransactionController">
    <children>
       <Label alignment="CENTER" layoutX="-3.0" layoutY="43.0" prefHeight="50.0" prefWidth="518.0" styleClass="h2" stylesheets="@css/main.css" text="Enter Transaction Details" />
       <GridPane alignment="CENTER" layoutX="56.0" layoutY="93.0" prefHeight="250.0" prefWidth="400.0">

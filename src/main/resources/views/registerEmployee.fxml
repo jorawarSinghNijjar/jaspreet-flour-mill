@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="700.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.RegisterEmployeeController">
+<AnchorPane stylesheets="@css/main.css" prefHeight="700.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.RegisterEmployeeController">
    <children>
       <Label alignment="CENTER" layoutX="280.0" layoutY="60.0" prefHeight="56.0" prefWidth="309.0" styleClass="h2" stylesheets="@css/main.css" text="Enter Employee Details" />
       <GridPane layoutX="150.0" layoutY="130.0" prefHeight="450.0" prefWidth="500.0">

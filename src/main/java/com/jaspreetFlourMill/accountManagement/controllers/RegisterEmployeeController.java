@@ -9,6 +9,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import net.rgielen.fxweaver.core.FxmlView;
+//import net.synedra.validatorfx.Validator;
 import org.springframework.http.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -46,8 +47,6 @@ public class RegisterEmployeeController implements Initializable {
     private boolean validForm = true;
 
     @Override
-
-
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
