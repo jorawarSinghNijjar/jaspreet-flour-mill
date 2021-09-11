@@ -3,6 +3,7 @@ package com.jaspreetFlourMill.accountManagement.controllers;
 import com.jaspreetFlourMill.accountManagement.StageReadyEvent;
 import com.jaspreetFlourMill.accountManagement.model.Customer;
 import com.jaspreetFlourMill.accountManagement.util.FormValidation;
+import com.jaspreetFlourMill.accountManagement.util.Util;
 import com.jaspreetFlourMill.accountManagement.util.ValidatedResponse;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -10,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -36,6 +38,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 @Component
@@ -60,21 +63,50 @@ public class RegisterCustomerController implements Initializable, ApplicationLis
     private TextField customerNameField;
 
     @FXML
+    private Label customerNameValidLabel;
+
+    @FXML
     private TextField customerAddressField;
+
+    @FXML
+    private Label customerAddressValidLabel;
 
     @FXML
     private TextField customerPhoneNumberField;
 
     @FXML
+    private Label customerPhoneNumberValidLabel;
+
+    @FXML
     private TextField customerRationCardNoField;
+
+    @FXML
+    private Label customerRationNumberValidLabel;
 
     @FXML
     private DatePicker customerDOBField;
 
     @FXML
+    private Label customerDobValidLabel;
+
+    @FXML
     private TextField customerAdhaarNoField;
 
+    @FXML
+    private Label customerAdhaarNumberValidLabel;
+
+    @FXML
+    private Label customerIdProofValidLabel;
+
+    @FXML
+    private Label customerRegisterAlertMsg;
+
+    @FXML
+    private Button registerCustomerBtn;
+
     private Label valResponseLabel;
+
+    private FormValidation customerFormValidation;
 
     private boolean validForm;
 
@@ -91,10 +123,22 @@ public class RegisterCustomerController implements Initializable, ApplicationLis
     public void initialize(URL url, ResourceBundle resourceBundle) {
          fileChooser = new FileChooser();
         IconFontFX.register(GoogleMaterialDesignIcons.getIconFont());
-        valResponseLabel =  new Label();
-        customerDetailFormGrid.add(valResponseLabel,2,0,1,1);
+
+        registerCustomerBtn.setDisable(true);
+
         validForm = false;
+
+        customerFormValidation = new FormValidation();
+        customerFormValidation.getFormFields().put("name",false);
+        customerFormValidation.getFormFields().put("address",false);
+        customerFormValidation.getFormFields().put("phone-number",false);
+        customerFormValidation.getFormFields().put("ration-card-number",false);
+        customerFormValidation.getFormFields().put("dob",false);
+        customerFormValidation.getFormFields().put("adhaar-number",false);
+        customerFormValidation.getFormFields().put("id-proof",false);
+
         this.addEventListeners();
+
     }
 
     @FXML
@@ -103,6 +147,11 @@ public class RegisterCustomerController implements Initializable, ApplicationLis
             File selectedFile = fileChooser.showOpenDialog(stage);
             if(selectedFile != null){
                 idProofFileLabel.setText(selectedFile.getAbsolutePath());
+                boolean valid = FormValidation.isIdProof(
+                        selectedFile,
+                        customerIdProofValidLabel
+                ).isValid();
+                customerFormValidation.getFormFields().put("id-proof",valid);
             }
         }
         catch(Exception e){
@@ -114,6 +163,10 @@ public class RegisterCustomerController implements Initializable, ApplicationLis
 
     @FXML
     public void registerCustomerSubmit(ActionEvent event){
+        if(!this.validateForm()){
+            return;
+        }
+
         String customerName = customerNameField.getText();
         String customerAddress = customerAddressField.getText();
         String customerPhoneNumber = customerPhoneNumberField.getText();
@@ -121,16 +174,8 @@ public class RegisterCustomerController implements Initializable, ApplicationLis
         LocalDate customerDOB = customerDOBField.getValue();
         String customerAdhaarNo = customerAdhaarNoField.getText();
 
-//        boolean validForm = this.validate();
-
-        if(!validForm){
-            return;
-        }
-
         Customer newCustomer = new Customer(customerName,customerAddress,customerPhoneNumber,customerRationCardNo,
                 customerDOB,customerAdhaarNo,idProofFileLabel.getText());
-
-//        System.out.println(newCustomer.toString());
 
         if(newCustomer != null){
             // POST request to register employee
@@ -152,21 +197,74 @@ public class RegisterCustomerController implements Initializable, ApplicationLis
 
     private void addEventListeners(){
         customerNameField.textProperty().addListener((observableValue, s, t1) -> {
-            validForm = this.validate();
+            boolean validName = FormValidation.isName(
+                    customerNameField.getText(),
+                    customerNameValidLabel
+            ).isValid();
+            customerFormValidation.getFormFields().put("name",validName);
+            this.validateForm();
+
+        });
+
+        customerPhoneNumberField.textProperty().addListener((observableValue, s, t1) -> {
+            boolean validPhoneNumber = FormValidation.isPhoneNumber(
+                    customerPhoneNumberField.getText(),
+                    customerPhoneNumberValidLabel
+            ).isValid();
+            customerFormValidation.getFormFields().put("phone-number",validPhoneNumber);
+            this.validateForm();
+        });
+
+        customerAdhaarNoField.textProperty().addListener((observableValue, s, t1) -> {
+            boolean validAdhaarNumber = FormValidation.isAdhaarNumber(
+                    customerAdhaarNoField.getText(),
+                    customerAdhaarNumberValidLabel
+                    ).isValid();
+            customerFormValidation.getFormFields().put("adhaar-number",validAdhaarNumber);
+            this.validateForm();
+        });
+
+        customerRationCardNoField.textProperty().addListener((observableValue, s, t1) -> {
+            boolean validRationNumber = FormValidation.isRationCardNumber(
+                    customerRationCardNoField.getText(),
+                    customerRationNumberValidLabel
+            ).isValid();
+            customerFormValidation.getFormFields().put("ration-card-number",validRationNumber);
+            this.validateForm();
+        });
+
+        customerDOBField.valueProperty().addListener((observableValue, localDate, t1) -> {
+            boolean validDob = FormValidation.isDob(
+                    customerDOBField.getValue(),
+                    customerDobValidLabel
+            ).isValid();
+            customerFormValidation.getFormFields().put("dob",validDob);
+            this.validateForm();
+        });
+
+        customerAddressField.textProperty().addListener((observableValue, localDate, t1) -> {
+            boolean validAddress = FormValidation.isAddress(
+                    customerAddressField.getText(),
+                    customerAddressValidLabel
+            ).isValid();
+            customerFormValidation.getFormFields().put("address",validAddress);
+            this.validateForm();
         });
     }
 
-    private void removeEventListeners(){
-//        customerNameField.textProperty().removeListener();
-    }
-
-    private boolean validate(){
-        ValidatedResponse customerNameValResp = FormValidation.isName(
-                customerNameField.getText(),
-                valResponseLabel
-        );
-
-        return false;
+    private boolean validateForm(){
+        if(customerFormValidation.getFormFields().containsValue(false)){
+            customerRegisterAlertMsg.setText("Please fill the form correctly");
+            customerRegisterAlertMsg.getStyleClass().add("validate-err");
+            registerCustomerBtn.setDisable(true);
+            return false;
+        }
+        else{
+            customerRegisterAlertMsg.setText("");
+            customerRegisterAlertMsg.getStyleClass().clear();
+            registerCustomerBtn.setDisable(false);
+            return true;
+        }
     }
 
 }
