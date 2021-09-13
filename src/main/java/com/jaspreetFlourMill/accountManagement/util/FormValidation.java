@@ -58,7 +58,7 @@ public class FormValidation {
     }
 
     public static ValidatedResponse isRationCardNumber(String rationCardNumber, Label responseLabel){
-        String exp = "^[0-9]{4}\s[0-9]{4}\s[0-9]{4}$";
+        String exp = "^[0-9]{4}(\\s?|-?)[0-9]{4}(\\s?|-?)[0-9]{4}$";
         boolean valid = rationCardNumber.matches(exp);
         String msg = "Invalid Ration Card Number";
         return validationResponse(responseLabel,valid,msg);

@@ -153,13 +153,13 @@
 
 .validate-err{
     -fx-text-fill: #fdca40;
-    -fx-font-size: 16px;
+    -fx-font-size: 12px;
     -fx-font-weight:bold;
 }
 
 .validate-success{
       -fx-text-fill: #002B00;
-      -fx-font-size: 16px;
+      -fx-font-size: 12px;
       -fx-font-weight:bold;
 }
 
