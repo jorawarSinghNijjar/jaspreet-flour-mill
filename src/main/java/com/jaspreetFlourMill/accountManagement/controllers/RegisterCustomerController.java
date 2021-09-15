@@ -152,6 +152,7 @@ public class RegisterCustomerController implements Initializable, ApplicationLis
                         customerIdProofValidLabel
                 ).isValid();
                 customerFormValidation.getFormFields().put("id-proof",valid);
+                this.validateForm();
             }
         }
         catch(Exception e){
@@ -164,6 +165,7 @@ public class RegisterCustomerController implements Initializable, ApplicationLis
     @FXML
     public void registerCustomerSubmit(ActionEvent event){
         if(!this.validateForm()){
+            customerRegisterAlertMsg.setText("Please fill the form correctly");
             return;
         }
 
@@ -254,7 +256,7 @@ public class RegisterCustomerController implements Initializable, ApplicationLis
 
     private boolean validateForm(){
         if(customerFormValidation.getFormFields().containsValue(false)){
-            customerRegisterAlertMsg.setText("Please fill the form correctly");
+//            customerRegisterAlertMsg.setText("Please fill the form correctly");
             customerRegisterAlertMsg.getStyleClass().add("validate-err");
             registerCustomerBtn.setDisable(true);
             return false;
