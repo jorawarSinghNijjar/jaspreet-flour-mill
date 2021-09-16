@@ -79,6 +79,21 @@ public class FormValidation {
         return validationResponse(responseLabel,valid,msg);
     }
 
+    public static ValidatedResponse isPassword(String password, Label responseLabel){
+        String exp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$";
+        boolean valid = password.matches(exp);
+        String msg = "Minimum eight characters, at least one uppercase letter, one lowercase letter and one number:";
+        return validationResponse(responseLabel,valid,msg);
+    }
+
+
+    public static ValidatedResponse isConfPassword(String password, String confPassword, Label responseLabel){
+        boolean valid = password.equals(confPassword);
+        String msg = "Password does not match";
+        return validationResponse(responseLabel,valid,msg);
+    }
+
+
     public static ValidatedResponse validationResponse(Label responseLabel, boolean valid,String msg){
         IconFontFX.register(GoogleMaterialDesignIcons.getIconFont());
 

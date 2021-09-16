@@ -326,6 +326,10 @@ public class TransactionPrintPreviewController implements Initializable, Applica
         }
         else{
             System.out.println("Printing failed....");
+            stage.setScene(new Scene(fxWeaver.loadView(ContentController.class),1366,768));
+            stage.setX(0);
+            stage.setY(0);
+            stage.show();
         }
     }
 

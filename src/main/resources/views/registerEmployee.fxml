@@ -10,13 +10,14 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane stylesheets="@css/main.css" prefHeight="700.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.RegisterEmployeeController">
+<AnchorPane prefHeight="700.0" prefWidth="800.0" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.RegisterEmployeeController">
    <children>
       <Label alignment="CENTER" layoutX="280.0" layoutY="60.0" prefHeight="56.0" prefWidth="309.0" styleClass="h2" stylesheets="@css/main.css" text="Enter Employee Details" />
-      <GridPane layoutX="150.0" layoutY="130.0" prefHeight="450.0" prefWidth="500.0">
+      <GridPane hgap="20.0" layoutX="96.0" layoutY="130.0" prefHeight="450.0" prefWidth="650.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="249.0" minWidth="10.0" prefWidth="151.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="349.0" minWidth="10.0" prefWidth="349.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="249.0" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="349.0" minWidth="10.0" prefWidth="205.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="349.0" minWidth="10.0" prefWidth="177.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -30,7 +31,7 @@
          <children>
             <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Name" />
             <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Password" GridPane.rowIndex="1" />
-            <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Contact No." GridPane.rowIndex="3" />
+            <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Phone Number" GridPane.rowIndex="3" />
             <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Address" GridPane.rowIndex="4" />
             <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Job Designation" GridPane.rowIndex="5" />
             <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Date of Birth" GridPane.rowIndex="6" />
@@ -42,8 +43,15 @@
             <DatePicker fx:id="employeeDOBField" prefHeight="35.0" prefWidth="351.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <PasswordField fx:id="employeeConfirmPasswordField" prefHeight="35.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <PasswordField fx:id="employeePasswordField" prefHeight="35.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label fx:id="employeeNameValidLabel" prefHeight="45.0" prefWidth="255.0" wrapText="true" GridPane.columnIndex="2" />
+            <Label fx:id="employeePasswordValidLabel" prefHeight="45.0" prefWidth="255.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Label fx:id="employeeConfPasswordValidLabel" prefHeight="45.0" prefWidth="255.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Label fx:id="employeePhoneNumberValidLabel" prefHeight="45.0" prefWidth="255.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <Label fx:id="employeeAddressValidLabel" prefHeight="45.0" prefWidth="255.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <Label fx:id="employeeDesignationValidLabel" prefHeight="45.0" prefWidth="255.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+            <Label fx:id="employeeDobValidLabel" prefHeight="45.0" prefWidth="255.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="6" />
          </children>
       </GridPane>
-      <Button layoutX="285.0" layoutY="607.0" mnemonicParsing="false" onAction="#submitRegisterEmployee" prefHeight="35.0" prefWidth="300.0" styleClass="secondary-btn" stylesheets="@css/main.css" text="Submit" />
+      <Button fx:id="registerEmployeeBtn" layoutX="285.0" layoutY="607.0" mnemonicParsing="false" onAction="#submitRegisterEmployee" prefHeight="35.0" prefWidth="300.0" styleClass="secondary-btn" stylesheets="@css/main.css" text="Submit" />
    </children>
 </AnchorPane>
