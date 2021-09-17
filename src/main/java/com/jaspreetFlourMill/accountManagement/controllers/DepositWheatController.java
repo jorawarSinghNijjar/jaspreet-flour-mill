@@ -2,8 +2,11 @@ package com.jaspreetFlourMill.accountManagement.controllers;
 
 import com.jaspreetFlourMill.accountManagement.model.Customer;
 import com.jaspreetFlourMill.accountManagement.model.CustomerAccount;
+import com.jaspreetFlourMill.accountManagement.util.FormValidation;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.http.*;
@@ -25,10 +28,73 @@ public class DepositWheatController implements Initializable {
     @FXML
     private TextField wheatProcessingDeductionQtyInput;
 
+    @FXML
+    private Label customerIdValidLabel;
+
+    @FXML
+    private Label wheatDepositQtyValidLabel;
+
+    @FXML
+    private Label wheatDedQtyValidLabel;
+
+    @FXML
+    private Button wheatDepositSubmitBtn;
+
+    private FormValidation wheatDepositFormValidation;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        wheatDepositSubmitBtn.setDisable(true);
+
+        wheatDepositFormValidation = new FormValidation();
+        wheatDepositFormValidation.getFormFields().put("customer-id", false);
+        wheatDepositFormValidation.getFormFields().put("wheat-deposit-qty",false);
+        wheatDepositFormValidation.getFormFields().put("wheat-ded-qty",false);
+
+        this.addEventListeners();
+    }
+
+    private void addEventListeners() {
+        customerIdInputDepositPage.textProperty().addListener((observableValue, oldVal, newVal) -> {
+            boolean validCustomerId = FormValidation.isInteger(
+                    newVal,
+                    customerIdValidLabel
+            ).isValid();
+            wheatDepositFormValidation.getFormFields().put("customer-id",validCustomerId);
+            this.validateForm();
+        });
+
+        wheatDepositQtyInput.textProperty().addListener((observableValue, oldVal, newVal) -> {
+            boolean validDepositQty = FormValidation.isDouble(
+                    newVal,
+                    wheatDepositQtyValidLabel
+            ).isValid();
+            wheatDepositFormValidation.getFormFields().put("wheat-deposit-qty",validDepositQty);
+            this.validateForm();
+        });
+
+        wheatProcessingDeductionQtyInput.textProperty().addListener((observableValue, oldVal, newVal) -> {
+            boolean validDedQty = FormValidation.isDouble(
+                    newVal,
+                    wheatDedQtyValidLabel
+            ).isValid();
+            wheatDepositFormValidation.getFormFields().put("wheat-ded-qty",validDedQty);
+            this.validateForm();
+        });
 
     }
+
+    private boolean validateForm() {
+        if(wheatDepositFormValidation.getFormFields().containsValue(false)){
+            wheatDepositSubmitBtn.setDisable(true);
+            return false;
+        }
+        else{
+            wheatDepositSubmitBtn.setDisable(false);
+            return true;
+        }
+    }
+
 
     @FXML
     public void submitWheatDeposit(){

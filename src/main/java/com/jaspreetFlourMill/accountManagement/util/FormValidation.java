@@ -93,6 +93,19 @@ public class FormValidation {
         return validationResponse(responseLabel,valid,msg);
     }
 
+    public static ValidatedResponse isInteger(String val, Label responseLabel){
+        String exp = "^[1-9]\\d*$";
+        boolean valid = val.matches(exp);
+        String msg = "Only integer value";
+        return validationResponse(responseLabel,valid,msg);
+    }
+
+    public static ValidatedResponse isDouble(String val, Label responseLabel){
+        String exp = "[+-]?\\d*\\.?\\d+";
+        boolean valid = val.matches(exp);
+        String msg = "Only decimal or integer value";
+        return validationResponse(responseLabel,valid,msg);
+    }
 
     public static ValidatedResponse validationResponse(Label responseLabel, boolean valid,String msg){
         IconFontFX.register(GoogleMaterialDesignIcons.getIconFont());
