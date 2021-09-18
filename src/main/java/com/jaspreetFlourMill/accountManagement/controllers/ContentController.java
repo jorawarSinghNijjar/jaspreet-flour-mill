@@ -133,6 +133,11 @@ public class ContentController implements  Initializable, ApplicationListener<St
         if(!AuthController.currentSession.getUserType().equals(UserSession.UserType.ADMIN)){
             sideMenuBox.getChildren().remove(registerEmployeeButton);
         }
+        else {
+            sideMenuBox.getChildren().remove(addTransactionButton);
+            sideMenuBox.getChildren().remove(wheatDepositButton);
+            sideMenuBox.getChildren().remove(registerCustomerButton);
+        }
 
         showHome();
 
