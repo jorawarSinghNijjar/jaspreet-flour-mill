@@ -29,9 +29,9 @@
             <Label fx:id="grindingChargesDisplay" alignment="CENTER" prefHeight="17.0" prefWidth="117.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
-      <ComboBox fx:id="salesSummaryTypeComboBox" layoutX="61.0" layoutY="100.0" prefWidth="150.0" promptText="Select sales period" />
-      <ComboBox fx:id="salesMonthComboBox" layoutX="61.0" layoutY="145.0" prefWidth="150.0" promptText="Select month" />
-      <ComboBox fx:id="salesYearComboBox" layoutX="61.0" layoutY="183.0" prefWidth="150.0" promptText="Select year" />
-      <ComboBox fx:id="salesYearforMonthComboBox" layoutX="261.0" layoutY="145.0" prefWidth="150.0" promptText="Select year for month" />
+      <ComboBox fx:id="salesSummaryTypeComboBox" layoutX="61.0" layoutY="100.0" prefWidth="250.0" promptText="Select sales period" />
+      <ComboBox fx:id="salesMonthComboBox" layoutX="61.0" layoutY="145.0" prefWidth="200.0" promptText="Select month" />
+      <ComboBox fx:id="salesYearComboBox" layoutX="61.0" layoutY="183.0" prefWidth="200.0" promptText="Select year" />
+      <ComboBox fx:id="salesYearforMonthComboBox" layoutX="300.0" layoutY="145.0" prefWidth="250.0" promptText="Select year for month" />
    </children>
 </AnchorPane>

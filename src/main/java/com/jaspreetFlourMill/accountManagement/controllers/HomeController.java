@@ -1,13 +1,11 @@
 package com.jaspreetFlourMill.accountManagement.controllers;
 
 import com.jaspreetFlourMill.accountManagement.model.Sales;
-import com.jaspreetFlourMill.accountManagement.model.SalesToday;
+import com.jaspreetFlourMill.accountManagement.util.Util;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -15,13 +13,10 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import net.rgielen.fxweaver.core.FxmlView;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
 import java.net.URL;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -54,8 +49,8 @@ public class HomeController implements Initializable {
     @FXML
     private ComboBox salesYearComboBox;
 
-    private NumberAxis xAxis;
-    private NumberAxis yAxis;
+    private NumberAxis salesQtyXAxis;
+    private NumberAxis salesQtyYAxis;
 
     private XYChart.Series wheatSalesSeries;
 
@@ -63,7 +58,7 @@ public class HomeController implements Initializable {
 
     private XYChart.Series grindingChargesSeries;
 
-    private LineChart<Number,Number> lineChart;
+    private LineChart<Number,Number> salesQtyChart;
 
     private int currentDisplaySalesMonth;
 
@@ -81,7 +76,13 @@ public class HomeController implements Initializable {
 
     private int daysInCurrentMonth;
 
+    private NumberAxis salesAmtXAxis;
+    private NumberAxis salesAmtYAxis;
+    private LineChart<Number, Number> salesAmtChart;
+
     private boolean salesMonthIsSelected;
+
+    private boolean salesYearForMonthIsSelected;
 
 
     @Override
@@ -100,7 +101,8 @@ public class HomeController implements Initializable {
         currentDisplaySalesMonth = currentMonth;
 
         // Initialize Line Chart
-        this.initializeLineChart();
+        this.initializeSalesQtyLineChart();
+        this.initializeSalesAmtLineChart();
 
         // Hide monthly and yearly comboBox
         this.setSalesMonthComboBoxVisibility(false);
@@ -108,6 +110,7 @@ public class HomeController implements Initializable {
         this.setSalesYearforMonthComboBoxVisibility(false);
 
         salesMonthIsSelected = false;
+        salesYearForMonthIsSelected = false;
 
         // Months add list
         ObservableList<Integer> months =
@@ -149,7 +152,8 @@ public class HomeController implements Initializable {
                             this.setSalesYearComboBoxVisibility(false);
                             this.setSalesYearforMonthComboBoxVisibility(true);
                             this.displaySalesForMonth(currentMonth,currentYear);
-                            xAxis.setUpperBound(31);
+                            salesQtyXAxis.setUpperBound(31);
+                            salesAmtXAxis.setUpperBound(31);
                             break;
 
                         case "Yearly":
@@ -158,9 +162,12 @@ public class HomeController implements Initializable {
                             this.setSalesYearforMonthComboBoxVisibility(false);
                             this.setSalesYearComboBoxVisibility(true);
                             this.displaySalesforYear(currentYear);
-                            xAxis.setLabel("Year");
-                            xAxis.setUpperBound(12);
+                            salesQtyXAxis.setLabel("Year");
+                            salesQtyXAxis.setUpperBound(12);
+                            salesAmtXAxis.setLabel("Year");
+                            salesAmtXAxis.setUpperBound(12);
                             break;
+
                         default:
                             System.out.println("Please select a valid option");
                     }
@@ -172,23 +179,46 @@ public class HomeController implements Initializable {
                     .addListener((options,oldValue,newValue) ->{
                         currentDisplaySalesMonth = Integer.parseInt(newValue.toString());
                         salesMonthIsSelected = true;
+
+                        if(salesYearForMonthIsSelected){
+                            this.displaySalesForMonth(
+                                    currentDisplaySalesMonth, currentDisplayYearForSalesMonth
+                            );
+                            Calendar cal = Calendar.getInstance();
+                            cal.set(Calendar.MONTH,currentDisplaySalesMonth-1);
+                            salesQtyXAxis.setLabel(
+                                    cal.getDisplayName(Calendar.MONTH,Calendar.LONG, Locale.getDefault())
+                            );
+                            salesAmtXAxis.setLabel(
+                                    cal.getDisplayName(Calendar.MONTH,Calendar.LONG, Locale.getDefault())
+                            );
+                        }
+                        else {
+                            System.out.println("Please select year for the month");
+                        }
+
                     });
 
         salesYearforMonthComboBox.getSelectionModel().selectedItemProperty()
                 .addListener((options,oldValue,newValue) ->{
                     currentDisplayYearForSalesMonth = Integer.parseInt(newValue.toString());
+                    salesYearForMonthIsSelected = true;
+
                     if(salesMonthIsSelected){
                         this.displaySalesForMonth(
                                 currentDisplaySalesMonth, currentDisplayYearForSalesMonth
                         );
                         Calendar cal = Calendar.getInstance();
                         cal.set(Calendar.MONTH,currentDisplaySalesMonth-1);
-                        xAxis.setLabel(
+                        salesQtyXAxis.setLabel(
+                                cal.getDisplayName(Calendar.MONTH,Calendar.LONG, Locale.getDefault())
+                        );
+                        salesAmtXAxis.setLabel(
                                 cal.getDisplayName(Calendar.MONTH,Calendar.LONG, Locale.getDefault())
                         );
                     }
                     else {
-                        System.out.println("Please select year for the month");
+                        System.out.println("Please select a month");
                     }
 
                 });
@@ -200,38 +230,16 @@ public class HomeController implements Initializable {
             this.displaySalesforYear(currentDisplaySalesYear);
         });
 
-
-
-//        // Monthly sales get request
-//        Sales[] salesForMonth = Sales.getSalesForMonth(
-//                Integer.toString(month),Integer.toString(year)
-//        );
-
-
-//        for(int i=0; i < salesForMonth.length; i++ ){
-//            monthlyWheatSold += salesForMonth[i].getTotalWheatSold();
-//            monthlyGrindingAmountReceived += salesForMonth[i].getTotalGrindingChargesPaid();
-//            monthlyGrindingAmount += salesForMonth[i].getTotalGrindingCharges();
-//        }
-//
-//        //populating the series with data
-//        for(int i=0; i < salesForMonth.length; i++){
-//            double totalWheatSold = salesForMonth[i].getTotalWheatSold();
-//            double grindingChargesPaid = salesForMonth[i].getTotalGrindingChargesPaid();
-//            double grindingCharges = salesForMonth[i].getTotalGrindingCharges();
-//            int dayForSale = salesForMonth[i].getDay();
-//            wheatSalesSeries.getData().add(new XYChart.Data(dayForSale,totalWheatSold));
-//            grindingChargesPaidSeries.getData().add(new XYChart.Data(dayForSale,grindingChargesPaid));
-//            grindingChargesSeries.getData().add(new XYChart.Data(dayForSale,grindingCharges));
-//        }
-
     }
+
 
     // Display Sales for today
     private void displaySalesForToday(String currentDay){
         try{
-            lineChart.getData().clear();
-            this.initializeSeries();
+            salesQtyChart.getData().clear();
+            salesAmtChart.getData().clear();
+            this.initializeSalesQtySeries();
+            this.initializeSalesAmtSeries();
             Sales salesToday = Sales.getSalesForToday(currentDay);
 
             if(salesToday!=null){
@@ -253,9 +261,12 @@ public class HomeController implements Initializable {
     }
     // Display Sales for month
     private void displaySalesForMonth(int month,int year){
+        System.out.println("displaySalesForMonth()");
         try {
-            lineChart.getData().clear();
-            this.initializeSeries();
+            salesQtyChart.getData().clear();
+            salesAmtChart.getData().clear();
+            this.initializeSalesQtySeries();
+            this.initializeSalesAmtSeries();
             Sales[] salesForMonth = Sales.getSalesForMonth(month,year);
 //            this.printTotalWheatSold(salesForMonth);
 
@@ -269,6 +280,11 @@ public class HomeController implements Initializable {
                     monthlyGrindingAmount+=sale.getTotalGrindingCharges();
                     monthlyGrindingAmountReceived+=sale.getTotalGrindingChargesPaid();
                 }
+
+                // Round off to 2 decimal places
+                monthlyWheatSold = Util.roundOff(monthlyWheatSold);
+                monthlyGrindingAmount = Util.roundOff(monthlyGrindingAmount);
+                monthlyGrindingAmountReceived = Util.roundOff(monthlyGrindingAmountReceived);
 
                 wheatSoldDisplay.setText(String.valueOf(monthlyWheatSold));
                 grindingChargesPaidDisplay.setText(String.valueOf(monthlyGrindingAmountReceived));
@@ -293,9 +309,12 @@ public class HomeController implements Initializable {
     }
     // Display Sales for year
     private void displaySalesforYear(int year){
+        System.out.println("displaySalesForYear()");
         try {
-            lineChart.getData().clear();
-            this.initializeSeries();
+            salesQtyChart.getData().clear();
+            salesAmtChart.getData().clear();
+            this.initializeSalesQtySeries();
+            this.initializeSalesAmtSeries();
             Sales[] salesForYear = Sales.getSalesForYear(year);
 
             if(salesForYear != null && salesForYear.length !=0){
@@ -310,13 +329,18 @@ public class HomeController implements Initializable {
                     yearlyGrindingAmountReceived+=sale.getTotalGrindingChargesPaid();
                 }
 
+                // Round off to 2 decimal places
+                yearlyWheatSold = Util.roundOff(yearlyWheatSold);
+                yearlyGrindingAmount = Util.roundOff(yearlyGrindingAmount);
+                yearlyGrindingAmountReceived = Util.roundOff(yearlyGrindingAmountReceived);
+
                 wheatSoldDisplay.setText(String.valueOf(yearlyWheatSold));
                 grindingChargesPaidDisplay.setText(String.valueOf(yearlyGrindingAmountReceived));
                 grindingChargesDisplay.setText(String.valueOf(yearlyGrindingAmount));
 
                 this.populateDataToChart(wheatSalesSeries,salesForYear,"YEAR");
                 this.populateDataToChart(grindingChargesSeries,salesForYear,"YEAR");
-                this.populateDataToChart(grindingChargesPaidSeries,salesForYear,"YEARLY");
+                this.populateDataToChart(grindingChargesPaidSeries,salesForYear,"YEAR");
             }
             else{
                 System.out.println("No sales found in year: " + year);
@@ -406,51 +430,93 @@ public class HomeController implements Initializable {
             return true;
         }
         System.out.println("No sales for this month or year");
-        lineChart.getData().clear();
+        salesQtyChart.getData().clear();
+        salesAmtChart.getData().clear();
         return false;
 
     }
 
-    private void initializeLineChart(){
+    private void initializeSalesQtyLineChart(){
 // Initializing Line Graph
-        xAxis = new NumberAxis();
-        yAxis = new NumberAxis();
-        xAxis.setLabel("Date");
-        yAxis.setLabel("Sales");
+        salesQtyXAxis = new NumberAxis();
+        salesQtyYAxis = new NumberAxis();
+        salesQtyXAxis.setLabel("Date");
+        salesQtyYAxis.setLabel("Quantity");
 
-        xAxis.setAutoRanging(false);
-        xAxis.setLowerBound(0);
-        xAxis.setUpperBound(30);
-        xAxis.setTickUnit(1);
-        xAxis.setMinorTickVisible(false);
+        salesQtyXAxis.setAutoRanging(false);
+        salesQtyXAxis.setLowerBound(0);
+        salesQtyXAxis.setUpperBound(30);
+        salesQtyXAxis.setTickUnit(1);
+        salesQtyXAxis.setMinorTickVisible(false);
 
         //Creating the chart
-        lineChart = new LineChart<Number,Number>(xAxis,yAxis);
+        salesQtyChart = new LineChart<Number,Number>(salesQtyXAxis, salesQtyYAxis);
 
-        lineChart.setTitle("Account Monitoring");
+        salesQtyChart.setTitle("Sales By Quantity");
 
-        this.initializeSeries();
-        lineChart.setPrefSize(800,400);
-        lineChart.setLayoutX(200);
-        lineChart.setLayoutY(250);
-        homeContainer.getChildren().add(lineChart);
+        this.initializeSalesQtySeries();
+        salesQtyChart.setPrefSize(400,400);
+        salesQtyChart.setLayoutX(50);
+        salesQtyChart.setLayoutY(250);
+        homeContainer.getChildren().add(salesQtyChart);
 
     }
 
-    private void initializeSeries(){
+    private void initializeSalesAmtLineChart() {
+        // Initializing Line Graph
+        salesAmtXAxis = new NumberAxis();
+        salesAmtYAxis = new NumberAxis();
+        salesAmtXAxis.setLabel("Date");
+        salesAmtYAxis.setLabel("Amount");
+
+        salesAmtXAxis.setAutoRanging(false);
+        salesAmtXAxis.setLowerBound(0);
+        salesAmtXAxis.setUpperBound(30);
+        salesAmtXAxis.setTickUnit(1);
+        salesAmtXAxis.setMinorTickVisible(false);
+
+        //Creating the chart
+        salesAmtChart = new LineChart<Number,Number>(salesAmtXAxis, salesAmtYAxis);
+
+        salesAmtChart.setTitle("Sales By Amount");
+
+        this.initializeSalesAmtSeries();
+        salesAmtChart.setPrefSize(400,400);
+        salesAmtChart.setLayoutX(500);
+        salesAmtChart.setLayoutY(250);
+        homeContainer.getChildren().add(salesAmtChart);
+
+    }
+
+
+    private void initializeSalesQtySeries(){
         //Defining a series
         wheatSalesSeries = new XYChart.Series();
         wheatSalesSeries.setName("Wheat Sold");
+//        grindingChargesPaidSeries = new XYChart.Series();
+//        grindingChargesPaidSeries.setName("Grinding Charges Paid");
+//        grindingChargesSeries = new XYChart.Series();
+//        grindingChargesSeries.setName("Grinding Charges");
+
+        salesQtyChart.getData().add(wheatSalesSeries);
+//        salesQtyChart.getData().add(grindingChargesPaidSeries);
+//        salesQtyChart.getData().add(grindingChargesSeries);
+
+    }
+
+    private void initializeSalesAmtSeries(){
+        //Defining a series
         grindingChargesPaidSeries = new XYChart.Series();
         grindingChargesPaidSeries.setName("Grinding Charges Paid");
         grindingChargesSeries = new XYChart.Series();
         grindingChargesSeries.setName("Grinding Charges");
 
-        lineChart.getData().add(wheatSalesSeries);
-        lineChart.getData().add(grindingChargesPaidSeries);
-        lineChart.getData().add(grindingChargesSeries);
+        salesAmtChart.getData().add(grindingChargesPaidSeries);
+        salesAmtChart.getData().add(grindingChargesSeries);
 
     }
+
+
 
     private void printTotalWheatSold(Sales[] sales){
         System.out.println("Total wheat sold in month:  " + sales[0].getMonth());

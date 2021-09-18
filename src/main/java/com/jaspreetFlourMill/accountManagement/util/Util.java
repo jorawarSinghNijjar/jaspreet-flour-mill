@@ -18,4 +18,9 @@ public class Util {
         }
         return null;
     }
+
+    // Rounds off to  2 decimal places
+    public static double roundOff(double val){
+        return Math.round(val * 100.0) / 100.0;
+    }
 }
