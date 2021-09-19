@@ -1,5 +1,6 @@
 package com.jaspreetFlourMill.accountManagement.controllers;
 
+import com.jaspreetFlourMill.accountManagement.model.MonthlySales;
 import com.jaspreetFlourMill.accountManagement.model.Sales;
 import com.jaspreetFlourMill.accountManagement.util.Util;
 import javafx.collections.FXCollections;
@@ -290,9 +291,9 @@ public class HomeController implements Initializable {
                 grindingChargesPaidDisplay.setText(String.valueOf(monthlyGrindingAmountReceived));
                 grindingChargesDisplay.setText(String.valueOf(monthlyGrindingAmount));
 
-                this.populateDataToChart(wheatSalesSeries,salesForMonth,"MONTH");
-                this.populateDataToChart(grindingChargesSeries,salesForMonth,"MONTH");
-                this.populateDataToChart(grindingChargesPaidSeries,salesForMonth,"MONTH");
+                this.populateDailyDataToChart(wheatSalesSeries,salesForMonth,"MONTH");
+                this.populateDailyDataToChart(grindingChargesSeries,salesForMonth,"MONTH");
+                this.populateDailyDataToChart(grindingChargesPaidSeries,salesForMonth,"MONTH");
             }
             else{
                 System.out.println("No sales found in month: " + month);
@@ -315,6 +316,15 @@ public class HomeController implements Initializable {
             salesAmtChart.getData().clear();
             this.initializeSalesQtySeries();
             this.initializeSalesAmtSeries();
+
+            Map<Integer,MonthlySales> monthlySales = new HashMap<>();
+            for(int i=1; i <= 12; i++){
+
+                Sales[] salesForMonth = Sales.getSalesForMonth(i,year);
+
+                monthlySales.put(i,new MonthlySales(i,salesForMonth));
+            }
+
             Sales[] salesForYear = Sales.getSalesForYear(year);
 
             if(salesForYear != null && salesForYear.length !=0){
@@ -338,9 +348,9 @@ public class HomeController implements Initializable {
                 grindingChargesPaidDisplay.setText(String.valueOf(yearlyGrindingAmountReceived));
                 grindingChargesDisplay.setText(String.valueOf(yearlyGrindingAmount));
 
-                this.populateDataToChart(wheatSalesSeries,salesForYear,"YEAR");
-                this.populateDataToChart(grindingChargesSeries,salesForYear,"YEAR");
-                this.populateDataToChart(grindingChargesPaidSeries,salesForYear,"YEAR");
+                this.populateMonthlyDataToChart(wheatSalesSeries,monthlySales,"YEAR");
+                this.populateMonthlyDataToChart(grindingChargesSeries,monthlySales,"YEAR");
+                this.populateMonthlyDataToChart(grindingChargesPaidSeries,monthlySales,"YEAR");
             }
             else{
                 System.out.println("No sales found in year: " + year);
@@ -387,18 +397,17 @@ public class HomeController implements Initializable {
     }
 
     // Method to populate data to Line Chart
-    private boolean populateDataToChart(XYChart.Series series, Sales[] sales, String xAxisType){
+    private boolean populateDailyDataToChart(XYChart.Series series, Sales[] sales, String xAxisType){
         String seriesName = series.getName();
         if(sales!=null && sales.length!=0){
-            System.out.println(sales[0].getDay() + "-" +sales[0].getMonth()
-                    + "-"+sales[0].getYear() + " Total wheat sold : "
-                    + sales[0].getTotalWheatSold());
+//            System.out.println(sales[0].getDay() + "-" +sales[0].getMonth()
+//                    + "-"+sales[0].getYear() + " Total wheat sold : "
+//                    + sales[0].getTotalWheatSold());
             double data = 0.00;
 
             for(int i=0; i < sales.length; i++){
                 switch (seriesName){
                     case "Wheat Sold":
-
                         data = sales[i].getTotalWheatSold();
                         break;
                     case "Grinding Charges Paid":
@@ -411,21 +420,8 @@ public class HomeController implements Initializable {
                         System.out.println("No series found for: "+seriesName);
                 }
                 int dayForSale = sales[i].getDay();
-                int monthForSale = sales[i].getMonth();
 
-                switch (xAxisType){
-                    case "MONTH" :
-                        series.getData().add(new XYChart.Data(dayForSale,data));
-                        break;
-
-                    case "YEAR":
-                        series.getData().add(new XYChart.Data(monthForSale,data));
-                        break;
-                    default:
-                        System.out.println("No X-Axis type found");
-                }
-
-
+                series.getData().add(new XYChart.Data(dayForSale,data));
             }
             return true;
         }
@@ -436,8 +432,39 @@ public class HomeController implements Initializable {
 
     }
 
+    private boolean populateMonthlyDataToChart(XYChart.Series series, Map<Integer,MonthlySales> salesForMonth,
+                                               String xAxisType){
+        String seriesName = series.getName();
+        if(!salesForMonth.isEmpty()){
+            double data = 0.00;
+
+            for (Map.Entry<Integer, MonthlySales> entry : salesForMonth.entrySet()) {
+                int month = entry.getKey();
+                switch (seriesName){
+                    case "Wheat Sold":
+                        data = entry.getValue().getTotalWheatSold();
+                        break;
+                    case "Grinding Charges Paid":
+                        data = entry.getValue().getTotalGrindingAmountReceived();
+                        break;
+                    case "Grinding Charges":
+                        data = entry.getValue().getTotalGrindingAmount();
+                        break;
+                    default:
+                        System.out.println("No series found for: "+ seriesName);
+                }
+                series.getData().add(new XYChart.Data(month,data));
+            }
+            return true;
+        }
+        System.out.println("No sales for this month or year");
+        salesQtyChart.getData().clear();
+        salesAmtChart.getData().clear();
+        return false;
+    }
+
     private void initializeSalesQtyLineChart(){
-// Initializing Line Graph
+    // Initializing Line Graph
         salesQtyXAxis = new NumberAxis();
         salesQtyYAxis = new NumberAxis();
         salesQtyXAxis.setLabel("Date");

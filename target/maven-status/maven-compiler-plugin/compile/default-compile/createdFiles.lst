@@ -13,6 +13,7 @@ com\jaspreetFlourMill\accountManagement\controllers\ModalImageViewController.cla
 com\jaspreetFlourMill\accountManagement\model\CustomerAccount.class
 com\jaspreetFlourMill\accountManagement\controllers\AddTransactionController$1.class
 com\jaspreetFlourMill\accountManagement\controllers\ContentController$1.class
+com\jaspreetFlourMill\accountManagement\model\MonthlySales.class
 com\jaspreetFlourMill\accountManagement\util\ValidatedResponse.class
 com\jaspreetFlourMill\accountManagement\controllers\RegisterCustomerController.class
 com\jaspreetFlourMill\accountManagement\model\SalesList.class
