@@ -1,6 +1,7 @@
 package com.jaspreetFlourMill.accountManagement.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.jaspreetFlourMill.accountManagement.util.Util;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -128,7 +129,7 @@ public class CustomerAccount implements Serializable {
         return grindingChargesBalance;
     }
 
-    public void addWheatToAccount(double wheatDepositQty, double wheatProcessingDeductionQty){
+    public void addWheatToAccount(double wheatDepositQty, double wheatProcessingDeductionQty) throws Exception{
         this.wheatDepositQty += wheatDepositQty;
         this.initialWheatQty += (wheatDepositQty-wheatProcessingDeductionQty);
         this.currentWheatBalance = this.initialWheatQty;

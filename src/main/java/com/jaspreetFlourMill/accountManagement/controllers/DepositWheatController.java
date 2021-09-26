@@ -2,7 +2,9 @@ package com.jaspreetFlourMill.accountManagement.controllers;
 
 import com.jaspreetFlourMill.accountManagement.model.Customer;
 import com.jaspreetFlourMill.accountManagement.model.CustomerAccount;
+import com.jaspreetFlourMill.accountManagement.model.Sales;
 import com.jaspreetFlourMill.accountManagement.util.FormValidation;
+import com.jaspreetFlourMill.accountManagement.util.Util;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -113,6 +115,8 @@ public class DepositWheatController implements Initializable {
 
                 fetchedCustomerAccount.addWheatToAccount(wheatDepositQty,wheatProcessingDeductionQty);
                 CustomerAccount.updateCustomerAccount(customerId,fetchedCustomerAccount);
+                // add wheat to total wheat balance of company
+                Sales.addWheatDeposit(wheatDepositQty);
 
                 System.out.println("\n Customer Account Update Successful");
                 ContentController.navigationHandler.handleShowHome();
@@ -121,11 +125,13 @@ public class DepositWheatController implements Initializable {
                 {
                 CustomerAccount newCustomerAccount = new CustomerAccount(customer,wheatDepositQty,
                         wheatProcessingDeductionQty);
+                // add wheat to total wheat balance of company
+                Sales.addWheatDeposit(wheatDepositQty);
 
                 System.out.println("Updating Customer Account for" + newCustomerAccount.getCustomer().getName());
-
+                    System.out.println(newCustomerAccount.toString());
                 if(newCustomerAccount != null){
-                    // POST request to register employee
+                    // POST request to register customer account
                     final String uri =  "http://localhost:8080/customer-accounts/";
                     RestTemplate restTemplate = new RestTemplate();
 
@@ -135,16 +141,19 @@ public class DepositWheatController implements Initializable {
                     HttpEntity<CustomerAccount> req = new HttpEntity<>(newCustomerAccount,httpHeaders);
                     ResponseEntity<String> result = restTemplate.exchange(uri, HttpMethod.POST,req,String.class);
                     System.out.println(result);
-                    if(result != null){
+                    if(result.getStatusCode() == HttpStatus.OK){
                         System.out.println("Customer Acccount Created Successfully "+result.getBody());
                         ContentController.navigationHandler.handleShowHome();
+                    }
+                    else {
+                        System.out.println("Customer Account creation failed");
                     }
                 }
             }
         }
         catch(Exception e){
-            e.getMessage();
+            e.printStackTrace();
         }
-
     }
+
 }

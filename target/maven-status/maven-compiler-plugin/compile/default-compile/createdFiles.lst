@@ -29,6 +29,7 @@ com\jaspreetFlourMill\accountManagement\model\Transaction.class
 com\jaspreetFlourMill\accountManagement\controllers\RegisterEmployeeController.class
 com\jaspreetFlourMill\accountManagement\controllers\HomeController.class
 com\jaspreetFlourMill\accountManagement\controllers\TransactionDetailItemController.class
+com\jaspreetFlourMill\accountManagement\model\Stock.class
 com\jaspreetFlourMill\accountManagement\util\FormValidation.class
 com\jaspreetFlourMill\accountManagement\util\PrintTransaction.class
 com\jaspreetFlourMill\accountManagement\controllers\CustomerDetailsController.class

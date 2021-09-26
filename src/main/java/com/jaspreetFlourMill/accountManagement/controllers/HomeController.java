@@ -241,7 +241,7 @@ public class HomeController implements Initializable {
             salesAmtChart.getData().clear();
             this.initializeSalesQtySeries();
             this.initializeSalesAmtSeries();
-            Sales salesToday = Sales.getSalesForToday(currentDay);
+            Sales salesToday = Sales.getSalesForDate(currentDay);
 
             if(salesToday!=null){
                 wheatSoldDisplay.setText(salesToday.getTotalWheatSold().toString());

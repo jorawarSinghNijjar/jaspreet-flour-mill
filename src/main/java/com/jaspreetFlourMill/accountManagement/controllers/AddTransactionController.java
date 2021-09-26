@@ -1,6 +1,5 @@
 package com.jaspreetFlourMill.accountManagement.controllers;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jaspreetFlourMill.accountManagement.StageReadyEvent;
 import com.jaspreetFlourMill.accountManagement.model.Customer;
 import com.jaspreetFlourMill.accountManagement.model.Employee;
@@ -27,8 +26,6 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import javax.swing.*;
-import javax.swing.text.html.Option;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -265,7 +262,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
     private void updateSales(String date, Double attaPickupQty, Double grindingCharges, Double grindingChargesPaid) throws Exception{
 //        System.out.println("Inside update sales");
         // Get current Sales for this date
-        Sales sales = Sales.getSalesForToday(date);
+        Sales sales = Sales.getSalesForDate(date);
 //        System.out.println("Sales retrieved: " + sales);
 
         if(sales != null){
@@ -279,8 +276,10 @@ public class AddTransactionController implements Initializable, ApplicationListe
             currentTotalGrindingCharges += grindingCharges;
             currentTotalGrindingChargesPaid += grindingChargesPaid;
 
+
             Sales updatedSales = new Sales(currentDate,currentTotalWheatSold,currentTotalGrindingCharges,
                     currentTotalGrindingChargesPaid);
+            updatedSales.deductWheatSold(attaPickupQty);
 
             String updateResult = Sales.updateSales(currentDate,updatedSales);
 
@@ -288,6 +287,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
         }
         else{
             Sales newSale = new Sales(date,attaPickupQty,grindingCharges,grindingChargesPaid);
+            newSale.deductWheatSold(attaPickupQty);
             System.out.println("New Sale: " + newSale);
             Sales.saveSales(newSale);
         }
