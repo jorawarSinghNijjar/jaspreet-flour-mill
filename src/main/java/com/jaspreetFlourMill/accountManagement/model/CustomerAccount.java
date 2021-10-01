@@ -145,8 +145,8 @@ public class CustomerAccount implements Serializable {
         return responseEntity;
     }
 
-    public static String updateCustomerAccount(Integer id,CustomerAccount customerAccount) throws Exception{
-        String uri = "http://localhost:8080/customer-accounts/" + id;
+    public static String updateCustomerAccount(Integer customerId,CustomerAccount customerAccount) throws Exception{
+        String uri = "http://localhost:8080/customer-accounts/" + customerId;
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);

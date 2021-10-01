@@ -53,7 +53,7 @@ public class Sales implements Serializable {
         this.totalWheatSold = totalWheatSold;
         this.totalGrindingCharges = totalGrindingCharges;
         this.totalGrindingChargesPaid = totalGrindingChargesPaid;
-        this.totalStoredWheatBalance = 0.00;
+//        this.totalStoredWheatBalance = 0.00;
     }
 
     public String getDate() {
@@ -210,129 +210,69 @@ public class Sales implements Serializable {
     }
 
     public static void addWheatDeposit(double wheatDepositQty) {
-
-        Stock stock = Stock.getStock();
-        if(stock == null ){
-            System.out.println("Stock is null");
-            Stock newStock = new Stock();
-            newStock.addWheat(wheatDepositQty);
-            Stock.saveStock(newStock);
-        }
-        else{
-            stock.addWheat(wheatDepositQty);
-            Stock.updateStock(stock);
-
-            // Update stocks in Sales table
-
-            Sales sales = Sales.getSalesForDate(Util.getDateForToday());
-
-            if(sales != null){
-                System.out.println("Updating total stored wheat balance...");
-                Double currentTotalStoredWheatBal = sales.getTotalStoredWheatBalance();
-                currentTotalStoredWheatBal += wheatDepositQty;
-                sales.setTotalStoredWheatBalance(currentTotalStoredWheatBal);
-                Sales.updateSales(Util.getDateForToday(),sales);
-                System.out.println("Total wheat stored: " + currentTotalStoredWheatBal);
-            }
-            else{
-                System.out.println("Today's first update for total stored wheat balance...");
-                Double currentTotalStoredWheatBal = stock.getWheatBalance();
-                currentTotalStoredWheatBal += wheatDepositQty;
-                Sales sale = new Sales(
-                        Util.getDateForToday(),
-                        0.00,
-                        0.00,
-                        0.00);
-                sale.setTotalStoredWheatBalance(currentTotalStoredWheatBal);
-                Sales.saveSales(sale);
+        System.out.println("addWheatDeposit()");
+        try {
+            ResponseEntity<Stock> response = Stock.getStock();
+            if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
+                // Needs to be changed
+                System.out.println("Stock not found");
+            } else {
+                Stock stock = response.getBody();
+                stock.addWheat(wheatDepositQty);
+                Stock.updateStock(stock);
+                Sales.updateWheatBalanceInSales(stock.getWheatBalance());
             }
         }
-
-
-//        else{
-//            System.out.println("Today's first update for total stored wheat balance...");
-//            Sales yesterdaySales = Sales.getSalesForDate(Util.getDateForYesterday());
-//            if(yesterdaySales != null){
-//                 Double currentTotalStoredWheatBal = 0.00;
-//                if(yesterdaySales.getTotalStoredWheatBalance() == null){
-//                    currentTotalStoredWheatBal = wheatDepositQty;
-//                }else {
-//                    currentTotalStoredWheatBal= yesterdaySales.getTotalStoredWheatBalance();
-//                    currentTotalStoredWheatBal += wheatDepositQty;
-//                }
-//                yesterdaySales.setTotalStoredWheatBalance(currentTotalStoredWheatBal);
-//                System.out.println(yesterdaySales.toString());
-//                Sales.updateSales(Util.getDateForToday(), yesterdaySales);
-//            }
-//            else {
-//                Sales sale = new Sales(
-//                        Util.getDateForToday(),
-//                        0.00,
-//                        0.00,
-//                        0.00);
-//                sale.setTotalStoredWheatBalance(wheatDepositQty);
-//                Sales.saveSales(sale);
-//            }
-//        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
     }
 
     public void deductWheatSold(double attaPickupQty) throws Exception{
-
-        Stock stock = Stock.getStock();
-        if(stock == null ){
-            System.out.println("Stock is null");
-        }
-        else{
-            stock.deductWheat(attaPickupQty);
-            Stock.updateStock(stock);
-
-            // Update Stock in sales table
-            Sales sales = Sales.getSalesForDate(Util.getDateForToday());
-
-            if(sales != null){
-                System.out.println("Deducting total stored wheat balance...");
-                Double currentTotalStoredWheatBal = sales.getTotalStoredWheatBalance();
-                currentTotalStoredWheatBal -= attaPickupQty;
-                sales.setTotalStoredWheatBalance(currentTotalStoredWheatBal);
-                Sales.updateSales(Util.getDateForToday(),sales);
-                System.out.println("Total wheat stored: " + currentTotalStoredWheatBal);
+        try {
+            ResponseEntity<Stock> response = Stock.getStock();
+            if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
+                System.out.println("Stock not found");
+            } else {
+                Stock stock = response.getBody();
+                stock.deductWheat(attaPickupQty);
+                Stock.updateStock(stock);
+                Sales.updateWheatBalanceInSales(stock.getWheatBalance());
             }
-            else{
-                System.out.println("Today's first update for total stored wheat balance...");
-                Double currentTotalStoredWheatBal = stock.getWheatBalance();
-                currentTotalStoredWheatBal -= attaPickupQty;
-                Sales sale = new Sales(
-                        Util.getDateForToday(),
-                        0.00,
-                        0.00,
-                        0.00);
-                sale.setTotalStoredWheatBalance(currentTotalStoredWheatBal);
-                Sales.saveSales(sale);
         }
-
-
-//            Sales yesterdaySales = Sales.getSalesForDate(Util.getDateForYesterday());
-//            if(yesterdaySales != null){
-//                Double currentTotalStoredWheatBal = 0.00;
-//                if(yesterdaySales.getTotalStoredWheatBalance() == null){
-//                    System.out.println("Total Stored Wheat Balance is null");
-//                    currentTotalStoredWheatBal = 0.00;
-//                }else {
-//                    currentTotalStoredWheatBal= yesterdaySales.getTotalStoredWheatBalance();
-//                    currentTotalStoredWheatBal -= attaPickupQty;
-//                }
-//                yesterdaySales.setTotalStoredWheatBalance(currentTotalStoredWheatBal);
-//                System.out.println(yesterdaySales.toString());
-//                Sales.updateSales(Util.getDateForToday(), yesterdaySales);
-//            }
-//            else {
-//                System.out.println("Company's stored wheat balance is 0");
-//            }
+        catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
+
+
+    private static void updateWheatBalanceInSales(double wheatBalance){
+        // Update stocks in Sales table
+
+        Sales sales = Sales.getSalesForDate(Util.getDateForToday());
+        if(sales != null){
+            System.out.println("Updating total stored wheat balance...");
+            sales.setTotalStoredWheatBalance(wheatBalance);
+            System.out.println("Total Wheat Stored before API call -----------" +
+                    "---------------------------- " + sales);
+            Sales.updateSales(Util.getDateForToday(),sales);
+            System.out.println("Total wheat stored: " + wheatBalance);
+        }
+        else{
+            System.out.println("Today's first update for total stored wheat balance...");
+            Sales sale = new Sales(
+                    Util.getDateForToday(),
+                    0.00,
+                    0.00,
+                    0.00);
+            sale.setTotalStoredWheatBalance(wheatBalance);
+            Sales.saveSales(sale);
+        }
+    }
+
 
     @Override
     public String toString() {

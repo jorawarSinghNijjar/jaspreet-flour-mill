@@ -279,11 +279,8 @@ public class AddTransactionController implements Initializable, ApplicationListe
 
             Sales updatedSales = new Sales(currentDate,currentTotalWheatSold,currentTotalGrindingCharges,
                     currentTotalGrindingChargesPaid);
+
             updatedSales.deductWheatSold(attaPickupQty);
-
-            String updateResult = Sales.updateSales(currentDate,updatedSales);
-
-            System.out.println(updateResult);
         }
         else{
             Sales newSale = new Sales(date,attaPickupQty,grindingCharges,grindingChargesPaid);
