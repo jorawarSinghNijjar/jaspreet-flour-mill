@@ -125,8 +125,6 @@ public class DepositWheatController implements Initializable {
                 {
                 CustomerAccount newCustomerAccount = new CustomerAccount(customer,wheatDepositQty,
                         wheatProcessingDeductionQty);
-                // add wheat to total wheat balance of company
-                Sales.addWheatDeposit(wheatDepositQty);
 
                 System.out.println("Updating Customer Account for" + newCustomerAccount.getCustomer().getName());
                     System.out.println(newCustomerAccount.toString());
@@ -140,9 +138,12 @@ public class DepositWheatController implements Initializable {
 
                     HttpEntity<CustomerAccount> req = new HttpEntity<>(newCustomerAccount,httpHeaders);
                     ResponseEntity<String> result = restTemplate.exchange(uri, HttpMethod.POST,req,String.class);
-                    System.out.println(result);
+
                     if(result.getStatusCode() == HttpStatus.OK){
                         System.out.println("Customer Acccount Created Successfully "+result.getBody());
+                        // add wheat to total wheat balance of company
+                        Sales.addWheatDeposit(wheatDepositQty);
+
                         ContentController.navigationHandler.handleShowHome();
                     }
                     else {

@@ -53,7 +53,8 @@ public class Sales implements Serializable {
         this.totalWheatSold = totalWheatSold;
         this.totalGrindingCharges = totalGrindingCharges;
         this.totalGrindingChargesPaid = totalGrindingChargesPaid;
-//        this.totalStoredWheatBalance = 0.00;
+        this.totalWheatDeposited = 0.00;
+        this.totalStoredWheatBalance = 0.00;
     }
 
     public String getDate() {
@@ -116,8 +117,8 @@ public class Sales implements Serializable {
         return totalWheatDeposited;
     }
 
-    public void setTotalWheatDeposited(Double totalWheatDeposited) {
-        this.totalWheatDeposited = totalWheatDeposited;
+    public void updateTotalWheatDeposited(Double totalWheatDeposited) {
+        this.totalWheatDeposited += totalWheatDeposited;
     }
 
     public static Sales[] getSalesForMonth(int month, int year){
@@ -220,7 +221,7 @@ public class Sales implements Serializable {
                 Stock stock = response.getBody();
                 stock.addWheat(wheatDepositQty);
                 Stock.updateStock(stock);
-                Sales.updateWheatBalanceInSales(stock.getWheatBalance());
+                Sales.updateWheatBalanceInSales(stock.getWheatBalance(), wheatDepositQty);
             }
         }
         catch (Exception e) {
@@ -239,7 +240,7 @@ public class Sales implements Serializable {
                 Stock stock = response.getBody();
                 stock.deductWheat(attaPickupQty);
                 Stock.updateStock(stock);
-                Sales.updateWheatBalanceInSales(stock.getWheatBalance());
+                Sales.updateWheatBalanceInSales(stock.getWheatBalance(),0.00);
             }
         }
         catch (Exception e) {
@@ -249,17 +250,18 @@ public class Sales implements Serializable {
     }
 
 
-    private static void updateWheatBalanceInSales(double wheatBalance){
+    private static void updateWheatBalanceInSales(double wheatBalance, double wheatDepositQty){
         // Update stocks in Sales table
 
         Sales sales = Sales.getSalesForDate(Util.getDateForToday());
         if(sales != null){
-            System.out.println("Updating total stored wheat balance...");
+            System.out.println("Updating total stored wheat balance in sales table...");
             sales.setTotalStoredWheatBalance(wheatBalance);
-            System.out.println("Total Wheat Stored before API call -----------" +
-                    "---------------------------- " + sales);
+
+            System.out.println("Updating total wheat deposit in sales table...");
+            sales.updateTotalWheatDeposited(wheatDepositQty);
+            // Update sales on backend
             Sales.updateSales(Util.getDateForToday(),sales);
-            System.out.println("Total wheat stored: " + wheatBalance);
         }
         else{
             System.out.println("Today's first update for total stored wheat balance...");
@@ -269,6 +271,7 @@ public class Sales implements Serializable {
                     0.00,
                     0.00);
             sale.setTotalStoredWheatBalance(wheatBalance);
+            sale.updateTotalWheatDeposited(wheatDepositQty);
             Sales.saveSales(sale);
         }
     }
