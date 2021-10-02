@@ -1,6 +1,5 @@
 package com.jaspreetFlourMill.accountManagement.controllers;
 
-import com.jaspreetFlourMill.accountManagement.model.Customer;
 import com.jaspreetFlourMill.accountManagement.model.Transaction;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -44,7 +43,7 @@ public class TransactionDetailController implements Initializable {
 
         String transactionId = "";
         String time ="";
-        double attaPickupQty=0.00;
+        double flourPickupQty=0.00;
         double grindingCharges=0.00;
         double grindingRate=0.00;
         double grindingChargesPaid=0.00;
@@ -69,19 +68,19 @@ public class TransactionDetailController implements Initializable {
 
                 transactionId = transactions.get(i).getTransactionId();
                 time = transactions.get(i).getDate() +" " + transactions.get(i).getTime();
-                attaPickupQty = transactions.get(i).getAttaPickupQty();
+                flourPickupQty = transactions.get(i).getFlourPickupQty();
                 grindingCharges = transactions.get(i).getGrindingCharges();
                 grindingBalance = transactions.get(i).getCustomerBalanceGrindingCharges();
                 grindingRate = transactions.get(i).getGrindingRate();
                 grindingChargesPaid = transactions.get(i).getGrindingChargesPaid();
-                storedWheatBalance = transactions.get(i).getCustomerStoredAttaBalanceQty();
+                storedWheatBalance = transactions.get(i).getCustomerStoredFlourBalanceQty();
                 orderPickedBy = transactions.get(i).getOrderPickedBy();
                 cashier = transactions.get(i).getCashierName();
 
                 transactionDetailItemController.setTransactionDetails(
                         transactionId,
                         time,
-                        attaPickupQty,
+                        flourPickupQty,
                         grindingCharges,
                         grindingRate,
                         grindingChargesPaid,

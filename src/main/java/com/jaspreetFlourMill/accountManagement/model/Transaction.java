@@ -1,13 +1,11 @@
 package com.jaspreetFlourMill.accountManagement.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.sun.javafx.beans.IDProperty;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.UUID;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -17,21 +15,21 @@ public class Transaction implements Serializable {
     private String transactionId;
     private String date;
     private String time;
-    private double attaPickupQty;
+    private double FlourPickupQty;
     private double grindingRate;
     private double grindingCharges;
     private double grindingChargesPaid;
     private double customerBalanceGrindingCharges;
-    private double customerStoredAttaBalanceQty;
+    private double customerStoredFlourBalanceQty;
     private String orderPickedBy;
     private String cashierName;
 
-    public Transaction(Customer customer,double attaPickupQty,double grindingRate,double grindingCharges,
+    public Transaction(Customer customer, double FlourPickupQty, double grindingRate, double grindingCharges,
                        double grindingChargesPaid,
                        String orderPickedBy,
                        String cashierName) {
         this.customer = customer;
-        this.attaPickupQty = attaPickupQty;
+        this.FlourPickupQty = FlourPickupQty;
         this.grindingRate = grindingRate;
         this.grindingCharges = grindingCharges;
         this.grindingChargesPaid = grindingChargesPaid;
@@ -65,9 +63,9 @@ public class Transaction implements Serializable {
             this.customerBalanceGrindingCharges = updatedGrindingChargesBalance;
 
             double currentStoredWheatBalance = customerAccount.getCurrentWheatBalance();
-            customerAccount.setCurrentWheatBalance(currentStoredWheatBalance-attaPickupQty);
+            customerAccount.setCurrentWheatBalance(currentStoredWheatBalance- FlourPickupQty);
 
-            this.customerStoredAttaBalanceQty = currentStoredWheatBalance-attaPickupQty;
+            this.customerStoredFlourBalanceQty = currentStoredWheatBalance- FlourPickupQty;
 
             customerAccount.setGrindingRate(this.grindingRate);
 
@@ -102,12 +100,12 @@ public class Transaction implements Serializable {
         this.date = date;
     }
 
-    public double getAttaPickupQty() {
-        return attaPickupQty;
+    public double getFlourPickupQty() {
+        return FlourPickupQty;
     }
 
-    public void setAttaPickupQty(double attaPickupQty) {
-        this.attaPickupQty = attaPickupQty;
+    public void setFlourPickupQty(double flourPickupQty) {
+        this.FlourPickupQty = flourPickupQty;
     }
 
     public double getGrindingChargesPaid() {
@@ -126,12 +124,12 @@ public class Transaction implements Serializable {
         this.customerBalanceGrindingCharges = customerBalanceGrindingCharges;
     }
 
-    public double getCustomerStoredAttaBalanceQty() {
-        return customerStoredAttaBalanceQty;
+    public double getCustomerStoredFlourBalanceQty() {
+        return customerStoredFlourBalanceQty;
     }
 
-    public void setCustomerStoredAttaBalanceQty(double customerStoredAttaBalanceQty) {
-        this.customerStoredAttaBalanceQty = customerStoredAttaBalanceQty;
+    public void setCustomerStoredFlourBalanceQty(double customerStoredFlourBalanceQty) {
+        this.customerStoredFlourBalanceQty = customerStoredFlourBalanceQty;
     }
 
     public String getOrderPickedBy() {
@@ -180,11 +178,11 @@ public class Transaction implements Serializable {
                 "customerId=" + customer.getCustomerId() +
                 ", transactionId='" + transactionId + '\'' +
                 ", date='" + date + '\'' +
-                ", attaPickupQty=" + attaPickupQty +
+                ", flourPickupQty=" + FlourPickupQty +
                 ", grindingCharges=" + grindingCharges +
                 ", grindingChargesPaid=" + grindingChargesPaid +
                 ", customerBalanceGrindingCharges=" + customerBalanceGrindingCharges +
-                ", customerStoredAttaBalanceQty=" + customerStoredAttaBalanceQty +
+                ", customerStoredFlourBalanceQty=" + customerStoredFlourBalanceQty +
                 ", orderPickedBy='" + orderPickedBy + '\'' +
                 ", cashierName='" + cashierName + '\'' +
                 '}';

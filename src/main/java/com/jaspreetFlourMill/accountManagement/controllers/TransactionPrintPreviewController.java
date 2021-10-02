@@ -5,7 +5,6 @@ import com.jaspreetFlourMill.accountManagement.model.CustomerAccount;
 import com.jaspreetFlourMill.accountManagement.model.Transaction;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.print.*;
 import javafx.scene.Node;
@@ -109,17 +108,17 @@ public class TransactionPrintPreviewController implements Initializable, Applica
                 "-fx-border-color: grey;");
         Label transactionIdLabel = new Label(transaction.getTransactionId());
         Label timeLabel = new Label(transaction.getTime());
-        Label attaPickupQtyLabel = new Label(String.valueOf(transaction.getAttaPickupQty()));
+        Label flourPickupQtyLabel = new Label(String.valueOf(transaction.getFlourPickupQty()));
         Label grindingChargesLabel = new Label(String.valueOf(transaction.getGrindingCharges()));
         Label  grindingChargesPaidLabel= new Label(String.valueOf(transaction.getGrindingChargesPaid()));
         Label customerBalanceGrindingLabel = new Label(String.valueOf(transaction.getCustomerBalanceGrindingCharges()));
-        Label customerStoredWheatBalanceLabel = new Label(String.valueOf(transaction.getCustomerStoredAttaBalanceQty()));
+        Label customerStoredWheatBalanceLabel = new Label(String.valueOf(transaction.getCustomerStoredFlourBalanceQty()));
         Label orderPickedByLabel = new Label(String.valueOf(transaction.getOrderPickedBy()));
 
             List<Label> labels = new ArrayList<>();
             labels.add(transactionIdLabel);
             labels.add(timeLabel);
-            labels.add(attaPickupQtyLabel);
+            labels.add(flourPickupQtyLabel);
             labels.add(grindingChargesLabel);
             labels.add(grindingChargesPaidLabel);
             labels.add(customerBalanceGrindingLabel);
@@ -131,7 +130,7 @@ public class TransactionPrintPreviewController implements Initializable, Applica
         printRow.getChildren().addAll(
                 transactionIdLabel,
                 timeLabel,
-                attaPickupQtyLabel,
+                flourPickupQtyLabel,
                 grindingChargesLabel,
                 grindingChargesPaidLabel,
                 customerBalanceGrindingLabel,
@@ -196,7 +195,7 @@ public class TransactionPrintPreviewController implements Initializable, Applica
     private void printColumnHeaders(){
         Label transactionIdLabel = new Label("Transaction ID");
         Label timeLabel = new Label("Time");
-        Label attaPickupQtyLabel = new Label("Atta Pickup Qty");
+        Label flourPickupQtyLabel = new Label("Flour Pickup Qty");
         Label grindingChargesLabel = new Label("Grinding Charges");
         Label  grindingChargesPaidLabel= new Label("Grinding Charges Paid");
         Label customerBalanceGrindingLabel = new Label("Customer Balance Grinding");
@@ -207,7 +206,7 @@ public class TransactionPrintPreviewController implements Initializable, Applica
         List<Label> labels = new ArrayList<>();
         labels.add(transactionIdLabel);
         labels.add(timeLabel);
-        labels.add(attaPickupQtyLabel);
+        labels.add(flourPickupQtyLabel);
         labels.add(grindingChargesLabel);
         labels.add(grindingChargesPaidLabel);
         labels.add(customerBalanceGrindingLabel);
@@ -225,7 +224,7 @@ public class TransactionPrintPreviewController implements Initializable, Applica
         printRow.getChildren().addAll(
                 transactionIdLabel,
                 timeLabel,
-                attaPickupQtyLabel,
+                flourPickupQtyLabel,
                 grindingChargesLabel,
                 grindingChargesPaidLabel,
                 customerBalanceGrindingLabel,

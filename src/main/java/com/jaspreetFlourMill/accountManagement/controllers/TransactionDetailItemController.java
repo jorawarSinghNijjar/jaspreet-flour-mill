@@ -23,7 +23,6 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
 
-import javax.print.event.PrintEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -43,7 +42,7 @@ public class TransactionDetailItemController implements Initializable, Applicati
     private Label timeStampLabel;
 
     @FXML
-    private Label attaPickupQtyLabel;
+    private Label flourPickupQtyLabel;
 
     @FXML
     private Label grindingChargesLabel;
@@ -84,7 +83,7 @@ public class TransactionDetailItemController implements Initializable, Applicati
     }
 
     public  void setTransactionDetails(
-            String transactionId, String time, double attaPickupQty,
+            String transactionId, String time, double flourPickupQty,
             double grindingCharges,
             double grindingRate,
             double grindingChargesPaid, double grindingBalance,
@@ -93,7 +92,7 @@ public class TransactionDetailItemController implements Initializable, Applicati
     ) {
         transactionIdLabel.setText(transactionId);
         timeStampLabel.setText(time);
-        attaPickupQtyLabel.setText(String.valueOf(attaPickupQty));
+        flourPickupQtyLabel.setText(String.valueOf(flourPickupQty));
         grindingChargesLabel.setText(String.valueOf(grindingCharges));
         grindingChargesPaidLabel.setText(grindingChargesPaid + " @ Rs." + grindingRate +"/kg");
         grindingBalanceLabel.setText(String.valueOf(grindingBalance));

@@ -231,14 +231,14 @@ public class Sales implements Serializable {
 
     }
 
-    public void deductWheatSold(double attaPickupQty) throws Exception{
+    public void deductWheatSold(double flourPickupQty) throws Exception{
         try {
             ResponseEntity<Stock> response = Stock.getStock();
             if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
                 System.out.println("Stock not found");
             } else {
                 Stock stock = response.getBody();
-                stock.deductWheat(attaPickupQty);
+                stock.deductWheat(flourPickupQty);
                 Stock.updateStock(stock);
                 Sales.updateWheatBalanceInSales(stock.getWheatBalance(),0.00,false);
             }

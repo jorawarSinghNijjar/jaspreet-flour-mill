@@ -13,7 +13,7 @@
          <children>
             <Label alignment="CENTER" prefHeight="45.0" prefWidth="140.0" styleClass="h5" stylesheets="@css/main.css" text="Transaction ID" />
             <Label alignment="CENTER" prefHeight="45.0" prefWidth="140.0" styleClass="h5" stylesheets="@css/main.css" text="Time" />
-            <Label alignment="CENTER" prefHeight="45.0" prefWidth="140.0" styleClass="h5" stylesheets="@css/main.css" text="Atta Pickup Qty" />
+            <Label alignment="CENTER" prefHeight="45.0" prefWidth="140.0" styleClass="h5" stylesheets="@css/main.css" text="Flour Pickup Qty" />
             <Label alignment="CENTER" prefHeight="44.0" prefWidth="140.0" styleClass="h5" stylesheets="@css/main.css" text="Grinding Charges" wrapText="true" />
             <Label alignment="CENTER" prefHeight="44.0" prefWidth="140.0" styleClass="h5" stylesheets="@css/main.css" text="Grinding charges paid" textAlignment="CENTER" wrapText="true" />
             <Label alignment="CENTER" prefHeight="44.0" prefWidth="140.0" styleClass="h5" stylesheets="@css/main.css" text="Customer Balance Grinding" textAlignment="CENTER" wrapText="true" />

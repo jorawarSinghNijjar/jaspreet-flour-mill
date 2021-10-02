@@ -38,7 +38,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
     public TextField customerIdInput;
 
     @FXML
-    private TextField attaPickupQtyInput;
+    private TextField flourPickupQtyInput;
 
     @FXML
     private TextField grindingRateInput;
@@ -87,10 +87,10 @@ public class AddTransactionController implements Initializable, ApplicationListe
         cashierName = this.getEmployeeName(AuthController.currentSession.getUserId());
         cashierNameLabel.setText(cashierName);
         grindingRateInput.textProperty().addListener( (observableValue, oldValue, newValue) -> {
-            String attaPickupQtyInputText = attaPickupQtyInput.getText();
-            if( !attaPickupQtyInputText.isEmpty() && attaPickupQtyInputText !=null){
+            String flourPickupQtyInputText = flourPickupQtyInput.getText();
+            if( !flourPickupQtyInputText.isEmpty() && flourPickupQtyInputText !=null){
                 if(!newValue.isEmpty() && newValue != null) {
-                    grindingCharges = Double.parseDouble(attaPickupQtyInputText)
+                    grindingCharges = Double.parseDouble(flourPickupQtyInputText)
                             * Double.parseDouble(newValue);
                     grindingChargesInput.setText(String.valueOf(grindingCharges));
                 }
@@ -98,7 +98,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
 
         });
 
-        attaPickupQtyInput.textProperty().addListener( (observableValue, oldValue, newValue) -> {
+        flourPickupQtyInput.textProperty().addListener( (observableValue, oldValue, newValue) -> {
             String grindingRateInputText = grindingRateInput.getText();
             if( !grindingRateInputText.isEmpty() && grindingRateInputText !=null) {
                 if(!newValue.isEmpty() && newValue != null) {
@@ -115,7 +115,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
     @FXML
     public void submitTransaction(ActionEvent event){
         int customerId = Integer.parseInt(customerIdInput.getText());
-        double attaPickupQty = Double.parseDouble(attaPickupQtyInput.getText());
+        double flourPickupQty = Double.parseDouble(flourPickupQtyInput.getText());
         double grindingRate = Double.parseDouble(grindingRateInput.getText());
         double grindingChargesPaid = Double.parseDouble(grindingChargesPaidInput.getText());
         String orderPickedBy = orderPickedByInput.getText();
@@ -125,7 +125,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
             System.out.println("Grinding Charges ---->" + grindingCharges);
             Transaction newTransaction = new Transaction(
                     customer,
-                    attaPickupQty,
+                    flourPickupQty,
                     grindingRate,
                     grindingCharges,
                     grindingChargesPaid,
@@ -150,7 +150,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
 //                    System.out.println("Before calling update sales....");
                     this.updateSales(
                             newTransaction.getDate(),
-                            attaPickupQty,
+                            flourPickupQty,
                             grindingCharges,
                             grindingChargesPaid
                     );
@@ -172,7 +172,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
                         System.out.println("Transaction printing cancelled");
                     }
 
-                    attaPickupQtyInput.setText("");
+                    flourPickupQtyInput.setText("");
                     grindingChargesInput.setText("");
                     grindingChargesPaidInput.setText("");
                     orderPickedByInput.setText("");
@@ -259,7 +259,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
         return "";
     }
 
-    private void updateSales(String date, Double attaPickupQty, Double grindingCharges, Double grindingChargesPaid) throws Exception{
+    private void updateSales(String date, Double flourPickupQty, Double grindingCharges, Double grindingChargesPaid) throws Exception{
 //        System.out.println("Inside update sales");
         // Get current Sales for this date
         Sales sales = Sales.getSalesForDate(date);
@@ -272,7 +272,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
             Double currentTotalGrindingCharges = sales.getTotalGrindingCharges();
 
             // Update sales table for this date
-            currentTotalWheatSold += attaPickupQty;
+            currentTotalWheatSold += flourPickupQty;
             currentTotalGrindingCharges += grindingCharges;
             currentTotalGrindingChargesPaid += grindingChargesPaid;
 
@@ -285,11 +285,11 @@ public class AddTransactionController implements Initializable, ApplicationListe
 
             Sales.updateSales(currentDate,sales);
 
-            sales.deductWheatSold(attaPickupQty);
+            sales.deductWheatSold(flourPickupQty);
         }
         else{
-            Sales newSale = new Sales(date,attaPickupQty,grindingCharges,grindingChargesPaid);
-            newSale.deductWheatSold(attaPickupQty);
+            Sales newSale = new Sales(date,flourPickupQty,grindingCharges,grindingChargesPaid);
+            newSale.deductWheatSold(flourPickupQty);
             System.out.println("New Sale: " + newSale);
             Sales.saveSales(newSale);
         }

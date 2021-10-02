@@ -9,7 +9,7 @@
    <children>
       <Label fx:id="transactionIdLabel" alignment="CENTER" prefHeight="50.0" prefWidth="140.0" styleClass="table-items" stylesheets="@css/main.css" text="65234" textAlignment="CENTER" wrapText="true" />
       <Label fx:id="timeStampLabel" alignment="CENTER" prefHeight="50.0" prefWidth="140.0" styleClass="table-items" stylesheets="@css/main.css" text="April 28, 2021 7:32 p.m" textAlignment="CENTER" wrapText="true" />
-      <Label fx:id="attaPickupQtyLabel" alignment="CENTER" layoutX="1008.0" layoutY="10.0" prefHeight="50.0" prefWidth="140.0" styleClass="table-items" stylesheets="@css/main.css" text="10 kg" textAlignment="CENTER" wrapText="true" />
+      <Label fx:id="flourPickupQtyLabel" alignment="CENTER" layoutX="1008.0" layoutY="10.0" prefHeight="50.0" prefWidth="140.0" styleClass="table-items" stylesheets="@css/main.css" text="10 kg" textAlignment="CENTER" wrapText="true" />
       <Label fx:id="grindingChargesLabel" alignment="CENTER" prefHeight="54.0" prefWidth="140.0" styleClass="table-items" stylesheets="@css/main.css" text="40.00" textAlignment="CENTER" wrapText="true" />
       <Label fx:id="grindingChargesPaidLabel" alignment="CENTER" prefHeight="54.0" prefWidth="140.0" styleClass="table-items" stylesheets="@css/main.css" text="150.00" textAlignment="CENTER" wrapText="true" />
       <Label fx:id="grindingBalanceLabel" alignment="CENTER" prefHeight="54.0" prefWidth="140.0" styleClass="table-items" stylesheets="@css/main.css" text="140.00" textAlignment="CENTER" wrapText="true" />

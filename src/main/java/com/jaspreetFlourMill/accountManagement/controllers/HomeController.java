@@ -178,8 +178,6 @@ public class HomeController implements Initializable {
         });
 
 
-
-
         // Hide monthly and yearly comboBox
         this.setSalesMonthComboBoxVisibility(false);
         this.setSalesYearComboBoxVisibility(false);
