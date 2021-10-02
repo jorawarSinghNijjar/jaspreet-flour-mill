@@ -40,9 +40,9 @@ public class TransactionPrintPreviewController implements Initializable, Applica
 
     private int currentPrintRow;
 
-    private static final int printRowsMax =  6;
+    private static final int printRowsMax = 6;
     private boolean nextPage;
-    private static final double columnWidth =  132;
+    private static final double columnWidth = 132;
     private static final double columnHeight = 60;
     private int customerId;
     private final FxWeaver fxWeaver;
@@ -53,7 +53,7 @@ public class TransactionPrintPreviewController implements Initializable, Applica
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-            nextPage = false;
+        nextPage = false;
 //            backToHomeBtn = new Button("Back");
 //            backToHomeBtn.setOnAction(ActionEvent -> {
 //                stage.setScene(new Scene(fxWeaver.loadView(ContentController.class),1366,768));
@@ -67,11 +67,11 @@ public class TransactionPrintPreviewController implements Initializable, Applica
         printPageVBox = new VBox();
         printPageVBox.setPrefSize(
                 transactionPrintPreviewContainer.getPrefWidth()
-                ,transactionPrintPreviewContainer.getPrefHeight()
+                , transactionPrintPreviewContainer.getPrefHeight()
         );
         double vBoxHeight = printPageVBox.getPrefHeight();
         double heightSum = 0;
-        while(heightSum <= vBoxHeight){
+        while (heightSum <= vBoxHeight) {
             HBox hBox = new HBox();
             hBox.setPrefWidth(columnWidth);
             hBox.setPrefHeight(columnHeight);
@@ -84,18 +84,17 @@ public class TransactionPrintPreviewController implements Initializable, Applica
         transactionPrintPreviewContainer.getChildren().add(printPageVBox);
     }
 
-    public boolean populateTransactionRow(Transaction transaction,Printer printer){
+    public boolean populateTransactionRow(Transaction transaction, Printer printer) {
         System.out.println("Printing row :" + currentPrintRow);
 
-        try{
+        try {
             customerId = transaction.getCustomer().getCustomerId();
             currentPrintRow = CustomerAccount.getCustomerAccount(customerId).getRowsPrinted();
             currentPrintRow++;
-            if(currentPrintRow > printRowsMax){
+            if (currentPrintRow > printRowsMax) {
                 nextPage = true;
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.getMessage();
         }
 
@@ -106,29 +105,36 @@ public class TransactionPrintPreviewController implements Initializable, Applica
         printRow.setSpacing(5);
         printRow.setStyle("-fx-border-style: hidden hidden solid hidden; " +
                 "-fx-border-color: grey;");
-        Label transactionIdLabel = new Label(transaction.getTransactionId());
-        Label timeLabel = new Label(transaction.getTime());
-        Label flourPickupQtyLabel = new Label(String.valueOf(transaction.getFlourPickupQty()));
-        Label grindingChargesLabel = new Label(String.valueOf(transaction.getGrindingCharges()));
-        Label  grindingChargesPaidLabel= new Label(String.valueOf(transaction.getGrindingChargesPaid()));
-        Label customerBalanceGrindingLabel = new Label(String.valueOf(transaction.getCustomerBalanceGrindingCharges()));
-        Label customerStoredWheatBalanceLabel = new Label(String.valueOf(transaction.getCustomerStoredFlourBalanceQty()));
-        Label orderPickedByLabel = new Label(String.valueOf(transaction.getOrderPickedBy()));
+//        Label transactionIdLabel = new Label(transaction.getTransactionId());
+        Label timeLabel = new Label(transaction.getDate() + "\n" + transaction.getTime());
 
-            List<Label> labels = new ArrayList<>();
-            labels.add(transactionIdLabel);
-            labels.add(timeLabel);
-            labels.add(flourPickupQtyLabel);
-            labels.add(grindingChargesLabel);
-            labels.add(grindingChargesPaidLabel);
-            labels.add(customerBalanceGrindingLabel);
-            labels.add(customerStoredWheatBalanceLabel);
-            labels.add(orderPickedByLabel);
+        String flourPickupQty = String.valueOf(transaction.getFlourPickupQty());
+        String grindingCharges = String.valueOf(transaction.getGrindingCharges());
+        String grindingChargesPaid = String.valueOf(transaction.getGrindingChargesPaid());
+        String customerBalanceGrinding = String.valueOf(transaction.getCustomerBalanceGrindingCharges());
+        String customerStoredWheatBalance = String.valueOf(transaction.getCustomerStoredFlourBalanceQty());
 
-            this.setRowSettings(labels, columnWidth, columnHeight,"data");
+        Label flourPickupQtyLabel = new Label(flourPickupQty + " kg");
+        Label grindingChargesLabel = new Label("₹ " + grindingCharges);
+        Label grindingChargesPaidLabel = new Label("₹ " + grindingChargesPaid);
+        Label customerBalanceGrindingLabel = new Label("₹ " + customerBalanceGrinding);
+        Label customerStoredWheatBalanceLabel = new Label(customerStoredWheatBalance + " kg");
+        Label orderPickedByLabel = new Label(transaction.getOrderPickedBy());
+
+        List<Label> labels = new ArrayList<>();
+//            labels.add(transactionIdLabel);
+        labels.add(timeLabel);
+        labels.add(flourPickupQtyLabel);
+        labels.add(grindingChargesLabel);
+        labels.add(grindingChargesPaidLabel);
+        labels.add(customerBalanceGrindingLabel);
+        labels.add(customerStoredWheatBalanceLabel);
+        labels.add(orderPickedByLabel);
+
+        this.setRowSettings(labels, columnWidth, columnHeight, "data");
 
         printRow.getChildren().addAll(
-                transactionIdLabel,
+//                transactionIdLabel,
                 timeLabel,
                 flourPickupQtyLabel,
                 grindingChargesLabel,
@@ -137,21 +143,20 @@ public class TransactionPrintPreviewController implements Initializable, Applica
                 customerStoredWheatBalanceLabel,
                 orderPickedByLabel);
 
-        try{
-            HBox hboxContainer = (HBox)(printPageVBox.getChildren().get(currentPrintRow));
-            if(hboxContainer != null){
+        try {
+            HBox hboxContainer = (HBox) (printPageVBox.getChildren().get(currentPrintRow));
+            if (hboxContainer != null) {
                 hboxContainer.getChildren().add(printRow);
             }
 
-            if(currentPrintRow == 1){
+            if (currentPrintRow == 1) {
                 this.printColumnHeaders();
             }
 
-            this.printSetup(transactionPrintPreviewContainer,stage,printer);
+            this.printSetup(transactionPrintPreviewContainer, stage, printer);
 
             return true;
-        }
-        catch (IndexOutOfBoundsException e){
+        } catch (IndexOutOfBoundsException e) {
             e.getMessage();
             System.out.println("Print row number has exceeded the limit of the page OR Turn over the page");
             return false;
@@ -174,8 +179,8 @@ public class TransactionPrintPreviewController implements Initializable, Applica
         stage = event.getStage();
     }
 
-    private void setRowSettings(List<Label> labels, double width, double height,String type){
-        for(Label label: labels){
+    private void setRowSettings(List<Label> labels, double width, double height, String type) {
+        for (Label label : labels) {
             label.setPrefHeight(height);
             label.setPrefWidth(width);
             label.setMaxWidth(width);
@@ -186,25 +191,25 @@ public class TransactionPrintPreviewController implements Initializable, Applica
             label.setWrapText(true);
 //            label.setStyle("-fx-border-style: hidden solid hidden hidden; " +
 //                    "-fx-border-color: grey;");
-            if(type == "colHeader"){
+            if (type == "colHeader") {
                 label.setStyle("-fx-font-weight: bold;");
             }
         }
     }
 
-    private void printColumnHeaders(){
-        Label transactionIdLabel = new Label("Transaction ID");
-        Label timeLabel = new Label("Time");
-        Label flourPickupQtyLabel = new Label("Flour Pickup Qty");
-        Label grindingChargesLabel = new Label("Grinding Charges");
-        Label  grindingChargesPaidLabel= new Label("Grinding Charges Paid");
-        Label customerBalanceGrindingLabel = new Label("Customer Balance Grinding");
-        Label customerStoredWheatBalanceLabel = new Label("Customer Stored Wheat Balance");
-        Label orderPickedByLabel = new Label("Order Picked By");
+    private void printColumnHeaders() {
+//        Label transactionIdLabel = new Label("Transaction ID");
+        Label timeLabel = new Label("ਸਮਾਂ" + "\n" + "Time");
+        Label flourPickupQtyLabel = new Label("ਆਟਾ ਪ੍ਰਾਪਤ" + "\n" + "Flour Pickup Qty");
+        Label grindingChargesLabel = new Label("ਪੀਸਾਈ ਰਕਮ" + "\n" + "Grinding Amount");
+        Label grindingChargesPaidLabel = new Label("ਰਕਮ ਅਦਾ ਕੀਤੀ" + "\n" + "Amount Paid");
+        Label customerBalanceGrindingLabel = new Label("ਬਾਕੀ ਰਕਮ" + "\n" + "Balance Amount");
+        Label customerStoredWheatBalanceLabel = new Label("ਬਾਕੀ ਕਣਕ"+ "\n" +"Stored Wheat Balance");
+        Label orderPickedByLabel = new Label("ਪ੍ਰਾਪਤ ਕਰਤਾ"+ "\n" +"Order Picked By");
 
 
         List<Label> labels = new ArrayList<>();
-        labels.add(transactionIdLabel);
+//        labels.add(transactionIdLabel);
         labels.add(timeLabel);
         labels.add(flourPickupQtyLabel);
         labels.add(grindingChargesLabel);
@@ -222,7 +227,7 @@ public class TransactionPrintPreviewController implements Initializable, Applica
         printRow.setStyle("-fx-border-style: hidden hidden solid hidden; " +
                 "-fx-border-color: grey;");
         printRow.getChildren().addAll(
-                transactionIdLabel,
+//                transactionIdLabel,
                 timeLabel,
                 flourPickupQtyLabel,
                 grindingChargesLabel,
@@ -232,22 +237,20 @@ public class TransactionPrintPreviewController implements Initializable, Applica
                 orderPickedByLabel
         );
 
-        HBox colHeaderHBoxContainer = (HBox)(printPageVBox.getChildren().get(0));
+        HBox colHeaderHBoxContainer = (HBox) (printPageVBox.getChildren().get(0));
         colHeaderHBoxContainer.getChildren().add(printRow);
 
     }
 
-    private void printSetup(Node node, Stage owner,Printer printer)
-    {
+    private void printSetup(Node node, Stage owner, Printer printer) {
         PrinterJob job = PrinterJob.createPrinterJob();
         job.setPrinter(printer);
         Paper paper = job.getJobSettings().getPageLayout().getPaper();
         PageLayout pageLayout = printer.createPageLayout(
-                paper,PageOrientation.LANDSCAPE,Printer.MarginType.DEFAULT
+                paper, PageOrientation.LANDSCAPE, Printer.MarginType.DEFAULT
         );
         System.out.println("PageLayout: " + pageLayout);
         job.getJobSettings().setPageLayout(pageLayout);
-
 
 
         // Printable area
@@ -293,39 +296,35 @@ public class TransactionPrintPreviewController implements Initializable, Applica
 
         boolean proceed = job.showPageSetupDialog(owner);
 
-        if(proceed){
-            print(job,node);
+        if (proceed) {
+            print(job, node);
         }
     }
 
 
-    private void print(PrinterJob job, Node node)
-    {
+    private void print(PrinterJob job, Node node) {
         // Set the Job Status Message
 //        jobStatus.textProperty().bind(job.jobStatusProperty().asString());
 
         // Print the node
         boolean printed = job.printPage(node);
 
-        if (printed)
-        {
+        if (printed) {
             try {
-                CustomerAccount.updatePrintedRow(customerId,nextPage);
-            }
-            catch (Exception e){
+                CustomerAccount.updatePrintedRow(customerId, nextPage);
+            } catch (Exception e) {
                 e.getMessage();
             }
 
             job.endJob();
 
-            stage.setScene(new Scene(fxWeaver.loadView(ContentController.class),1366,768));
+            stage.setScene(new Scene(fxWeaver.loadView(ContentController.class), 1366, 768));
             stage.setX(0);
             stage.setY(0);
             stage.show();
-        }
-        else{
+        } else {
             System.out.println("Printing failed....");
-            stage.setScene(new Scene(fxWeaver.loadView(ContentController.class),1366,768));
+            stage.setScene(new Scene(fxWeaver.loadView(ContentController.class), 1366, 768));
             stage.setX(0);
             stage.setY(0);
             stage.show();

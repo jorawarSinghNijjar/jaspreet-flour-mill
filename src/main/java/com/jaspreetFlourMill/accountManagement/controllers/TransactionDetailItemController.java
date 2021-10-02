@@ -90,13 +90,14 @@ public class TransactionDetailItemController implements Initializable, Applicati
             double storedWheatBalance, String orderPickedBy,
             String cashier
     ) {
+
         transactionIdLabel.setText(transactionId);
         timeStampLabel.setText(time);
-        flourPickupQtyLabel.setText(String.valueOf(flourPickupQty));
-        grindingChargesLabel.setText(String.valueOf(grindingCharges));
-        grindingChargesPaidLabel.setText(grindingChargesPaid + " @ Rs." + grindingRate +"/kg");
-        grindingBalanceLabel.setText(String.valueOf(grindingBalance));
-        storedWheatBalanceLabel.setText(String.valueOf(storedWheatBalance));
+        flourPickupQtyLabel.setText(flourPickupQty + " kg");
+        grindingChargesLabel.setText("₹ " + grindingCharges);
+        grindingChargesPaidLabel.setText("₹ " + grindingChargesPaid + " @ ₹" + grindingRate +"/kg");
+        grindingBalanceLabel.setText("₹ " + grindingBalance);
+        storedWheatBalanceLabel.setText(storedWheatBalance + " kg");
         orderPickedByLabel.setText(orderPickedBy);
         cashierLabel.setText(cashier);
 

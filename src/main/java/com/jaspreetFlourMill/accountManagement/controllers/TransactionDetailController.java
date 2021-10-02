@@ -4,6 +4,7 @@ import com.jaspreetFlourMill.accountManagement.model.Transaction;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
@@ -23,6 +24,31 @@ public class TransactionDetailController implements Initializable {
     @FXML
     private VBox detailItemContainer;
 
+    @FXML
+    private Label transactionTimeHeading;
+
+    @FXML
+    private Label transactionFlourPickupQtyHeading;
+
+    @FXML
+    private Label transactionGrindingAmountHeading;
+
+    @FXML
+    private Label transactionGrindingAmountPaidHeading;
+
+    @FXML
+    private Label transactionGrindingBalanceAmountHeading;
+
+    @FXML
+    private Label transactionStoredWheatBalanceHeading;
+
+    @FXML
+    private Label transactionOrderPickedByHeading;
+
+    @FXML
+    private Label transactionCashierHeading;
+
+
     private List<FxControllerAndView<TransactionDetailItemController,Node>> transactionDetailItemCVList;
     private FxControllerAndView<TransactionDetailItemController,Node> transactionDetailItemCV;
     private final FxWeaver fxWeaver;
@@ -34,7 +60,14 @@ public class TransactionDetailController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        transactionTimeHeading.setText("ਸਮਾਂ" + "\n" + "Time");
+        transactionFlourPickupQtyHeading.setText("ਆਟਾ ਪ੍ਰਾਪਤ" + "\n" + "Flour Pickup Qty");
+        transactionGrindingAmountHeading.setText("ਪੀਸਾਈ ਰਕਮ" + "\n" + "Grinding Amount");
+        transactionGrindingAmountPaidHeading.setText("ਰਕਮ ਅਦਾ ਕੀਤੀ" + "\n" + "Amount Paid");
+        transactionGrindingBalanceAmountHeading.setText("ਬਾਕੀ ਰਕਮ" + "\n" + "Balance Amount");
+        transactionStoredWheatBalanceHeading.setText("ਬਾਕੀ ਕਣਕ"+ "\n" +"Stored Wheat Balance");
+        transactionOrderPickedByHeading.setText("ਪ੍ਰਾਪਤ ਕਰਤਾ"+ "\n" +"Order Picked By");
+        transactionCashierHeading.setText("ਖਜਾਨਚੀ" + "\n" + "Cashier");
     }
 
     public void renderTransactions(String customerId){
