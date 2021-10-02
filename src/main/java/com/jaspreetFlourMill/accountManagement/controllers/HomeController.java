@@ -1,5 +1,9 @@
 package com.jaspreetFlourMill.accountManagement.controllers;
 
+import animatefx.animation.FadeInLeft;
+import animatefx.animation.FadeInRight;
+import animatefx.animation.FadeOutLeft;
+import animatefx.animation.FadeOutRight;
 import com.jaspreetFlourMill.accountManagement.model.MonthlySales;
 import com.jaspreetFlourMill.accountManagement.model.Sales;
 import com.jaspreetFlourMill.accountManagement.util.Util;
@@ -7,12 +11,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
+import jiconfont.javafx.IconFontFX;
+import jiconfont.javafx.IconNode;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +30,7 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 @FxmlView("/views/home.fxml")
@@ -31,6 +41,12 @@ public class HomeController implements Initializable {
 
     @FXML
     private Label wheatSoldDisplay;
+
+    @FXML
+    private Label wheatBalanceDisplay;
+
+    @FXML
+    private Label wheatDepositDisplay;
 
     @FXML
     private Label grindingChargesPaidDisplay;
@@ -50,10 +66,26 @@ public class HomeController implements Initializable {
     @FXML
     private ComboBox salesYearComboBox;
 
+    @FXML
+    private Label leftArrow;
+
+    @FXML
+    private Label rightArrow;
+
+    @FXML
+    private GridPane lineChartGridPane;
+
+    @FXML
+    private AnchorPane lineChartContainer;
+
     private NumberAxis salesQtyXAxis;
     private NumberAxis salesQtyYAxis;
 
     private XYChart.Series wheatSalesSeries;
+
+    private XYChart.Series wheatBalanceSeries;
+
+    private XYChart.Series wheatDepositSeries;
 
     private XYChart.Series grindingChargesPaidSeries;
 
@@ -85,6 +117,8 @@ public class HomeController implements Initializable {
 
     private boolean salesYearForMonthIsSelected;
 
+    int displayChartIndex = 0;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -104,6 +138,47 @@ public class HomeController implements Initializable {
         // Initialize Line Chart
         this.initializeSalesQtyLineChart();
         this.initializeSalesAmtLineChart();
+
+        // Arrow Icons
+        IconFontFX.register(GoogleMaterialDesignIcons.getIconFont());
+        IconNode chevronRight = new IconNode(GoogleMaterialDesignIcons.CHEVRON_RIGHT);
+        chevronRight.setIconSize(32);
+        chevronRight.setStyle("-fx-font-size: 90px;");
+
+        IconNode chevronLeft = new IconNode(GoogleMaterialDesignIcons.CHEVRON_LEFT);
+        chevronLeft.setIconSize(32);
+        chevronLeft.setStyle("-fx-font-size: 90px;");
+
+        leftArrow.setGraphic(chevronLeft);
+        rightArrow.setGraphic(chevronRight);
+
+        // For animation
+        salesQtyChart.setOpacity(0);
+
+        List<LineChart> charts = new ArrayList<>();
+        charts.add(salesAmtChart);
+        charts.add(salesQtyChart);
+
+        rightArrow.setOnMouseClicked((e) -> {
+            new FadeOutRight(charts.get(displayChartIndex)).play();
+            displayChartIndex++;
+            if(displayChartIndex > (charts.size()-1)){
+                displayChartIndex = 0;
+            }
+            new FadeInLeft(charts.get(displayChartIndex)).play();
+        });
+
+        leftArrow.setOnMouseClicked((e) -> {
+            new FadeOutLeft(charts.get(displayChartIndex)).play();
+            displayChartIndex++;
+            if(displayChartIndex > (charts.size()-1)){
+                displayChartIndex = 0;
+            }
+            new FadeInRight(charts.get(displayChartIndex)).play();
+        });
+
+
+
 
         // Hide monthly and yearly comboBox
         this.setSalesMonthComboBoxVisibility(false);
@@ -245,6 +320,8 @@ public class HomeController implements Initializable {
 
             if(salesToday!=null){
                 wheatSoldDisplay.setText(salesToday.getTotalWheatSold().toString());
+                wheatBalanceDisplay.setText(salesToday.getTotalStoredWheatBalance().toString());
+                wheatDepositDisplay.setText(salesToday.getTotalWheatDeposited().toString());
                 grindingChargesPaidDisplay.setText(salesToday.getTotalGrindingChargesPaid().toString());
                 grindingChargesDisplay.setText(salesToday.getTotalGrindingCharges().toString());
             }
@@ -292,8 +369,11 @@ public class HomeController implements Initializable {
                 grindingChargesDisplay.setText(String.valueOf(monthlyGrindingAmount));
 
                 this.populateDailyDataToChart(wheatSalesSeries,salesForMonth,"MONTH");
+                this.populateDailyDataToChart(wheatBalanceSeries,salesForMonth,"MONTH");
+                this.populateDailyDataToChart(wheatDepositSeries,salesForMonth,"MONTH");
                 this.populateDailyDataToChart(grindingChargesSeries,salesForMonth,"MONTH");
                 this.populateDailyDataToChart(grindingChargesPaidSeries,salesForMonth,"MONTH");
+
             }
             else{
                 System.out.println("No sales found in month: " + month);
@@ -349,6 +429,7 @@ public class HomeController implements Initializable {
                 grindingChargesDisplay.setText(String.valueOf(yearlyGrindingAmount));
 
                 this.populateMonthlyDataToChart(wheatSalesSeries,monthlySales,"YEAR");
+                this.populateMonthlyDataToChart(wheatDepositSeries,monthlySales,"YEAR");
                 this.populateMonthlyDataToChart(grindingChargesSeries,monthlySales,"YEAR");
                 this.populateMonthlyDataToChart(grindingChargesPaidSeries,monthlySales,"YEAR");
             }
@@ -410,6 +491,12 @@ public class HomeController implements Initializable {
                     case "Wheat Sold":
                         data = sales[i].getTotalWheatSold();
                         break;
+                    case "Wheat Balance":
+                        data = sales[i].getTotalStoredWheatBalance();
+                        break;
+                    case "Wheat Deposit":
+                        data = sales[i].getTotalWheatDeposited();
+                        break;
                     case "Grinding Charges Paid":
                         data = sales[i].getTotalGrindingChargesPaid();
                         break;
@@ -443,6 +530,9 @@ public class HomeController implements Initializable {
                 switch (seriesName){
                     case "Wheat Sold":
                         data = entry.getValue().getTotalWheatSold();
+                        break;
+                    case "Wheat Deposit":
+                        data = entry.getValue().getTotalWheatDeposited();
                         break;
                     case "Grinding Charges Paid":
                         data = entry.getValue().getTotalGrindingAmountReceived();
@@ -482,10 +572,11 @@ public class HomeController implements Initializable {
         salesQtyChart.setTitle("Sales By Quantity");
 
         this.initializeSalesQtySeries();
-        salesQtyChart.setPrefSize(400,400);
-        salesQtyChart.setLayoutX(50);
-        salesQtyChart.setLayoutY(250);
-        homeContainer.getChildren().add(salesQtyChart);
+        salesQtyChart.setPrefSize(950,450);
+        lineChartContainer.getChildren().add(salesQtyChart);
+//        salesQtyChart.setLayoutX(50);
+//        salesQtyChart.setLayoutY(200);
+//        homeContainer.getChildren().add(salesQtyChart);
 
     }
 
@@ -508,31 +599,33 @@ public class HomeController implements Initializable {
         salesAmtChart.setTitle("Sales By Amount");
 
         this.initializeSalesAmtSeries();
-        salesAmtChart.setPrefSize(400,400);
-        salesAmtChart.setLayoutX(500);
-        salesAmtChart.setLayoutY(250);
-        homeContainer.getChildren().add(salesAmtChart);
+        salesAmtChart.setPrefSize(950,450);
+        lineChartContainer.getChildren().add(salesAmtChart);
+//        salesAmtChart.setLayoutX(50);
+//        salesAmtChart.setLayoutY(200);
+//        homeContainer.getChildren().add(salesAmtChart);
 
     }
 
 
     private void initializeSalesQtySeries(){
-        //Defining a series
+        //Defining series
         wheatSalesSeries = new XYChart.Series();
+        wheatBalanceSeries = new XYChart.Series();
+        wheatDepositSeries = new XYChart.Series();
+
         wheatSalesSeries.setName("Wheat Sold");
-//        grindingChargesPaidSeries = new XYChart.Series();
-//        grindingChargesPaidSeries.setName("Grinding Charges Paid");
-//        grindingChargesSeries = new XYChart.Series();
-//        grindingChargesSeries.setName("Grinding Charges");
+        wheatBalanceSeries.setName("Wheat Balance");
+        wheatDepositSeries.setName("Wheat Deposit");
 
         salesQtyChart.getData().add(wheatSalesSeries);
-//        salesQtyChart.getData().add(grindingChargesPaidSeries);
-//        salesQtyChart.getData().add(grindingChargesSeries);
+        salesQtyChart.getData().add(wheatBalanceSeries);
+        salesQtyChart.getData().add(wheatDepositSeries);
 
     }
 
     private void initializeSalesAmtSeries(){
-        //Defining a series
+        //Defining series
         grindingChargesPaidSeries = new XYChart.Series();
         grindingChargesPaidSeries.setName("Grinding Charges Paid");
         grindingChargesSeries = new XYChart.Series();
@@ -551,6 +644,7 @@ public class HomeController implements Initializable {
             System.out.println(sale.getDate()+ " : " + sale.getTotalWheatSold());
         }
     }
+
 
 
 }
