@@ -277,10 +277,15 @@ public class AddTransactionController implements Initializable, ApplicationListe
             currentTotalGrindingChargesPaid += grindingChargesPaid;
 
 
-            Sales updatedSales = new Sales(currentDate,currentTotalWheatSold,currentTotalGrindingCharges,
-                    currentTotalGrindingChargesPaid);
+//            Sales updatedSales = new Sales(currentDate,currentTotalWheatSold,currentTotalGrindingCharges,
+//                    currentTotalGrindingChargesPaid);
+            sales.setTotalWheatSold(currentTotalWheatSold);
+            sales.setTotalGrindingChargesPaid(currentTotalGrindingChargesPaid);
+            sales.setTotalGrindingCharges(currentTotalGrindingCharges);
 
-            updatedSales.deductWheatSold(attaPickupQty);
+            Sales.updateSales(currentDate,sales);
+
+            sales.deductWheatSold(attaPickupQty);
         }
         else{
             Sales newSale = new Sales(date,attaPickupQty,grindingCharges,grindingChargesPaid);

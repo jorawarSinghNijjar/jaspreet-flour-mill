@@ -221,7 +221,7 @@ public class Sales implements Serializable {
                 Stock stock = response.getBody();
                 stock.addWheat(wheatDepositQty);
                 Stock.updateStock(stock);
-                Sales.updateWheatBalanceInSales(stock.getWheatBalance(), wheatDepositQty);
+                Sales.updateWheatBalanceInSales(stock.getWheatBalance(), wheatDepositQty,true);
             }
         }
         catch (Exception e) {
@@ -240,7 +240,7 @@ public class Sales implements Serializable {
                 Stock stock = response.getBody();
                 stock.deductWheat(attaPickupQty);
                 Stock.updateStock(stock);
-                Sales.updateWheatBalanceInSales(stock.getWheatBalance(),0.00);
+                Sales.updateWheatBalanceInSales(stock.getWheatBalance(),0.00,false);
             }
         }
         catch (Exception e) {
@@ -250,7 +250,11 @@ public class Sales implements Serializable {
     }
 
 
-    private static void updateWheatBalanceInSales(double wheatBalance, double wheatDepositQty){
+    private static void updateWheatBalanceInSales(
+            double wheatBalance,
+            double wheatDepositQty,
+            boolean wheatDeposit
+            ){
         // Update stocks in Sales table
 
         Sales sales = Sales.getSalesForDate(Util.getDateForToday());
@@ -258,8 +262,10 @@ public class Sales implements Serializable {
             System.out.println("Updating total stored wheat balance in sales table...");
             sales.setTotalStoredWheatBalance(wheatBalance);
 
-            System.out.println("Updating total wheat deposit in sales table...");
-            sales.updateTotalWheatDeposited(wheatDepositQty);
+            if(wheatDeposit){
+                System.out.println("Updating total wheat deposit in sales table...");
+                sales.updateTotalWheatDeposited(wheatDepositQty);
+            }
             // Update sales on backend
             Sales.updateSales(Util.getDateForToday(),sales);
         }
@@ -271,7 +277,9 @@ public class Sales implements Serializable {
                     0.00,
                     0.00);
             sale.setTotalStoredWheatBalance(wheatBalance);
-            sale.updateTotalWheatDeposited(wheatDepositQty);
+            if(wheatDeposit){
+                sale.updateTotalWheatDeposited(wheatDepositQty);
+            }
             Sales.saveSales(sale);
         }
     }
