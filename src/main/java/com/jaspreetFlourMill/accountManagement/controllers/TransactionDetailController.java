@@ -64,8 +64,8 @@ public class TransactionDetailController implements Initializable {
         transactionFlourPickupQtyHeading.setText("ਆਟਾ ਪ੍ਰਾਪਤ" + "\n" + "Flour Pickup Qty");
         transactionGrindingAmountHeading.setText("ਪੀਸਾਈ ਰਕਮ" + "\n" + "Grinding Amount");
         transactionGrindingAmountPaidHeading.setText("ਰਕਮ ਅਦਾ ਕੀਤੀ" + "\n" + "Amount Paid");
-        transactionGrindingBalanceAmountHeading.setText("ਬਾਕੀ ਰਕਮ" + "\n" + "Balance Amount");
-        transactionStoredWheatBalanceHeading.setText("ਬਾਕੀ ਕਣਕ"+ "\n" +"Stored Wheat Balance");
+        transactionGrindingBalanceAmountHeading.setText("ਬਾਕੀ ਰਕਮ" + "\n" + "Unpaid Amount");
+        transactionStoredWheatBalanceHeading.setText("ਬਾਕੀ ਕਣਕ"+ "\n" +"Account Wheat Balance");
         transactionOrderPickedByHeading.setText("ਪ੍ਰਾਪਤ ਕਰਤਾ"+ "\n" +"Order Picked By");
         transactionCashierHeading.setText("ਖਜਾਨਚੀ" + "\n" + "Cashier");
     }

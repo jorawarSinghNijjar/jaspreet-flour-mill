@@ -91,7 +91,7 @@ public class TransactionDetailItemController implements Initializable, Applicati
             String cashier
     ) {
 
-        transactionIdLabel.setText(transactionId);
+//        transactionIdLabel.setText(transactionId);
         timeStampLabel.setText(time);
         flourPickupQtyLabel.setText(flourPickupQty + " kg");
         grindingChargesLabel.setText("₹ " + grindingCharges);

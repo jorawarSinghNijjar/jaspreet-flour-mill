@@ -43,7 +43,7 @@ public class TransactionPrintPreviewController implements Initializable, Applica
     private static final int printRowsMax = 6;
     private boolean nextPage;
     private static final double columnWidth = 132;
-    private static final double columnHeight = 60;
+    private static final double columnHeight = 80;
     private int customerId;
     private final FxWeaver fxWeaver;
 
@@ -106,6 +106,7 @@ public class TransactionPrintPreviewController implements Initializable, Applica
         printRow.setStyle("-fx-border-style: hidden hidden solid hidden; " +
                 "-fx-border-color: grey;");
 //        Label transactionIdLabel = new Label(transaction.getTransactionId());
+//        Label sNo = new Label();
         Label timeLabel = new Label(transaction.getDate() + "\n" + transaction.getTime());
 
         String flourPickupQty = String.valueOf(transaction.getFlourPickupQty());
@@ -199,17 +200,19 @@ public class TransactionPrintPreviewController implements Initializable, Applica
 
     private void printColumnHeaders() {
 //        Label transactionIdLabel = new Label("Transaction ID");
+//        Label sNo = new Label("S.No.");
         Label timeLabel = new Label("ਸਮਾਂ" + "\n" + "Time");
         Label flourPickupQtyLabel = new Label("ਆਟਾ ਪ੍ਰਾਪਤ" + "\n" + "Flour Pickup Qty");
         Label grindingChargesLabel = new Label("ਪੀਸਾਈ ਰਕਮ" + "\n" + "Grinding Amount");
         Label grindingChargesPaidLabel = new Label("ਰਕਮ ਅਦਾ ਕੀਤੀ" + "\n" + "Amount Paid");
-        Label customerBalanceGrindingLabel = new Label("ਬਾਕੀ ਰਕਮ" + "\n" + "Balance Amount");
-        Label customerStoredWheatBalanceLabel = new Label("ਬਾਕੀ ਕਣਕ"+ "\n" +"Stored Wheat Balance");
+        Label customerBalanceGrindingLabel = new Label("ਬਾਕੀ ਰਕਮ" + "\n" + "Unpaid Amount");
+        Label customerStoredWheatBalanceLabel = new Label("ਬਾਕੀ ਕਣਕ"+ "\n" +"Account Wheat Balance");
         Label orderPickedByLabel = new Label("ਪ੍ਰਾਪਤ ਕਰਤਾ"+ "\n" +"Order Picked By");
 
 
         List<Label> labels = new ArrayList<>();
 //        labels.add(transactionIdLabel);
+//        labels.add(sNo);
         labels.add(timeLabel);
         labels.add(flourPickupQtyLabel);
         labels.add(grindingChargesLabel);

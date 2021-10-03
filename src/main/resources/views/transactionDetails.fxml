@@ -11,7 +11,7 @@
     <children>
         <HBox layoutY="3.0" prefHeight="83.0" prefWidth="1136.0" spacing="5.0" style="-fx-background-color: #DEF2F1;">
             <children>
-                <Label alignment="CENTER" prefHeight="70.0" prefWidth="140.0" styleClass="h5" stylesheets="@css/main.css" text="Transaction ID" wrapText="true" />
+<!--                <Label alignment="CENTER" prefHeight="70.0" prefWidth="140.0" styleClass="h5" stylesheets="@css/main.css" text="Transaction ID" wrapText="true" />-->
                 <Label fx:id="transactionTimeHeading" alignment="CENTER" prefHeight="70.0" prefWidth="140.0" styleClass="h5" stylesheets="@css/main.css" wrapText="true" />
                 <Label fx:id="transactionFlourPickupQtyHeading" alignment="CENTER" prefHeight="70.0" prefWidth="140.0" styleClass="h5" stylesheets="@css/main.css" wrapText="true" />
                 <Label fx:id="transactionGrindingAmountHeading" alignment="CENTER" prefHeight="70.0" prefWidth="140.0" styleClass="h5" stylesheets="@css/main.css" wrapText="true" />
@@ -22,7 +22,7 @@
                 <Label fx:id="transactionCashierHeading" alignment="CENTER" prefHeight="70.0" prefWidth="140.0" styleClass="h5" stylesheets="@css/main.css" text="Cashier" wrapText="true" />
             </children>
             <padding>
-                <Insets right="80.0" top="10.0" />
+                <Insets right="80.0" />
             </padding>
         </HBox>
         <ScrollPane layoutY="71.0" prefHeight="300.0" prefWidth="1136.0">
