@@ -55,6 +55,9 @@ public class AddTransactionController implements Initializable, ApplicationListe
     @FXML
     private Label cashierNameLabel;
 
+    @FXML
+    public Label customerIdInputValidLabel;
+
     private String cashierName;
 
     private double grindingCharges;

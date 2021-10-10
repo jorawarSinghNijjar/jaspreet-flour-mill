@@ -125,7 +125,7 @@ public class HomeController implements Initializable {
 
         // Get the number of days in that month
         todayDate = LocalDate.now();
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         String currentDayStr = dateFormat.format(todayDate);
         currentDay = todayDate.getDayOfMonth();
         currentMonth = todayDate.getMonthValue();

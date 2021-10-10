@@ -31,7 +31,7 @@ public class CustomerAccount implements Serializable {
         this.currentWheatBalance = initialWheatQty;
         this.grindingChargesBalance = 0;
         LocalDateTime dateTime = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
         this.startDate = formatter.format(dateTime);
         this.rowsPrinted = 0;
     }

@@ -125,7 +125,6 @@ public class DepositWheatController implements Initializable {
                 {
                 CustomerAccount newCustomerAccount = new CustomerAccount(customer,wheatDepositQty,
                         wheatProcessingDeductionQty);
-
                 System.out.println("Updating Customer Account for" + newCustomerAccount.getCustomer().getName());
                     System.out.println(newCustomerAccount.toString());
                 if(newCustomerAccount != null){

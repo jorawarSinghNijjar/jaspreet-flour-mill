@@ -1,6 +1,7 @@
 package com.jaspreetFlourMill.accountManagement.controllers;
 
 import com.jaspreetFlourMill.accountManagement.StageReadyEvent;
+import com.jaspreetFlourMill.accountManagement.util.FormValidation;
 import com.jaspreetFlourMill.accountManagement.util.NavigationHandler;
 import com.jaspreetFlourMill.accountManagement.util.UserSession;
 import javafx.beans.value.ChangeListener;
@@ -226,9 +227,16 @@ public class ContentController implements  Initializable, ApplicationListener<St
 
             addTransactionController.customerIdInput.textProperty().addListener((
                     (observableValue, oldValue, newValue) -> {
-                customerDetailsCV.getController().updateCustomerDetails(newValue);
-                transactionDetailsCV.getController().clearTransactionDisplay();
-                transactionDetailsCV.getController().renderTransactions(newValue);
+                boolean validInput = FormValidation.isInteger(
+                        newValue,
+                        addTransactionCV.getController().customerIdInputValidLabel
+                ).isValid();
+
+                if(validInput){
+                    customerDetailsCV.getController().updateCustomerDetails(newValue);
+                    transactionDetailsCV.getController().clearTransactionDisplay();
+                    transactionDetailsCV.getController().renderTransactions(newValue);
+                }
             }
             ));
 

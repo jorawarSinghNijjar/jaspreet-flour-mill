@@ -1,6 +1,7 @@
 package com.jaspreetFlourMill.accountManagement.controllers;
 
 import com.jaspreetFlourMill.accountManagement.model.Transaction;
+import com.jaspreetFlourMill.accountManagement.util.Util;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -13,7 +14,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -95,12 +98,17 @@ public class TransactionDetailController implements Initializable {
 
         for(int i=0; i<transactions.size(); i++){
             try {
+                System.out.println("--------------------->"+transactions.get(i).toString());
                 transactionDetailItemCV = fxWeaver.load(TransactionDetailItemController.class);
                 TransactionDetailItemController transactionDetailItemController =
                         transactionDetailItemCV.getController();
 
+                // Change of Date Time format from US to IND
+                String displayDate = Util.usToIndDateFormat(transactions.get(i).getDate());
+                String displayTime = Util.usToIndTimeFormat(transactions.get(i).getTime());
+
                 transactionId = transactions.get(i).getTransactionId();
-                time = transactions.get(i).getDate() +" " + transactions.get(i).getTime();
+                time = displayDate +" " + displayTime;
                 flourPickupQty = transactions.get(i).getFlourPickupQty();
                 grindingCharges = transactions.get(i).getGrindingCharges();
                 grindingBalance = transactions.get(i).getCustomerBalanceGrindingCharges();
