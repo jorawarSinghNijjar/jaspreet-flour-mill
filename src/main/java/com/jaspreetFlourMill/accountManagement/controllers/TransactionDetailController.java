@@ -98,7 +98,7 @@ public class TransactionDetailController implements Initializable {
 
         for(int i=0; i<transactions.size(); i++){
             try {
-                System.out.println("--------------------->"+transactions.get(i).toString());
+//                System.out.println("--------------------->"+transactions.get(i).toString());
                 transactionDetailItemCV = fxWeaver.load(TransactionDetailItemController.class);
                 TransactionDetailItemController transactionDetailItemController =
                         transactionDetailItemCV.getController();
@@ -136,7 +136,8 @@ public class TransactionDetailController implements Initializable {
                 });
             }
             catch (Exception e){
-                e.getMessage();
+                System.out.println("Transaction rendering failed............");
+                e.printStackTrace();
             }
         }
 

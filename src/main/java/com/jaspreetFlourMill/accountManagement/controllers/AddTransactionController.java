@@ -255,7 +255,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
             }
             catch(Exception e){
                 System.out.println("Failed to retrieve employee name");
-                e.getMessage();
+                e.printStackTrace();
             }
         }
         System.out.println("Please enter a valid employee id");

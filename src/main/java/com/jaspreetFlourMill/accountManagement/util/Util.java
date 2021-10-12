@@ -6,6 +6,7 @@ import org.joda.time.format.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
@@ -50,7 +51,7 @@ public class Util {
 
     public static String usToIndTimeFormat(String inputTime){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss", Locale.ENGLISH);
-        LocalDate time = LocalDate.parse(inputTime, formatter);
+        LocalTime time = LocalTime.parse(inputTime, formatter);
         DateTimeFormatter outputFormat = DateTimeFormatter.ofPattern("hh:mm:ss a", Locale.ENGLISH);
         return outputFormat.format(time);
     }

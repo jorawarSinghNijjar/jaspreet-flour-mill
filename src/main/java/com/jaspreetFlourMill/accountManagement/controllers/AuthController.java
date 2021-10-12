@@ -102,7 +102,7 @@ public class AuthController implements ApplicationListener<StageReadyEvent> {
             }
         }
         catch(Exception e){
-            System.out.println(e.getCause());
+            e.printStackTrace();
             return;
         }
 
