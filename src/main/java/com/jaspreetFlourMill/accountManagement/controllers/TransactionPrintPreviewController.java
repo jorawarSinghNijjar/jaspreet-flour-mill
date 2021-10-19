@@ -3,6 +3,7 @@ package com.jaspreetFlourMill.accountManagement.controllers;
 import com.jaspreetFlourMill.accountManagement.StageReadyEvent;
 import com.jaspreetFlourMill.accountManagement.model.CustomerAccount;
 import com.jaspreetFlourMill.accountManagement.model.Transaction;
+import com.jaspreetFlourMill.accountManagement.util.Util;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -107,7 +108,12 @@ public class TransactionPrintPreviewController implements Initializable, Applica
                 "-fx-border-color: grey;");
 //        Label transactionIdLabel = new Label(transaction.getTransactionId());
 //        Label sNo = new Label();
-        Label timeLabel = new Label(transaction.getDate() + "\n" + transaction.getTime());
+
+        // Change of Date Time format from US to IND
+        String displayDate = Util.usToIndDateFormat(transaction.getDate());
+        String displayTime = Util.usToIndTimeFormat(transaction.getTime());
+
+        Label timeLabel = new Label(displayDate + "\n" + displayTime);
 
         String flourPickupQty = String.valueOf(transaction.getFlourPickupQty());
         String grindingCharges = String.valueOf(transaction.getGrindingCharges());
