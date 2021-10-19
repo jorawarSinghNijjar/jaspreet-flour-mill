@@ -14,7 +14,7 @@
 	<name>accountManagement</name>
 	<description>Account Management Application</description>
 	<properties>
-		<java.version>16</java.version>
+		<java.version>17</java.version>
 		<javafx.version>16</javafx.version>
 	</properties>
 	<dependencies>

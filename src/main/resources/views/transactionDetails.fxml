@@ -11,7 +11,7 @@
     <children>
         <HBox layoutY="3.0" prefHeight="83.0" prefWidth="1136.0" spacing="5.0" style="-fx-background-color: #DEF2F1;">
             <children>
-<!--                <Label alignment="CENTER" prefHeight="70.0" prefWidth="140.0" styleClass="h5" stylesheets="@css/main.css" text="Transaction ID" wrapText="true" />-->
+                <Label alignment="CENTER" prefHeight="70.0" prefWidth="140.0" styleClass="h5" stylesheets="@css/main.css" text="Transaction ID" wrapText="true" />
                 <Label fx:id="transactionTimeHeading" alignment="CENTER" maxWidth="130.0" prefHeight="70.0" prefWidth="130.0" styleClass="h5" stylesheets="@css/main.css" wrapText="true" />
                 <Label fx:id="transactionFlourPickupQtyHeading" alignment="CENTER" maxWidth="130.0" prefHeight="70.0" prefWidth="130.0" styleClass="h5" stylesheets="@css/main.css" wrapText="true" />
                 <Label fx:id="transactionGrindingAmountHeading" alignment="CENTER" maxWidth="130.0" prefHeight="70.0" prefWidth="130.0" styleClass="h5" stylesheets="@css/main.css" wrapText="true" />

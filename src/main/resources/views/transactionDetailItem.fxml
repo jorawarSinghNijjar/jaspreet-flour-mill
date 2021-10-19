@@ -7,7 +7,7 @@
 
 <HBox fx:id="transactionDetailItem" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="1120.0" spacing="5.0" style="-fx-background-color: #FEFFFF;" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.TransactionDetailItemController">
    <children>
-<!--      <Label fx:id="transactionIdLabel" alignment="CENTER" prefHeight="50.0" prefWidth="140.0" styleClass="table-items" stylesheets="@css/main.css" text="65234" textAlignment="CENTER" wrapText="true" />-->
+      <Label fx:id="transactionIdLabel" alignment="CENTER" prefHeight="50.0" prefWidth="140.0" styleClass="table-items" stylesheets="@css/main.css" text="65234" textAlignment="CENTER" wrapText="true" />
       <Label fx:id="timeStampLabel" alignment="CENTER" maxWidth="130.0" prefHeight="50.0" prefWidth="130.0" styleClass="table-items" stylesheets="@css/main.css" text="April 28, 2021 7:32 p.m" textAlignment="CENTER" wrapText="true" />
       <Label fx:id="flourPickupQtyLabel" alignment="CENTER" layoutX="1008.0" layoutY="10.0" maxWidth="130.0" prefHeight="50.0" prefWidth="130.0" styleClass="table-items" stylesheets="@css/main.css" text="10 kg" textAlignment="CENTER" wrapText="true" />
       <Label fx:id="grindingChargesLabel" alignment="CENTER" maxWidth="130.0" prefHeight="54.0" prefWidth="130.0" styleClass="table-items" stylesheets="@css/main.css" text="40.00" textAlignment="CENTER" wrapText="true" />

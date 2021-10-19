@@ -67,7 +67,7 @@ public class TransactionDetailItemController implements Initializable, Applicati
 
     private Printer currentPrinter;
 
-//    private String selectedTransactionId;
+    private String selectedTransactionId;
 
     @FXML
     private Button pageSetupBtn;
@@ -91,7 +91,7 @@ public class TransactionDetailItemController implements Initializable, Applicati
             String cashier
     ) {
 
-//        transactionIdLabel.setText(transactionId);
+        transactionIdLabel.setText(transactionId);
         timeStampLabel.setText(time);
         flourPickupQtyLabel.setText(flourPickupQty + " kg");
         grindingChargesLabel.setText("₹ " + grindingCharges);
@@ -140,10 +140,10 @@ public class TransactionDetailItemController implements Initializable, Applicati
         Node node = (Node)e.getSource();
         Node selectedTransactionIdLabel = node.getParent().getChildrenUnmodifiable().get(0);
         String selectedTransactionId = ((Label)selectedTransactionIdLabel).getText();
-
+        System.out.println("Selected by click TransactionId = " + selectedTransactionId);
         printBtn.setOnAction(PrintEvent -> {
             transactionPrintPreviewCV.getView().ifPresent(view -> {
-                System.out.println(view);
+                System.out.println("Printing.......");
                 printSetup(view,stage,selectedTransactionId,currentPrinter);
             });
         });
@@ -209,6 +209,8 @@ public class TransactionDetailItemController implements Initializable, Applicati
 
         boolean proceed = job.showPageSetupDialog(owner);
         if(proceed){
+            System.out.println("Page Setup done..." +
+                    "Proceeding to print preview...");
             this.printPreview(node,job,selectedTransactionId, currentPrinter);
         }
 
