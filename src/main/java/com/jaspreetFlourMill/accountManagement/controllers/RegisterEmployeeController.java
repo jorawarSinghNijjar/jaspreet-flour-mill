@@ -1,5 +1,6 @@
 package com.jaspreetFlourMill.accountManagement.controllers;
 
+import com.jaspreetFlourMill.accountManagement.StageReadyEvent;
 import com.jaspreetFlourMill.accountManagement.model.Customer;
 import com.jaspreetFlourMill.accountManagement.model.Employee;
 import com.jaspreetFlourMill.accountManagement.util.FormValidation;
@@ -10,7 +11,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxmlView;
+import org.springframework.context.ApplicationListener;
 import org.springframework.http.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -22,7 +26,7 @@ import java.util.ResourceBundle;
 
 @Component
 @FxmlView("/views/registerEmployee.fxml")
-public class RegisterEmployeeController implements Initializable {
+public class RegisterEmployeeController implements Initializable, ApplicationListener<StageReadyEvent> {
 
     @FXML
     private TextField employeeNameField;
@@ -69,6 +73,7 @@ public class RegisterEmployeeController implements Initializable {
     private Label employeePasswordValidLabel;
     @FXML
     private Label employeeConfPasswordValidLabel;
+    private Stage stage;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -154,6 +159,13 @@ public class RegisterEmployeeController implements Initializable {
             this.validateForm();
         });
 
+        // Submit form if Enter key is pressed
+        this.stage.getScene().setOnKeyPressed(keyEvent -> {
+            if(keyEvent.getCode() == KeyCode.ENTER){
+                this.registerEmployee();
+            }
+        });
+
     }
 
     private boolean validateForm() {
@@ -168,7 +180,11 @@ public class RegisterEmployeeController implements Initializable {
     }
 
 
-    public void submitRegisterEmployee(ActionEvent e){
+    public void handleRegisterEmployeeSubmit(ActionEvent e){
+        this.registerEmployee();
+    }
+
+    private void registerEmployee(){
         String name = employeeNameField.getText();
         String password = employeePasswordField.getText();
         String contactNo = employeeContactNoField.getText();
@@ -179,27 +195,30 @@ public class RegisterEmployeeController implements Initializable {
         if(!this.validateForm()){
             return;
         }
-            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-            String encodedPassword = bCryptPasswordEncoder.encode(password);
-            Employee newEmployee = new Employee(name,encodedPassword,contactNo,address,jobDesignation,dob);
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = bCryptPasswordEncoder.encode(password);
+        Employee newEmployee = new Employee(name,encodedPassword,contactNo,address,jobDesignation,dob);
 
-            if(newEmployee != null){
-                // POST request to register employee
-                final String uri =  "http://localhost:8080/employees/";
-                RestTemplate restTemplate = new RestTemplate();
+        if(newEmployee != null){
+            // POST request to register employee
+            final String uri =  "http://localhost:8080/employees/";
+            RestTemplate restTemplate = new RestTemplate();
 
-                HttpHeaders httpHeaders = new HttpHeaders();
-                httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
-                HttpEntity<Employee> req = new HttpEntity<>(newEmployee,httpHeaders);
-                ResponseEntity<String> result = restTemplate.exchange(uri, HttpMethod.POST,req,String.class);
+            HttpEntity<Employee> req = new HttpEntity<>(newEmployee,httpHeaders);
+            ResponseEntity<String> result = restTemplate.exchange(uri, HttpMethod.POST,req,String.class);
 
-                if(result != null){
-                    System.out.println(result.getBody());
-                    ContentController.navigationHandler.handleShowHome();
-                }
+            if(result != null){
+                System.out.println(result.getBody());
+                ContentController.navigationHandler.handleShowHome();
             }
+        }
+    }
 
-
+    @Override
+    public void onApplicationEvent(StageReadyEvent stageReadyEvent) {
+        this.stage = stageReadyEvent.getStage();
     }
 }

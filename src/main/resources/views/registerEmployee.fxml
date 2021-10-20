@@ -52,6 +52,6 @@
             <Label fx:id="employeeDobValidLabel" prefHeight="45.0" prefWidth="300.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="6" />
          </children>
       </GridPane>
-      <Button fx:id="registerEmployeeBtn" layoutX="285.0" layoutY="607.0" mnemonicParsing="false" onAction="#submitRegisterEmployee" prefHeight="35.0" prefWidth="300.0" styleClass="secondary-btn" stylesheets="@css/main.css" text="Submit" />
+      <Button fx:id="registerEmployeeBtn" layoutX="285.0" layoutY="607.0" mnemonicParsing="false" onAction="#handleRegisterEmployeeSubmit" prefHeight="35.0" prefWidth="300.0" styleClass="secondary-btn" stylesheets="@css/main.css" text="Submit" />
    </children>
 </AnchorPane>

@@ -5,6 +5,8 @@ import com.jaspreetFlourMill.accountManagement.model.Customer;
 import com.jaspreetFlourMill.accountManagement.model.Employee;
 import com.jaspreetFlourMill.accountManagement.model.Sales;
 import com.jaspreetFlourMill.accountManagement.model.Transaction;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableSet;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -14,6 +16,8 @@ import javafx.print.Printer;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -89,6 +93,8 @@ public class AddTransactionController implements Initializable, ApplicationListe
 
         cashierName = this.getEmployeeName(AuthController.currentSession.getUserId());
         cashierNameLabel.setText(cashierName);
+
+        // Input Change Listener for grinding rate input field
         grindingRateInput.textProperty().addListener( (observableValue, oldValue, newValue) -> {
             String flourPickupQtyInputText = flourPickupQtyInput.getText();
             if( !flourPickupQtyInputText.isEmpty() && flourPickupQtyInputText !=null){
@@ -101,6 +107,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
 
         });
 
+        // Input Change Listener for grinding rate input field
         flourPickupQtyInput.textProperty().addListener( (observableValue, oldValue, newValue) -> {
             String grindingRateInputText = grindingRateInput.getText();
             if( !grindingRateInputText.isEmpty() && grindingRateInputText !=null) {
@@ -111,12 +118,16 @@ public class AddTransactionController implements Initializable, ApplicationListe
                 }
             }
         });
+
+        // Submit form if Enter key is pressed
+        this.stage.getScene().setOnKeyPressed(keyEvent -> {
+            if(keyEvent.getCode() == KeyCode.ENTER){
+                submitTransaction();
+            }
+        });
     }
 
-
-
-    @FXML
-    public void submitTransaction(ActionEvent event){
+    private void submitTransaction() {
         int customerId = Integer.parseInt(customerIdInput.getText());
         double flourPickupQty = Double.parseDouble(flourPickupQtyInput.getText());
         double grindingRate = Double.parseDouble(grindingRateInput.getText());
@@ -191,14 +202,19 @@ public class AddTransactionController implements Initializable, ApplicationListe
         catch(Exception e){
             e.getMessage();
         }
+    }
 
+
+    @FXML
+    public void handleSubmitTransaction(ActionEvent event){
+        submitTransaction();
     }
 
     // Print Transaction
     public void printTransaction(String transactionId){
         ObservableSet<Printer> printers = Printer.getAllPrinters();
 
-        ListView listView = new ListView();
+        ListView<String> listView = new ListView();
 
         Label jobStatus = new Label();
 
@@ -210,17 +226,20 @@ public class AddTransactionController implements Initializable, ApplicationListe
             listView.getItems().add(printer.getName());
         }
 
-        listView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
+        // Change Listener to observe change in ListView to select a printer from the list
+        listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>()
+        {
+            public void changed(ObservableValue<? extends String> ov,
+                                final String oldvalue, final String newvalue)
+            {
                 for(Printer printer: printers){
-                    if(printer.getName().matches(listView.getSelectionModel().getSelectedItem().toString())){
+                    if(printer.getName().matches(listView.getSelectionModel().getSelectedItem())){
                         currentPrinter = printer;
                         System.out.println("Current Printer: " + currentPrinter.getName());
                     }
                 }
-            }
-        });
+            }});
+
         VBox vBox = new VBox(10);
         Label label = new Label("Printers");
         Button printBtn = new Button("Print");
@@ -240,6 +259,17 @@ public class AddTransactionController implements Initializable, ApplicationListe
         });
 
         Scene scene = new Scene(vBox, 400,300);
+
+        // Submit form if Enter key is pressed
+        listView.setOnKeyPressed(keyEvent -> {
+            if(keyEvent.getCode() == KeyCode.ENTER){
+                transactionPrintPreviewCV.getView().ifPresent(view -> {
+                    System.out.println("Printing.......");
+                    transactionDetailItemCV.getController().printSetup(view,stage,transactionId,currentPrinter);
+                });
+            }
+        });
+
         this.stage.setScene(scene);
         this.stage.show();
     }
