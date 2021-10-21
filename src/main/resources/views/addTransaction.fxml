@@ -26,13 +26,13 @@
             <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label prefHeight="58.0" prefWidth="152.0" text="Atta Pickup Qty" GridPane.rowIndex="1" />
+            <Label prefHeight="58.0" prefWidth="152.0" text="Flour Pickup Qty" GridPane.rowIndex="1" />
             <Label prefHeight="30.0" prefWidth="122.0" text="Cashier" GridPane.rowIndex="6" />
             <Label prefHeight="58.0" prefWidth="154.0" text="Order Picked By" GridPane.rowIndex="5" />
             <Label prefHeight="58.0" prefWidth="154.0" text="Grinding Charges Paid" GridPane.rowIndex="4" />
             <Label prefHeight="58.0" prefWidth="151.0" text="Customer ID" />
             <TextField fx:id="customerIdInput" prefHeight="33.0" prefWidth="223.0" GridPane.columnIndex="1" />
-            <TextField fx:id="attaPickupQtyInput" prefHeight="33.0" prefWidth="223.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="flourPickupQtyInput" prefHeight="33.0" prefWidth="223.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="grindingChargesPaidInput" prefHeight="33.0" prefWidth="223.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <TextField fx:id="orderPickedByInput" prefHeight="33.0" prefWidth="223.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <Label fx:id="cashierNameLabel" alignment="CENTER" prefHeight="30.0" prefWidth="122.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
@@ -43,7 +43,8 @@
             <TextField fx:id="grindingRateInput" prefHeight="33.0" prefWidth="223.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
-      <Button layoutX="99.0" layoutY="352.0" mnemonicParsing="false" onAction="#submitTransaction" prefHeight="33.0" prefWidth="314.0" styleClass="secondary-btn" stylesheets="@css/main.css" text="Submit">
+      <Button layoutX="99.0" layoutY="352.0" mnemonicParsing="false" onAction="#handleSubmitTransaction" prefHeight="33.0" prefWidth="314.0" styleClass="secondary-btn" stylesheets="@css/main.css" text="Submit">
          </Button>
+      <Label fx:id="customerIdInputValidLabel" layoutX="230.0" layoutY="25.0" prefHeight="30.0" prefWidth="122.0" text="Label" />
    </children>
 </AnchorPane>

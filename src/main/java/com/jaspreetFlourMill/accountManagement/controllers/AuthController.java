@@ -2,6 +2,8 @@ package com.jaspreetFlourMill.accountManagement.controllers;
 
 import com.jaspreetFlourMill.accountManagement.StageReadyEvent;
 import com.jaspreetFlourMill.accountManagement.model.Employee;
+import com.jaspreetFlourMill.accountManagement.model.Sales;
+import com.jaspreetFlourMill.accountManagement.model.Stock;
 import com.jaspreetFlourMill.accountManagement.util.UserSession;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -39,6 +41,8 @@ public class AuthController implements ApplicationListener<StageReadyEvent> {
 
     @FXML
     private void initialize(){
+//        // Initializing Stock table in database
+//        Stock.initializeStock();
 
     }
 
@@ -98,7 +102,7 @@ public class AuthController implements ApplicationListener<StageReadyEvent> {
             }
         }
         catch(Exception e){
-            System.out.println(e.getCause());
+            e.printStackTrace();
             return;
         }
 

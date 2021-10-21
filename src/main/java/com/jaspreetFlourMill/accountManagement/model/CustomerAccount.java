@@ -1,6 +1,7 @@
 package com.jaspreetFlourMill.accountManagement.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.jaspreetFlourMill.accountManagement.util.Util;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -30,7 +31,7 @@ public class CustomerAccount implements Serializable {
         this.currentWheatBalance = initialWheatQty;
         this.grindingChargesBalance = 0;
         LocalDateTime dateTime = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
         this.startDate = formatter.format(dateTime);
         this.rowsPrinted = 0;
     }
@@ -128,7 +129,7 @@ public class CustomerAccount implements Serializable {
         return grindingChargesBalance;
     }
 
-    public void addWheatToAccount(double wheatDepositQty, double wheatProcessingDeductionQty){
+    public void addWheatToAccount(double wheatDepositQty, double wheatProcessingDeductionQty) throws Exception{
         this.wheatDepositQty += wheatDepositQty;
         this.initialWheatQty += (wheatDepositQty-wheatProcessingDeductionQty);
         this.currentWheatBalance = this.initialWheatQty;
@@ -144,8 +145,8 @@ public class CustomerAccount implements Serializable {
         return responseEntity;
     }
 
-    public static String updateCustomerAccount(Integer id,CustomerAccount customerAccount) throws Exception{
-        String uri = "http://localhost:8080/customer-accounts/" + id;
+    public static String updateCustomerAccount(Integer customerId,CustomerAccount customerAccount) throws Exception{
+        String uri = "http://localhost:8080/customer-accounts/" + customerId;
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);

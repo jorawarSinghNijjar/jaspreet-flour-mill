@@ -20,6 +20,7 @@ public final class UserSession {
 
 
     public static UserSession getInstance(String userId, UserType userType){
+//        System.out.println("--------------->"+instance.toString());
         if(instance == null){
             instance = new UserSession(userId,userType);
             System.out.println("Logging in...." + instance.toString());

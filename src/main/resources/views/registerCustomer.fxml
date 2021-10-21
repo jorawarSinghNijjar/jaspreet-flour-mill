@@ -57,7 +57,7 @@
             <Label fx:id="customerAdhaarNumberValidLabel" prefHeight="45.0" prefWidth="255.0" stylesheets="@css/main.css" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4" GridPane.vgrow="SOMETIMES" />
          </children>
       </GridPane>
-      <Button fx:id="registerCustomerBtn" layoutX="244.0" layoutY="621.0" mnemonicParsing="false" onAction="#registerCustomerSubmit" prefHeight="35.0" prefWidth="300.0" styleClass="secondary-btn" stylesheets="@css/main.css" text="Submit" />
+      <Button fx:id="registerCustomerBtn" layoutX="244.0" layoutY="621.0" mnemonicParsing="false" onAction="#handleRegisterCustomerSubmit" prefHeight="35.0" prefWidth="300.0" styleClass="secondary-btn" stylesheets="@css/main.css" text="Submit" />
       <Label fx:id="customerRegisterAlertMsg" layoutX="217.0" layoutY="28.0" prefHeight="35.0" prefWidth="274.0" />
    </children>
 </AnchorPane>

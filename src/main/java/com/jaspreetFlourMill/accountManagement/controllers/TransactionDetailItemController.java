@@ -2,6 +2,10 @@ package com.jaspreetFlourMill.accountManagement.controllers;
 
 import com.jaspreetFlourMill.accountManagement.StageReadyEvent;
 import com.jaspreetFlourMill.accountManagement.model.Transaction;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableSet;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -11,6 +15,8 @@ import javafx.print.*;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -23,8 +29,8 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
 
-import javax.print.event.PrintEvent;
 import java.net.URL;
+import java.util.EventListener;
 import java.util.ResourceBundle;
 
 @Component
@@ -43,7 +49,7 @@ public class TransactionDetailItemController implements Initializable, Applicati
     private Label timeStampLabel;
 
     @FXML
-    private Label attaPickupQtyLabel;
+    private Label flourPickupQtyLabel;
 
     @FXML
     private Label grindingChargesLabel;
@@ -68,7 +74,7 @@ public class TransactionDetailItemController implements Initializable, Applicati
 
     private Printer currentPrinter;
 
-//    private String selectedTransactionId;
+    private String selectedTransactionId;
 
     @FXML
     private Button pageSetupBtn;
@@ -84,20 +90,21 @@ public class TransactionDetailItemController implements Initializable, Applicati
     }
 
     public  void setTransactionDetails(
-            String transactionId, String time, double attaPickupQty,
+            String transactionId, String time, double flourPickupQty,
             double grindingCharges,
             double grindingRate,
             double grindingChargesPaid, double grindingBalance,
             double storedWheatBalance, String orderPickedBy,
             String cashier
     ) {
+
         transactionIdLabel.setText(transactionId);
         timeStampLabel.setText(time);
-        attaPickupQtyLabel.setText(String.valueOf(attaPickupQty));
-        grindingChargesLabel.setText(String.valueOf(grindingCharges));
-        grindingChargesPaidLabel.setText(grindingChargesPaid + " @ Rs." + grindingRate +"/kg");
-        grindingBalanceLabel.setText(String.valueOf(grindingBalance));
-        storedWheatBalanceLabel.setText(String.valueOf(storedWheatBalance));
+        flourPickupQtyLabel.setText(flourPickupQty + " kg");
+        grindingChargesLabel.setText("₹ " + grindingCharges);
+        grindingChargesPaidLabel.setText("₹ " + grindingChargesPaid + " @ ₹" + grindingRate +"/kg");
+        grindingBalanceLabel.setText("₹ " + grindingBalance);
+        storedWheatBalanceLabel.setText(storedWheatBalance + " kg");
         orderPickedByLabel.setText(orderPickedBy);
         cashierLabel.setText(cashier);
 
@@ -107,7 +114,7 @@ public class TransactionDetailItemController implements Initializable, Applicati
     public  void printTransaction(ActionEvent e){
         ObservableSet<Printer> printers = Printer.getAllPrinters();
 
-        ListView listView = new ListView();
+        ListView<String> listView = new ListView();
 
         jobStatus = new Label();
 
@@ -119,17 +126,20 @@ public class TransactionDetailItemController implements Initializable, Applicati
             listView.getItems().add(printer.getName());
         }
 
-        listView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
+        // Change Listener to observe change in ListView to select a printer from the list
+        listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>()
+        {
+            public void changed(ObservableValue<? extends String> ov,
+                                final String oldvalue, final String newvalue)
+            {
                 for(Printer printer: printers){
-                    if(printer.getName().matches(listView.getSelectionModel().getSelectedItem().toString())){
+                    if(printer.getName().matches(listView.getSelectionModel().getSelectedItem())){
                         currentPrinter = printer;
                         System.out.println("Current Printer: " + currentPrinter.getName());
                     }
                 }
-            }
-        });
+            }});
+
         VBox vBox = new VBox(10);
         Label label = new Label("Printers");
         Button printBtn = new Button("Print");
@@ -140,15 +150,26 @@ public class TransactionDetailItemController implements Initializable, Applicati
         Node node = (Node)e.getSource();
         Node selectedTransactionIdLabel = node.getParent().getChildrenUnmodifiable().get(0);
         String selectedTransactionId = ((Label)selectedTransactionIdLabel).getText();
-
+        System.out.println("Selected by click TransactionId = " + selectedTransactionId);
         printBtn.setOnAction(PrintEvent -> {
             transactionPrintPreviewCV.getView().ifPresent(view -> {
-                System.out.println(view);
+                System.out.println("Printing.......");
                 printSetup(view,stage,selectedTransactionId,currentPrinter);
             });
         });
 
         Scene scene = new Scene(vBox, 400,300);
+
+        // Submit form if Enter key is pressed
+        listView.setOnKeyPressed(keyEvent -> {
+            if(keyEvent.getCode() == KeyCode.ENTER){
+                transactionPrintPreviewCV.getView().ifPresent(view -> {
+                    System.out.println("Printing.......");
+                    printSetup(view,stage,selectedTransactionId,currentPrinter);
+                });
+            }
+        });
+
         stage.setScene(scene);
         stage.show();
     }
@@ -209,6 +230,8 @@ public class TransactionDetailItemController implements Initializable, Applicati
 
         boolean proceed = job.showPageSetupDialog(owner);
         if(proceed){
+            System.out.println("Page Setup done..." +
+                    "Proceeding to print preview...");
             this.printPreview(node,job,selectedTransactionId, currentPrinter);
         }
 

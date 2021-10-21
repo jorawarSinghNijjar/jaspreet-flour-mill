@@ -163,6 +163,12 @@
       -fx-font-weight:bold;
 }
 
+.arrow-btn{
+    -fx-text-fill: #272635;
+    -fx-font-weight: bold;
+    -fx-background-color: transparent;
+}
+
 
 
 

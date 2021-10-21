@@ -17,6 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -162,8 +163,7 @@ public class RegisterCustomerController implements Initializable, ApplicationLis
 
     }
 
-    @FXML
-    public void registerCustomerSubmit(ActionEvent event){
+    private void registerCustomer(){
         if(!this.validateForm()){
             customerRegisterAlertMsg.setText("Please fill the form correctly");
             return;
@@ -195,6 +195,11 @@ public class RegisterCustomerController implements Initializable, ApplicationLis
                 ContentController.navigationHandler.handleShowHome();
             }
         }
+    }
+
+    @FXML
+    public void handleRegisterCustomerSubmit(ActionEvent event){
+        registerCustomer();
     }
 
     private void addEventListeners(){
@@ -251,6 +256,13 @@ public class RegisterCustomerController implements Initializable, ApplicationLis
             ).isValid();
             customerFormValidation.getFormFields().put("address",validAddress);
             this.validateForm();
+        });
+
+        // Submit form if Enter key is pressed
+        this.stage.getScene().setOnKeyPressed(keyEvent -> {
+            if(keyEvent.getCode() == KeyCode.ENTER){
+                registerCustomer();
+            }
         });
     }
 

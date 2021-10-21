@@ -128,11 +128,9 @@ public class CustomerDetailsController implements Initializable {
             grindingRate.setText(grindingRateDisplay);
             totalGrindingChargesBalance.setText(totalGrindingChargesBalanceDisplay);
 
-
-
         }
         catch(Exception e){
-            e.getMessage();
+            e.printStackTrace();
         }
     }
 
