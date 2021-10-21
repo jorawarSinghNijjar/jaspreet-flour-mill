@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="400.0" prefWidth="500.0" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.AddTransactionController">
+<AnchorPane prefHeight="400.0" prefWidth="500.0" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.AddTransactionController">
    <children>
       <Label alignment="CENTER" layoutX="-3.0" layoutY="43.0" prefHeight="50.0" prefWidth="518.0" styleClass="h2" stylesheets="@css/main.css" text="Enter Transaction Details" />
       <GridPane alignment="CENTER" layoutX="56.0" layoutY="93.0" prefHeight="250.0" prefWidth="400.0">
@@ -33,14 +33,14 @@
             <Label prefHeight="58.0" prefWidth="151.0" text="Customer ID" />
             <TextField fx:id="customerIdInput" prefHeight="33.0" prefWidth="223.0" GridPane.columnIndex="1" />
             <TextField fx:id="flourPickupQtyInput" prefHeight="33.0" prefWidth="223.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField fx:id="grindingRateInput" prefHeight="33.0" prefWidth="223.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="grindingChargesInput" disable="true" editable="false" prefHeight="33.0" prefWidth="223.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <TextField fx:id="grindingChargesPaidInput" prefHeight="33.0" prefWidth="223.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <TextField fx:id="orderPickedByInput" prefHeight="33.0" prefWidth="223.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <Label fx:id="cashierNameLabel" alignment="CENTER" prefHeight="30.0" prefWidth="122.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
             <Label alignment="CENTER" layoutX="160.0" layoutY="220.0" prefHeight="30.0" prefWidth="122.0" />
             <Label prefHeight="35.0" prefWidth="150.0" text="Grinding Charges" GridPane.rowIndex="3" />
-            <TextField fx:id="grindingChargesInput" disable="true" editable="false" prefHeight="33.0" prefWidth="223.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Label prefHeight="35.0" prefWidth="150.0" text="Grinding Rate/kg" GridPane.rowIndex="2" />
-            <TextField fx:id="grindingRateInput" prefHeight="33.0" prefWidth="223.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
          </children>
       </GridPane>
       <Button layoutX="99.0" layoutY="352.0" mnemonicParsing="false" onAction="#submitTransaction" prefHeight="33.0" prefWidth="314.0" styleClass="secondary-btn" stylesheets="@css/main.css" text="Submit">

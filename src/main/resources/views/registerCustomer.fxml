@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="700.0" prefWidth="800.0" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.RegisterCustomerController">
+<AnchorPane prefHeight="700.0" prefWidth="800.0" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.RegisterCustomerController">
    <children>
       <Label alignment="CENTER" layoutX="280.0" layoutY="60.0" prefHeight="54.0" prefWidth="228.0" styleClass="h2" stylesheets="@css/main.css" text="Enter Customer Details" textAlignment="CENTER" />
       <GridPane fx:id="customerDetailFormGrid" hgap="20.0" layoutX="96.0" layoutY="130.0" prefHeight="450.0" prefWidth="650.0">
@@ -34,27 +34,27 @@
             <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Phone Number" GridPane.rowIndex="2" />
             <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Ration Card No." GridPane.rowIndex="3" />
             <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Adhaar No." GridPane.rowIndex="4" />
+            <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Date of Birth" GridPane.rowIndex="5" />
             <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="ID Proof" GridPane.rowIndex="6" />
             <TextField fx:id="customerNameField" prefHeight="35.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
             <TextField fx:id="customerAddressField" prefHeight="35.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="customerPhoneNumberField" prefHeight="35.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <TextField fx:id="customerRationCardNoField" prefHeight="35.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <TextField fx:id="customerAdhaarNoField" prefHeight="35.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <DatePicker fx:id="customerDOBField" prefHeight="35.0" prefWidth="379.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <HBox fx:id="idProofHBox" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="15.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
                <children>
                   <Label fx:id="idProofFileLabel" alignment="CENTER" prefHeight="35.0" prefWidth="150.0" text="No file Selected..." />
                   <Button mnemonicParsing="false" onAction="#selectIDProof" prefHeight="25.0" prefWidth="112.0" text="Browse" />
                </children>
             </HBox>
-            <DatePicker fx:id="customerDOBField" prefHeight="35.0" prefWidth="379.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
             <Label fx:id="customerNameValidLabel" prefHeight="45.0" prefWidth="255.0" stylesheets="@css/main.css" wrapText="true" GridPane.columnIndex="2" GridPane.vgrow="SOMETIMES" />
-            <Label fx:id="customerPhoneNumberValidLabel" prefHeight="45.0" prefWidth="255.0" stylesheets="@css/main.css" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.vgrow="SOMETIMES" />
             <Label fx:id="customerAddressValidLabel" prefHeight="45.0" prefWidth="255.0" stylesheets="@css/main.css" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.vgrow="SOMETIMES" />
+            <Label fx:id="customerPhoneNumberValidLabel" prefHeight="45.0" prefWidth="255.0" stylesheets="@css/main.css" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.vgrow="SOMETIMES" />
+            <Label fx:id="customerRationNumberValidLabel" prefHeight="45.0" prefWidth="255.0" stylesheets="@css/main.css" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="3" GridPane.vgrow="SOMETIMES" />
+            <Label fx:id="customerAdhaarNumberValidLabel" prefHeight="45.0" prefWidth="255.0" stylesheets="@css/main.css" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4" GridPane.vgrow="SOMETIMES" />
             <Label fx:id="customerDobValidLabel" prefHeight="45.0" prefWidth="255.0" stylesheets="@css/main.css" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="5" GridPane.vgrow="SOMETIMES" />
             <Label fx:id="customerIdProofValidLabel" prefHeight="45.0" prefWidth="255.0" stylesheets="@css/main.css" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="6" GridPane.vgrow="SOMETIMES" />
-            <Label fx:id="customerRationNumberValidLabel" prefHeight="45.0" prefWidth="255.0" stylesheets="@css/main.css" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="3" GridPane.vgrow="SOMETIMES" />
-            <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Date of Birth" GridPane.rowIndex="5" />
-            <Label fx:id="customerAdhaarNumberValidLabel" prefHeight="45.0" prefWidth="255.0" stylesheets="@css/main.css" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4" GridPane.vgrow="SOMETIMES" />
          </children>
       </GridPane>
       <Button fx:id="registerCustomerBtn" layoutX="244.0" layoutY="621.0" mnemonicParsing="false" onAction="#registerCustomerSubmit" prefHeight="35.0" prefWidth="300.0" styleClass="secondary-btn" stylesheets="@css/main.css" text="Submit" />
