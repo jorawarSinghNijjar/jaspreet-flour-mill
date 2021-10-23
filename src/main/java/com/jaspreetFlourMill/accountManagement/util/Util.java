@@ -1,7 +1,9 @@
 package com.jaspreetFlourMill.accountManagement.util;
 
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Screen;
 import org.joda.time.format.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -27,7 +29,7 @@ public class Util {
         return null;
     }
 
-    //Get's today's date in string
+    //Get today's date in string
 
     public static String getDateForToday(){
         LocalDateTime dateTime = LocalDateTime.now();
@@ -41,6 +43,8 @@ public class Util {
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return dateFormat.format(dateTime);
     }
+
+    // DATE TIME format conversion
 
     public static String usToIndDateFormat(String inputDate){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
@@ -60,6 +64,17 @@ public class Util {
     // Rounds off to  2 decimal places
     public static double roundOff(double val){
         return Math.round(val * 100.0) / 100.0;
+    }
+
+    // Screen bounds Getter
+    public static double getScreenWidth(){
+        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+        return screenBounds.getWidth();
+    }
+
+    public static double getScreenHeight(){
+        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+        return screenBounds.getHeight();
     }
 
 }

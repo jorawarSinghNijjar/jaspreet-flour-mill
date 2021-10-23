@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -25,6 +26,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import jiconfont.icons.font_awesome.FontAwesome;
@@ -125,7 +127,12 @@ public class ContentController implements  Initializable, ApplicationListener<St
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+        double width = screenBounds.getWidth();
+        double height = screenBounds.getHeight();
+        baseContainer.setPrefWidth(width);
+        baseContainer.setPrefHeight(height);
+        sideMenuBox.setPrefHeight(baseContainer.getPrefHeight());
 
         Image avatar = new Image("/images/avatar.png");
         avatarFrame.setFill(new ImagePattern(avatar));
@@ -376,7 +383,12 @@ public class ContentController implements  Initializable, ApplicationListener<St
         try {
             contentContainer.getChildren().clear();
             AuthController.currentSession.cleanSession();
-            stage.setScene(new Scene(fxWeaver.loadView(AuthController.class),500,400));
+            Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+            double width = screenBounds.getWidth() / 3.5 ;
+            double height = screenBounds.getHeight() / 2.5;
+            stage.setX((screenBounds.getWidth() - width) / 2);
+            stage.setY((screenBounds.getHeight() - height) / 2);
+            stage.setScene(new Scene(fxWeaver.loadView(AuthController.class),width,height));
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
