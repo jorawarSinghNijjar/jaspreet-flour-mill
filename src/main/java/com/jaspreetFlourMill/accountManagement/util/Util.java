@@ -78,4 +78,12 @@ public class Util {
         return screenBounds.getHeight();
     }
 
+    public static double getContentAreaWidth(){
+        return Util.getScreenWidth() * 0.85;
+    }
+
+    public static double getContentAreaHeight(){
+        return Util.getScreenHeight();
+    }
+
 }

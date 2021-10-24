@@ -65,6 +65,9 @@ public class ContentController implements  Initializable, ApplicationListener<St
     private AnchorPane transactionDetailsContainer;
 
     @FXML
+    private Label contentAreaTitleLabel;
+
+    @FXML
     private Circle avatarFrame;
 
     private FxControllerAndView<CustomerListController,Node> customerListCV;
@@ -136,9 +139,15 @@ public class ContentController implements  Initializable, ApplicationListener<St
         sideMenuBox.setPrefHeight(baseContainer.getPrefHeight());
         sideMenuBox.setPrefWidth(baseContainer.getPrefWidth() * 0.15);
 
-        contentContainer.setPrefHeight(baseContainer.getPrefHeight());
         contentContainer.setPrefWidth(baseContainer.getPrefWidth() * 0.85);
         contentContainer.setLayoutX(sideMenuBox.getPrefWidth());
+
+        contentAreaTitleLabel.setPrefWidth(contentContainer.getPrefWidth());
+        contentAreaTitleLabel.setPrefHeight(baseContainer.getPrefHeight() * 0.05);
+        contentAreaTitleLabel.setLayoutX(sideMenuBox.getPrefWidth());
+
+        contentContainer.setPrefHeight(baseContainer.getPrefHeight() - contentAreaTitleLabel.getPrefHeight());
+        contentContainer.setLayoutY(contentAreaTitleLabel.getPrefHeight());
 
         Image avatar = new Image("/images/avatar.png");
         avatarFrame.setFill(new ImagePattern(avatar));
@@ -205,8 +214,10 @@ public class ContentController implements  Initializable, ApplicationListener<St
 
     }
 
+
     @FXML
     public void showHome(){
+        contentAreaTitleLabel.setText("Sales Summary");
         contentContainer.getChildren().clear();
 
         homeCV = fxWeaver.load(HomeController.class);
@@ -237,13 +248,14 @@ public class ContentController implements  Initializable, ApplicationListener<St
             );
 
             homeCV.getController().leftArrow.setPrefWidth(homeCV.getController().lineChartGridPane.getCellBounds(0,0).getWidth());
-            
+
             contentContainer.getChildren().add(view);
         });
     }
 
     @FXML
     public void showCustomers(){
+        contentAreaTitleLabel.setText("Search Customers By Name");
         contentContainer.getChildren().clear();
         customerListCV = fxWeaver.load(CustomerListController.class);
 
@@ -255,6 +267,7 @@ public class ContentController implements  Initializable, ApplicationListener<St
     @FXML
     public void showAddTransaction() {
         try {
+            contentAreaTitleLabel.setText("Transactions");
             contentContainer.getChildren().clear();
             System.out.println("Show add transaction");
             //Load add transaction view
@@ -353,7 +366,9 @@ public class ContentController implements  Initializable, ApplicationListener<St
 
     @FXML
     public void showDepositWheat(){
+
         try{
+            contentAreaTitleLabel.setText("Wheat Deposit Form");
             contentContainer.getChildren().clear();
             //Load Deposit Wheat View
             depositWheatCV = fxWeaver.load(DepositWheatController.class);
@@ -374,7 +389,9 @@ public class ContentController implements  Initializable, ApplicationListener<St
 
     @FXML
     public void showRegisterCustomer() {
+
         try {
+            contentAreaTitleLabel.setText("Customer Registration Form");
             contentContainer.getChildren().clear();
             //Load Register Customer View
 //            Node registerCustomerNode = (Node) FXMLLoader.load(
@@ -395,12 +412,11 @@ public class ContentController implements  Initializable, ApplicationListener<St
     @FXML
     public void showRegisterEmployee(){
         try {
+            contentAreaTitleLabel.setText("Employee Registration Form");
             contentContainer.getChildren().clear();
             //Load Register Employee View
             registerEmployeeCV = fxWeaver.load(RegisterEmployeeController.class);
-//            Node employeeNode = (Node) FXMLLoader.load(
-//                    getClass().getResource("/views/registerEmployee.fxml")
-//            );
+
             registerEmployeeCV.getView().ifPresent(view -> {
                 contentContainer.getChildren().add(view);
             });
