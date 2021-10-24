@@ -67,13 +67,14 @@ public class Util {
     }
 
     // Screen bounds Getter
+    // Note: getVisualBounds() uncovers the taskbar
     public static double getScreenWidth(){
-        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+        Rectangle2D screenBounds = Screen.getPrimary().getBounds();
         return screenBounds.getWidth();
     }
 
     public static double getScreenHeight(){
-        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+        Rectangle2D screenBounds = Screen.getPrimary().getBounds();
         return screenBounds.getHeight();
     }
 

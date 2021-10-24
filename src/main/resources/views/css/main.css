@@ -43,8 +43,27 @@
     -fx-tex-fill: #17252A;
 }
 
+/* Padding */
+
+.p-1{
+    -fx-padding: 5;
+}
+
+.p-2{
+    -fx-padding: 10;
+}
+
 .p-3{
-    -fx-padding: 30;
+    -fx-padding: 15;
+}
+
+.p-4{
+    -fx-padding: 20;
+}
+
+
+.p-5{
+    -fx-padding: 25;
 }
 
 

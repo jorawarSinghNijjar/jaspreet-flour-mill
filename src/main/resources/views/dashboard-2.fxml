@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 
-<AnchorPane fx:id="baseContainer" minHeight="768.0" minWidth="1366.0" prefHeight="768.0" prefWidth="1366.0" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.ContentController">
+<AnchorPane fx:id="baseContainer" minHeight="768.0" minWidth="1366.0" prefHeight="768.0" prefWidth="1366.0" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.ContentController">
    <children>
-      <VBox id="menu" fx:id="sideMenuBox" alignment="TOP_CENTER" layoutY="-2.0" prefHeight="776.0" prefWidth="230.0" stylesheets="@css/main.css">
+      <VBox id="menu" fx:id="sideMenuBox" alignment="TOP_CENTER" prefHeight="776.0" prefWidth="230.0" stylesheets="@css/main.css">
          <children>
             <Circle fx:id="avatarFrame" cache="true" fill="DODGERBLUE" radius="59.0" stroke="BLACK" strokeType="INSIDE" />
             <Button fx:id="homeButton" mnemonicParsing="false" onAction="#showHome" prefHeight="60.0" prefWidth="229.0" stylesheets="@css/main.css" text="Home">
@@ -62,6 +62,6 @@
             <Insets top="40.0" />
          </padding>
       </VBox>
-      <AnchorPane fx:id="contentContainer" layoutX="230.0" prefHeight="768.0" prefWidth="1136.0" />
+      <AnchorPane fx:id="contentContainer" prefHeight="768.0" prefWidth="1136.0" />
    </children>
 </AnchorPane>

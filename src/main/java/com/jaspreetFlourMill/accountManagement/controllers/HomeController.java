@@ -19,6 +19,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
 import jiconfont.javafx.IconFontFX;
 import jiconfont.javafx.IconNode;
@@ -37,7 +39,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class HomeController implements Initializable {
 
     @FXML
-    private AnchorPane homeContainer;
+    protected AnchorPane homeContainer;
+
+    @FXML
+    protected VBox homeVBoxContainer;
+
+    @FXML
+    protected HBox homeHBoxContainer;
 
     @FXML
     private Label wheatSoldDisplay;
@@ -67,16 +75,16 @@ public class HomeController implements Initializable {
     private ComboBox salesYearComboBox;
 
     @FXML
-    private Label leftArrow;
+    protected Label leftArrow;
 
     @FXML
-    private Label rightArrow;
+    protected Label rightArrow;
 
     @FXML
-    private GridPane lineChartGridPane;
+    protected GridPane lineChartGridPane;
 
     @FXML
-    private AnchorPane lineChartContainer;
+    protected AnchorPane lineChartContainer;
 
     private NumberAxis salesQtyXAxis;
     private NumberAxis salesQtyYAxis;
@@ -91,7 +99,9 @@ public class HomeController implements Initializable {
 
     private XYChart.Series grindingChargesSeries;
 
-    private LineChart<Number,Number> salesQtyChart;
+    protected LineChart<Number,Number> salesQtyChart;
+
+    protected LineChart<Number, Number> salesAmtChart;
 
     private int currentDisplaySalesMonth;
 
@@ -111,7 +121,7 @@ public class HomeController implements Initializable {
 
     private NumberAxis salesAmtXAxis;
     private NumberAxis salesAmtYAxis;
-    private LineChart<Number, Number> salesAmtChart;
+
 
     private boolean salesMonthIsSelected;
 
@@ -122,6 +132,7 @@ public class HomeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
 
         // Get the number of days in that month
         todayDate = LocalDate.now();
@@ -570,7 +581,7 @@ public class HomeController implements Initializable {
         salesQtyChart.setTitle("Sales By Quantity");
 
         this.initializeSalesQtySeries();
-        salesQtyChart.setPrefSize(950,450);
+//        salesQtyChart.setPrefSize(lineChartContainer.getPrefWidth(),lineChartContainer.getHeight());
         lineChartContainer.getChildren().add(salesQtyChart);
 //        salesQtyChart.setLayoutX(50);
 //        salesQtyChart.setLayoutY(200);
@@ -597,7 +608,7 @@ public class HomeController implements Initializable {
         salesAmtChart.setTitle("Sales By Amount");
 
         this.initializeSalesAmtSeries();
-        salesAmtChart.setPrefSize(950,450);
+//        salesAmtChart.setPrefSize(lineChartContainer.getPrefWidth(),lineChartContainer.getHeight());
         lineChartContainer.getChildren().add(salesAmtChart);
 //        salesAmtChart.setLayoutX(50);
 //        salesAmtChart.setLayoutY(200);

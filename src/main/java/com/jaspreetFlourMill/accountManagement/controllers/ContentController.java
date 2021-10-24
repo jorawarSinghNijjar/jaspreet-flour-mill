@@ -4,6 +4,7 @@ import com.jaspreetFlourMill.accountManagement.StageReadyEvent;
 import com.jaspreetFlourMill.accountManagement.util.FormValidation;
 import com.jaspreetFlourMill.accountManagement.util.NavigationHandler;
 import com.jaspreetFlourMill.accountManagement.util.UserSession;
+import com.jaspreetFlourMill.accountManagement.util.Util;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -127,12 +128,17 @@ public class ContentController implements  Initializable, ApplicationListener<St
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Rectangle2D screenBounds = Screen.getPrimary().getBounds();
-        double width = screenBounds.getWidth();
-        double height = screenBounds.getHeight();
-        baseContainer.setPrefWidth(width);
-        baseContainer.setPrefHeight(height);
+
+        // Laying out the dashboard
+        baseContainer.setPrefWidth(Util.getScreenWidth());
+        baseContainer.setPrefHeight(Util.getScreenHeight());
+
         sideMenuBox.setPrefHeight(baseContainer.getPrefHeight());
+        sideMenuBox.setPrefWidth(baseContainer.getPrefWidth() * 0.15);
+
+        contentContainer.setPrefHeight(baseContainer.getPrefHeight());
+        contentContainer.setPrefWidth(baseContainer.getPrefWidth() * 0.85);
+        contentContainer.setLayoutX(sideMenuBox.getPrefWidth());
 
         Image avatar = new Image("/images/avatar.png");
         avatarFrame.setFill(new ImagePattern(avatar));
@@ -202,9 +208,36 @@ public class ContentController implements  Initializable, ApplicationListener<St
     @FXML
     public void showHome(){
         contentContainer.getChildren().clear();
+
         homeCV = fxWeaver.load(HomeController.class);
 
         homeCV.getView().ifPresent(view -> {
+            // Layout
+            homeCV.getController().homeContainer.setPrefWidth(contentContainer.getPrefWidth());
+            homeCV.getController().homeContainer.setPrefHeight(contentContainer.getPrefHeight());
+
+            homeCV.getController().homeVBoxContainer.setPrefWidth(homeCV.getController().homeContainer.getPrefWidth());
+            homeCV.getController().homeVBoxContainer.setPrefHeight(homeCV.getController().homeContainer.getPrefHeight());
+            homeCV.getController().homeVBoxContainer.setSpacing(homeCV.getController().homeContainer.getPrefHeight() * 0.08);
+
+            double hBoxSpacing = homeCV.getController().homeHBoxContainer.getPrefWidth();
+            homeCV.getController().homeHBoxContainer.setSpacing(hBoxSpacing * 0.08);
+            homeCV.getController().homeHBoxContainer.setPrefHeight( homeCV.getController().homeVBoxContainer.getHeight() * 0.30);
+
+            homeCV.getController().lineChartContainer.setPrefWidth(homeCV.getController().homeVBoxContainer.getPrefWidth() * 0.85);
+            homeCV.getController().lineChartContainer.setPrefHeight(homeCV.getController().homeVBoxContainer.getPrefHeight() * 0.60);
+
+            homeCV.getController().salesAmtChart.setPrefSize(
+                    homeCV.getController().lineChartContainer.getPrefWidth(),
+                    homeCV.getController().lineChartContainer.getPrefHeight() * 0.90
+            );
+            homeCV.getController().salesQtyChart.setPrefSize(
+                    homeCV.getController().lineChartContainer.getPrefWidth(),
+                    homeCV.getController().lineChartContainer.getPrefHeight() * 0.90
+            );
+
+            homeCV.getController().leftArrow.setPrefWidth(homeCV.getController().lineChartGridPane.getCellBounds(0,0).getWidth());
+            
             contentContainer.getChildren().add(view);
         });
     }
@@ -383,11 +416,12 @@ public class ContentController implements  Initializable, ApplicationListener<St
         try {
             contentContainer.getChildren().clear();
             AuthController.currentSession.cleanSession();
-            Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-            double width = screenBounds.getWidth() / 3.5 ;
-            double height = screenBounds.getHeight() / 2.5;
-            stage.setX((screenBounds.getWidth() - width) / 2);
-            stage.setY((screenBounds.getHeight() - height) / 2);
+
+            // Dashboard size setting
+            double width = Util.getScreenWidth() / 3.5 ;
+            double height = Util.getScreenHeight() / 2.5;
+            stage.setX((Util.getScreenWidth() - width) / 2);
+            stage.setY((Util.getScreenHeight() - height) / 2);
             stage.setScene(new Scene(fxWeaver.loadView(AuthController.class),width,height));
             stage.show();
         } catch (Exception e) {
