@@ -99,11 +99,12 @@ public class RegisterEmployeeController implements Initializable, ApplicationLis
         registerEmployeeVBoxContainer.setSpacing(registerEmployeeVBoxContainer.getPrefHeight() * 0.08);
 
         registerEmployeeGridPane.setPrefWidth(registerEmployeeVBoxContainer.getPrefWidth() * 0.70);
+        System.out.println(registerEmployeeGridPane.getPrefWidth());
         registerEmployeeGridPane.setPrefHeight(registerEmployeeVBoxContainer.getPrefHeight() * 0.50);
         registerEmployeeGridPane.setHgap(registerEmployeeGridPane.getPrefWidth() * 0.02);
         registerEmployeeGridPane.setVgap(registerEmployeeGridPane.getPrefHeight() * 0.04);
 
-        registerEmployeeBtn.setPrefWidth(registerEmployeeVBoxContainer.getPrefWidth() * 0.55 );
+//        registerEmployeeBtn.setPrefWidth(registerEmployeeVBoxContainer.getPrefWidth() * 0.55 );
 
         List<ColumnConstraints> colConstList = registerEmployeeGridPane.getColumnConstraints();
         colConstList.get(0).setPercentWidth(15);

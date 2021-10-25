@@ -18,7 +18,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -39,6 +41,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
@@ -53,6 +56,9 @@ public class RegisterCustomerController implements Initializable, ApplicationLis
     private Stage stage;
 
     private FileChooser fileChooser;
+
+    @FXML
+    private VBox registerCustomerVBoxContainer;
 
     @FXML
     private GridPane customerDetailFormGrid;
@@ -111,6 +117,7 @@ public class RegisterCustomerController implements Initializable, ApplicationLis
 
     private boolean validForm;
 
+
     public RegisterCustomerController(FxWeaver fxWeaver) {
         this.fxWeaver = fxWeaver;
     }
@@ -122,7 +129,24 @@ public class RegisterCustomerController implements Initializable, ApplicationLis
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-         fileChooser = new FileChooser();
+        // Layout
+        registerCustomerVBoxContainer.setPrefWidth(Util.getContentAreaWidth());
+        registerCustomerVBoxContainer.setPrefHeight(Util.getContentAreaHeight());
+        registerCustomerVBoxContainer.setSpacing(registerCustomerVBoxContainer.getPrefHeight() * 0.08);
+
+        customerDetailFormGrid.setPrefWidth(registerCustomerVBoxContainer.getPrefWidth() * 0.70);
+        customerDetailFormGrid.setPrefHeight(registerCustomerVBoxContainer.getPrefHeight() * 0.50);
+        customerDetailFormGrid.setHgap(customerDetailFormGrid.getPrefWidth() * 0.02);
+        customerDetailFormGrid.setVgap(customerDetailFormGrid.getPrefHeight() * 0.04);
+
+        List<ColumnConstraints> colConstList = customerDetailFormGrid.getColumnConstraints();
+        colConstList.get(0).setPercentWidth(15);
+        colConstList.get(1).setPercentWidth(40);
+        colConstList.get(2).setPercentWidth(30);
+
+        customerDOBField.setPrefWidth(Double.MAX_VALUE);
+
+        fileChooser = new FileChooser();
         IconFontFX.register(GoogleMaterialDesignIcons.getIconFont());
 
         registerCustomerBtn.setDisable(true);
