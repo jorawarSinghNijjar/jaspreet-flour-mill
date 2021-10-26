@@ -5,6 +5,8 @@ import com.jaspreetFlourMill.accountManagement.model.Customer;
 import com.jaspreetFlourMill.accountManagement.model.Employee;
 import com.jaspreetFlourMill.accountManagement.model.Sales;
 import com.jaspreetFlourMill.accountManagement.model.Transaction;
+import com.jaspreetFlourMill.accountManagement.util.FormValidation;
+import com.jaspreetFlourMill.accountManagement.util.Util;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableSet;
@@ -19,8 +21,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
@@ -31,12 +32,21 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
 @Component
 @FxmlView("/views/addTransaction.fxml")
 public class AddTransactionController implements Initializable, ApplicationListener<StageReadyEvent> {
+
+    @FXML
+    private AnchorPane addTransactionAnchorPaneContainer;
+    @FXML
+    private VBox addTransactionVBoxContainer;
+
+    @FXML
+    private GridPane addTransactionFormGridPane;
 
     @FXML
     public TextField customerIdInput;
@@ -60,11 +70,31 @@ public class AddTransactionController implements Initializable, ApplicationListe
     private Label cashierNameLabel;
 
     @FXML
-    public Label customerIdInputValidLabel;
+    private Label tfCustomerIdValidLabel;
+
+    @FXML
+    private Label tfFlourPickupQtyValidLabel;
+
+    @FXML
+    private Label tfGrindingRateValidLabel;
+
+    @FXML
+    private Label tfGrindingChargesPaidValidLabel;
+
+    @FXML
+    private Label tfOrderPickedByValidLabel;
+
+    @FXML
+    private Label tfCashierValidLabel;
+
+    private boolean validForm;
 
     private String cashierName;
 
     private double grindingCharges;
+
+    @FXML
+    private Button submitTransactionBtn;
 
     private Printer currentPrinter;
 
@@ -78,6 +108,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
 
     private final FxWeaver fxWeaver;
     private Stage stage;
+    private FormValidation addTransactionFormValidation;
 
 
     public AddTransactionController(FxWeaver fxWeaver) {
@@ -86,10 +117,41 @@ public class AddTransactionController implements Initializable, ApplicationListe
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Layout
+        addTransactionAnchorPaneContainer.setPrefWidth(500);
+        addTransactionAnchorPaneContainer.setPrefHeight(Util.getContentAreaHeight() * 0.4);
+
+        addTransactionVBoxContainer.setPrefWidth(addTransactionAnchorPaneContainer.getPrefWidth());
+        addTransactionVBoxContainer.setPrefHeight(addTransactionAnchorPaneContainer.getPrefHeight());
+
+        addTransactionFormGridPane.setMaxWidth(addTransactionVBoxContainer.getPrefWidth());
+        addTransactionFormGridPane.setHgap(addTransactionVBoxContainer.getPrefWidth() * 0.05);
+        addTransactionFormGridPane.setVgap(addTransactionVBoxContainer.getPrefHeight() * 0.06);
+
+        List<ColumnConstraints> colConstList = addTransactionFormGridPane.getColumnConstraints();
+        colConstList.get(0).setPercentWidth(15);
+        colConstList.get(1).setPercentWidth(15);
+        colConstList.get(2).setPercentWidth(70);
+
+
+        submitTransactionBtn.setPrefWidth(Double.MAX_VALUE);
+
         customerDetailsCV = fxWeaver.load(CustomerDetailsController.class);
         transactionDetailsCV = fxWeaver.load(TransactionDetailController.class);
         transactionDetailItemCV = fxWeaver.load(TransactionDetailItemController.class);
         transactionPrintPreviewCV = fxWeaver.load(TransactionPrintPreviewController.class);
+
+        // Form Validation
+        addTransactionFormValidation = new FormValidation();
+        addTransactionFormValidation.getFormFields().put("customer-id",false);
+        addTransactionFormValidation.getFormFields().put("flour-pickup-qty",false);
+        addTransactionFormValidation.getFormFields().put("grinding-rate",false);
+        addTransactionFormValidation.getFormFields().put("grinding-charges",false);
+        addTransactionFormValidation.getFormFields().put("grinding-charges-paid",false);
+        addTransactionFormValidation.getFormFields().put("order-picked-by",false);
+        addTransactionFormValidation.getFormFields().put("cashier",false);
+
+        this.addEventListeners();
 
         cashierName = this.getEmployeeName(AuthController.currentSession.getUserId());
         cashierNameLabel.setText(cashierName);
@@ -125,6 +187,76 @@ public class AddTransactionController implements Initializable, ApplicationListe
                 submitTransaction();
             }
         });
+    }
+
+    private void addEventListeners() {
+        customerIdInput.textProperty().addListener((observableValue, oldVal, newVal) -> {
+            boolean valid = FormValidation.isInteger(
+                    newVal,
+                    tfCustomerIdValidLabel
+            ).isValid();
+            addTransactionFormValidation.getFormFields().put("customer-id",valid);
+            this.validateForm();
+
+        });
+
+        flourPickupQtyInput.textProperty().addListener((observableValue, oldVal, newVal) -> {
+            boolean valid = FormValidation.isDouble(
+                    newVal,
+                    tfFlourPickupQtyValidLabel
+            ).isValid();
+            addTransactionFormValidation.getFormFields().put("flour-pickup-qty",valid);
+            this.validateForm();
+
+        });
+
+        grindingRateInput.textProperty().addListener((observableValue, oldVal, newVal) -> {
+            boolean valid = FormValidation.isDouble(
+                    newVal,
+                    tfGrindingRateValidLabel
+            ).isValid();
+            addTransactionFormValidation.getFormFields().put("grinding-rate",valid);
+            this.validateForm();
+
+        });
+
+        grindingChargesPaidInput.textProperty().addListener((observableValue, oldVal, newVal) -> {
+            boolean valid = FormValidation.isDouble(
+                    newVal,
+                    tfGrindingChargesPaidValidLabel
+            ).isValid();
+            addTransactionFormValidation.getFormFields().put("grinding-charges-paid",valid);
+            this.validateForm();
+        });
+
+        orderPickedByInput.textProperty().addListener((observableValue, oldVal, newVal) -> {
+            boolean valid = FormValidation.isName(
+                    newVal,
+                    tfOrderPickedByValidLabel
+            ).isValid();
+            addTransactionFormValidation.getFormFields().put("order-picked-by",valid);
+            this.validateForm();
+        });
+
+        cashierNameLabel.textProperty().addListener((observableValue, oldVal, newVal) -> {
+            boolean valid = FormValidation.isName(
+                    newVal,
+                    tfCashierValidLabel
+            ).isValid();
+            addTransactionFormValidation.getFormFields().put("cashier",valid);
+            this.validateForm();
+        });
+    }
+
+    private boolean validateForm() {
+        if(addTransactionFormValidation.getFormFields().containsValue(false)){
+            submitTransactionBtn.setDisable(true);
+            return false;
+        }
+        else{
+            submitTransactionBtn.setDisable(false);
+            return true;
+        }
     }
 
     private void submitTransaction() {

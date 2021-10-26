@@ -32,7 +32,7 @@ public class FormValidation {
     public static ValidatedResponse isName(String name, Label responseLabel){
         String exp = "^[A-Za-z\\s]+$";
         boolean valid = name.matches(exp);
-        String msg = "Name can only have alphabets";
+        String msg = "Only alphabets and spaces allowed";
         return validationResponse(responseLabel,valid,msg);
     }
 

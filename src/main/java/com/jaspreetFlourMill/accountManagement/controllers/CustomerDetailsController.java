@@ -2,6 +2,8 @@ package com.jaspreetFlourMill.accountManagement.controllers;
 
 import com.jaspreetFlourMill.accountManagement.model.Customer;
 import com.jaspreetFlourMill.accountManagement.model.CustomerAccount;
+
+import com.jaspreetFlourMill.accountManagement.util.Util;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,7 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.*;
 import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
@@ -21,6 +23,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.FileInputStream;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 @Component
@@ -28,7 +31,16 @@ import java.util.ResourceBundle;
 public class CustomerDetailsController implements Initializable {
 
     @FXML
-    private AnchorPane customerDetailsPane;
+    private AnchorPane customerDetailAnchorPane;
+
+    @FXML
+    private VBox customerDetailVBox;
+
+    @FXML
+    private GridPane customerDetailGridPane;
+
+    @FXML
+    private HBox imageContainerHBox;
 
     private FxControllerAndView<ModalImageViewController, Node> modalImageViewCV;
 
@@ -69,9 +81,6 @@ public class CustomerDetailsController implements Initializable {
 
     public String idProofImageUri;
 
-//
-//    private ImageView modalImage;
-
     private final FxWeaver fxWeaver;
 
     public CustomerDetailsController(FxWeaver fxWeaver) {
@@ -81,23 +90,23 @@ public class CustomerDetailsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-//        modalImageViewCV = fxWeaver.load(ModalImageViewController.class);
-//
-//        customerIdProofImage.setOnMouseEntered(e -> {
-//            modalImageViewCV.getView().ifPresent(view -> {
-//                customerDetailsPane.getChildren().add(view);
-//                view.setLayoutX(-350);
-//                view.setLayoutY(200);
-//                view.toFront();
-//            });
-//
-//        });
-//
-//        customerIdProofImage.setOnMouseExited(e -> {
-//            modalImageViewCV.getView().ifPresent(view -> {
-//                customerDetailsPane.getChildren().remove(view);
-//            });
-//        });
+        // Layout
+        customerDetailAnchorPane.setPrefWidth(Util.getContentAreaWidth() * 0.5);
+        customerDetailAnchorPane.setPrefHeight(Util.getContentAreaHeight() * 0.4);
+
+        customerDetailVBox.setPrefWidth(customerDetailAnchorPane.getPrefWidth());
+        customerDetailVBox.setPrefHeight(customerDetailAnchorPane.getPrefHeight());
+//        customerDetailVBox.setLayoutY(Util.titleLabelHeight);
+
+        customerDetailGridPane.setHgap(customerDetailVBox.getPrefWidth() * 0.02);
+        customerDetailGridPane.setVgap(customerDetailVBox.getPrefHeight() * 0.02);
+
+        List<ColumnConstraints> colConstList = customerDetailGridPane.getColumnConstraints();
+        colConstList.get(0).setPercentWidth(30);
+        colConstList.get(1).setPercentWidth(15);
+        colConstList.get(2).setPercentWidth(25);
+        colConstList.get(3).setPercentWidth(30);
+
     }
 
     public void updateCustomerDetails(String id){
@@ -112,7 +121,6 @@ public class CustomerDetailsController implements Initializable {
             customerIdProofImage.setImage(new Image(new FileInputStream(updatedCustomer.getIdProof())));
             this.idProofImageUri = updatedCustomer.getIdProof();
 
-//            modalImageViewCV.getController().setZoomedIDProofImage(updatedCustomer.getIdProof());
 
             String wheatQtyStoredDisplay = updatedCustomerAccount.getWheatDepositQty() + " kg";
             String qtyDeductionDisplay = updatedCustomerAccount.getWheatProcessingDeductionQty() + " kg";

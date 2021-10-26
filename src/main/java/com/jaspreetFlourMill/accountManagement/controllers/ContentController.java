@@ -1,10 +1,7 @@
 package com.jaspreetFlourMill.accountManagement.controllers;
 
 import com.jaspreetFlourMill.accountManagement.StageReadyEvent;
-import com.jaspreetFlourMill.accountManagement.util.FormValidation;
-import com.jaspreetFlourMill.accountManagement.util.NavigationHandler;
-import com.jaspreetFlourMill.accountManagement.util.UserSession;
-import com.jaspreetFlourMill.accountManagement.util.Util;
+import com.jaspreetFlourMill.accountManagement.util.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -116,6 +113,9 @@ public class ContentController implements  Initializable, ApplicationListener<St
     @FXML
     private AnchorPane baseContainer;
 
+    @FXML
+    private HBox titleHBox;
+
     private boolean modalMounted = false;
 
 
@@ -133,6 +133,9 @@ public class ContentController implements  Initializable, ApplicationListener<St
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         // Laying out the dashboard
+
+        // Side menu = 15 % screen
+        // Dashboard = 85% screen
         baseContainer.setPrefWidth(Util.getScreenWidth());
         baseContainer.setPrefHeight(Util.getScreenHeight());
 
@@ -142,12 +145,17 @@ public class ContentController implements  Initializable, ApplicationListener<St
         contentContainer.setPrefWidth(baseContainer.getPrefWidth() * 0.85);
         contentContainer.setLayoutX(sideMenuBox.getPrefWidth());
 
-        contentAreaTitleLabel.setPrefWidth(contentContainer.getPrefWidth());
-        contentAreaTitleLabel.setPrefHeight(baseContainer.getPrefHeight() * 0.05);
-        contentAreaTitleLabel.setLayoutX(sideMenuBox.getPrefWidth());
+        titleHBox.setPrefWidth(contentContainer.getPrefWidth());
+        titleHBox.setPrefHeight(baseContainer.getPrefHeight() * 0.05);
+        System.out.println("contentAreaTitleLabelHeight-" + titleHBox.getPrefHeight());
+        titleHBox.setLayoutX(sideMenuBox.getPrefWidth());
 
-        contentContainer.setPrefHeight(baseContainer.getPrefHeight() - contentAreaTitleLabel.getPrefHeight());
-        contentContainer.setLayoutY(contentAreaTitleLabel.getPrefHeight());
+        contentContainer.setPrefHeight(baseContainer.getPrefHeight() - (baseContainer.getPrefHeight() * 0.05));
+        System.out.println("contentContainerHeight" + contentContainer.getPrefHeight());
+        contentContainer.setLayoutY(titleHBox.getPrefHeight());
+        System.out.println("contentLayoutY-" + contentContainer.getLayoutY());
+
+        contentAreaTitleLabel.setPrefWidth(titleHBox.getPrefWidth());
 
         Image avatar = new Image("/images/avatar.png");
         avatarFrame.setFill(new ImagePattern(avatar));
@@ -280,16 +288,10 @@ public class ContentController implements  Initializable, ApplicationListener<St
 
             addTransactionController.customerIdInput.textProperty().addListener((
                     (observableValue, oldValue, newValue) -> {
-                boolean validInput = FormValidation.isInteger(
-                        newValue,
-                        addTransactionCV.getController().customerIdInputValidLabel
-                ).isValid();
-
-                if(validInput){
                     customerDetailsCV.getController().updateCustomerDetails(newValue);
                     transactionDetailsCV.getController().clearTransactionDisplay();
                     transactionDetailsCV.getController().renderTransactions(newValue);
-                }
+
             }
             ));
 

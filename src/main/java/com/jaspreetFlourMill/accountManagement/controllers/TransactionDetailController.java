@@ -6,6 +6,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
@@ -23,6 +26,14 @@ import java.util.ResourceBundle;
 @Component
 @FxmlView("/views/transactionDetails.fxml")
 public class TransactionDetailController implements Initializable {
+    @FXML
+    private AnchorPane transactionDetailContainerPane;
+
+    @FXML
+    private HBox transactionDetailTitleBar;
+
+    @FXML
+    private ScrollPane transactionDetailScrollPane;
 
     @FXML
     private VBox detailItemContainer;
@@ -56,6 +67,7 @@ public class TransactionDetailController implements Initializable {
     private FxControllerAndView<TransactionDetailItemController,Node> transactionDetailItemCV;
     private final FxWeaver fxWeaver;
 
+
     public TransactionDetailController(FxWeaver fxWeaver) {
         this.fxWeaver = fxWeaver;
     }
@@ -63,6 +75,21 @@ public class TransactionDetailController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Layout
+        transactionDetailContainerPane.setPrefWidth(Util.getContentAreaWidth());
+        transactionDetailContainerPane.setPrefHeight(Util.getContentAreaHeight() * 0.60);
+
+        transactionDetailTitleBar.setPrefWidth(transactionDetailContainerPane.getPrefWidth());
+        transactionDetailTitleBar.setPrefHeight(transactionDetailContainerPane.getPrefHeight() * 0.15);
+        transactionDetailTitleBar.setSpacing(Util.getContentAreaWidth() * 0.02);
+
+        transactionDetailScrollPane.setPrefWidth(transactionDetailContainerPane.getPrefWidth());
+        transactionDetailScrollPane.setPrefHeight(transactionDetailContainerPane.getPrefHeight() - transactionDetailTitleBar.getPrefHeight());
+        transactionDetailScrollPane.setLayoutY(transactionDetailTitleBar.getPrefHeight());
+
+        detailItemContainer.setPrefWidth(transactionDetailContainerPane.getPrefWidth());
+        detailItemContainer.setPrefHeight(transactionDetailScrollPane.getHeight());
+
         transactionTimeHeading.setText("ਸਮਾਂ" + "\n" + "Time");
         transactionFlourPickupQtyHeading.setText("ਆਟਾ ਪ੍ਰਾਪਤ" + "\n" + "Flour Pickup Qty");
         transactionGrindingAmountHeading.setText("ਪੀਸਾਈ ਰਕਮ" + "\n" + "Grinding Amount");
