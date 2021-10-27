@@ -31,16 +31,16 @@ import java.util.ResourceBundle;
 public class CustomerDetailsController implements Initializable {
 
     @FXML
-    private AnchorPane customerDetailAnchorPane;
+    public AnchorPane customerDetailAnchorPane;
 
     @FXML
-    private VBox customerDetailVBox;
+    public VBox customerDetailVBox;
 
     @FXML
-    private GridPane customerDetailGridPane;
+    public GridPane customerDetailGridPane;
 
     @FXML
-    private HBox imageContainerHBox;
+    public HBox imageContainerHBox;
 
     private FxControllerAndView<ModalImageViewController, Node> modalImageViewCV;
 
@@ -90,22 +90,7 @@ public class CustomerDetailsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Layout
-        customerDetailAnchorPane.setPrefWidth(Util.getContentAreaWidth() * 0.5);
-        customerDetailAnchorPane.setPrefHeight(Util.getContentAreaHeight() * 0.4);
 
-        customerDetailVBox.setPrefWidth(customerDetailAnchorPane.getPrefWidth());
-        customerDetailVBox.setPrefHeight(customerDetailAnchorPane.getPrefHeight());
-//        customerDetailVBox.setLayoutY(Util.titleLabelHeight);
-
-        customerDetailGridPane.setHgap(customerDetailVBox.getPrefWidth() * 0.02);
-        customerDetailGridPane.setVgap(customerDetailVBox.getPrefHeight() * 0.02);
-
-        List<ColumnConstraints> colConstList = customerDetailGridPane.getColumnConstraints();
-        colConstList.get(0).setPercentWidth(30);
-        colConstList.get(1).setPercentWidth(15);
-        colConstList.get(2).setPercentWidth(25);
-        colConstList.get(3).setPercentWidth(30);
 
     }
 

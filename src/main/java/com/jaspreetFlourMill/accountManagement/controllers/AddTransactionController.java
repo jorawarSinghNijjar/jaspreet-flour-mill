@@ -41,12 +41,19 @@ import java.util.ResourceBundle;
 public class AddTransactionController implements Initializable, ApplicationListener<StageReadyEvent> {
 
     @FXML
-    private AnchorPane addTransactionAnchorPaneContainer;
-    @FXML
-    private VBox addTransactionVBoxContainer;
+    public GridPane addTransactionPageContainerGP;
 
     @FXML
-    private GridPane addTransactionFormGridPane;
+    public AnchorPane customerDetailsGPCol;
+
+    @FXML
+    public AnchorPane addTransactionAnchorPaneContainer;
+
+    @FXML
+    public VBox addTransactionVBoxContainer;
+
+    @FXML
+    public GridPane addTransactionFormGridPane;
 
     @FXML
     public TextField customerIdInput;
@@ -94,7 +101,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
     private double grindingCharges;
 
     @FXML
-    private Button submitTransactionBtn;
+    protected Button submitTransactionBtn;
 
     private Printer currentPrinter;
 
@@ -117,26 +124,12 @@ public class AddTransactionController implements Initializable, ApplicationListe
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Layout
-        addTransactionAnchorPaneContainer.setPrefWidth(500);
-        addTransactionAnchorPaneContainer.setPrefHeight(Util.getContentAreaHeight() * 0.4);
-
-        addTransactionVBoxContainer.setPrefWidth(addTransactionAnchorPaneContainer.getPrefWidth());
-        addTransactionVBoxContainer.setPrefHeight(addTransactionAnchorPaneContainer.getPrefHeight());
-
-        addTransactionFormGridPane.setMaxWidth(addTransactionVBoxContainer.getPrefWidth());
-        addTransactionFormGridPane.setHgap(addTransactionVBoxContainer.getPrefWidth() * 0.05);
-        addTransactionFormGridPane.setVgap(addTransactionVBoxContainer.getPrefHeight() * 0.06);
-
-        List<ColumnConstraints> colConstList = addTransactionFormGridPane.getColumnConstraints();
-        colConstList.get(0).setPercentWidth(15);
-        colConstList.get(1).setPercentWidth(15);
-        colConstList.get(2).setPercentWidth(70);
 
 
-        submitTransactionBtn.setPrefWidth(Double.MAX_VALUE);
 
+        // Loading customerDetails.fxml
         customerDetailsCV = fxWeaver.load(CustomerDetailsController.class);
+        // Loading transactionDetails.fxml
         transactionDetailsCV = fxWeaver.load(TransactionDetailController.class);
         transactionDetailItemCV = fxWeaver.load(TransactionDetailItemController.class);
         transactionPrintPreviewCV = fxWeaver.load(TransactionPrintPreviewController.class);

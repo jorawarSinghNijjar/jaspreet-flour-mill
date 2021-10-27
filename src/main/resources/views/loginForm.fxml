@@ -16,26 +16,27 @@
 <!--<AnchorPane fx:id="loginFormContainer" prefHeight="400.0" prefWidth="500.0" >-->
 <!--</AnchorPane>-->
 
-<VBox fx:id="loginFormVBox" alignment="CENTER" fillWidth="false" prefHeight="403.0" prefWidth="483.0" styleClass="login-form" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.AuthController">
+<VBox fx:id="loginFormVBox" alignment="CENTER" fillWidth="false" styleClass="login-form" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.AuthController">
     <children>
-        <Label alignment="CENTER" prefHeight="49.0" prefWidth="108.0" styleClass="h2" stylesheets="@css/main.css" text="Sign In" textAlignment="CENTER">
-         <VBox.margin>
-            <Insets />
-         </VBox.margin></Label>
-        <GridPane fx:id="loginFormGridPane" alignment="CENTER" prefHeight="140.0" prefWidth="270.0" stylesheets="@css/main.css">
-            <Label fx:id="loginUsernameLabel" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="label" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="ALWAYS">
+        <GridPane fx:id="loginFormGridPane" alignment="CENTER" stylesheets="@css/main.css">
+            <Label fx:id="loginUsernameLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="label" GridPane.rowIndex="2">
                 Username:
             </Label>
-            <TextField fx:id="userIdField" maxWidth="1.7976931348623157E308" styleClass="text-field" stylesheets="@css/main.css" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <TextField fx:id="userIdField" maxWidth="1.7976931348623157E308" styleClass="text-field" stylesheets="@css/main.css" GridPane.columnIndex="1" GridPane.rowIndex="2">
             <GridPane.margin>
                <Insets />
-            </GridPane.margin></TextField>
-            <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="80.0" styleClass="label" text="Password:" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+            </GridPane.margin>
+         </TextField>
+            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="label" text="Password:" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                 Password:
             </Label>
-            <PasswordField fx:id="passwordField" maxWidth="1.7976931348623157E308" onKeyPressed="#handleLoginKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Hyperlink alignment="CENTER_RIGHT" prefHeight="21.0" prefWidth="147.0" styleClass="small-text" text="Forgot Password ?" GridPane.columnIndex="1" GridPane.rowIndex="3">Forgot Password ?
+            <PasswordField fx:id="passwordField" maxWidth="1.7976931348623157E308" onKeyPressed="#handleLoginKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Hyperlink alignment="CENTER_RIGHT" styleClass="small-text" text="Forgot Password ?" GridPane.columnIndex="1" GridPane.rowIndex="4">Forgot Password ?
             </Hyperlink>
+           <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="h2" stylesheets="@css/main.css" text="Sign In" textAlignment="CENTER" GridPane.columnSpan="2" />
+           <Button alignment="CENTER" maxWidth="1.7976931348623157E308" onAction="#handleLogin" styleClass="secondary-btn" stylesheets="@css/main.css" text="Sign In" GridPane.columnSpan="2" GridPane.rowIndex="5">
+            Login
+        </Button>
             <stylesheets>
                 <URL value="@css/main.css" />
             </stylesheets>
@@ -44,15 +45,15 @@
                 <ColumnConstraints percentWidth="60.0" />
             </columnConstraints>
             <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" />
                 <RowConstraints />
-                <RowConstraints percentHeight="33.0" />
-                <RowConstraints percentHeight="33.0" />
-                <RowConstraints percentHeight="33.0" />
+                <RowConstraints />
+            <RowConstraints />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+            <RowConstraints />
             </rowConstraints>
         </GridPane>
-        <Button alignment="CENTER" onAction="#handleLogin" prefHeight="30.0" prefWidth="250.0" styleClass="secondary-btn" stylesheets="@css/main.css" text="Sign In">
-            Login
-        </Button>
     </children>
    <effect>
       <DropShadow height="214.45" radius="81.08" width="111.87" />

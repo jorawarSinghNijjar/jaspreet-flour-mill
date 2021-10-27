@@ -27,16 +27,16 @@ import java.util.ResourceBundle;
 @FxmlView("/views/transactionDetails.fxml")
 public class TransactionDetailController implements Initializable {
     @FXML
-    private AnchorPane transactionDetailContainerPane;
+    public AnchorPane transactionDetailContainerPane;
 
     @FXML
-    private HBox transactionDetailTitleBar;
+    public HBox transactionDetailTitleBar;
 
     @FXML
-    private ScrollPane transactionDetailScrollPane;
+    public ScrollPane transactionDetailScrollPane;
 
     @FXML
-    private VBox detailItemContainer;
+    public VBox detailItemContainer;
 
     @FXML
     private Label transactionTimeHeading;
@@ -75,20 +75,6 @@ public class TransactionDetailController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Layout
-        transactionDetailContainerPane.setPrefWidth(Util.getContentAreaWidth());
-        transactionDetailContainerPane.setPrefHeight(Util.getContentAreaHeight() * 0.60);
-
-        transactionDetailTitleBar.setPrefWidth(transactionDetailContainerPane.getPrefWidth());
-        transactionDetailTitleBar.setPrefHeight(transactionDetailContainerPane.getPrefHeight() * 0.15);
-        transactionDetailTitleBar.setSpacing(Util.getContentAreaWidth() * 0.02);
-
-        transactionDetailScrollPane.setPrefWidth(transactionDetailContainerPane.getPrefWidth());
-        transactionDetailScrollPane.setPrefHeight(transactionDetailContainerPane.getPrefHeight() - transactionDetailTitleBar.getPrefHeight());
-        transactionDetailScrollPane.setLayoutY(transactionDetailTitleBar.getPrefHeight());
-
-        detailItemContainer.setPrefWidth(transactionDetailContainerPane.getPrefWidth());
-        detailItemContainer.setPrefHeight(transactionDetailScrollPane.getHeight());
 
         transactionTimeHeading.setText("ਸਮਾਂ" + "\n" + "Time");
         transactionFlourPickupQtyHeading.setText("ਆਟਾ ਪ੍ਰਾਪਤ" + "\n" + "Flour Pickup Qty");

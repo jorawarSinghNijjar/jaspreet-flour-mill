@@ -27,7 +27,7 @@ public class StageInitializer implements ApplicationListener<StageReadyEvent> {
 
         stage = event.getStage();
         stage.initStyle(StageStyle.UNDECORATED);
-        double width = Util.getScreenWidth() / 3.5 ;
+        double width = Util.getScreenWidth() / 3.5;
         double height = Util.getScreenHeight() / 2.5;
         stage.setX((Util.getScreenWidth() - width) / 2);
         stage.setY((Util.getScreenHeight() - height) / 2);

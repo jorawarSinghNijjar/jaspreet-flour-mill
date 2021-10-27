@@ -5,24 +5,21 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 
-<HBox fx:id="transactionDetailItem" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="1120.0" spacing="10.0" style="-fx-background-color: #FEFFFF;" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.TransactionDetailItemController">
+<HBox fx:id="transactionDetailItem" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="72.0" prefWidth="1120.0" style="-fx-background-color: #FEFFFF;" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.TransactionDetailItemController">
    <children>
-      <Label fx:id="transactionIdLabel" alignment="CENTER" prefWidth="170.0" styleClass="table-items" stylesheets="@css/main.css" text="65234" wrapText="true" />
-      <Label fx:id="timeStampLabel" alignment="CENTER" prefWidth="170.0" styleClass="table-items" stylesheets="@css/main.css" text="April 28, 2021 7:32 p.m" wrapText="true" />
-      <Label fx:id="flourPickupQtyLabel" alignment="CENTER" layoutX="1008.0" layoutY="10.0" prefWidth="170.0" styleClass="table-items" stylesheets="@css/main.css" text="10 kg" wrapText="true" />
-      <Label fx:id="grindingChargesLabel" alignment="CENTER" prefWidth="170.0" styleClass="table-items" stylesheets="@css/main.css" text="40.00" wrapText="true" />
-      <Label fx:id="grindingChargesPaidLabel" alignment="CENTER" prefWidth="170.0" styleClass="table-items" stylesheets="@css/main.css" text="150.00" wrapText="true" />
-      <Label fx:id="grindingBalanceLabel" alignment="CENTER" prefWidth="170.0" styleClass="table-items" stylesheets="@css/main.css" text="140.00" wrapText="true" />
-      <Label fx:id="storedWheatBalanceLabel" alignment="CENTER" prefWidth="170.0" styleClass="table-items" stylesheets="@css/main.css" text="150kg" wrapText="true" />
-      <Label fx:id="orderPickedByLabel" alignment="CENTER" prefWidth="170.0" styleClass="table-items" stylesheets="@css/main.css" text="Surjeet Singh" wrapText="true" />
-      <Label fx:id="cashierLabel" alignment="CENTER" prefWidth="170.0" styleClass="table-items" stylesheets="@css/main.css" text="Maninder" wrapText="true" />
-      <Button alignment="CENTER" mnemonicParsing="false" onAction="#printTransaction" prefWidth="170.0" styleClass="utility-btn" stylesheets="@css/main.css" text="Print">
+      <Label fx:id="transactionIdLabel" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" styleClass="table-items" stylesheets="@css/main.css" text="65234" textAlignment="CENTER" wrapText="true" />
+      <Label fx:id="timeStampLabel" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" styleClass="table-items" stylesheets="@css/main.css" text="April 28, 2021 7:32 p.m" textAlignment="CENTER" wrapText="true" />
+      <Label fx:id="flourPickupQtyLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="1008.0" layoutY="10.0" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" styleClass="table-items" stylesheets="@css/main.css" text="10 kg" textAlignment="CENTER" wrapText="true" />
+      <Label fx:id="grindingChargesLabel" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" styleClass="table-items" stylesheets="@css/main.css" text="40.00" textAlignment="CENTER" wrapText="true" />
+      <Label fx:id="grindingChargesPaidLabel" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" styleClass="table-items" stylesheets="@css/main.css" text="150.00" textAlignment="CENTER" wrapText="true" />
+      <Label fx:id="grindingBalanceLabel" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" styleClass="table-items" stylesheets="@css/main.css" text="140.00" textAlignment="CENTER" wrapText="true" />
+      <Label fx:id="storedWheatBalanceLabel" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" styleClass="table-items" stylesheets="@css/main.css" text="150kg" textAlignment="CENTER" wrapText="true" />
+      <Label fx:id="orderPickedByLabel" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" styleClass="table-items" stylesheets="@css/main.css" text="Surjeet Singh" textAlignment="CENTER" wrapText="true" />
+      <Label fx:id="cashierLabel" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" styleClass="table-items" stylesheets="@css/main.css" text="Maninder" textAlignment="CENTER" wrapText="true" />
+      <Button alignment="CENTER" contentDisplay="CENTER" maxWidth="-Infinity" mnemonicParsing="false" onAction="#printTransaction" prefWidth="170.0" styleClass="utility-btn" stylesheets="@css/main.css" text="Print" textAlignment="CENTER">
          <HBox.margin>
             <Insets top="2.0" />
          </HBox.margin>
       </Button>
    </children>
-   <padding>
-      <Insets bottom="5.0" left="10.0" right="5.0" top="5.0" />
-   </padding>
 </HBox>

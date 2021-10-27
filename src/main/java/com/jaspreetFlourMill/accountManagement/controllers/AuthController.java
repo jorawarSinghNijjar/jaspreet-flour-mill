@@ -33,6 +33,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 @Component
@@ -53,9 +54,10 @@ public class AuthController implements Initializable,ApplicationListener<StageRe
 //    private AnchorPane loginFormContainer;
 
     @FXML
-    private GridPane loginFormGridPane;
+    public GridPane loginFormGridPane;
 
-    @FXML VBox loginFormVBox;
+    @FXML
+    public VBox loginFormVBox;
 
     private  final FxWeaver fxWeaver;
     private Stage stage;
@@ -67,15 +69,23 @@ public class AuthController implements Initializable,ApplicationListener<StageRe
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // VBox styling
-        double vBoxHeight = this.loginFormVBox.getPrefHeight();
-        double vBoxWidth = this.loginFormVBox.getPrefWidth();
-        double vSpacing = vBoxHeight * 0.08;
-        this.loginFormVBox.setSpacing(vSpacing);
+//        double vBoxHeight = this.loginFormVBox.getPrefHeight();
+//        double vBoxWidth = this.loginFormVBox.getPrefWidth();
+//        double vSpacing = vBoxHeight * 0.08;
+//        this.loginFormVBox.setSpacing(vSpacing);
 
         // Grid Pane styling
         this.loginFormGridPane.setAlignment(Pos.CENTER);
-        this.loginFormGridPane.setPrefWidth(vBoxWidth * 0.8);
-        this.loginFormGridPane.setPrefHeight(vBoxHeight * 0.5);
+        double width = Util.getScreenWidth() / 3.5;
+        double height = Util.getScreenHeight() / 2.5;
+        this.loginFormGridPane.setPrefWidth( width * 0.8);
+        this.loginFormGridPane.setPrefHeight(height * 0.5);
+        this.loginFormGridPane.setVgap(height * 0.08);
+        this.loginFormGridPane.setHgap(width * 0.04);
+
+        List<ColumnConstraints> colConstList = this.loginFormGridPane.getColumnConstraints();
+        colConstList.get(0).setPercentWidth(40);
+        colConstList.get(1).setPercentWidth(60);
 
     }
 
