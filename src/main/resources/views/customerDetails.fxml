@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-
 <VBox fx:id="customerDetailVBox" alignment="TOP_CENTER" styleClass="p-5" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.CustomerDetailsController">
    <children>
       <GridPane fx:id="customerDetailGridPane" alignment="CENTER" prefHeight="340.0" prefWidth="544.0" stylesheets="@css/main.css">
@@ -32,7 +31,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="h2" stylesheets="@css/main.css" text="Customer Details" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="h2" stylesheets="@css/main.css" text="Customer Details" wrapText="true" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
             <HBox fx:id="imageContainerHBox" alignment="CENTER" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.rowSpan="4" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                <children>
                   <ImageView fx:id="customerIdProofImage" fitHeight="133.0" fitWidth="238.0" pickOnBounds="true" preserveRatio="true">
@@ -42,25 +41,25 @@
                   </ImageView>
                </children>
             </HBox>
-            <Label maxWidth="1.7976931348623157E308" text="Customer ID" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-            <Label maxWidth="1.7976931348623157E308" text="Wheat Qty Stored" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-            <Label maxWidth="1.7976931348623157E308" text="Qty Deduction (Processing)" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
-            <Label maxWidth="1.7976931348623157E308" text="Initial Wheat Qty" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
-            <Label maxWidth="1.7976931348623157E308" text="Current Wheat Balance" GridPane.halignment="LEFT" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
-            <Label fx:id="customerIdDisplay" maxWidth="1.7976931348623157E308" text="XXXXXXXX" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-            <Label fx:id="wheatQtyStored" maxWidth="1.7976931348623157E308" text="0.00" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-            <Label fx:id="qtyDeduction" maxWidth="1.7976931348623157E308" text="0.00" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
-            <Label fx:id="initialWheatQty" maxWidth="1.7976931348623157E308" text="0.00" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
-            <Label fx:id="currentWheatBalance" maxWidth="1.7976931348623157E308" text="0.00" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
-            <Label maxWidth="1.7976931348623157E308" text="Grinding Rate  / kg" GridPane.halignment="LEFT" GridPane.rowIndex="8" GridPane.valignment="CENTER" />
-            <Label fx:id="grindingRate" maxWidth="1.7976931348623157E308" text="0.00" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="8" GridPane.valignment="CENTER" />
-            <Label layoutX="10.0" layoutY="97.0" maxWidth="1.7976931348623157E308" text="Total Grinding Charges Balance" GridPane.halignment="LEFT" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
-            <Label fx:id="totalGrindingChargesBalance" maxWidth="1.7976931348623157E308" text="0.00" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
-            <Label maxWidth="1.7976931348623157E308" text="Address" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
-            <Label maxWidth="1.7976931348623157E308" text="Phone Number" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
-            <Label maxWidth="1.7976931348623157E308" text="Ration Card No." GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="8" GridPane.valignment="CENTER" />
-            <Label fx:id="customerPhoneNumber" maxWidth="1.7976931348623157E308" text="9463479452" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
-            <Label fx:id="customerRationCardNo" maxWidth="1.7976931348623157E308" text="65448864" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="8" GridPane.valignment="CENTER" />
+            <Label maxWidth="1.7976931348623157E308" text="Customer ID" wrapText="true" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+            <Label maxWidth="1.7976931348623157E308" text="Wheat Qty Stored" wrapText="true" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+            <Label maxWidth="1.7976931348623157E308" text="Qty Deduction (Processing)" wrapText="true" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+            <Label maxWidth="1.7976931348623157E308" text="Initial Wheat Qty" wrapText="true" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+            <Label maxWidth="1.7976931348623157E308" text="Current Wheat Balance" wrapText="true" GridPane.halignment="LEFT" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
+            <Label fx:id="customerIdDisplay" maxWidth="1.7976931348623157E308" text="XXXXXXXX" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+            <Label fx:id="wheatQtyStored" maxWidth="1.7976931348623157E308" text="0.00" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+            <Label fx:id="qtyDeduction" maxWidth="1.7976931348623157E308" text="0.00" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+            <Label fx:id="initialWheatQty" maxWidth="1.7976931348623157E308" text="0.00" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+            <Label fx:id="currentWheatBalance" maxWidth="1.7976931348623157E308" text="0.00" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
+            <Label maxWidth="1.7976931348623157E308" text="Grinding Rate  / kg" wrapText="true" GridPane.halignment="LEFT" GridPane.rowIndex="8" GridPane.valignment="CENTER" />
+            <Label fx:id="grindingRate" maxWidth="1.7976931348623157E308" text="0.00" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="8" GridPane.valignment="CENTER" />
+            <Label layoutX="10.0" layoutY="97.0" maxWidth="1.7976931348623157E308" text="Total Grinding Charges Balance" wrapText="true" GridPane.halignment="LEFT" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
+            <Label fx:id="totalGrindingChargesBalance" maxWidth="1.7976931348623157E308" text="0.00" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
+            <Label maxWidth="1.7976931348623157E308" text="Address" wrapText="true" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+            <Label maxWidth="1.7976931348623157E308" text="Phone Number" wrapText="true" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
+            <Label maxWidth="1.7976931348623157E308" text="Ration Card No." wrapText="true" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="8" GridPane.valignment="CENTER" />
+            <Label fx:id="customerPhoneNumber" maxWidth="1.7976931348623157E308" text="9463479452" wrapText="true" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
+            <Label fx:id="customerRationCardNo" maxWidth="1.7976931348623157E308" text="65448864" wrapText="true" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="8" GridPane.valignment="CENTER" />
             <Label fx:id="customerAddress" alignment="TOP_LEFT" maxWidth="1.7976931348623157E308" text="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" wrapText="true" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.rowSpan="2" GridPane.valignment="CENTER">
                <padding>
                   <Insets top="5.0" />
