@@ -274,11 +274,6 @@ public class ContentController implements Initializable, ApplicationListener<Sta
             customerListCV.getController().customerListContainerGP.setHgap(contentContainer.getPrefWidth() * 0.01);
             customerListCV.getController().customerListContainerGP.setVgap(contentContainer.getPrefHeight() * 0.01);
 
-//            customerListCV.getController().customerListSP.setPrefWidth(Double.MAX_VALUE);
-
-//            customerListCV.getController().customerListBox.setPrefWidth(Double.MAX_VALUE);
-//            customerListCV.getController().customerListBox.setPrefHeight(Double.MAX_VALUE);
-
             List<ColumnConstraints> colConstList = customerListCV.getController().customerListContainerGP.getColumnConstraints();
             colConstList.get(0).setPercentWidth(30);
             colConstList.get(1).setPercentWidth(70);
@@ -431,11 +426,19 @@ public class ContentController implements Initializable, ApplicationListener<Sta
             contentContainer.getChildren().clear();
             //Load Deposit Wheat View
             depositWheatCV = fxWeaver.load(DepositWheatController.class);
-//            Node depositWheatNode = (Node) FXMLLoader.load(
-//                    getClass().getResource("/views/depositWheat.fxml")
-//            );
 
             depositWheatCV.getView().ifPresent(view -> {
+                // Layout
+                depositWheatCV.getController().wheatDepositFormGP.setPrefWidth(contentContainer.getPrefWidth() * 0.5);
+                depositWheatCV.getController().wheatDepositFormGP.setPrefHeight(contentContainer.getPrefHeight() * 0.5);
+                depositWheatCV.getController().wheatDepositFormGP.setHgap(depositWheatCV.getController().wheatDepositFormGP.getPrefWidth() * 0.02);
+                depositWheatCV.getController().wheatDepositFormGP.setVgap(depositWheatCV.getController().wheatDepositFormGP.getPrefHeight() * 0.01);
+
+                List<ColumnConstraints> colConstList = depositWheatCV.getController().wheatDepositFormGP.getColumnConstraints();
+                colConstList.get(0).setPercentWidth(40);
+                colConstList.get(1).setPercentWidth(20);
+                colConstList.get(2).setPercentWidth(40);
+
                 contentContainer.getChildren().add(view);
             });
 

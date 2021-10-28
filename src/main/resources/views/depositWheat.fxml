@@ -8,32 +8,34 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="700.0" prefWidth="800.0" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.DepositWheatController">
+<AnchorPane prefHeight="700.0" prefWidth="800.0" styleClass="p-5" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.DepositWheatController">
     <children>
-        <Label alignment="CENTER" layoutX="280.0" layoutY="60.0" prefHeight="54.0" prefWidth="261.0" styleClass="h2" stylesheets="@css/main.css" text="Enter Deposit Information" textAlignment="CENTER" />
-        <GridPane hgap="20.0" layoutX="150.0" layoutY="130.0" prefHeight="170.0" prefWidth="600.0">
+        <GridPane fx:id="wheatDepositFormGP" hgap="20.0" prefHeight="170.0" prefWidth="600.0" styleClass="p-5" stylesheets="@css/main.css">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="276.0" minWidth="10.0" prefWidth="170.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="398.0" minWidth="10.0" prefWidth="200.0" />
             <ColumnConstraints hgrow="SOMETIMES" maxWidth="398.0" minWidth="10.0" prefWidth="200.0" />
             </columnConstraints>
             <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Customer ID" />
-                <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Wheat Deposit Qty" GridPane.rowIndex="1" />
-                <TextField fx:id="customerIdInputDepositPage" prefHeight="35.0" GridPane.columnIndex="1" />
-                <TextField fx:id="wheatDepositQtyInput" prefHeight="35.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label prefHeight="49.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Wheat Processing Deduction Qty" wrapText="true" GridPane.rowIndex="2" />
-            <TextField fx:id="wheatProcessingDeductionQtyInput" prefHeight="35.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label fx:id="customerIdValidLabel" prefHeight="45.0" prefWidth="200.0" wrapText="true" GridPane.columnIndex="2" />
-            <Label fx:id="wheatDepositQtyValidLabel" prefHeight="45.0" prefWidth="200.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <Label fx:id="wheatDedQtyValidLabel" prefHeight="45.0" prefWidth="200.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                <Label maxWidth="1.7976931348623157E308" prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Customer ID" GridPane.rowIndex="1" />
+                <Label maxWidth="1.7976931348623157E308" prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Wheat Deposit Qty" GridPane.rowIndex="2" />
+                <TextField fx:id="customerIdInputDepositPage" maxWidth="1.7976931348623157E308" prefHeight="35.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <TextField fx:id="wheatDepositQtyInput" maxWidth="1.7976931348623157E308" prefHeight="35.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label maxWidth="1.7976931348623157E308" prefHeight="49.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Wheat Processing Deduction Qty" wrapText="true" GridPane.rowIndex="3" />
+            <TextField fx:id="wheatProcessingDeductionQtyInput" maxWidth="1.7976931348623157E308" prefHeight="35.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label fx:id="customerIdValidLabel" maxWidth="1.7976931348623157E308" prefHeight="45.0" prefWidth="200.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Label fx:id="wheatDepositQtyValidLabel" maxWidth="1.7976931348623157E308" prefHeight="45.0" prefWidth="200.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Label fx:id="wheatDedQtyValidLabel" maxWidth="1.7976931348623157E308" prefHeight="45.0" prefWidth="200.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+              <Button fx:id="wheatDepositSubmitBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#submitWheatDeposit" prefHeight="35.0" prefWidth="300.0" styleClass="secondary-btn" stylesheets="@css/main.css" text="Submit" GridPane.columnSpan="2" GridPane.rowIndex="4" />
+              <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" prefHeight="54.0" prefWidth="261.0" styleClass="h2" stylesheets="@css/main.css" text="Enter Deposit Information" textAlignment="CENTER" wrapText="true" GridPane.columnSpan="2" />
             </children>
         </GridPane>
-        <Button fx:id="wheatDepositSubmitBtn" layoutX="250.0" layoutY="315.0" mnemonicParsing="false" onAction="#submitWheatDeposit" prefHeight="35.0" prefWidth="300.0" styleClass="secondary-btn" stylesheets="@css/main.css" text="Submit" />
     </children>
 </AnchorPane>
