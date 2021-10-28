@@ -310,6 +310,18 @@
     -fx-border-color: #FF4136;
 }
 
+.scroll-pane > .viewport {
+   -fx-background-color: transparent;
+}
+
+.transparent-background{
+     -fx-background-color: transparent;
+}
+
+.base-background{
+     -fx-background-color: #3AAFA9;
+}
+
 
 
 

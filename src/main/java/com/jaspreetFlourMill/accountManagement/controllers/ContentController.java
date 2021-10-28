@@ -265,6 +265,29 @@ public class ContentController implements Initializable, ApplicationListener<Sta
         customerListCV = fxWeaver.load(CustomerListController.class);
 
         customerListCV.getView().ifPresent(view -> {
+            // Layout
+            customerListCV.getController().customerListContainerAP.setPrefWidth(contentContainer.getPrefWidth());
+            customerListCV.getController().customerListContainerAP.setPrefHeight(contentContainer.getPrefHeight());
+
+            customerListCV.getController().customerListContainerGP.setPrefWidth(contentContainer.getPrefWidth());
+            customerListCV.getController().customerListContainerGP.setPrefHeight(contentContainer.getPrefHeight());
+            customerListCV.getController().customerListContainerGP.setHgap(contentContainer.getPrefWidth() * 0.01);
+            customerListCV.getController().customerListContainerGP.setVgap(contentContainer.getPrefHeight() * 0.01);
+
+//            customerListCV.getController().customerListSP.setPrefWidth(Double.MAX_VALUE);
+
+//            customerListCV.getController().customerListBox.setPrefWidth(Double.MAX_VALUE);
+//            customerListCV.getController().customerListBox.setPrefHeight(Double.MAX_VALUE);
+
+            List<ColumnConstraints> colConstList = customerListCV.getController().customerListContainerGP.getColumnConstraints();
+            colConstList.get(0).setPercentWidth(30);
+            colConstList.get(1).setPercentWidth(70);
+
+            List<RowConstraints> rowConstConstList = customerListCV.getController().customerListContainerGP.getRowConstraints();
+            rowConstConstList.get(0).setPercentHeight(10);
+            rowConstConstList.get(1).setPercentHeight(90);
+
+
             contentContainer.getChildren().add(view);
         });
     }

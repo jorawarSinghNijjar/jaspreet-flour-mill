@@ -68,11 +68,6 @@ public class AuthController implements Initializable,ApplicationListener<StageRe
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // VBox styling
-//        double vBoxHeight = this.loginFormVBox.getPrefHeight();
-//        double vBoxWidth = this.loginFormVBox.getPrefWidth();
-//        double vSpacing = vBoxHeight * 0.08;
-//        this.loginFormVBox.setSpacing(vSpacing);
 
         // Grid Pane styling
         this.loginFormGridPane.setAlignment(Pos.CENTER);
