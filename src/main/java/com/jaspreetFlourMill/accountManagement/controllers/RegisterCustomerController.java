@@ -294,13 +294,13 @@ public class RegisterCustomerController implements Initializable, ApplicationLis
     private boolean validateForm(){
         if(customerFormValidation.getFormFields().containsValue(false)){
 //            customerRegisterAlertMsg.setText("Please fill the form correctly");
-            customerRegisterAlertMsg.getStyleClass().add("validate-err");
+//            customerRegisterAlertMsg.getStyleClass().add("validate-err");
             registerCustomerBtn.setDisable(true);
             return false;
         }
         else{
-            customerRegisterAlertMsg.setText("");
-            customerRegisterAlertMsg.getStyleClass().clear();
+//            customerRegisterAlertMsg.setText("");
+//            customerRegisterAlertMsg.getStyleClass().clear();
             registerCustomerBtn.setDisable(false);
             return true;
         }

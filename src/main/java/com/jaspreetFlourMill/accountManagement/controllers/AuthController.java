@@ -1,6 +1,7 @@
 package com.jaspreetFlourMill.accountManagement.controllers;
 
 import com.jaspreetFlourMill.accountManagement.StageReadyEvent;
+import com.jaspreetFlourMill.accountManagement.model.Admin;
 import com.jaspreetFlourMill.accountManagement.model.Employee;
 import com.jaspreetFlourMill.accountManagement.model.Sales;
 import com.jaspreetFlourMill.accountManagement.model.Stock;
@@ -113,7 +114,9 @@ public class AuthController implements Initializable,ApplicationListener<StageRe
         }
         try{
 
-            if(userId.equals("admin") && password.equals("admin")){
+            // Check if user is an admin
+            HttpStatus httpStatus = Admin.getAdmin(userId);
+            if(httpStatus.is2xxSuccessful()){
                 currentSession = UserSession.getInstance(userId, UserSession.UserType.ADMIN);
                 stage.setScene(new Scene(fxWeaver.loadView(ContentController.class), Util.getScreenWidth(),Util.getScreenHeight()));
                 stage.setX(0);
