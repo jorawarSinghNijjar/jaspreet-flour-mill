@@ -49,8 +49,8 @@ import java.util.ResourceBundle;
 @FxmlView("/views/loginForm.fxml")
 public class AuthController implements Initializable, ApplicationListener<StageReadyEvent> {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+//    @Autowired
+//    private AuthenticationManager authenticationManager;
 //
 //    @FXML
 //    private Label loginUsernameLabel;
@@ -143,10 +143,10 @@ public class AuthController implements Initializable, ApplicationListener<StageR
                 } else {
 
                     if (user.getRole() == Role.ADMIN) {
-                        Authentication request = new UsernamePasswordAuthenticationToken(userId, password);
-                        Authentication result = authenticationManager.authenticate(request);
-                        SecurityContextHolder.getContext().setAuthentication(result);
-                        System.out.println(result.getCredentials().toString());
+//                        Authentication request = new UsernamePasswordAuthenticationToken(userId, password);
+//                        Authentication result = authenticationManager.authenticate(request);
+//                        SecurityContextHolder.getContext().setAuthentication(result);
+//                        System.out.println(result.getCredentials().toString());
 
                         stage.setScene(new Scene(fxWeaver.loadView(ContentController.class), Util.getScreenWidth(), Util.getScreenHeight()));
                         stage.setX(0);

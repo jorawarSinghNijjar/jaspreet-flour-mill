@@ -34,7 +34,7 @@ public class Employee implements Serializable {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
         this.dob = formatter.format(dob);
 
-        this.id = name.substring(0,3) + "00" + dob.getMonthValue();
+//        this.id = name.substring(0,3) + "00" + dob.getMonthValue();
     }
 
     public String getId() {

@@ -41,6 +41,9 @@ public class RegisterEmployeeController implements Initializable, ApplicationLis
     private Label registerEmployeeTitleLabel;
 
     @FXML
+    private TextField employeeUserIdField;
+
+    @FXML
     private TextField employeeNameField;
 
     @FXML
@@ -67,6 +70,9 @@ public class RegisterEmployeeController implements Initializable, ApplicationLis
     private FormValidation employeeFormValidation;
 
     @FXML
+    private Label employeeUserIdValidLabel;
+
+    @FXML
     private Label employeeNameValidLabel;
 
     @FXML
@@ -90,8 +96,6 @@ public class RegisterEmployeeController implements Initializable, ApplicationLis
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-
-
         registerEmployeeVBoxContainer.setPrefWidth(Util.getContentAreaWidth());
         registerEmployeeVBoxContainer.setPrefHeight(Util.getContentAreaHeight());
         registerEmployeeVBoxContainer.setSpacing(registerEmployeeVBoxContainer.getPrefHeight() * 0.08);
@@ -114,6 +118,7 @@ public class RegisterEmployeeController implements Initializable, ApplicationLis
         registerEmployeeBtn.setDisable(true);
 
         employeeFormValidation = new FormValidation();
+        employeeFormValidation.getFormFields().put("user-id",false);
         employeeFormValidation.getFormFields().put("name",false);
         employeeFormValidation.getFormFields().put("password",false);
         employeeFormValidation.getFormFields().put("conf-password",false);
@@ -127,6 +132,16 @@ public class RegisterEmployeeController implements Initializable, ApplicationLis
     }
 
     private void addEventListeners() {
+        employeeNameField.textProperty().addListener((observableValue, oldVal, newVal) -> {
+            boolean valid = FormValidation.isUsername(
+                    newVal,
+                    employeeUserIdValidLabel
+            ).isValid();
+            employeeFormValidation.getFormFields().put("user-id",valid);
+            this.validateForm();
+
+        });
+
         employeeNameField.textProperty().addListener((observableValue, oldVal, newVal) -> {
             boolean validName = FormValidation.isName(
                     newVal,
@@ -220,7 +235,7 @@ public class RegisterEmployeeController implements Initializable, ApplicationLis
 
     private boolean registerEmployee(){
         // Temporary Id Usage
-        String userId = UUID.randomUUID().toString();
+        String userId = employeeUserIdField.getText();
         String name = employeeNameField.getText();
         String password = employeePasswordField.getText();
         String contactNo = employeeContactNoField.getText();

@@ -212,7 +212,7 @@ public class RegisterAdminController implements Initializable, ApplicationListen
                     // Admin registration
                     Admin newAdmin = new Admin(newUser,emailId);
                     HttpStatus httpStatusAdminRegister = Admin.register(newAdmin);
-                    if (httpStatus.is2xxSuccessful()) {
+                    if (httpStatusAdminRegister.is2xxSuccessful()) {
                         System.out.println("Admin registration successful : " + newAdmin.getEmailId());
                     }
                 }
