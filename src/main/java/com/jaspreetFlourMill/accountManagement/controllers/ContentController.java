@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -159,14 +160,14 @@ public class ContentController implements Initializable, ApplicationListener<Sta
         avatarFrame.setFill(new ImagePattern(avatar));
 
         //Hide not admin content
-        if (!AuthController.currentSession.getUserType().equals(UserSession.UserType.ADMIN)) {
-            sideMenuBox.getChildren().remove(registerEmployeeButton);
-            sideMenuBox.getChildren().remove(homeButton);
-        } else {
-            sideMenuBox.getChildren().remove(addTransactionButton);
-            sideMenuBox.getChildren().remove(wheatDepositButton);
-            sideMenuBox.getChildren().remove(registerCustomerButton);
-        }
+//        if (!AuthController.currentSession.getUserType().equals(UserSession.UserType.ADMIN)) {
+//            sideMenuBox.getChildren().remove(registerEmployeeButton);
+//            sideMenuBox.getChildren().remove(homeButton);
+//        } else {
+//            sideMenuBox.getChildren().remove(addTransactionButton);
+//            sideMenuBox.getChildren().remove(wheatDepositButton);
+//            sideMenuBox.getChildren().remove(registerCustomerButton);
+//        }
 
         showHome();
 
@@ -322,6 +323,9 @@ public class ContentController implements Initializable, ApplicationListener<Sta
                     this.showImageModal(modalImage);
                 } catch (Exception exception) {
                     exception.getMessage();
+                    // Information dialog
+                    AlertDialog alertDialog = new AlertDialog("Error",exception.getCause().getMessage(),exception.getMessage(), Alert.AlertType.ERROR);
+                    alertDialog.showErrorDialog(exception);
                 }
 
             });
@@ -415,6 +419,9 @@ public class ContentController implements Initializable, ApplicationListener<Sta
 
         } catch (Exception e) {
             e.printStackTrace();
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(),Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
         }
     }
 
@@ -444,6 +451,9 @@ public class ContentController implements Initializable, ApplicationListener<Sta
 
         } catch (Exception e) {
             e.printStackTrace();
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(),Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
         }
     }
 
@@ -465,6 +475,9 @@ public class ContentController implements Initializable, ApplicationListener<Sta
 
         } catch (Exception e) {
             e.printStackTrace();
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(),Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
         }
     }
 
@@ -484,6 +497,9 @@ public class ContentController implements Initializable, ApplicationListener<Sta
 
         } catch (Exception e) {
             e.printStackTrace();
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(),Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
         }
     }
 
@@ -491,7 +507,7 @@ public class ContentController implements Initializable, ApplicationListener<Sta
     public void signOut() {
         try {
             contentContainer.getChildren().clear();
-            AuthController.currentSession.cleanSession();
+//            AuthController.currentSession.cleanSession();
 
             // Dashboard size setting
             double width = Util.getScreenWidth() / 3.5;
@@ -502,6 +518,9 @@ public class ContentController implements Initializable, ApplicationListener<Sta
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(),Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
         }
     }
 

@@ -1,44 +1,33 @@
 package com.jaspreetFlourMill.accountManagement.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.jaspreetFlourMill.accountManagement.controllers.ContentController;
 import org.springframework.http.*;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Date;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Admin implements Serializable {
 
-    private String adminId;
-    private String password;
+    private User user;
+    private String id;
     private String emailId;
 
-    public Admin(String adminId, String password, String emailId) {
-        this.adminId = adminId;
-        this.password = password;
+    public Admin(User user,String emailId) {
+        this.user = user;
         this.emailId = emailId;
     }
 
     public Admin() {
     }
 
-    public String getAdminId() {
-        return adminId;
+    public String getId() {
+        return id;
     }
 
-    public void setAdminId(String adminId) {
-        this.adminId = adminId;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getEmailId() {
@@ -48,6 +37,15 @@ public class Admin implements Serializable {
     public void setEmailId(String emailId) {
         this.emailId = emailId;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
 
     public static HttpStatus register(Admin newAdmin) throws Exception {
         String uri = "http://localhost:8080/admin/";

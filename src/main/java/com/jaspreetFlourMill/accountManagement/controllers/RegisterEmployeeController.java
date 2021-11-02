@@ -1,17 +1,14 @@
 package com.jaspreetFlourMill.accountManagement.controllers;
 
 import com.jaspreetFlourMill.accountManagement.StageReadyEvent;
-import com.jaspreetFlourMill.accountManagement.model.Customer;
-import com.jaspreetFlourMill.accountManagement.model.Employee;
+import com.jaspreetFlourMill.accountManagement.model.*;
+import com.jaspreetFlourMill.accountManagement.util.AlertDialog;
 import com.jaspreetFlourMill.accountManagement.util.FormValidation;
 import com.jaspreetFlourMill.accountManagement.util.Util;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -28,6 +25,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
 @Component
 @FxmlView("/views/registerEmployee.fxml")
@@ -220,7 +218,9 @@ public class RegisterEmployeeController implements Initializable, ApplicationLis
         this.registerEmployee();
     }
 
-    private void registerEmployee(){
+    private boolean registerEmployee(){
+        // Temporary Id Usage
+        String userId = UUID.randomUUID().toString();
         String name = employeeNameField.getText();
         String password = employeePasswordField.getText();
         String contactNo = employeeContactNoField.getText();
@@ -229,28 +229,41 @@ public class RegisterEmployeeController implements Initializable, ApplicationLis
         LocalDate dob = employeeDOBField.getValue();
 
         if(!this.validateForm()){
-            return;
+            return false;
         }
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = bCryptPasswordEncoder.encode(password);
-        Employee newEmployee = new Employee(name,encodedPassword,contactNo,address,jobDesignation,dob);
+        User newUser = new User(userId,encodedPassword, Role.EMPLOYEE);
 
-        if(newEmployee != null){
+
+
+        if(newUser != null){
+
             // POST request to register employee
-            final String uri =  "http://localhost:8080/employees/";
-            RestTemplate restTemplate = new RestTemplate();
-
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-
-            HttpEntity<Employee> req = new HttpEntity<>(newEmployee,httpHeaders);
-            ResponseEntity<String> result = restTemplate.exchange(uri, HttpMethod.POST,req,String.class);
-
-            if(result != null){
-                System.out.println(result.getBody());
-                ContentController.navigationHandler.handleShowHome();
+            try {
+                // User registration
+                HttpStatus httpStatus = User.register(newUser);
+                if (httpStatus.is2xxSuccessful()) {
+                    System.out.println("User registration successful : " + newUser.getId());
+                    // Admin registration
+                    Employee newEmployee = new Employee(newUser,name,contactNo,address,jobDesignation,dob);
+                    HttpStatus httpStatusEmployeeRegister = Employee.register(newEmployee);
+                    if (httpStatusEmployeeRegister.is2xxSuccessful()) {
+                        System.out.println("Employee registration successful : " + newEmployee.getName());
+                        ContentController.navigationHandler.handleShowHome();
+                        return true;
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("Error: registration failed !!");
+                // Information dialog
+                AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(), Alert.AlertType.ERROR);
+                alertDialog.showErrorDialog(e);
+                return false;
             }
         }
+        return false;
     }
 
     @Override

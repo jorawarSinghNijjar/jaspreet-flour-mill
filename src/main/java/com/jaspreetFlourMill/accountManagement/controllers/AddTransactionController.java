@@ -5,6 +5,7 @@ import com.jaspreetFlourMill.accountManagement.model.Customer;
 import com.jaspreetFlourMill.accountManagement.model.Employee;
 import com.jaspreetFlourMill.accountManagement.model.Sales;
 import com.jaspreetFlourMill.accountManagement.model.Transaction;
+import com.jaspreetFlourMill.accountManagement.util.AlertDialog;
 import com.jaspreetFlourMill.accountManagement.util.FormValidation;
 import com.jaspreetFlourMill.accountManagement.util.Util;
 import javafx.beans.value.ChangeListener;
@@ -146,7 +147,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
 
         this.addEventListeners();
 
-        cashierName = this.getEmployeeName(AuthController.currentSession.getUserId());
+//        cashierName = this.getEmployeeName(AuthController.currentSession.getUserId());
         cashierNameLabel.setText(cashierName);
 
         // Input Change Listener for grinding rate input field
@@ -326,6 +327,9 @@ public class AddTransactionController implements Initializable, ApplicationListe
         }
         catch(Exception e){
             e.getMessage();
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(),Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
         }
     }
 
@@ -411,6 +415,9 @@ public class AddTransactionController implements Initializable, ApplicationListe
             catch(Exception e){
                 System.out.println("Failed to retrieve employee name");
                 e.printStackTrace();
+                // Information dialog
+                AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(),Alert.AlertType.ERROR);
+                alertDialog.showErrorDialog(e);
             }
         }
         System.out.println("Please enter a valid employee id");

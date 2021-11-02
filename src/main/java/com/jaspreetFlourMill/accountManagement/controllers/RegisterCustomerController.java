@@ -2,6 +2,7 @@ package com.jaspreetFlourMill.accountManagement.controllers;
 
 import com.jaspreetFlourMill.accountManagement.StageReadyEvent;
 import com.jaspreetFlourMill.accountManagement.model.Customer;
+import com.jaspreetFlourMill.accountManagement.util.AlertDialog;
 import com.jaspreetFlourMill.accountManagement.util.FormValidation;
 
 import com.jaspreetFlourMill.accountManagement.util.Util;
@@ -12,10 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -183,6 +181,9 @@ public class RegisterCustomerController implements Initializable, ApplicationLis
         }
         catch(Exception e){
             e.getMessage();
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(), Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
         }
 
 

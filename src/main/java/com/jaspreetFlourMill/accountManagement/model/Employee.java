@@ -1,15 +1,18 @@
 package com.jaspreetFlourMill.accountManagement.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.http.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Employee implements Serializable {
-    private String employeeId;
+
+    private User user;
+    private String id;
     private String name;
     private String password;
     private String contactNumber;
@@ -21,9 +24,9 @@ public class Employee implements Serializable {
 
     }
 
-    public Employee(String name, String password, String contactNumber, String address, String jobDesignation, LocalDate dob) {
+    public Employee(User user,String name, String contactNumber, String address, String jobDesignation, LocalDate dob) {
+        this.user = user;
         this.name = name;
-        this.password = password;
         this.contactNumber = contactNumber;
         this.address = address;
         this.jobDesignation = jobDesignation;
@@ -31,11 +34,11 @@ public class Employee implements Serializable {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
         this.dob = formatter.format(dob);
 
-        this.employeeId = name.substring(0,3) + "00" + dob.getMonthValue();
+        this.id = name.substring(0,3) + "00" + dob.getMonthValue();
     }
 
-    public String getEmployeeId() {
-        return employeeId;
+    public String getId() {
+        return id;
     }
 
     public String getName() {
@@ -86,10 +89,22 @@ public class Employee implements Serializable {
         this.dob = dob;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "Employee{" +
-                "employeeId=" + employeeId +
+                "employeeId=" + id +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", contactNumber='" + contactNumber + '\'' +
@@ -97,5 +112,18 @@ public class Employee implements Serializable {
                 ", jobDesignation='" + jobDesignation + '\'' +
                 ", dob='" + dob + '\'' +
                 '}';
+    }
+
+    public static HttpStatus register(Employee newEmployee) throws Exception {
+        String uri = "http://localhost:8080/employees/";
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<Employee> req = new HttpEntity<>(newEmployee, httpHeaders);
+        ResponseEntity<String> result = restTemplate.exchange(uri, HttpMethod.POST, req, String.class);
+
+        return result.getStatusCode();
     }
 }

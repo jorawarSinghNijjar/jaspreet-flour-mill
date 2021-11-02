@@ -4,12 +4,15 @@ import com.jaspreetFlourMill.accountManagement.controllers.AuthController;
 import com.jaspreetFlourMill.accountManagement.controllers.ContentController;
 import com.jaspreetFlourMill.accountManagement.controllers.RegisterAdminController;
 import com.jaspreetFlourMill.accountManagement.model.Admin;
+import com.jaspreetFlourMill.accountManagement.util.AlertDialog;
 import com.jaspreetFlourMill.accountManagement.util.Util;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -52,6 +55,9 @@ public class StageInitializer implements ApplicationListener<StageReadyEvent> {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(),Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
         }
 
         stage.show();
