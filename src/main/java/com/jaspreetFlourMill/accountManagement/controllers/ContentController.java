@@ -1,6 +1,9 @@
 package com.jaspreetFlourMill.accountManagement.controllers;
 
+import com.jaspreetFlourMill.accountManagement.StageInitializer;
 import com.jaspreetFlourMill.accountManagement.StageReadyEvent;
+import com.jaspreetFlourMill.accountManagement.model.Role;
+import com.jaspreetFlourMill.accountManagement.model.User;
 import com.jaspreetFlourMill.accountManagement.util.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -54,6 +57,8 @@ public class ContentController implements Initializable, ApplicationListener<Sta
 
     private Stage stage;
 
+    private Role currentUserRole;
+
     @FXML
     private AnchorPane contentContainer;
 
@@ -87,6 +92,9 @@ public class ContentController implements Initializable, ApplicationListener<Sta
 
 
     public static NavigationHandler navigationHandler;
+
+    @FXML
+    private Label usernameLabel;
 
     @FXML
     private Button homeButton;
@@ -133,6 +141,12 @@ public class ContentController implements Initializable, ApplicationListener<Sta
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        // Authorization Check
+        if(StageInitializer.authentication.isAuthenticated()){
+            usernameLabel.setText(StageInitializer.authentication.getUser().getId() + "\n" + StageInitializer.authentication.getUser().getRole());
+            currentUserRole = StageInitializer.authentication.getUser().getRole();
+        }
+
         // Laying out the dashboard
 
         // Side menu = 15 % screen
@@ -159,17 +173,23 @@ public class ContentController implements Initializable, ApplicationListener<Sta
         Image avatar = new Image("/images/avatar.png");
         avatarFrame.setFill(new ImagePattern(avatar));
 
-        //Hide not admin content
-//        if (!AuthController.currentSession.getUserType().equals(UserSession.UserType.ADMIN)) {
-//            sideMenuBox.getChildren().remove(registerEmployeeButton);
-//            sideMenuBox.getChildren().remove(homeButton);
-//        } else {
-//            sideMenuBox.getChildren().remove(addTransactionButton);
-//            sideMenuBox.getChildren().remove(wheatDepositButton);
-//            sideMenuBox.getChildren().remove(registerCustomerButton);
-//        }
+//        Hide not admin content
+        if (currentUserRole == Role.EMPLOYEE) {
+            sideMenuBox.getChildren().remove(registerEmployeeButton);
+            sideMenuBox.getChildren().remove(homeButton);
+            showAddTransaction();
+        } else if(currentUserRole == Role.ADMIN){
+            sideMenuBox.getChildren().remove(addTransactionButton);
+            sideMenuBox.getChildren().remove(wheatDepositButton);
+            sideMenuBox.getChildren().remove(registerCustomerButton);
+            showHome();
+        }else {
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error","Unknown User Role","User role not set !",Alert.AlertType.INFORMATION);
+            alertDialog.showInformationDialog();
+        }
 
-        showHome();
+
 
         navigationHandler = new NavigationHandler() {
             @Override
@@ -464,10 +484,6 @@ public class ContentController implements Initializable, ApplicationListener<Sta
         try {
             contentAreaTitleLabel.setText("Customer Registration Form");
             contentContainer.getChildren().clear();
-            //Load Register Customer View
-//            Node registerCustomerNode = (Node) FXMLLoader.load(
-//              getClass().getResource("/views/registerCustomer.fxml")
-//            );
             registerCustomerControllerCV = fxWeaver.load(RegisterCustomerController.class);
             registerCustomerControllerCV.getView().ifPresent(view -> {
                 contentContainer.getChildren().add(view);
@@ -507,7 +523,6 @@ public class ContentController implements Initializable, ApplicationListener<Sta
     public void signOut() {
         try {
             contentContainer.getChildren().clear();
-//            AuthController.currentSession.cleanSession();
 
             // Dashboard size setting
             double width = Util.getScreenWidth() / 3.5;

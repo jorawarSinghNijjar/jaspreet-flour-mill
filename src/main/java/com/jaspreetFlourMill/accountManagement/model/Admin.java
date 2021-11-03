@@ -60,11 +60,11 @@ public class Admin implements Serializable {
        return result.getStatusCode();
     }
 
-    public static HttpStatus getAdmin(String id) throws Exception{
-        String uri = "http://localhost:8080/admin/" + id;
+    public static ResponseEntity<Admin> getAdmin(User user) throws Exception{
+        String uri = "http://localhost:8080/admin/" + user.getId();
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Admin> responseEntity = restTemplate.getForEntity(uri,Admin.class);
-        return responseEntity.getStatusCode();
+        return responseEntity;
     }
 
     public static boolean isRegistered() throws Exception {

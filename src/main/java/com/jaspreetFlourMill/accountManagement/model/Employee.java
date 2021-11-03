@@ -126,4 +126,11 @@ public class Employee implements Serializable {
 
         return result.getStatusCode();
     }
+
+    public static ResponseEntity<Employee> getEmployee(User user) throws Exception{
+        String uri = "http://localhost:8080/employees/" + user.getId();
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Employee> responseEntity = restTemplate.getForEntity(uri,Employee.class);
+        return responseEntity;
+    }
 }

@@ -2,9 +2,13 @@ package com.jaspreetFlourMill.accountManagement.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.http.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.Optional;
 
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -80,5 +84,17 @@ public class User implements Serializable {
         }
         System.out.println("No user registered!");
         return false;
+    }
+
+    public static Optional<ResponseEntity<?>> getUserDetails(User user) throws Exception{
+        if(user.role == Role.ADMIN){
+            ResponseEntity<Admin> responseEntity = Admin.getAdmin(user);
+            return Optional.ofNullable(responseEntity);
+        }
+        else if(user.role == Role.EMPLOYEE){
+            ResponseEntity<Employee> responseEntity = Employee.getEmployee(user);
+            return Optional.ofNullable(responseEntity);
+        }
+        return Optional.empty();
     }
 }

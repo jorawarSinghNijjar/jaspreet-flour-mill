@@ -1,10 +1,8 @@
 package com.jaspreetFlourMill.accountManagement.controllers;
 
+import com.jaspreetFlourMill.accountManagement.StageInitializer;
 import com.jaspreetFlourMill.accountManagement.StageReadyEvent;
-import com.jaspreetFlourMill.accountManagement.model.Customer;
-import com.jaspreetFlourMill.accountManagement.model.Employee;
-import com.jaspreetFlourMill.accountManagement.model.Sales;
-import com.jaspreetFlourMill.accountManagement.model.Transaction;
+import com.jaspreetFlourMill.accountManagement.model.*;
 import com.jaspreetFlourMill.accountManagement.util.AlertDialog;
 import com.jaspreetFlourMill.accountManagement.util.FormValidation;
 import com.jaspreetFlourMill.accountManagement.util.Util;
@@ -117,6 +115,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
     private final FxWeaver fxWeaver;
     private Stage stage;
     private FormValidation addTransactionFormValidation;
+    private Role currentUserRole;
 
 
     public AddTransactionController(FxWeaver fxWeaver) {
@@ -125,7 +124,12 @@ public class AddTransactionController implements Initializable, ApplicationListe
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        // Authorization Check
+        if(StageInitializer.authentication.isAuthenticated()){
+            System.out.println("Current Cashier - " + StageInitializer.authentication.getUser().getId());
+            cashierNameLabel.setText(StageInitializer.authentication.getUser().getId());
+            currentUserRole = StageInitializer.authentication.getUser().getRole();
+        }
 
 
         // Loading customerDetails.fxml

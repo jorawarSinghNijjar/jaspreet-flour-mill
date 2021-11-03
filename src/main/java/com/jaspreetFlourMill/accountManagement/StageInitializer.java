@@ -5,6 +5,7 @@ import com.jaspreetFlourMill.accountManagement.controllers.ContentController;
 import com.jaspreetFlourMill.accountManagement.controllers.RegisterAdminController;
 import com.jaspreetFlourMill.accountManagement.model.Admin;
 import com.jaspreetFlourMill.accountManagement.util.AlertDialog;
+import com.jaspreetFlourMill.accountManagement.util.Authentication;
 import com.jaspreetFlourMill.accountManagement.util.Util;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Rectangle2D;
@@ -28,10 +29,13 @@ public class StageInitializer implements ApplicationListener<StageReadyEvent> {
 
     private Stage stage;
 
+    public static Authentication authentication;
+
     private FxControllerAndView<RegisterAdminController, Node> registerAdminCV;
 
     public StageInitializer(FxWeaver fxWeaver){
         this.fxWeaver = fxWeaver;
+        this.authentication = new Authentication();
     }
 
     @Override
