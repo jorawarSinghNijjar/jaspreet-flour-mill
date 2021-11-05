@@ -107,6 +107,22 @@ public class FormValidation {
         return validationResponse(responseLabel,valid,msg);
     }
 
+    public static ValidatedResponse isUsername(String val, Label responseLabel){
+        String exp =  "^[A-Za-z][A-Za-z0-9_]{4,29}$";
+        boolean valid = val.matches(exp);
+        String msg = "Only alphabets, numbers and underscore is allowed. Char Limit: Min -5, Max-30";
+        return validationResponse(responseLabel,valid,msg);
+    }
+
+
+    public static ValidatedResponse isEmailId(String val, Label responseLabel){
+        String exp =  "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
+                + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$"  ;
+        boolean valid = val.matches(exp);
+        String msg = "Please enter a valid email address";
+        return validationResponse(responseLabel,valid,msg);
+    }
+
     public static ValidatedResponse validationResponse(Label responseLabel, boolean valid,String msg){
         IconFontFX.register(GoogleMaterialDesignIcons.getIconFont());
 

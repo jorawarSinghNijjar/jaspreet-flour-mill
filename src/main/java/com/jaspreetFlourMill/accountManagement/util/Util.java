@@ -1,9 +1,11 @@
 package com.jaspreetFlourMill.accountManagement.util;
 
+import javafx.geometry.Dimension2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Screen;
+import javafx.stage.Stage;
 import org.joda.time.format.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -85,6 +87,14 @@ public class Util {
 
     public static double getContentAreaHeight(){
         return Util.getScreenHeight();
+    }
+
+    public static Dimension2D getCenterSceneDim(Stage stage, double widthScale, double heightScale){
+        double width = Util.getScreenWidth() / widthScale;
+        double height = Util.getScreenHeight() / heightScale;
+        stage.setX((Util.getScreenWidth() - width) / 2);
+        stage.setY((Util.getScreenHeight() - height) / 2);
+        return new Dimension2D(width,height);
     }
 
 }
