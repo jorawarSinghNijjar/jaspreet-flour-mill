@@ -2,6 +2,7 @@ package com.jaspreetFlourMill.accountManagement.controllers;
 
 import com.jaspreetFlourMill.accountManagement.StageReadyEvent;
 import com.jaspreetFlourMill.accountManagement.model.Transaction;
+import com.jaspreetFlourMill.accountManagement.util.Util;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
@@ -87,6 +88,9 @@ public class TransactionDetailItemController implements Initializable, Applicati
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         transactionPrintPreviewCV = fxWeaver.load(TransactionPrintPreviewController.class);
+        transactionDetailItem.setPrefWidth(Util.getContentAreaWidth());
+        transactionDetailItem.setPrefHeight(Util.getContentAreaHeight() * 0.06);
+        transactionDetailItem.setSpacing(Util.getContentAreaWidth() * 0.02);
     }
 
     public  void setTransactionDetails(

@@ -7,7 +7,10 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import net.rgielen.fxweaver.core.FxControllerAndView;
@@ -25,13 +28,22 @@ import java.util.ResourceBundle;
 public class CustomerListController implements Initializable {
 
     @FXML
-    private VBox customerListBox;
+    public AnchorPane customerListContainerAP;
 
     @FXML
-    private TextField searchCustomerTextField;
+    public GridPane customerListContainerGP;
 
     @FXML
-    private HBox customerDetailsFromList;
+    public VBox customerListBox;
+
+    @FXML
+    public ScrollPane customerListSP;
+
+    @FXML
+    public TextField searchCustomerTextField;
+
+    @FXML
+    public HBox customerDetailsFromList;
 
     private Customer[] customers;
 
@@ -45,6 +57,7 @@ public class CustomerListController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         this.displayCustomers();
         searchCustomerTextField.textProperty().addListener((observableValue, oldVal, newVal) -> {
             customerListBox.getChildren().clear();
@@ -52,8 +65,11 @@ public class CustomerListController implements Initializable {
                 if(customer.getName().toLowerCase().contains(newVal.toLowerCase())){
                     Label customerLabel = new Label(customer.getName()
                             + "(ID-" + customer.getCustomerId() + " )" );
-                    customerLabel.getStyleClass().add("list-item");
+
                     customerLabel.setMinWidth(250);
+                    customerLabel.setPrefWidth(customerListSP.getPrefWidth());
+                    customerLabel.setMaxWidth(Double.MAX_VALUE);
+                    customerLabel.getStyleClass().add("list-item");
                     customerLabel.setOnMouseClicked(mouseEvent -> {
                         showCustomerDetails(customer.getCustomerId().toString());
                     });
@@ -71,8 +87,12 @@ public class CustomerListController implements Initializable {
             for(Customer customer: customers){
                 Label customerLabel = new Label(customer.getName()
                         + "(ID-" + customer.getCustomerId() + " )" );
-                customerLabel.getStyleClass().add("list-item");
+
                 customerLabel.setMinWidth(250);
+                customerLabel.setPrefWidth(customerListSP.getPrefWidth());
+                customerLabel.setMaxWidth(Double.MAX_VALUE);
+//                customerLabel.setPrefHeight(400);
+                customerLabel.getStyleClass().add("list-item");
                 customerLabel.setOnMouseClicked(mouseEvent -> {
                     showCustomerDetails(customer.getCustomerId().toString());
                 });

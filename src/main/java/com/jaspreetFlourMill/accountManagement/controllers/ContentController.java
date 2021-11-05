@@ -1,15 +1,14 @@
 package com.jaspreetFlourMill.accountManagement.controllers;
 
 import com.jaspreetFlourMill.accountManagement.StageReadyEvent;
-import com.jaspreetFlourMill.accountManagement.util.FormValidation;
-import com.jaspreetFlourMill.accountManagement.util.NavigationHandler;
-import com.jaspreetFlourMill.accountManagement.util.UserSession;
+import com.jaspreetFlourMill.accountManagement.util.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -25,6 +24,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import jiconfont.icons.font_awesome.FontAwesome;
@@ -41,13 +41,14 @@ import org.springframework.stereotype.Component;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Stack;
 
 
 @Component
 @FxmlView("/views/dashboard-2.fxml")
-public class ContentController implements  Initializable, ApplicationListener<StageReadyEvent> {
+public class ContentController implements Initializable, ApplicationListener<StageReadyEvent> {
     private final FxWeaver fxWeaver;
 
     private Stage stage;
@@ -62,15 +63,18 @@ public class ContentController implements  Initializable, ApplicationListener<St
     private AnchorPane transactionDetailsContainer;
 
     @FXML
+    private Label contentAreaTitleLabel;
+
+    @FXML
     private Circle avatarFrame;
 
-    private FxControllerAndView<CustomerListController,Node> customerListCV;
+    private FxControllerAndView<CustomerListController, Node> customerListCV;
 
-    private FxControllerAndView<AddTransactionController,Node> addTransactionCV;
+    private FxControllerAndView<AddTransactionController, Node> addTransactionCV;
 
-    private FxControllerAndView<CustomerDetailsController,Node> customerDetailsCV;
+    private FxControllerAndView<CustomerDetailsController, Node> customerDetailsCV;
 
-    private FxControllerAndView<RegisterCustomerController,Node> registerCustomerControllerCV;
+    private FxControllerAndView<RegisterCustomerController, Node> registerCustomerControllerCV;
 
     private FxControllerAndView<TransactionDetailController, Node> transactionDetailsCV;
 
@@ -110,8 +114,10 @@ public class ContentController implements  Initializable, ApplicationListener<St
     @FXML
     private AnchorPane baseContainer;
 
-    private boolean modalMounted = false;
+    @FXML
+    private HBox titleHBox;
 
+    private boolean modalMounted = false;
 
 
     public ContentController(FxWeaver fxWeaver) {
@@ -126,16 +132,37 @@ public class ContentController implements  Initializable, ApplicationListener<St
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        // Laying out the dashboard
+
+        // Side menu = 15 % screen
+        // Dashboard = 85% screen
+        baseContainer.setPrefWidth(Util.getScreenWidth());
+        baseContainer.setPrefHeight(Util.getScreenHeight());
+
+        sideMenuBox.setPrefHeight(baseContainer.getPrefHeight());
+        sideMenuBox.setPrefWidth(baseContainer.getPrefWidth() * 0.15);
+
+        contentContainer.setPrefWidth(baseContainer.getPrefWidth() * 0.85);
+        contentContainer.setLayoutX(sideMenuBox.getPrefWidth());
+
+        titleHBox.setPrefWidth(contentContainer.getPrefWidth());
+        titleHBox.setPrefHeight(baseContainer.getPrefHeight() * 0.05);
+        titleHBox.setLayoutX(sideMenuBox.getPrefWidth());
+
+        contentContainer.setPrefHeight(baseContainer.getPrefHeight() - (baseContainer.getPrefHeight() * 0.05));
+        contentContainer.setLayoutY(titleHBox.getPrefHeight());
+
+
+        contentAreaTitleLabel.setPrefWidth(titleHBox.getPrefWidth());
 
         Image avatar = new Image("/images/avatar.png");
         avatarFrame.setFill(new ImagePattern(avatar));
 
         //Hide not admin content
-        if(!AuthController.currentSession.getUserType().equals(UserSession.UserType.ADMIN)){
+        if (!AuthController.currentSession.getUserType().equals(UserSession.UserType.ADMIN)) {
             sideMenuBox.getChildren().remove(registerEmployeeButton);
             sideMenuBox.getChildren().remove(homeButton);
-        }
-        else {
+        } else {
             sideMenuBox.getChildren().remove(addTransactionButton);
             sideMenuBox.getChildren().remove(wheatDepositButton);
             sideMenuBox.getChildren().remove(registerCustomerButton);
@@ -192,22 +219,70 @@ public class ContentController implements  Initializable, ApplicationListener<St
 
     }
 
+
     @FXML
-    public void showHome(){
+    public void showHome() {
+        contentAreaTitleLabel.setText("Sales Summary");
         contentContainer.getChildren().clear();
+
         homeCV = fxWeaver.load(HomeController.class);
 
         homeCV.getView().ifPresent(view -> {
+            // Layout
+            homeCV.getController().homeContainer.setPrefWidth(contentContainer.getPrefWidth());
+            homeCV.getController().homeContainer.setPrefHeight(contentContainer.getPrefHeight());
+
+            homeCV.getController().homeVBoxContainer.setPrefWidth(homeCV.getController().homeContainer.getPrefWidth());
+            homeCV.getController().homeVBoxContainer.setPrefHeight(homeCV.getController().homeContainer.getPrefHeight());
+            homeCV.getController().homeVBoxContainer.setSpacing(homeCV.getController().homeContainer.getPrefHeight() * 0.08);
+
+            double hBoxSpacing = homeCV.getController().homeHBoxContainer.getPrefWidth();
+            homeCV.getController().homeHBoxContainer.setSpacing(hBoxSpacing * 0.08);
+            homeCV.getController().homeHBoxContainer.setPrefHeight(homeCV.getController().homeVBoxContainer.getHeight() * 0.30);
+
+            homeCV.getController().lineChartContainer.setPrefWidth(homeCV.getController().homeVBoxContainer.getPrefWidth() * 0.85);
+            homeCV.getController().lineChartContainer.setPrefHeight(homeCV.getController().homeVBoxContainer.getPrefHeight() * 0.60);
+
+            homeCV.getController().salesAmtChart.setPrefSize(
+                    homeCV.getController().lineChartContainer.getPrefWidth(),
+                    homeCV.getController().lineChartContainer.getPrefHeight() * 0.90
+            );
+            homeCV.getController().salesQtyChart.setPrefSize(
+                    homeCV.getController().lineChartContainer.getPrefWidth(),
+                    homeCV.getController().lineChartContainer.getPrefHeight() * 0.90
+            );
+
+            homeCV.getController().leftArrow.setPrefWidth(homeCV.getController().lineChartGridPane.getCellBounds(0, 0).getWidth());
+
             contentContainer.getChildren().add(view);
         });
     }
 
     @FXML
-    public void showCustomers(){
+    public void showCustomers() {
+        contentAreaTitleLabel.setText("Search Customers By Name");
         contentContainer.getChildren().clear();
         customerListCV = fxWeaver.load(CustomerListController.class);
 
         customerListCV.getView().ifPresent(view -> {
+            // Layout
+            customerListCV.getController().customerListContainerAP.setPrefWidth(contentContainer.getPrefWidth());
+            customerListCV.getController().customerListContainerAP.setPrefHeight(contentContainer.getPrefHeight());
+
+            customerListCV.getController().customerListContainerGP.setPrefWidth(contentContainer.getPrefWidth());
+            customerListCV.getController().customerListContainerGP.setPrefHeight(contentContainer.getPrefHeight());
+            customerListCV.getController().customerListContainerGP.setHgap(contentContainer.getPrefWidth() * 0.01);
+            customerListCV.getController().customerListContainerGP.setVgap(contentContainer.getPrefHeight() * 0.01);
+
+            List<ColumnConstraints> colConstList = customerListCV.getController().customerListContainerGP.getColumnConstraints();
+            colConstList.get(0).setPercentWidth(30);
+            colConstList.get(1).setPercentWidth(70);
+
+            List<RowConstraints> rowConstConstList = customerListCV.getController().customerListContainerGP.getRowConstraints();
+            rowConstConstList.get(0).setPercentHeight(10);
+            rowConstConstList.get(1).setPercentHeight(90);
+
+
             contentContainer.getChildren().add(view);
         });
     }
@@ -215,6 +290,7 @@ public class ContentController implements  Initializable, ApplicationListener<St
     @FXML
     public void showAddTransaction() {
         try {
+            contentAreaTitleLabel.setText("Transactions");
             contentContainer.getChildren().clear();
             System.out.println("Show add transaction");
             //Load add transaction view
@@ -227,76 +303,107 @@ public class ContentController implements  Initializable, ApplicationListener<St
 
             addTransactionController.customerIdInput.textProperty().addListener((
                     (observableValue, oldValue, newValue) -> {
-                boolean validInput = FormValidation.isInteger(
-                        newValue,
-                        addTransactionCV.getController().customerIdInputValidLabel
-                ).isValid();
+                        customerDetailsCV.getController().updateCustomerDetails(newValue);
+                        transactionDetailsCV.getController().clearTransactionDisplay();
+                        transactionDetailsCV.getController().renderTransactions(newValue);
 
-                if(validInput){
-                    customerDetailsCV.getController().updateCustomerDetails(newValue);
-                    transactionDetailsCV.getController().clearTransactionDisplay();
-                    transactionDetailsCV.getController().renderTransactions(newValue);
-                }
-            }
+                    }
             ));
 
 
             customerDetailsCV.getController().customerIdProofImage.setOnMouseEntered(e -> {
                 ImageView modalImage = new ImageView();
-                try{
+                try {
                     modalImage.setImage(new Image(
                             new FileInputStream(customerDetailsCV.getController().idProofImageUri)
                     ));
                     modalImage.setFitWidth(500);
                     modalImage.setFitHeight(350);
                     this.showImageModal(modalImage);
-                }
-                catch(Exception exception){
+                } catch (Exception exception) {
                     exception.getMessage();
                 }
 
             });
 
             addTransactionContainer = new AnchorPane();
-
-            addTransactionContainer.setPrefHeight(400);
-            addTransactionContainer.setPrefWidth(568);
+            addTransactionContainer.setPrefHeight(contentContainer.getPrefHeight() * 0.5);
+            addTransactionContainer.setPrefWidth(contentContainer.getPrefWidth() * 0.5);
             addTransactionContainer.setLayoutX(0);
-            addTransactionContainer.setLayoutY(0);
-            addTransactionCV.getView().ifPresent(view ->{
+            addTransactionContainer.setLayoutY(titleHBox.getPrefHeight());
+            addTransactionCV.getView().ifPresent(view -> {
+
+                addTransactionCV.getController().addTransactionVBoxContainer.setPrefWidth(addTransactionContainer.getPrefWidth());
+                addTransactionCV.getController().addTransactionVBoxContainer.setPrefHeight(addTransactionContainer.getPrefHeight());
+
+                addTransactionCV.getController().addTransactionFormGridPane.setPrefWidth(addTransactionContainer.getPrefWidth());
+                addTransactionCV.getController().addTransactionFormGridPane.setHgap(addTransactionContainer.getPrefWidth() * 0.05);
+                addTransactionCV.getController().addTransactionFormGridPane.setVgap(addTransactionContainer.getPrefHeight() * 0.07);
+
+                List<ColumnConstraints> colConstList = addTransactionCV.getController().addTransactionFormGridPane.getColumnConstraints();
+                colConstList.get(0).setPercentWidth(25);
+                colConstList.get(1).setPercentWidth(25);
+                colConstList.get(2).setPercentWidth(50);
+
+                addTransactionCV.getController().submitTransactionBtn.setPrefWidth(Double.MAX_VALUE);
+
                 addTransactionContainer.getChildren().add(view);
             });
 
 //            //Load customer details view
 
             customerDetailsContainer = new AnchorPane();
+            customerDetailsContainer.setPrefHeight(contentContainer.getPrefHeight() * 0.5);
+            customerDetailsContainer.setPrefWidth(contentContainer.getPrefWidth() * 0.5);
+            customerDetailsContainer.setLayoutX(addTransactionContainer.getPrefWidth());
+            customerDetailsContainer.setLayoutY(titleHBox.getPrefHeight());
 
-            customerDetailsContainer.setPrefHeight(400);
-            customerDetailsContainer.setPrefWidth(568);
-            customerDetailsContainer.setLayoutX(568);
-            customerDetailsContainer.setLayoutY(0);
+            customerDetailsCV.getView().ifPresent(view -> {
+                // Layout
 
-            customerDetailsCV.getView().ifPresent(view ->{
+                customerDetailsCV.getController().customerDetailVBox.setPrefWidth(customerDetailsContainer.getPrefWidth());
+                customerDetailsCV.getController().customerDetailVBox.setPrefHeight(customerDetailsContainer.getPrefHeight());
+
+                customerDetailsCV.getController().customerDetailGridPane.setHgap(customerDetailsContainer.getPrefWidth() * 0.02);
+                customerDetailsCV.getController().customerDetailGridPane.setVgap(customerDetailsContainer.getPrefHeight() * 0.02);
+
+                List<ColumnConstraints> colConstList = customerDetailsCV.getController().customerDetailGridPane.getColumnConstraints();
+                colConstList.get(0).setPercentWidth(30);
+                colConstList.get(1).setPercentWidth(15);
+                colConstList.get(2).setPercentWidth(25);
+                colConstList.get(3).setPercentWidth(30);
+
                 customerDetailsContainer.getChildren().add(view);
             });
 
-//
-//            //Load transaction details view
-//            Node transactionDetailsNode = (Node) FXMLLoader.load(
-//                    getClass().getResource("/views/transactionDetails.fxml")
-//            );
+            //Load transaction details view
 
             transactionDetailsContainer = new AnchorPane();
-            transactionDetailsContainer.setPrefHeight(368);
-            transactionDetailsContainer.setPrefWidth(1136);
+            transactionDetailsContainer.setPrefHeight(contentContainer.getPrefHeight() * 0.5);
+            transactionDetailsContainer.setPrefWidth(contentContainer.getPrefWidth());
             transactionDetailsContainer.setLayoutX(0);
-            transactionDetailsContainer.setLayoutY(400);
+            transactionDetailsContainer.setLayoutY(addTransactionContainer.getPrefHeight() + titleHBox.getPrefHeight());
 
             transactionDetailsCV.getView().ifPresent(view -> {
+                // Layout
+                transactionDetailsCV.getController().transactionDetailContainerPane.setPrefWidth(transactionDetailsContainer.getPrefWidth());
+                transactionDetailsCV.getController().transactionDetailContainerPane.setPrefHeight(transactionDetailsContainer.getPrefHeight() * 0.5);
+
+                transactionDetailsCV.getController().transactionDetailTitleBar.setPrefWidth(contentContainer.getPrefWidth());
+                transactionDetailsCV.getController().transactionDetailTitleBar.setPrefHeight(transactionDetailsContainer.getPrefHeight() * 0.15);
+                transactionDetailsCV.getController().transactionDetailTitleBar.setSpacing(transactionDetailsContainer.getPrefHeight() * 0.02);
+
+                transactionDetailsCV.getController().transactionDetailScrollPane.setPrefWidth(transactionDetailsContainer.getPrefWidth());
+                transactionDetailsCV.getController().transactionDetailScrollPane.setPrefHeight(
+                        transactionDetailsContainer.getPrefHeight() - transactionDetailsCV.getController().transactionDetailTitleBar.getPrefHeight());
+                transactionDetailsCV.getController().transactionDetailScrollPane.setLayoutY(transactionDetailsCV.getController().transactionDetailTitleBar.getPrefHeight());
+
+                transactionDetailsCV.getController().detailItemContainer.setPrefWidth(transactionDetailsContainer.getPrefWidth());
+                transactionDetailsCV.getController().detailItemContainer.setPrefHeight(transactionDetailsCV.getController().transactionDetailScrollPane.getHeight());
+
                 transactionDetailsContainer.getChildren().add(view);
 
             });
-
 
 
             // Load all nodes on contentContainer
@@ -312,36 +419,26 @@ public class ContentController implements  Initializable, ApplicationListener<St
     }
 
     @FXML
-    public void showDepositWheat(){
-        try{
+    public void showDepositWheat() {
+
+        try {
+            contentAreaTitleLabel.setText("Wheat Deposit Form");
             contentContainer.getChildren().clear();
             //Load Deposit Wheat View
             depositWheatCV = fxWeaver.load(DepositWheatController.class);
-//            Node depositWheatNode = (Node) FXMLLoader.load(
-//                    getClass().getResource("/views/depositWheat.fxml")
-//            );
 
             depositWheatCV.getView().ifPresent(view -> {
-                contentContainer.getChildren().add(view);
-            });
+                // Layout
+                depositWheatCV.getController().wheatDepositFormGP.setPrefWidth(contentContainer.getPrefWidth() * 0.5);
+                depositWheatCV.getController().wheatDepositFormGP.setPrefHeight(contentContainer.getPrefHeight() * 0.5);
+                depositWheatCV.getController().wheatDepositFormGP.setHgap(depositWheatCV.getController().wheatDepositFormGP.getPrefWidth() * 0.02);
+                depositWheatCV.getController().wheatDepositFormGP.setVgap(depositWheatCV.getController().wheatDepositFormGP.getPrefHeight() * 0.01);
 
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
-    }
+                List<ColumnConstraints> colConstList = depositWheatCV.getController().wheatDepositFormGP.getColumnConstraints();
+                colConstList.get(0).setPercentWidth(40);
+                colConstList.get(1).setPercentWidth(20);
+                colConstList.get(2).setPercentWidth(40);
 
-
-    @FXML
-    public void showRegisterCustomer() {
-        try {
-            contentContainer.getChildren().clear();
-            //Load Register Customer View
-//            Node registerCustomerNode = (Node) FXMLLoader.load(
-//              getClass().getResource("/views/registerCustomer.fxml")
-//            );
-            registerCustomerControllerCV = fxWeaver.load(RegisterCustomerController.class);
-            registerCustomerControllerCV.getView().ifPresent(view ->{
                 contentContainer.getChildren().add(view);
             });
 
@@ -351,16 +448,35 @@ public class ContentController implements  Initializable, ApplicationListener<St
     }
 
 
+    @FXML
+    public void showRegisterCustomer() {
+
+        try {
+            contentAreaTitleLabel.setText("Customer Registration Form");
+            contentContainer.getChildren().clear();
+            //Load Register Customer View
+//            Node registerCustomerNode = (Node) FXMLLoader.load(
+//              getClass().getResource("/views/registerCustomer.fxml")
+//            );
+            registerCustomerControllerCV = fxWeaver.load(RegisterCustomerController.class);
+            registerCustomerControllerCV.getView().ifPresent(view -> {
+                contentContainer.getChildren().add(view);
+            });
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @FXML
-    public void showRegisterEmployee(){
+    public void showRegisterEmployee() {
         try {
+            contentAreaTitleLabel.setText("Employee Registration Form");
             contentContainer.getChildren().clear();
             //Load Register Employee View
             registerEmployeeCV = fxWeaver.load(RegisterEmployeeController.class);
-//            Node employeeNode = (Node) FXMLLoader.load(
-//                    getClass().getResource("/views/registerEmployee.fxml")
-//            );
+
             registerEmployeeCV.getView().ifPresent(view -> {
                 contentContainer.getChildren().add(view);
             });
@@ -372,19 +488,25 @@ public class ContentController implements  Initializable, ApplicationListener<St
     }
 
     @FXML
-    public void signOut(){
+    public void signOut() {
         try {
             contentContainer.getChildren().clear();
             AuthController.currentSession.cleanSession();
-            stage.setScene(new Scene(fxWeaver.loadView(AuthController.class),500,400));
+
+            // Dashboard size setting
+            double width = Util.getScreenWidth() / 3.5;
+            double height = Util.getScreenHeight() / 2.5;
+            stage.setX((Util.getScreenWidth() - width) / 2);
+            stage.setY((Util.getScreenHeight() - height) / 2);
+            stage.setScene(new Scene(fxWeaver.loadView(AuthController.class), width, height));
             stage.show();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void showImageModal(Node node){
-        if(modalMounted){
+    public void showImageModal(Node node) {
+        if (modalMounted) {
             return;
         }
         VBox modal = new VBox();
@@ -392,8 +514,8 @@ public class ContentController implements  Initializable, ApplicationListener<St
         modal.setMinHeight(400);
         modal.setMaxWidth(600);
         modal.setMaxHeight(400);
-        modal.setLayoutX(400);
-        modal.setLayoutY(200);
+        modal.setLayoutX((Util.getScreenWidth() - modal.getMaxWidth()) / 2);
+        modal.setLayoutY((Util.getScreenHeight() - modal.getMaxHeight()) / 2);
         modal.setStyle("-fx-background-color: rgb(222,242,241) ;" +
                 " -fx-background-radius: 10;" +
                 " -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);");

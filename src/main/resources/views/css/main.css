@@ -13,22 +13,141 @@
 
 /* Headings */
 
+.h1{
+    -fx-font-size: 24;
+    -fx-font-weight:700;
+    -fx-tex-fill: #17252A;
+
+}
+
 .h2{
+    -fx-font-size: 22;
+    -fx-font-weight:700;
+    -fx-tex-fill: #17252A;
+}
+
+.h3{
     -fx-font-size: 20;
     -fx-font-weight:700;
     -fx-tex-fill: #17252A;
 }
 
 .h4{
-    -fx-font-size:15;
+     -fx-font-size: 18;
+        -fx-font-weight:700;
+        -fx-tex-fill: #17252A;
 }
 
 .h5{
-    -fx-font-size: 14;
+     -fx-font-size: 16;
+        -fx-font-weight:700;
+        -fx-tex-fill: #17252A;
+}
+
+.h6{
+ -fx-font-size: 14;
+    -fx-font-weight:700;
+    -fx-tex-fill: #17252A;
+}
+
+/* Padding */
+
+.p-1{
+    -fx-padding: 5;
+}
+
+.p-2{
+    -fx-padding: 10;
 }
 
 .p-3{
-    -fx-padding: 30;
+    -fx-padding: 15;
+}
+
+.p-4{
+    -fx-padding: 20;
+}
+
+.p-5{
+    -fx-padding: 25;
+}
+
+/* Margins all*/
+
+.m-1{
+    -fx-margin: 5;
+}
+
+
+.m-2{
+    -fx-margin: 10;
+}
+
+
+.m-3{
+    -fx-margin: 15;
+}
+
+.m-4{
+    -fx-margin: 20;
+}
+
+.m-5{
+    -fx-margin: 25;
+}
+
+/* Margins top bottom */
+
+.ms-1{
+    -fx-margin-left: 5;
+    -fx-margin-right: 5;
+}
+
+.ms-2{
+    -fx-margin-left: 10;
+    -fx-margin-right: 10;
+}
+
+.ms-3{
+    -fx-margin-left: 15;
+    -fx-margin-right: 15;
+}
+
+.ms-4{
+    -fx-margin-left: 20;
+    -fx-margin-right: 20;
+}
+
+.ms-5{
+    -fx-margin-left: 25;
+    -fx-margin-right: 25;
+}
+
+/* Margins left right*/
+
+.mv-1{
+    -fx-margin-top: 5;
+    -fx-margin-bottom: 5;
+}
+
+.mv-2{
+    -fx-margin-top: 10;
+    -fx-margin-bottom: 10;
+}
+
+.mv-3{
+    -fx-margin-top: 15;
+    -fx-margin-bottom: 15;
+}
+
+.mv-4{
+    -fx-margin-top: 20;
+    -fx-margin-bottom: 20;
+}
+
+.mv-5{
+    -fx-margin-top: 25;
+    -fx-margin-bottom: 25;
 }
 
 
@@ -39,12 +158,28 @@
     -fx-font-size:14;
 }
 
+.title-label{
+     -fx-background-color: #ffffff;
+        -fx-text-fill: #272635;
+        -fx-font-size: 22;
+        -fx-font-weight: 800;
+        /*-fx-padding: 5 5 5 30;*/
+}
+
+
 .login-form{
     -fx-background-color: #FFFAFA;
 }
 
+/* Controls */
+
 .label{
     -fx-font-weight:600;
+}
+
+.text-field{
+    -fx-text-fill: #272635;
+    -fx-pref-height: 40;
 }
 
 .small-text{
@@ -64,14 +199,14 @@
 .secondary-btn{
     -fx-background-color: #272635;
     -fx-text-fill: white;
-    -fx-font-size: 14;
-    -fx-font-weight:600;
+    -fx-font-size: 17;
+    -fx-font-weight:700;
     -fx-padding: 5 30;
 }
 
 .secondary-btn:hover{
--fx-background-color: #52515d;
--fx-cursor: hand;
+    -fx-background-color: #52515d;
+    -fx-cursor: hand;
 }
 
 .utility-btn{
@@ -167,6 +302,24 @@
     -fx-text-fill: #272635;
     -fx-font-weight: bold;
     -fx-background-color: transparent;
+}
+
+.test-border{
+    -fx-border-style: solid;
+    -fx-border-width: 5;
+    -fx-border-color: #FF4136;
+}
+
+.scroll-pane > .viewport {
+   -fx-background-color: transparent;
+}
+
+.transparent-background{
+     -fx-background-color: transparent;
+}
+
+.base-background{
+     -fx-background-color: #3AAFA9;
 }
 
 

@@ -6,6 +6,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
@@ -23,9 +26,17 @@ import java.util.ResourceBundle;
 @Component
 @FxmlView("/views/transactionDetails.fxml")
 public class TransactionDetailController implements Initializable {
+    @FXML
+    public AnchorPane transactionDetailContainerPane;
 
     @FXML
-    private VBox detailItemContainer;
+    public HBox transactionDetailTitleBar;
+
+    @FXML
+    public ScrollPane transactionDetailScrollPane;
+
+    @FXML
+    public VBox detailItemContainer;
 
     @FXML
     private Label transactionTimeHeading;
@@ -56,6 +67,7 @@ public class TransactionDetailController implements Initializable {
     private FxControllerAndView<TransactionDetailItemController,Node> transactionDetailItemCV;
     private final FxWeaver fxWeaver;
 
+
     public TransactionDetailController(FxWeaver fxWeaver) {
         this.fxWeaver = fxWeaver;
     }
@@ -63,6 +75,7 @@ public class TransactionDetailController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         transactionTimeHeading.setText("ਸਮਾਂ" + "\n" + "Time");
         transactionFlourPickupQtyHeading.setText("ਆਟਾ ਪ੍ਰਾਪਤ" + "\n" + "Flour Pickup Qty");
         transactionGrindingAmountHeading.setText("ਪੀਸਾਈ ਰਕਮ" + "\n" + "Grinding Amount");

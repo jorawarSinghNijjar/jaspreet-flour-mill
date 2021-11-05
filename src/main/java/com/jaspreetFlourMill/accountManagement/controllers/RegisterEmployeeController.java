@@ -4,6 +4,7 @@ import com.jaspreetFlourMill.accountManagement.StageReadyEvent;
 import com.jaspreetFlourMill.accountManagement.model.Customer;
 import com.jaspreetFlourMill.accountManagement.model.Employee;
 import com.jaspreetFlourMill.accountManagement.util.FormValidation;
+import com.jaspreetFlourMill.accountManagement.util.Util;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,6 +13,9 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.context.ApplicationListener;
@@ -22,11 +26,21 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.ResourceBundle;
 
 @Component
 @FxmlView("/views/registerEmployee.fxml")
 public class RegisterEmployeeController implements Initializable, ApplicationListener<StageReadyEvent> {
+
+    @FXML
+    private VBox registerEmployeeVBoxContainer;
+
+    @FXML
+    private GridPane registerEmployeeGridPane;
+
+    @FXML
+    private Label registerEmployeeTitleLabel;
 
     @FXML
     private TextField employeeNameField;
@@ -77,6 +91,28 @@ public class RegisterEmployeeController implements Initializable, ApplicationLis
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+
+
+        registerEmployeeVBoxContainer.setPrefWidth(Util.getContentAreaWidth());
+        registerEmployeeVBoxContainer.setPrefHeight(Util.getContentAreaHeight());
+        registerEmployeeVBoxContainer.setSpacing(registerEmployeeVBoxContainer.getPrefHeight() * 0.08);
+
+        registerEmployeeGridPane.setPrefWidth(registerEmployeeVBoxContainer.getPrefWidth() * 0.70);
+        System.out.println(registerEmployeeGridPane.getPrefWidth());
+        registerEmployeeGridPane.setPrefHeight(registerEmployeeVBoxContainer.getPrefHeight() * 0.50);
+        registerEmployeeGridPane.setHgap(registerEmployeeGridPane.getPrefWidth() * 0.02);
+        registerEmployeeGridPane.setVgap(registerEmployeeGridPane.getPrefHeight() * 0.04);
+
+//        registerEmployeeBtn.setPrefWidth(registerEmployeeVBoxContainer.getPrefWidth() * 0.55 );
+
+        List<ColumnConstraints> colConstList = registerEmployeeGridPane.getColumnConstraints();
+        colConstList.get(0).setPercentWidth(15);
+        colConstList.get(1).setPercentWidth(40);
+        colConstList.get(2).setPercentWidth(30);
+
+        employeeDOBField.setPrefWidth(Double.MAX_VALUE);
+
         registerEmployeeBtn.setDisable(true);
 
         employeeFormValidation = new FormValidation();

@@ -7,29 +7,32 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="368.0" prefWidth="1136.0" style="-fx-border-style: solid hidden hidden hidden; -fx-border-color: #272635; -fx-border-width: 3;" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.TransactionDetailController">
+<AnchorPane fx:id="transactionDetailContainerPane" minHeight="500.0" minWidth="1000.0" style="-fx-border-style: solid hidden hidden hidden; -fx-border-color: #272635; -fx-border-width: 3;" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.TransactionDetailController">
     <children>
-        <HBox layoutY="3.0" prefHeight="83.0" prefWidth="1136.0" spacing="5.0" style="-fx-background-color: #DEF2F1;">
+        <HBox fx:id="transactionDetailTitleBar" alignment="CENTER_LEFT" prefHeight="83.0" prefWidth="1136.0" style="-fx-background-color: #DEF2F1;" stylesheets="@css/main.css">
             <children>
-                <Label alignment="CENTER" prefHeight="70.0" prefWidth="140.0" styleClass="h5" stylesheets="@css/main.css" text="Transaction ID" wrapText="true" />
-                <Label fx:id="transactionTimeHeading" alignment="CENTER" maxWidth="130.0" prefHeight="70.0" prefWidth="130.0" styleClass="h5" stylesheets="@css/main.css" wrapText="true" />
-                <Label fx:id="transactionFlourPickupQtyHeading" alignment="CENTER" maxWidth="130.0" prefHeight="70.0" prefWidth="130.0" styleClass="h5" stylesheets="@css/main.css" wrapText="true" />
-                <Label fx:id="transactionGrindingAmountHeading" alignment="CENTER" maxWidth="130.0" prefHeight="70.0" prefWidth="130.0" styleClass="h5" stylesheets="@css/main.css" wrapText="true" />
-                <Label fx:id="transactionGrindingAmountPaidHeading" alignment="CENTER" maxWidth="130.0" prefHeight="70.0" prefWidth="130.0" styleClass="h5" stylesheets="@css/main.css" textAlignment="CENTER" wrapText="true" />
-                <Label fx:id="transactionGrindingBalanceAmountHeading" alignment="CENTER" maxWidth="130.0" prefHeight="70.0" prefWidth="130.0" styleClass="h5" stylesheets="@css/main.css" textAlignment="CENTER" wrapText="true" />
-                <Label fx:id="transactionStoredWheatBalanceHeading" alignment="CENTER" maxWidth="130.0" prefHeight="70.0" prefWidth="130.0" styleClass="h5" stylesheets="@css/main.css" textAlignment="CENTER" wrapText="true" />
-                <Label fx:id="transactionOrderPickedByHeading" alignment="CENTER" maxWidth="130.0" prefHeight="70.0" prefWidth="130.0" styleClass="h5" stylesheets="@css/main.css" textAlignment="CENTER" wrapText="true" />
-                <Label fx:id="transactionCashierHeading" alignment="CENTER" maxWidth="130.0" prefHeight="70.0" prefWidth="130.0" styleClass="h5" stylesheets="@css/main.css" text="Cashier" wrapText="true" />
+                <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" stylesheets="@css/main.css" text="Transaction ID" textAlignment="CENTER" wrapText="true" />
+                <Label fx:id="transactionTimeHeading" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" stylesheets="@css/main.css" text="Time" textAlignment="CENTER" wrapText="true" />
+                <Label fx:id="transactionFlourPickupQtyHeading" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" styleClass="h5" stylesheets="@css/main.css" text="Flour Pickup Qty" textAlignment="CENTER" wrapText="true" />
+                <Label fx:id="transactionGrindingAmountHeading" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" styleClass="h5" stylesheets="@css/main.css" text="Grinding Amount" textAlignment="CENTER" wrapText="true" />
+                <Label fx:id="transactionGrindingAmountPaidHeading" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" styleClass="h5" stylesheets="@css/main.css" text="Amount Paid" textAlignment="CENTER" wrapText="true" />
+                <Label fx:id="transactionGrindingBalanceAmountHeading" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" styleClass="h5" stylesheets="@css/main.css" text="Unpaid Amount" textAlignment="CENTER" wrapText="true" />
+                <Label fx:id="transactionStoredWheatBalanceHeading" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" styleClass="h5" stylesheets="@css/main.css" text="Account Wheat Balance" textAlignment="CENTER" wrapText="true" />
+                <Label fx:id="transactionOrderPickedByHeading" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" styleClass="h5" stylesheets="@css/main.css" text="Order Picked By" textAlignment="CENTER" wrapText="true" />
+                <Label fx:id="transactionCashierHeading" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" styleClass="h5" stylesheets="@css/main.css" text="Cashier" textAlignment="CENTER" wrapText="true" />
             </children>
             <padding>
-                <Insets right="150.0" />
+                <Insets right="170.0" />
             </padding>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
         </HBox>
-        <ScrollPane layoutY="71.0" prefHeight="300.0" prefWidth="1136.0">
+        <ScrollPane fx:id="transactionDetailScrollPane">
             <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="1120.0">
+                <AnchorPane>
                     <children>
-                        <VBox fx:id="detailItemContainer" layoutX="-7.0" prefHeight="300.0" prefWidth="1120.0" />
+                        <VBox fx:id="detailItemContainer" prefHeight="300.0" prefWidth="1114.0" />
                     </children>
                 </AnchorPane>
             </content>
