@@ -27,6 +27,7 @@ import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.context.ApplicationListener;
 import org.springframework.http.*;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -127,7 +128,16 @@ public class AddTransactionController implements Initializable, ApplicationListe
         // Authorization Check
         if(StageInitializer.authentication.isAuthenticated()){
             System.out.println("Current Cashier - " + StageInitializer.authentication.getUser().getId());
-            cashierNameLabel.setText(StageInitializer.authentication.getUser().getId());
+            try {
+                User signedInUser = StageInitializer.authentication.getUser();
+                Employee employee = Employee.getEmployee(signedInUser).orElseThrow(() -> new UsernameNotFoundException("userId: " + signedInUser));
+                cashierName = employee.getName();
+            } catch (Exception e) {
+                e.printStackTrace();
+                // Information dialog
+                AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(), Alert.AlertType.ERROR);
+                alertDialog.showErrorDialog(e);
+            }
             currentUserRole = StageInitializer.authentication.getUser().getRole();
         }
 
@@ -180,7 +190,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
         });
 
         // Submit form if Enter key is pressed
-        this.stage.getScene().setOnKeyPressed(keyEvent -> {
+        addTransactionVBoxContainer.setOnKeyPressed(keyEvent -> {
             if(keyEvent.getCode() == KeyCode.ENTER){
                 submitTransaction();
             }
@@ -264,8 +274,12 @@ public class AddTransactionController implements Initializable, ApplicationListe
         double grindingChargesPaid = Double.parseDouble(grindingChargesPaidInput.getText());
         String orderPickedBy = orderPickedByInput.getText();
 
+        if(!this.validateForm()){
+            return;
+        }
+
         try{
-            Customer customer = Customer.getCustomer(customerId);
+            Customer customer = Customer.getCustomer(String.valueOf(customerId)).orElseThrow();
             System.out.println("Grinding Charges ---->" + grindingCharges);
             Transaction newTransaction = new Transaction(
                     customer,

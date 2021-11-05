@@ -180,11 +180,7 @@ public class AuthController implements Initializable, ApplicationListener<StageR
             stage.setMaximized(true);
             stage.show();
             return true;
-        }else{
-            // Information dialog
-            AlertDialog alertDialog = new AlertDialog("Error","Unexpected Error","Contact customer support",Alert.AlertType.INFORMATION);
-            alertDialog.showInformationDialog();
-            return false;
         }
+        return false;
     }
 }

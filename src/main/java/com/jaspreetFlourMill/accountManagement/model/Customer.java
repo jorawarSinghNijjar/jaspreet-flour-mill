@@ -10,6 +10,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Customer implements Serializable {
@@ -111,11 +112,11 @@ public class Customer implements Serializable {
         return customers;
     }
 
-    public static Customer getCustomer(Integer id) throws Exception{
-        String uri = "http://localhost:8080/customers/" + id;
+    public static Optional<Customer> getCustomer(String id) throws Exception{
+        String uri =  "http://localhost:8080/customers/"+ id;
         RestTemplate restTemplate = new RestTemplate();
-        Customer responseEntity = restTemplate.getForObject(uri,Customer.class);
-        return responseEntity;
+        ResponseEntity<Customer> responseEntity = restTemplate.getForEntity(uri,Customer.class);
+        return Optional.of(responseEntity.getBody());
     }
 
     @Override

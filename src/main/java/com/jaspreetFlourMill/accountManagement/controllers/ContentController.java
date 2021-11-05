@@ -324,10 +324,11 @@ public class ContentController implements Initializable, ApplicationListener<Sta
 
             addTransactionController.customerIdInput.textProperty().addListener((
                     (observableValue, oldValue, newValue) -> {
-                        customerDetailsCV.getController().updateCustomerDetails(newValue);
-                        transactionDetailsCV.getController().clearTransactionDisplay();
-                        transactionDetailsCV.getController().renderTransactions(newValue);
-
+                        if(!newValue.isEmpty()){
+                            customerDetailsCV.getController().updateCustomerDetails(newValue);
+                            transactionDetailsCV.getController().clearTransactionDisplay();
+                            transactionDetailsCV.getController().renderTransactions(newValue);
+                        }
                     }
             ));
 

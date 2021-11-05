@@ -111,7 +111,7 @@ public class DepositWheatController implements Initializable {
         Double wheatProcessingDeductionQty = Double.parseDouble(wheatProcessingDeductionQtyInput.getText());
 
         try{
-            Customer customer = Customer.getCustomer(customerId);
+            Customer customer = Customer.getCustomer(String.valueOf(customerId)).orElseThrow();
 
             CustomerAccount fetchedCustomerAccount = CustomerAccount.getCustomerAccount(customerId);
 

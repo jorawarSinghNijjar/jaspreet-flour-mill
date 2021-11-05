@@ -19,6 +19,7 @@ import javafx.scene.layout.*;
 import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -26,6 +27,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.FileInputStream;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 @Component
@@ -98,7 +100,7 @@ public class CustomerDetailsController implements Initializable {
 
     public void updateCustomerDetails(String id){
         try{
-            Customer updatedCustomer = this.getCustomer(id);
+            Customer updatedCustomer = Customer.getCustomer(id).orElseThrow();
             CustomerAccount updatedCustomerAccount = CustomerAccount.getCustomerAccount(Integer.parseInt(id));
 
             customerIdDisplay.setText(updatedCustomer.getCustomerId().toString());
@@ -130,14 +132,6 @@ public class CustomerDetailsController implements Initializable {
             AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(), Alert.AlertType.ERROR);
             alertDialog.showErrorDialog(e);
         }
-    }
-
-    public Customer getCustomer(String id) throws Exception{
-        String uri =  "http://localhost:8080/customers/"+ id;
-        RestTemplate restTemplate = new RestTemplate();
-        Customer responseEntity = restTemplate.getForObject(uri,Customer.class);
-        System.out.println("Updated Customer" + responseEntity.toString());
-        return responseEntity;
     }
 
 }

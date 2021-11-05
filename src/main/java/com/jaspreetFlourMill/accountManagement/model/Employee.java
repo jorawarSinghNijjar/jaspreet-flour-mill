@@ -2,11 +2,13 @@ package com.jaspreetFlourMill.accountManagement.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.http.*;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Employee implements Serializable {
@@ -127,10 +129,13 @@ public class Employee implements Serializable {
         return result.getStatusCode();
     }
 
-    public static ResponseEntity<Employee> getEmployee(User user) throws Exception{
+    public static Optional<Employee> getEmployee(User user) throws Exception{
         String uri = "http://localhost:8080/employees/" + user.getId();
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Employee> responseEntity = restTemplate.getForEntity(uri,Employee.class);
-        return responseEntity;
+//        if(responseEntity.getStatusCode() != HttpStatus.OK){
+//            throw new UsernameNotFoundException("userId: " + user);
+//        }
+        return Optional.of(responseEntity.getBody());
     }
 }

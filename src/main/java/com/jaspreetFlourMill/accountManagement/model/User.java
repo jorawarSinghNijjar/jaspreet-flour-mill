@@ -86,14 +86,13 @@ public class User implements Serializable {
         return false;
     }
 
-    public static Optional<ResponseEntity<?>> getUserDetails(User user) throws Exception{
+    public static Optional getUserDetails(User user) throws Exception{
         if(user.role == Role.ADMIN){
-            ResponseEntity<Admin> responseEntity = Admin.getAdmin(user);
-            return Optional.ofNullable(responseEntity);
+            return Admin.getAdmin(user);
         }
         else if(user.role == Role.EMPLOYEE){
-            ResponseEntity<Employee> responseEntity = Employee.getEmployee(user);
-            return Optional.ofNullable(responseEntity);
+           return Employee.getEmployee(user);
+
         }
         return Optional.empty();
     }

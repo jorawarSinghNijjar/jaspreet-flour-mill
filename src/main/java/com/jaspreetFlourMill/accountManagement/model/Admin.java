@@ -2,10 +2,13 @@ package com.jaspreetFlourMill.accountManagement.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.http.*;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.client.RestTemplate;
 
+import javax.swing.text.html.Option;
 import java.io.Serializable;
+import java.util.Optional;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Admin implements Serializable {
@@ -60,11 +63,11 @@ public class Admin implements Serializable {
        return result.getStatusCode();
     }
 
-    public static ResponseEntity<Admin> getAdmin(User user) throws Exception{
+    public static Optional<Admin> getAdmin(User user) throws Exception{
         String uri = "http://localhost:8080/admin/" + user.getId();
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Admin> responseEntity = restTemplate.getForEntity(uri,Admin.class);
-        return responseEntity;
+        return Optional.of(responseEntity.getBody());
     }
 
     public static boolean isRegistered() throws Exception {
