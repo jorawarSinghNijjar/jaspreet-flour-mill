@@ -327,7 +327,7 @@ public class HomeController implements Initializable {
             salesAmtChart.getData().clear();
             this.initializeSalesQtySeries();
             this.initializeSalesAmtSeries();
-            Sales salesToday = Sales.getSalesForDate(currentDay);
+            Sales salesToday = Sales.getSalesForDate(currentDay).orElseThrow();
 
             if(salesToday!=null){
                 wheatSoldDisplay.setText(salesToday.getTotalWheatSold().toString());
@@ -359,7 +359,7 @@ public class HomeController implements Initializable {
             salesAmtChart.getData().clear();
             this.initializeSalesQtySeries();
             this.initializeSalesAmtSeries();
-            Sales[] salesForMonth = Sales.getSalesForMonth(month,year);
+            Sales[] salesForMonth = Sales.getSalesForMonth(month,year).orElseThrow();
 //            this.printTotalWheatSold(salesForMonth);
 
             if(salesForMonth != null && salesForMonth.length !=0){
@@ -417,12 +417,12 @@ public class HomeController implements Initializable {
             Map<Integer,MonthlySales> monthlySales = new HashMap<>();
             for(int i=1; i <= 12; i++){
 
-                Sales[] salesForMonth = Sales.getSalesForMonth(i,year);
+                Sales[] salesForMonth = Sales.getSalesForMonth(i,year).orElseThrow();
 
                 monthlySales.put(i,new MonthlySales(i,salesForMonth));
             }
 
-            Sales[] salesForYear = Sales.getSalesForYear(year);
+            Sales[] salesForYear = Sales.getSalesForYear(year).orElseThrow();
 
             if(salesForYear != null && salesForYear.length !=0){
 

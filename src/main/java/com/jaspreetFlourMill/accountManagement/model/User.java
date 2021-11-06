@@ -10,6 +10,8 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Optional;
 
+import static com.jaspreetFlourMill.accountManagement.util.Rest.BASE_URI;
+
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 
@@ -53,28 +55,47 @@ public class User implements Serializable {
         this.role = role;
     }
 
-    public static HttpStatus register(User newUser) throws Exception {
-        String uri = "http://localhost:8080/user/";
+    public static boolean register(User newUser) throws Exception {
+        String uri = BASE_URI + "/users";
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<User> req = new HttpEntity<>(newUser, httpHeaders);
-        ResponseEntity<String> result = restTemplate.exchange(uri, HttpMethod.POST, req, String.class);
+        ResponseEntity<User> result = restTemplate.exchange(uri, HttpMethod.POST, req, User.class);
 
-        return result.getStatusCode();
+        // User registration Successful
+        if(result.getStatusCode() == HttpStatus.CREATED){
+            User savedUser =  result.getBody();
+            System.out.println("User Registration successful for: " + savedUser.getId());
+            return true;
+        }
+
+        // User registration failed
+        System.out.println("User Registration failed for: " + newUser.getId());
+        return false;
     }
 
-    public static ResponseEntity<User> getUser(String id) throws Exception{
-        String uri = "http://localhost:8080/user/" + id;
+    public static Optional<User> getUser(String id) throws Exception{
+        String uri = BASE_URI + "/users/" + id;
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<User> responseEntity = restTemplate.getForEntity(uri,User.class);
-        return responseEntity;
+
+        // Find user successful
+        if(responseEntity.getStatusCode() == HttpStatus.OK){
+            User user = responseEntity.getBody();
+            System.out.println("Fetched User : " + user.getId());
+            return Optional.of(user);
+        }
+
+        // Find user failed
+        System.out.println("Failed to fetch user: " + id);
+        return Optional.empty();
     }
 
     public static boolean isRegistered() throws Exception {
-        String uri = "http://localhost:8080/user/";
+        String uri = BASE_URI+ "/users";
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<User[]> responseEntity = restTemplate.getForEntity(uri, User[].class);
         User[] usersArr = responseEntity.getBody();

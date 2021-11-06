@@ -6,11 +6,14 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.naming.directory.SearchResult;
 import java.io.Serializable;
+import java.util.Optional;
+
+import static com.jaspreetFlourMill.accountManagement.util.Rest.BASE_URI;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Stock implements Serializable {
 
-    private  Integer id;
+    private Integer id;
 
     private Double wheatBalance;
 
@@ -19,11 +22,11 @@ public class Stock implements Serializable {
         this.wheatBalance = 0.00;
     }
 
-    public void addWheat(double wheatQty){
+    public void addWheat(double wheatQty) {
         this.wheatBalance += wheatQty;
     }
 
-    public void deductWheat(double wheatQty){
+    public void deductWheat(double wheatQty) {
         this.wheatBalance -= wheatQty;
     }
 
@@ -43,79 +46,72 @@ public class Stock implements Serializable {
         this.id = id;
     }
 
-//    public static boolean initializeStock(){
-//        System.out.println("Initializing the company stock..");
-//        try {
-//            ResponseEntity<Stock> resultFromGet = Stock.getStock();
-//            if(resultFromGet.getStatusCode() == HttpStatus.NOT_FOUND){
-//                ResponseEntity<String> resultFromSave = Stock.saveStock(new Stock());
-//
-//                if(resultFromSave.getStatusCode() == HttpStatus.OK){
-//                    System.out.println("Stock initialized");
-//                    return true;
-//                }
-//            }
-//        }
-//        catch (Exception e){
-//            System.out.println("Initialization failed with error!!");
-//            e.printStackTrace();
-//        }
-//        return false;
-//    }
+    // Save stock
+    public static Optional<Stock> saveStock(Stock stock) throws Exception{
+        System.out.println("Saving stock........");
+        final String uri = BASE_URI + "/stocks/";
+        RestTemplate restTemplate = new RestTemplate();
 
-    public static ResponseEntity<String> saveStock(Stock stock){
-        try {
-            System.out.println("Saving stock........");
-            final String uri =  "http://localhost:8080/stock/";
-            RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Stock> req = new HttpEntity<>(stock, httpHeaders);
+        ResponseEntity<Stock> result = restTemplate.exchange(uri, HttpMethod.POST, req, Stock.class);
 
-            HttpEntity<Stock> req = new HttpEntity<>(stock,httpHeaders);
-            ResponseEntity<String> result = restTemplate.exchange(uri, HttpMethod.POST,req,String.class);
-
-            return result;
+        // Saving stock successful
+        if (result.getStatusCode() == HttpStatus.CREATED) {
+            Stock savedStock = result.getBody();
+            System.out.println("Saved stock, Current Wheat Balance: " + savedStock.getWheatBalance());
+            return Optional.of(savedStock);
         }
-        catch (Exception e){
-           e.printStackTrace();
-            return null;
+
+        // Saving stock unsuccessful
+        System.out.println("Failed to save stock, Current Wheat Balance: " + stock.getWheatBalance());
+        return Optional.empty();
+    }
+
+    // UPDATE Stock
+    public static Optional<Stock> updateStock(Stock stock) throws Exception{
+
+        System.out.println("Updating Stock..........");
+        String uri = BASE_URI + "/stocks/update";
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<Stock> req = new HttpEntity<>(stock, httpHeaders);
+        ResponseEntity<Stock> responseEntity = restTemplate.exchange(uri, HttpMethod.PUT, req, Stock.class);
+
+        // Updating stock successful
+        if (responseEntity.getStatusCode() == HttpStatus.OK) {
+            Stock updatedStock = responseEntity.getBody();
+            System.out.println("Updated stock, Current Wheat Balance: " + updatedStock.getWheatBalance());
+            return Optional.of(updatedStock);
         }
+
+        // Updating stock unsuccessful
+        System.out.println("Failed to update stock, Current Wheat Balance: " + stock.getWheatBalance());
+        return Optional.empty();
+
 
     }
 
+    // GET stock
+    public static Optional<Stock> getStock() throws Exception{
+        String uri = BASE_URI + "/stocks/get";
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Stock> responseEntity = restTemplate.getForEntity(uri, Stock.class);
 
-    public static String updateStock(Stock stock){
-        try{
-            System.out.println("Updating Stock..........");
-            String uri = "http://localhost:8080/stock/update";
-            RestTemplate restTemplate = new RestTemplate();
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-
-            HttpEntity<Stock> req = new HttpEntity<>(stock,httpHeaders);
-            ResponseEntity<String> responseEntity = restTemplate.exchange(uri, HttpMethod.PUT,req,String.class);
-            return responseEntity.getBody();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            return null;
+        // Fetching stock successful
+        if (responseEntity.getStatusCode() == HttpStatus.OK) {
+            Stock stock = responseEntity.getBody();
+            System.out.println("Fetched stock, Current Wheat Balance: " + stock.getWheatBalance());
+            return Optional.of(stock);
         }
 
-    }
-
-    public static ResponseEntity<Stock> getStock(){
-        try {
-            String uri = "http://localhost:8080/stock/get";
-            RestTemplate restTemplate = new RestTemplate();
-            ResponseEntity<Stock> responseEntity = restTemplate.getForEntity(uri,Stock.class);
-            return responseEntity;
-        }
-        catch (Exception e){
-          e.printStackTrace();
-          return null;
-        }
-
+        // Fetching stock unsuccessful
+        System.out.println("Failed to fetch stock !!!");
+        return Optional.empty();
     }
 
     @Override

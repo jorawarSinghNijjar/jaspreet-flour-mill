@@ -50,6 +50,7 @@ public class StageInitializer implements ApplicationListener<StageReadyEvent> {
                 stage.setScene(new Scene(fxWeaver.loadView(AuthController.class),dimension2D.getWidth(),dimension2D.getHeight()));
             }
             else {
+                System.out.println("Redirecting to registration page....");
                 Dimension2D dimension2D = Util.getCenterSceneDim(stage,2.5,2.5);
                 registerAdminCV = fxWeaver.load(RegisterAdminController.class);
                 registerAdminCV.getController().setLayout(dimension2D);

@@ -113,7 +113,7 @@ public class DepositWheatController implements Initializable {
         try{
             Customer customer = Customer.getCustomer(String.valueOf(customerId)).orElseThrow();
 
-            CustomerAccount fetchedCustomerAccount = CustomerAccount.getCustomerAccount(customerId);
+            CustomerAccount fetchedCustomerAccount = CustomerAccount.getCustomerAccount(customerId).orElseThrow();
 
             if(fetchedCustomerAccount != null){
                 System.out.println("Updating Customer Account --> "

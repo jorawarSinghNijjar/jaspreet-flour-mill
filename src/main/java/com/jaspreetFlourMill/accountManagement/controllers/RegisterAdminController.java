@@ -206,14 +206,19 @@ public class RegisterAdminController implements Initializable, ApplicationListen
             // POST request to register employee
             try {
                 // User registration
-                HttpStatus httpStatus = User.register(newUser);
-                if (httpStatus.is2xxSuccessful()) {
-                    System.out.println("User registration successful : " + newUser.getId());
+                if (User.register(newUser)) {
                     // Admin registration
                     Admin newAdmin = new Admin(newUser,emailId);
-                    HttpStatus httpStatusAdminRegister = Admin.register(newAdmin);
-                    if (httpStatusAdminRegister.is2xxSuccessful()) {
-                        System.out.println("Admin registration successful : " + newAdmin.getEmailId());
+                    try {
+                        Admin.register(newAdmin);
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                        System.out.println("Admin registration failed !!");
+                        // Information dialog
+                        AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(),Alert.AlertType.ERROR);
+                        alertDialog.showErrorDialog(e);
+                        return false;
                     }
                 }
             } catch (Exception e) {

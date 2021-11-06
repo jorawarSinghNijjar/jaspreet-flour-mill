@@ -172,7 +172,8 @@ public class AuthController implements Initializable, ApplicationListener<StageR
     public boolean login(){
         String userId = userIdField.getText();
         String password = passwordField.getText();
-        if(StageInitializer.authentication.login(userId,password)){
+        try {
+            StageInitializer.authentication.login(userId,password);
             System.out.println("Loading Dashboard ....");
             stage.setScene(new Scene(fxWeaver.loadView(ContentController.class), Util.getScreenWidth(), Util.getScreenHeight()));
             stage.setX(0);
@@ -181,6 +182,8 @@ public class AuthController implements Initializable, ApplicationListener<StageR
             stage.show();
             return true;
         }
-        return false;
+        catch (Exception e){
+            return false;
+        }
     }
 }

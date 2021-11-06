@@ -85,7 +85,7 @@ public class CustomerListController implements Initializable {
 
     public void displayCustomers(){
         try {
-            this.customers = Customer.getAllCustomers();
+            this.customers = Customer.getAllCustomers().orElseThrow();
             for(Customer customer: customers){
                 Label customerLabel = new Label(customer.getName()
                         + "(ID-" + customer.getCustomerId() + " )" );

@@ -10,6 +10,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
+import static com.jaspreetFlourMill.accountManagement.util.Rest.BASE_URI;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Employee implements Serializable {
 
@@ -116,26 +118,46 @@ public class Employee implements Serializable {
                 '}';
     }
 
-    public static HttpStatus register(Employee newEmployee) throws Exception {
-        String uri = "http://localhost:8080/employees/";
+    // POST Employee to API
+    public static boolean register(Employee newEmployee) throws Exception {
+        System.out.println("Registering employee ...." + newEmployee.getName());
+        String uri = BASE_URI + "/employees";
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<Employee> req = new HttpEntity<>(newEmployee, httpHeaders);
-        ResponseEntity<String> result = restTemplate.exchange(uri, HttpMethod.POST, req, String.class);
+        ResponseEntity<Employee> result = restTemplate.exchange(uri, HttpMethod.POST, req, Employee.class);
 
-        return result.getStatusCode();
+        // Employee registration Successful
+        if(result.getStatusCode() == HttpStatus.CREATED){
+            System.out.println("Employee Registration successful for: " + result.getBody().getId());
+            return true;
+        }
+
+        // Employee registration failed
+        System.out.println("Employee Registration failed for: " + newEmployee.getId());
+        return false;
     }
 
+    // GET Employee
     public static Optional<Employee> getEmployee(User user) throws Exception{
-        String uri = "http://localhost:8080/employees/" + user.getId();
+        System.out.println("Fetching employee ...." + user.getId());
+        String uri = BASE_URI + "/employees/" + user.getId();
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Employee> responseEntity = restTemplate.getForEntity(uri,Employee.class);
-//        if(responseEntity.getStatusCode() != HttpStatus.OK){
-//            throw new UsernameNotFoundException("userId: " + user);
-//        }
-        return Optional.of(responseEntity.getBody());
+
+        // Find customer successful
+        if(responseEntity.getStatusCode() == HttpStatus.OK){
+            Employee employee = responseEntity.getBody();
+            System.out.println("Fetched Employee : " + employee.getId());
+            return Optional.of(employee);
+        }
+
+        // Find customer failed
+        System.out.println("Failed to fetch employee: " + user.getId());
+        return Optional.empty();
+
     }
 }

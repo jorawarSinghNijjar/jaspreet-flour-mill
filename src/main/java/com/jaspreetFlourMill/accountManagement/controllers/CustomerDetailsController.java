@@ -101,7 +101,7 @@ public class CustomerDetailsController implements Initializable {
     public void updateCustomerDetails(String id){
         try{
             Customer updatedCustomer = Customer.getCustomer(id).orElseThrow();
-            CustomerAccount updatedCustomerAccount = CustomerAccount.getCustomerAccount(Integer.parseInt(id));
+            CustomerAccount updatedCustomerAccount = CustomerAccount.getCustomerAccount(Integer.parseInt(id)).orElseThrow();
 
             customerIdDisplay.setText(updatedCustomer.getCustomerId().toString());
             customerAddress.setText(updatedCustomer.getAddress());

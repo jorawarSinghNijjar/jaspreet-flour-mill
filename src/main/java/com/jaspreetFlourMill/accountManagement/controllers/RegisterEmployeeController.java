@@ -257,14 +257,10 @@ public class RegisterEmployeeController implements Initializable, ApplicationLis
             // POST request to register employee
             try {
                 // User registration
-                HttpStatus httpStatus = User.register(newUser);
-                if (httpStatus.is2xxSuccessful()) {
-                    System.out.println("User registration successful : " + newUser.getId());
-                    // Admin registration
+                if (User.register(newUser)) {
+                    // Employee registration
                     Employee newEmployee = new Employee(newUser,name,contactNo,address,jobDesignation,dob);
-                    HttpStatus httpStatusEmployeeRegister = Employee.register(newEmployee);
-                    if (httpStatusEmployeeRegister.is2xxSuccessful()) {
-                        System.out.println("Employee registration successful : " + newEmployee.getName());
+                    if (Employee.register(newEmployee)) {
                         ContentController.navigationHandler.handleShowHome();
                         return true;
                     }

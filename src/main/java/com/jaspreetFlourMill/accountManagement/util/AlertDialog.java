@@ -62,7 +62,7 @@ public class AlertDialog {
         alert.setHeaderText(headerText);
         alert.setContentText(contentText);
 
-// Create expandable Exception.
+        // Create expandable Exception.
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         e.printStackTrace(pw);
@@ -80,11 +80,11 @@ public class AlertDialog {
         GridPane.setHgrow(textArea, Priority.ALWAYS);
 
         GridPane expContent = new GridPane();
-        expContent.setMaxWidth(Double.MAX_VALUE);
+        expContent.setMaxWidth(Util.getScreenWidth() * 0.6);
         expContent.add(label, 0, 0);
         expContent.add(textArea, 0, 1);
 
-// Set expandable Exception into the dialog pane.
+        // Set expandable Exception into the dialog pane.
         alert.getDialogPane().setExpandableContent(expContent);
 
         alert.showAndWait();

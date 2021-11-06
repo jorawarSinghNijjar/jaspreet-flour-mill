@@ -8,6 +8,9 @@ import org.springframework.web.client.RestTemplate;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
+
+import static com.jaspreetFlourMill.accountManagement.util.Rest.BASE_URI;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CustomerAccount implements Serializable {
@@ -136,41 +139,74 @@ public class CustomerAccount implements Serializable {
         this.wheatProcessingDeductionQty += wheatProcessingDeductionQty;
     }
 
-    // Get Customer account by id from DB
-
-    public static CustomerAccount getCustomerAccount(Integer id) throws Exception{
-        String uri = "http://localhost:8080/customer-accounts/" + id;
+    // GET Customer Account by id from API
+    public static Optional<CustomerAccount> getCustomerAccount(Integer id) throws Exception{
+        System.out.println("Fetching customer account ...." + id);
+        String uri = BASE_URI + "/customer-accounts/" + id;
         RestTemplate restTemplate = new RestTemplate();
-        CustomerAccount responseEntity = restTemplate.getForObject(uri,CustomerAccount.class);
-        return responseEntity;
+        ResponseEntity<CustomerAccount> responseEntity = restTemplate.getForEntity(uri,CustomerAccount.class);
+
+        // Find customer account successful
+        if(responseEntity.getStatusCode() == HttpStatus.OK){
+            CustomerAccount customerAccount = responseEntity.getBody();
+            System.out.println("Fetched Customer Account : " + customerAccount.getCustomer().getCustomerId());
+            return Optional.of(customerAccount);
+        }
+
+        // Find customer account failed
+        System.out.println("Failed to fetch customer account: " + id);
+        return Optional.empty();
     }
 
-    public static String updateCustomerAccount(Integer customerId,CustomerAccount customerAccount) throws Exception{
-        String uri = "http://localhost:8080/customer-accounts/" + customerId;
+    // UPDATE Customer Account using customerId and current customer account details
+    public static boolean updateCustomerAccount(Integer customerId,CustomerAccount customerAccount) throws Exception{
+        System.out.println("Updating customer account ...." + customerId);
+        String uri = BASE_URI + "/customer-accounts/" + customerId;
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<CustomerAccount> req = new HttpEntity<>(customerAccount,httpHeaders);
-        ResponseEntity<String> responseEntity = restTemplate.exchange(uri, HttpMethod.PUT,req,String.class);
-        return responseEntity.getBody();
+        ResponseEntity<CustomerAccount> responseEntity = restTemplate.exchange(uri, HttpMethod.PUT,req,CustomerAccount.class);
+
+        // Update customer account successful
+        if(responseEntity.getStatusCode() == HttpStatus.OK){
+            CustomerAccount updatedCustomerAccount = responseEntity.getBody();
+            System.out.println("Updated Customer Account : " + updatedCustomerAccount.getCustomer().getCustomerId());
+            return true;
+        }
+
+        // Update customer account failed
+        System.out.println("Failed to fetch customer account: " + customerId);
+        return false;
     }
 
-    public static String updatePrintedRow(Integer id, boolean nextPage) throws Exception{
-        CustomerAccount customerAccount = CustomerAccount.getCustomerAccount(id);
+    public static boolean updatePrintedRow(Integer id, boolean nextPage) throws Exception{
+        System.out.println("Updating printed row .... for customer account: " + id);
+        CustomerAccount customerAccount = CustomerAccount.getCustomerAccount(id).orElseThrow();
         if(nextPage){
             customerAccount.printNextPage();
         }
         customerAccount.incrementRow();
 
-        String uri = "http://localhost:8080/customer-accounts/" + id;
+        String uri = BASE_URI + "/customer-accounts/" + id;
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<CustomerAccount> req = new HttpEntity<>(customerAccount,httpHeaders);
-        ResponseEntity<String> responseEntity = restTemplate.exchange(uri, HttpMethod.PUT,req,String.class);
-        return responseEntity.getBody();
+        ResponseEntity<CustomerAccount> responseEntity = restTemplate.exchange(uri, HttpMethod.PUT,req,CustomerAccount.class);
+
+        // Update printed row successful
+        if(responseEntity.getStatusCode() == HttpStatus.OK){
+            CustomerAccount updatedCustomerAccount = responseEntity.getBody();
+            System.out.println("Rows printed : " + updatedCustomerAccount.getRowsPrinted());
+            return true;
+        }
+
+        // Update customer account failed
+        System.out.println("Failed to update printed rows for customer account: " + id);
+        return false;
     }
 
     @Override

@@ -445,7 +445,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
     private void updateSales(String date, Double flourPickupQty, Double grindingCharges, Double grindingChargesPaid) throws Exception{
 //        System.out.println("Inside update sales");
         // Get current Sales for this date
-        Sales sales = Sales.getSalesForDate(date);
+        Sales sales = Sales.getSalesForDate(date).orElseThrow();
 //        System.out.println("Sales retrieved: " + sales);
 
         if(sales != null){
