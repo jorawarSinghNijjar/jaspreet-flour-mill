@@ -132,7 +132,7 @@ public class RegisterEmployeeController implements Initializable, ApplicationLis
     }
 
     private void addEventListeners() {
-        employeeNameField.textProperty().addListener((observableValue, oldVal, newVal) -> {
+        employeeUserIdField.textProperty().addListener((observableValue, oldVal, newVal) -> {
             boolean valid = FormValidation.isUsername(
                     newVal,
                     employeeUserIdValidLabel

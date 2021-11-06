@@ -55,7 +55,7 @@ public class Admin implements Serializable {
 
     // Register new Admin (only 1 admin allowed for now)
     public static boolean register(Admin newAdmin) throws Exception {
-        System.out.println("Registering ...." + newAdmin.getId());
+        System.out.println("Registering admin...." + newAdmin.getUser().getId());
         String uri = BASE_URI + "/admins";
         RestTemplate restTemplate = new RestTemplate();
 
@@ -67,12 +67,13 @@ public class Admin implements Serializable {
 
         // Admin creation Successful
         if(result.getStatusCode() == HttpStatus.CREATED){
-            System.out.println("Admin Registration successful for: " + newAdmin.getId());
+            Admin savedAdmin = result.getBody();
+            System.out.println("Admin Registration successful for: " + savedAdmin.getId());
             return true;
         }
 
         // Admin creation failed
-        System.out.println("Admin Registration failed for: " + newAdmin.getId());
+        System.out.println("Admin Registration failed for: " + newAdmin.getUser().getId());
         return false;
     }
 

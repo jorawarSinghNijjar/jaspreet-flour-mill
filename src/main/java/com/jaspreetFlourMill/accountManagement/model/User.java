@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.http.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.Serializable;
@@ -83,6 +84,10 @@ public class User implements Serializable {
         ResponseEntity<User> responseEntity = restTemplate.getForEntity(uri,User.class);
 
         // Find user successful
+        if(responseEntity.getStatusCode() == HttpStatus.NOT_FOUND){
+            System.out.println("Not founnnnnnnnnd");
+            throw new UsernameNotFoundException("User with user id-" + id + "does not exist!");
+        }
         if(responseEntity.getStatusCode() == HttpStatus.OK){
             User user = responseEntity.getBody();
             System.out.println("Fetched User : " + user.getId());

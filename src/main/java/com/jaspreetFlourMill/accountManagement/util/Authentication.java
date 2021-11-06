@@ -6,6 +6,7 @@ import com.jaspreetFlourMill.accountManagement.model.User;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class Authentication {
@@ -36,40 +37,34 @@ public class Authentication {
 
     public boolean login(String userId, String password) throws Exception {
         //GET request to get employee with userId
-        if (userId == "" || userId == null) {
-            System.out.println("Please enter User Id. Field is empty!");
-            return false;
+        if (userId.trim().length() == 0 || userId == null) {
+            System.out.println("Please enter User Id. User id Field is empty!");
+            throw new IllegalArgumentException("User Id cannot be empty or null");
         }
 
-        try {
-            // Check if user is an ADMIN or EMPLOYEE
-            System.out.println("Signing in ......");
-            User user = User.getUser(userId).orElseThrow();
-            System.out.println("Authenticating ......" + user.getId());
-
-            String encodedPassword = user.getPassword();
-            BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-            boolean validPassword = bCryptPasswordEncoder.matches(password, encodedPassword);
-
-            if (!validPassword) {
-                // Information dialog
-                AlertDialog alertDialog = new AlertDialog("Error", "Invalid username or password", "Check your credentials", Alert.AlertType.INFORMATION);
-                alertDialog.showInformationDialog();
-                return false;
-            }
-
-            this.setUser(user);
-            this.setAuthenticated(true);
-            System.out.println("Welcome, " + user.getId());
-            return true;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            // Information dialog
-            AlertDialog alertDialog = new AlertDialog("Error", e.getCause().getMessage(), e.getMessage(), Alert.AlertType.ERROR);
-            alertDialog.showErrorDialog(e);
-            return false;
+        if (password.trim().length() == 0 || password == null) {
+            System.out.println("Please enter password. Password Field is empty!");
+            throw new IllegalArgumentException("Password cannot be empty or null");
         }
+
+        // Check if user is an ADMIN or EMPLOYEE
+        System.out.println("Signing in ......");
+        User user = User.getUser(userId).orElseThrow();
+        System.out.println("Authenticating ......" + user.getId());
+
+        String encodedPassword = user.getPassword();
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        boolean validPassword = bCryptPasswordEncoder.matches(password, encodedPassword);
+
+        if (!validPassword) {
+            throw new BadCredentialsException("Wrong username or password");
+        }
+
+        this.setUser(user);
+        this.setAuthenticated(true);
+        System.out.println("Welcome, " + user.getId());
+
+        return true;
     }
 
     public boolean logout() {

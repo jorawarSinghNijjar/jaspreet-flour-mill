@@ -183,6 +183,9 @@ public class AuthController implements Initializable, ApplicationListener<StageR
             return true;
         }
         catch (Exception e){
+            // Error dialog
+            AlertDialog alertDialog = new AlertDialog("Error",e.getMessage(),e.getLocalizedMessage(), Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
             return false;
         }
     }
