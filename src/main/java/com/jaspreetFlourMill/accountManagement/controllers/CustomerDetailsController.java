@@ -3,11 +3,13 @@ package com.jaspreetFlourMill.accountManagement.controllers;
 import com.jaspreetFlourMill.accountManagement.model.Customer;
 import com.jaspreetFlourMill.accountManagement.model.CustomerAccount;
 
+import com.jaspreetFlourMill.accountManagement.util.AlertDialog;
 import com.jaspreetFlourMill.accountManagement.util.Util;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,6 +19,7 @@ import javafx.scene.layout.*;
 import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -24,6 +27,7 @@ import org.springframework.web.client.RestTemplate;
 import java.io.FileInputStream;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 @Component
@@ -96,8 +100,8 @@ public class CustomerDetailsController implements Initializable {
 
     public void updateCustomerDetails(String id){
         try{
-            Customer updatedCustomer = this.getCustomer(id);
-            CustomerAccount updatedCustomerAccount = CustomerAccount.getCustomerAccount(Integer.parseInt(id));
+            Customer updatedCustomer = Customer.getCustomer(id).orElseThrow();
+            CustomerAccount updatedCustomerAccount = CustomerAccount.getCustomerAccount(Integer.parseInt(id)).orElseThrow();
 
             customerIdDisplay.setText(updatedCustomer.getCustomerId().toString());
             customerAddress.setText(updatedCustomer.getAddress());
@@ -124,15 +128,10 @@ public class CustomerDetailsController implements Initializable {
         }
         catch(Exception e){
             e.printStackTrace();
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(), Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
         }
-    }
-
-    public Customer getCustomer(String id) throws Exception{
-        String uri =  "http://localhost:8080/customers/"+ id;
-        RestTemplate restTemplate = new RestTemplate();
-        Customer responseEntity = restTemplate.getForObject(uri,Customer.class);
-        System.out.println("Updated Customer" + responseEntity.toString());
-        return responseEntity;
     }
 
 }

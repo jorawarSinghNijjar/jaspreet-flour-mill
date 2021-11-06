@@ -6,6 +6,7 @@ import animatefx.animation.FadeOutLeft;
 import animatefx.animation.FadeOutRight;
 import com.jaspreetFlourMill.accountManagement.model.MonthlySales;
 import com.jaspreetFlourMill.accountManagement.model.Sales;
+import com.jaspreetFlourMill.accountManagement.util.AlertDialog;
 import com.jaspreetFlourMill.accountManagement.util.Util;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,6 +16,7 @@ import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -325,7 +327,7 @@ public class HomeController implements Initializable {
             salesAmtChart.getData().clear();
             this.initializeSalesQtySeries();
             this.initializeSalesAmtSeries();
-            Sales salesToday = Sales.getSalesForDate(currentDay);
+            Sales salesToday = Sales.getSalesForDate(currentDay).orElseThrow();
 
             if(salesToday!=null){
                 wheatSoldDisplay.setText(salesToday.getTotalWheatSold().toString());
@@ -344,6 +346,9 @@ public class HomeController implements Initializable {
         }
         catch (Exception e){
             System.out.println(e.getMessage());
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(), Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
         }
     }
     // Display Sales for month
@@ -354,7 +359,7 @@ public class HomeController implements Initializable {
             salesAmtChart.getData().clear();
             this.initializeSalesQtySeries();
             this.initializeSalesAmtSeries();
-            Sales[] salesForMonth = Sales.getSalesForMonth(month,year);
+            Sales[] salesForMonth = Sales.getSalesForMonth(month,year).orElseThrow();
 //            this.printTotalWheatSold(salesForMonth);
 
             if(salesForMonth != null && salesForMonth.length !=0){
@@ -394,6 +399,9 @@ public class HomeController implements Initializable {
         }
         catch (Exception e){
             System.out.println(e.getMessage());
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(),Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
         }
 
     }
@@ -409,12 +417,12 @@ public class HomeController implements Initializable {
             Map<Integer,MonthlySales> monthlySales = new HashMap<>();
             for(int i=1; i <= 12; i++){
 
-                Sales[] salesForMonth = Sales.getSalesForMonth(i,year);
+                Sales[] salesForMonth = Sales.getSalesForMonth(i,year).orElseThrow();
 
                 monthlySales.put(i,new MonthlySales(i,salesForMonth));
             }
 
-            Sales[] salesForYear = Sales.getSalesForYear(year);
+            Sales[] salesForYear = Sales.getSalesForYear(year).orElseThrow();
 
             if(salesForYear != null && salesForYear.length !=0){
 
@@ -452,6 +460,9 @@ public class HomeController implements Initializable {
         }
         catch (Exception e){
             System.out.println(e.getMessage());
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(),Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
         }
 
     }

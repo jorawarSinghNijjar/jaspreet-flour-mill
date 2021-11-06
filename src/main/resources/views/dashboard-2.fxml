@@ -27,13 +27,18 @@
       <VBox id="menu" fx:id="sideMenuBox" alignment="TOP_CENTER" prefHeight="776.0" prefWidth="230.0" stylesheets="@css/main.css">
          <children>
             <Circle fx:id="avatarFrame" cache="true" fill="DODGERBLUE" radius="59.0" stroke="BLACK" strokeType="INSIDE" />
+            <Label fx:id="usernameLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="60.0" styleClass="h6" stylesheets="@css/main.css" text="John Doe" textFill="#f5f4f4">
+               <VBox.margin>
+                  <Insets top="20.0" />
+               </VBox.margin>
+            </Label>
             <Button fx:id="homeButton" mnemonicParsing="false" onAction="#showHome" prefHeight="60.0" prefWidth="229.0" stylesheets="@css/main.css" text="Home">
                <styleClass>
                   <String fx:value="menu-btn" />
                   <String fx:value="h4" />
                </styleClass>
                <VBox.margin>
-                  <Insets top="40.0" />
+                  <Insets top="20.0" />
                </VBox.margin>
             </Button>
             <Button fx:id="customersButton" mnemonicParsing="false" onAction="#showCustomers" prefHeight="60.0" prefWidth="229.0" stylesheets="@css/main.css" text="Customers">

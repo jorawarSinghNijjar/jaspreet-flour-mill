@@ -22,6 +22,7 @@
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="349.0" minWidth="10.0" prefWidth="250.0" />
             </columnConstraints>
             <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -32,28 +33,31 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Name" />
-                <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Password" GridPane.rowIndex="1" />
-                <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Confirm Password" GridPane.rowIndex="2" />
-                <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Phone Number" GridPane.rowIndex="3" />
-                <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Address" GridPane.rowIndex="4" />
-                <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Job Designation" GridPane.rowIndex="5" />
-                <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Date of Birth" GridPane.rowIndex="6" />
-                <TextField fx:id="employeeNameField" prefHeight="35.0" GridPane.columnIndex="1" />
-                <PasswordField fx:id="employeePasswordField" prefHeight="35.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                <PasswordField fx:id="employeeConfirmPasswordField" prefHeight="35.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                <TextField fx:id="employeeContactNoField" prefHeight="35.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                <TextField fx:id="employeeAddressField" prefHeight="35.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                <TextField fx:id="employeeJobDesignationField" prefHeight="35.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                <DatePicker fx:id="employeeDOBField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                <Label fx:id="employeeNameValidLabel" prefHeight="45.0" prefWidth="300.0" wrapText="true" GridPane.columnIndex="2" />
-                <Label fx:id="employeePasswordValidLabel" prefHeight="60.0" prefWidth="300.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                <Label fx:id="employeeConfPasswordValidLabel" prefHeight="45.0" prefWidth="300.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                <Label fx:id="employeePhoneNumberValidLabel" prefHeight="45.0" prefWidth="300.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                <Label fx:id="employeeAddressValidLabel" prefHeight="45.0" prefWidth="300.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                <Label fx:id="employeeDesignationValidLabel" prefHeight="45.0" prefWidth="300.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-                <Label fx:id="employeeDobValidLabel" prefHeight="45.0" prefWidth="300.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="6" />
-              <Button fx:id="registerEmployeeBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleRegisterEmployeeSubmit" styleClass="secondary-btn" stylesheets="@css/main.css" text="Submit" GridPane.columnSpan="2" GridPane.rowIndex="7" />
+                <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Name" GridPane.rowIndex="1" />
+                <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Password" GridPane.rowIndex="2" />
+                <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Confirm Password" GridPane.rowIndex="3" />
+                <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Phone Number" GridPane.rowIndex="4" />
+                <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Address" GridPane.rowIndex="5" />
+                <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Job Designation" GridPane.rowIndex="6" />
+                <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Date of Birth" GridPane.rowIndex="7" />
+            <TextField fx:id="employeeUserIdField" prefHeight="35.0" GridPane.columnIndex="1" />
+                <TextField fx:id="employeeNameField" prefHeight="35.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <PasswordField fx:id="employeePasswordField" prefHeight="35.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <PasswordField fx:id="employeeConfirmPasswordField" prefHeight="35.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                <TextField fx:id="employeeContactNoField" prefHeight="35.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                <TextField fx:id="employeeAddressField" prefHeight="35.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                <TextField fx:id="employeeJobDesignationField" prefHeight="35.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                <DatePicker fx:id="employeeDOBField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                <Label fx:id="employeeNameValidLabel" prefHeight="45.0" prefWidth="300.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                <Label fx:id="employeePasswordValidLabel" prefHeight="60.0" prefWidth="300.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                <Label fx:id="employeeConfPasswordValidLabel" prefHeight="45.0" prefWidth="300.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                <Label fx:id="employeePhoneNumberValidLabel" prefHeight="45.0" prefWidth="300.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                <Label fx:id="employeeAddressValidLabel" prefHeight="45.0" prefWidth="300.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                <Label fx:id="employeeDesignationValidLabel" prefHeight="45.0" prefWidth="300.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                <Label fx:id="employeeDobValidLabel" prefHeight="45.0" prefWidth="300.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+              <Button fx:id="registerEmployeeBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleRegisterEmployeeSubmit" styleClass="secondary-btn" stylesheets="@css/main.css" text="Submit" GridPane.columnSpan="2" GridPane.rowIndex="8" />
+            <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="User ID" />
+            <Label fx:id="employeeUserIdValidLabel" prefHeight="45.0" prefWidth="300.0" wrapText="true" GridPane.columnIndex="2" />
             </children>
          <VBox.margin>
             <Insets top="20.0" />

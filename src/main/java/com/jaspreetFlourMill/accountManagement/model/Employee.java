@@ -1,15 +1,22 @@
 package com.jaspreetFlourMill.accountManagement.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.http.*;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
+
+import static com.jaspreetFlourMill.accountManagement.util.Rest.BASE_URI;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Employee implements Serializable {
-    private String employeeId;
+
+    private User user;
+    private String id;
     private String name;
     private String password;
     private String contactNumber;
@@ -21,9 +28,9 @@ public class Employee implements Serializable {
 
     }
 
-    public Employee(String name, String password, String contactNumber, String address, String jobDesignation, LocalDate dob) {
+    public Employee(User user,String name, String contactNumber, String address, String jobDesignation, LocalDate dob) {
+        this.user = user;
         this.name = name;
-        this.password = password;
         this.contactNumber = contactNumber;
         this.address = address;
         this.jobDesignation = jobDesignation;
@@ -31,11 +38,11 @@ public class Employee implements Serializable {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
         this.dob = formatter.format(dob);
 
-        this.employeeId = name.substring(0,3) + "00" + dob.getMonthValue();
+//        this.id = name.substring(0,3) + "00" + dob.getMonthValue();
     }
 
-    public String getEmployeeId() {
-        return employeeId;
+    public String getId() {
+        return id;
     }
 
     public String getName() {
@@ -86,10 +93,22 @@ public class Employee implements Serializable {
         this.dob = dob;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "Employee{" +
-                "employeeId=" + employeeId +
+                "employeeId=" + id +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", contactNumber='" + contactNumber + '\'' +
@@ -97,5 +116,48 @@ public class Employee implements Serializable {
                 ", jobDesignation='" + jobDesignation + '\'' +
                 ", dob='" + dob + '\'' +
                 '}';
+    }
+
+    // POST Employee to API
+    public static boolean register(Employee newEmployee) throws Exception {
+        System.out.println("Registering employee ...." + newEmployee.getName());
+        String uri = BASE_URI + "/employees";
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<Employee> req = new HttpEntity<>(newEmployee, httpHeaders);
+        ResponseEntity<Employee> result = restTemplate.exchange(uri, HttpMethod.POST, req, Employee.class);
+
+        // Employee registration Successful
+        if(result.getStatusCode() == HttpStatus.CREATED){
+            System.out.println("Employee Registration successful for: " + result.getBody().getId());
+            return true;
+        }
+
+        // Employee registration failed
+        System.out.println("Employee Registration failed for: " + newEmployee.getId());
+        return false;
+    }
+
+    // GET Employee
+    public static Optional<Employee> getEmployee(User user) throws Exception{
+        System.out.println("Fetching employee ...." + user.getId());
+        String uri = BASE_URI + "/employees/" + user.getId();
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Employee> responseEntity = restTemplate.getForEntity(uri,Employee.class);
+
+        // Find customer successful
+        if(responseEntity.getStatusCode() == HttpStatus.OK){
+            Employee employee = responseEntity.getBody();
+            System.out.println("Fetched Employee : " + employee.getId());
+            return Optional.of(employee);
+        }
+
+        // Find customer failed
+        System.out.println("Failed to fetch employee: " + user.getId());
+        return Optional.empty();
+
     }
 }

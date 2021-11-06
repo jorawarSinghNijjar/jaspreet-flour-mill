@@ -1,12 +1,17 @@
 package com.jaspreetFlourMill.accountManagement.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 import java.util.UUID;
+
+import static com.jaspreetFlourMill.accountManagement.util.Rest.BASE_URI;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Transaction implements Serializable {
@@ -46,9 +51,9 @@ public class Transaction implements Serializable {
 
         this.customerBalanceGrindingCharges = grindingCharges - grindingChargesPaid;
 
-        // Update Database
+        // Update Transaction Details in Database
         try{
-            CustomerAccount customerAccount = CustomerAccount.getCustomerAccount(customer.getCustomerId());
+            CustomerAccount customerAccount = CustomerAccount.getCustomerAccount(customer.getCustomerId()).orElseThrow();
 
             // Update customerBalanceGrindingCharges to database
             double currentGrindingChargesBalance = customerAccount.getGrindingChargesBalance();
@@ -72,7 +77,8 @@ public class Transaction implements Serializable {
             CustomerAccount.updateCustomerAccount(customer.getCustomerId(),customerAccount);
         }
         catch(Exception e){
-            e.getMessage();
+            e.printStackTrace();
+            System.out.println("Transaction detail update failed !!!");
         }
 
 
@@ -196,10 +202,21 @@ public class Transaction implements Serializable {
         this.customer = customer;
     }
 
-    public static Transaction getTransaction(String id) throws Exception{
-        String uri = "http://localhost:8080/transactions/" + id;
+    // GET transaction by id
+    public static Optional<Transaction> getTransaction(String id) throws Exception{
+        String uri = BASE_URI  + "/transactions/" + id;
         RestTemplate restTemplate = new RestTemplate();
-        Transaction responseEntity = restTemplate.getForObject(uri,Transaction.class);
-        return responseEntity;
+        ResponseEntity<Transaction> responseEntity = restTemplate.getForEntity(uri,Transaction.class);
+
+        // Find transaction successful
+        if(responseEntity.getStatusCode() == HttpStatus.OK){
+            Transaction transaction = responseEntity.getBody();
+            System.out.println("Fetched Transaction : " + transaction.getTransactionId());
+            return Optional.of(transaction);
+        }
+
+        // Find transaction failed
+        System.out.println("Failed to fetch transaction: " + id);
+        return Optional.empty();
     }
 }

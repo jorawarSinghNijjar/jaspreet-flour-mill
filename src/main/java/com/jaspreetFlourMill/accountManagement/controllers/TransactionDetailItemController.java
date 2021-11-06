@@ -2,6 +2,7 @@ package com.jaspreetFlourMill.accountManagement.controllers;
 
 import com.jaspreetFlourMill.accountManagement.StageReadyEvent;
 import com.jaspreetFlourMill.accountManagement.model.Transaction;
+import com.jaspreetFlourMill.accountManagement.util.AlertDialog;
 import com.jaspreetFlourMill.accountManagement.util.Util;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -246,10 +247,13 @@ public class TransactionDetailItemController implements Initializable, Applicati
                 transactionPrintPreviewCV.getController();
         Transaction transaction = null;
         try{
-             transaction = Transaction.getTransaction(selectedTransactionId);
+             transaction = Transaction.getTransaction(selectedTransactionId).orElseThrow();
         }
         catch(Exception e){
             e.getMessage();
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(),Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
         }
         if(transaction != null & currentPrinter !=null){
             System.out.println("Previewing Transaction"

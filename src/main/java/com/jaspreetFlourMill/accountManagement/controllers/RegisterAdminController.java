@@ -2,6 +2,9 @@ package com.jaspreetFlourMill.accountManagement.controllers;
 
 import com.jaspreetFlourMill.accountManagement.StageReadyEvent;
 import com.jaspreetFlourMill.accountManagement.model.Admin;
+import com.jaspreetFlourMill.accountManagement.model.Role;
+import com.jaspreetFlourMill.accountManagement.model.User;
+import com.jaspreetFlourMill.accountManagement.util.AlertDialog;
 import com.jaspreetFlourMill.accountManagement.util.FormValidation;
 import com.jaspreetFlourMill.accountManagement.util.Util;
 import javafx.event.ActionEvent;
@@ -186,7 +189,7 @@ public class RegisterAdminController implements Initializable, ApplicationListen
     }
 
     private boolean registerAdmin(){
-        String adminId = adminIdInputField.getText();
+        String userId = adminIdInputField.getText();
         String password = adminPasswordInputField.getText();
         String confPassword = adminConfPasswordInputField.getText();
         String emailId = adminEmailIdInputField.getText();
@@ -197,18 +200,33 @@ public class RegisterAdminController implements Initializable, ApplicationListen
 
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = bCryptPasswordEncoder.encode(password);
-        Admin newAdmin = new Admin(adminId,encodedPassword,emailId);
+        User newUser = new User(userId,encodedPassword, Role.ADMIN);
 
-        if(newAdmin != null) {
+        if(newUser != null) {
             // POST request to register employee
             try {
-                HttpStatus httpStatus = Admin.register(newAdmin);
-                if (httpStatus.is2xxSuccessful()) {
-                    System.out.println("Welcome, " + newAdmin.getAdminId());
+                // User registration
+                if (User.register(newUser)) {
+                    // Admin registration
+                    Admin newAdmin = new Admin(newUser,emailId);
+                    try {
+                        Admin.register(newAdmin);
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                        System.out.println("Admin registration failed !!");
+                        // Information dialog
+                        AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(),Alert.AlertType.ERROR);
+                        alertDialog.showErrorDialog(e);
+                        return false;
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                System.out.println("Admin registration failed !!");
+                System.out.println("User registration failed !!");
+                // Information dialog
+                AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(),Alert.AlertType.ERROR);
+                alertDialog.showErrorDialog(e);
                 return false;
             }
         }
@@ -233,6 +251,7 @@ public class RegisterAdminController implements Initializable, ApplicationListen
             alert.setTitle("Error registering");
             alert.setHeaderText("Unable to register !");
             alert.setContentText("Please contact the customer support");
+            alert.show();
         }
     }
 

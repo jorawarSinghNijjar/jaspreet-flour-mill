@@ -1,11 +1,13 @@
 package com.jaspreetFlourMill.accountManagement.controllers;
 
 import com.jaspreetFlourMill.accountManagement.model.Customer;
+import com.jaspreetFlourMill.accountManagement.util.AlertDialog;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -83,7 +85,7 @@ public class CustomerListController implements Initializable {
 
     public void displayCustomers(){
         try {
-            this.customers = Customer.getAllCustomers();
+            this.customers = Customer.getAllCustomers().orElseThrow();
             for(Customer customer: customers){
                 Label customerLabel = new Label(customer.getName()
                         + "(ID-" + customer.getCustomerId() + " )" );
@@ -102,6 +104,9 @@ public class CustomerListController implements Initializable {
         catch (Exception e){
             System.out.println("Failed to get All Customers !");
             System.out.println(e.getMessage());
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(), Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
         }
     }
 

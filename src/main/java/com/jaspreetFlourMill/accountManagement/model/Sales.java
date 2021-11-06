@@ -1,11 +1,16 @@
 package com.jaspreetFlourMill.accountManagement.model;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.jaspreetFlourMill.accountManagement.util.Util;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.Serializable;
+import java.sql.SQLOutput;
+import java.util.Optional;
+
+import static com.jaspreetFlourMill.accountManagement.util.Rest.BASE_URI;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Sales implements Serializable {
@@ -36,14 +41,15 @@ public class Sales implements Serializable {
 
     private Double totalGrindingChargesPaid;
 
-    public Sales(){}
+    public Sales() {
+    }
 
     public Sales(String date, Double totalWheatSold, Double totalGrindingCharges,
                  Double totalGrindingChargesPaid) {
         this.date = date;
         String[] dateStrArr = date.split("-");
         int[] dateIntArr = new int[3];
-        for(int i=0; i<dateStrArr.length; i++){
+        for (int i = 0; i < dateStrArr.length; i++) {
             dateIntArr[i] = Integer.parseInt(dateStrArr[i]);
         }
         this.day = dateIntArr[2];
@@ -121,155 +127,149 @@ public class Sales implements Serializable {
         this.totalWheatDeposited += totalWheatDeposited;
     }
 
-    public static Sales[] getSalesForMonth(int month, int year){
+    // GET Sales for a particular month and year
+    public static Optional<Sales[]> getSalesForMonth(int month, int year) throws Exception {
+        System.out.println("Fetching sales for month: " + month + "-" + year);
 
-        try{
-            System.out.println("Retrieving sales for month: " + month + "-" + year );
-            String uri = "http://localhost:8080/sales/" + "/monthly/"+month + "/" + year;
-            RestTemplate restTemplate = new RestTemplate();
-            ResponseEntity<Sales[]> response = restTemplate.getForEntity(uri,Sales[].class);
+        String uri = BASE_URI + "/sales/" + "/monthly/" + month + "/" + year;
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Sales[]> response = restTemplate.getForEntity(uri, Sales[].class);
+
+        // Fetching Sales successful
+        if (response.getStatusCode() == HttpStatus.OK) {
             Sales[] salesForMonth = response.getBody();
-            return salesForMonth;
-        }
-        catch(Exception e){
-            e.printStackTrace();
-            return null;
+            System.out.println("Fetched sales: " + salesForMonth.length);
+            return Optional.of(salesForMonth);
         }
 
+        // Fetching Sales failed
+        System.out.println("Fetching sales failed for month: " + month + "-" + year);
+        return Optional.empty();
     }
 
-    public static Sales[] getSalesForYear(int year){
+    // GET Sales for a particular year
+    public static Optional<Sales[]> getSalesForYear(int year) throws Exception {
+        System.out.println("Fetching sales for year: " + year);
+        String uri = BASE_URI + "/sales/" + "yearly/" + year;
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Sales[]> response = restTemplate.getForEntity(uri, Sales[].class);
 
-        try{
-            System.out.println("Retrieving sales for year: " + year );
-            String uri = "http://localhost:8080/sales/" + "yearly/"+ year;
-            RestTemplate restTemplate = new RestTemplate();
-            ResponseEntity<Sales[]> response = restTemplate.getForEntity(uri,Sales[].class);
+        // Fetching Sales successful
+        if (response.getStatusCode() == HttpStatus.OK) {
+            System.out.println("Fetching sales successful for year: " + year);
             Sales[] salesForYear = response.getBody();
-            return salesForYear;
+            return Optional.of(salesForYear);
         }
-        catch(Exception e){
-            e.printStackTrace();
-            return null;
-        }
+
+        // Fetching Sales failed
+        System.out.println("Fetching sales failed for year: " + year);
+        return Optional.empty();
 
     }
 
-    public static Sales getSalesForDate(String date){
-        try{
-            System.out.println("Retrieving sales for date: " + date);
-            String uri = "http://localhost:8080/sales/" + date;
-            RestTemplate restTemplate = new RestTemplate();
-            Sales responseEntity = restTemplate.getForObject(uri,Sales.class);
-//            System.out.println("Sales retrieved: "+ responseEntity);
-            return responseEntity;
+    // GET Sales for a particular date
+    public static Optional<Sales> getSalesForDate(String date) throws Exception {
+        System.out.println("Fetching sales for date: " + date);
+        String uri = BASE_URI + "/sales/" + date;
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Sales> responseEntity = restTemplate.getForEntity(uri, Sales.class);
+
+        // Fetching Sales successful
+        if (responseEntity.getStatusCode() == HttpStatus.OK) {
+            System.out.println("Fetching sales successful for date: " + date);
+            Sales sales = responseEntity.getBody();
+            return Optional.of(sales);
         }
-       catch (Exception e){
-            e.getMessage();
-            return null;
-       }
+
+        // Fetching Sales failed
+        System.out.println("Fetching sales failed for date: " + date);
+        return Optional.empty();
     }
 
-    public static HttpStatus saveSales(Sales sales){
-        try {
-            System.out.println("Saving sale........");
-            final String uri =  "http://localhost:8080/sales/";
-            RestTemplate restTemplate = new RestTemplate();
+    // POST Sales
+    public static boolean saveSales(Sales sales) throws Exception {
+        System.out.println("Saving sale ........");
+        final String uri = BASE_URI + "/sales/";
+        RestTemplate restTemplate = new RestTemplate();
 
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
-            HttpEntity<Sales> req = new HttpEntity<>(sales,httpHeaders);
-            ResponseEntity<String> result = restTemplate.exchange(uri, HttpMethod.POST,req,String.class);
+        HttpEntity<Sales> req = new HttpEntity<>(sales, httpHeaders);
+        ResponseEntity<Sales> result = restTemplate.exchange(uri, HttpMethod.POST, req, Sales.class);
 
-            return result.getStatusCode();
+        // Saving Sale Successful
+        if (result.getStatusCode() == HttpStatus.CREATED) {
+            System.out.println("Saving Sale successful for: " + sales.getDate());
+            return true;
         }
-        catch (Exception e){
-            e.printStackTrace();
-            return null;
-        }
 
+        // Saving Sale failed
+        System.out.println("Saving Sale failed for: " + sales.getDate());
+        return false;
     }
 
-    public static String updateSales(String date,Sales sales) {
-        try{
-            System.out.println("Updating Sales..........");
-            String uri = "http://localhost:8080/sales/" + date;
-            RestTemplate restTemplate = new RestTemplate();
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+    // UPDATE Sales
+    public static boolean updateSales(String date, Sales sales) throws Exception {
 
-            HttpEntity<Sales> req = new HttpEntity<>(sales,httpHeaders);
-            ResponseEntity<String> responseEntity = restTemplate.exchange(uri, HttpMethod.PUT,req,String.class);
-            return responseEntity.getBody();
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            return null;
-        }
+        System.out.println("Updating Sale..........");
+        String uri = BASE_URI + "/sales/" + date;
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
-    }
-
-    public static void addWheatDeposit(double wheatDepositQty) {
-        System.out.println("addWheatDeposit()");
-        try {
-            ResponseEntity<Stock> response = Stock.getStock();
-            if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
-                // Needs to be changed
-                System.out.println("Stock not found");
-            } else {
-                Stock stock = response.getBody();
-                stock.addWheat(wheatDepositQty);
-                Stock.updateStock(stock);
-                Sales.updateWheatBalanceInSales(stock.getWheatBalance(), wheatDepositQty,true);
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
+        HttpEntity<Sales> req = new HttpEntity<>(sales, httpHeaders);
+        ResponseEntity<String> responseEntity = restTemplate.exchange(uri, HttpMethod.PUT, req, String.class);
+        // Updating Sale Successful
+        if (responseEntity.getStatusCode() == HttpStatus.OK) {
+            System.out.println("Updating Sale successful for: " + sales.getDate());
+            return true;
         }
 
+        // Updating Sale failed
+        System.out.println("Updating Sale failed for: " + sales.getDate());
+        return false;
 
     }
 
-    public void deductWheatSold(double flourPickupQty) throws Exception{
-        try {
-            ResponseEntity<Stock> response = Stock.getStock();
-            if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
-                System.out.println("Stock not found");
-            } else {
-                Stock stock = response.getBody();
-                stock.deductWheat(flourPickupQty);
-                Stock.updateStock(stock);
-                Sales.updateWheatBalanceInSales(stock.getWheatBalance(),0.00,false);
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-
+    // Add Wheat amount to Sales and Stock table
+    public static void addWheatDeposit(double wheatDepositQty) throws Exception {
+        System.out.println("Adding wheat amount - " + wheatDepositQty + " to wheatBalance....");
+        Stock stock = Stock.getStock().orElseThrow();
+        stock.addWheat(wheatDepositQty);
+        Stock.updateStock(stock);
+        Sales.updateWheatBalanceInSales(stock.getWheatBalance(), wheatDepositQty, true);
     }
 
+    // Deduct Wheat amount from Sales and Stock table
+    public void deductWheatSold(double flourPickupQty) throws Exception {
+        System.out.println("Deducting wheat amount - " + flourPickupQty + " from wheatBalance....");
+        Stock stock = Stock.getStock().orElseThrow();
+        stock.deductWheat(flourPickupQty);
+        Stock.updateStock(stock);
+        Sales.updateWheatBalanceInSales(stock.getWheatBalance(), 0.00, false);
+    }
 
+    // UPDATE Wheat Balance in Sales Table
     private static void updateWheatBalanceInSales(
             double wheatBalance,
             double wheatDepositQty,
             boolean wheatDeposit
-            ){
-        // Update stocks in Sales table
+    ) throws Exception {
 
-        Sales sales = Sales.getSalesForDate(Util.getDateForToday());
-        if(sales != null){
+        // Update stocks in Sales table
+        Sales sales = Sales.getSalesForDate(Util.getDateForToday()).orElseThrow();
+        if (sales != null) {
             System.out.println("Updating total stored wheat balance in sales table...");
             sales.setTotalStoredWheatBalance(wheatBalance);
 
-            if(wheatDeposit){
+            if (wheatDeposit) {
                 System.out.println("Updating total wheat deposit in sales table...");
                 sales.updateTotalWheatDeposited(wheatDepositQty);
             }
             // Update sales on backend
-            Sales.updateSales(Util.getDateForToday(),sales);
-        }
-        else{
+            Sales.updateSales(Util.getDateForToday(), sales);
+        } else {
             System.out.println("Today's first update for total stored wheat balance...");
             Sales sale = new Sales(
                     Util.getDateForToday(),
@@ -277,7 +277,7 @@ public class Sales implements Serializable {
                     0.00,
                     0.00);
             sale.setTotalStoredWheatBalance(wheatBalance);
-            if(wheatDeposit){
+            if (wheatDeposit) {
                 sale.updateTotalWheatDeposited(wheatDepositQty);
             }
             Sales.saveSales(sale);

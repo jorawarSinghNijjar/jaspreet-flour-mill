@@ -1,6 +1,7 @@
 package com.jaspreetFlourMill.accountManagement.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
@@ -10,6 +11,9 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
+
+import static com.jaspreetFlourMill.accountManagement.util.Rest.BASE_URI;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Customer implements Serializable {
@@ -103,19 +107,40 @@ public class Customer implements Serializable {
         this.customerId = customerId;
     }
 
-    public static Customer[] getAllCustomers() throws Exception{
-        String uri = "http://localhost:8080/customers";
+    public static Optional<Customer[]> getAllCustomers() throws Exception{
+        System.out.println("Fetching all customers....");
+        String uri = BASE_URI + "/customers";
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Customer[]> responseEntity = restTemplate.getForEntity(uri,Customer[].class);
-        Customer[] customers = responseEntity.getBody();
-        return customers;
+
+        // Find customers successful
+        if(responseEntity.getStatusCode() == HttpStatus.OK){
+            Customer[] customers = responseEntity.getBody();
+            System.out.println("Fetched customers: " + customers.length);
+            return Optional.of(customers);
+        }
+
+        // Find customers failed
+        System.out.println("Failed to fetch customers !!!");
+        return Optional.empty();
     }
 
-    public static Customer getCustomer(Integer id) throws Exception{
-        String uri = "http://localhost:8080/customers/" + id;
+    public static Optional<Customer> getCustomer(String id) throws Exception{
+        System.out.println("Fetching customer ...." + id);
+        String uri =  BASE_URI + "/customers/"+ id;
         RestTemplate restTemplate = new RestTemplate();
-        Customer responseEntity = restTemplate.getForObject(uri,Customer.class);
-        return responseEntity;
+        ResponseEntity<Customer> responseEntity = restTemplate.getForEntity(uri,Customer.class);
+
+        // Find customer successful
+        if(responseEntity.getStatusCode() == HttpStatus.OK){
+            Customer customer = responseEntity.getBody();
+            System.out.println("Fetched Customer : " + customer.getCustomerId());
+            return Optional.of(customer);
+        }
+
+        // Find customer failed
+        System.out.println("Failed to fetch customer: " + id);
+        return Optional.empty();
     }
 
     @Override

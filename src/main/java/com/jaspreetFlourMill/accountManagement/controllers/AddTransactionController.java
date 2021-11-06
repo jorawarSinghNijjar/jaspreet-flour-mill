@@ -1,10 +1,9 @@
 package com.jaspreetFlourMill.accountManagement.controllers;
 
+import com.jaspreetFlourMill.accountManagement.StageInitializer;
 import com.jaspreetFlourMill.accountManagement.StageReadyEvent;
-import com.jaspreetFlourMill.accountManagement.model.Customer;
-import com.jaspreetFlourMill.accountManagement.model.Employee;
-import com.jaspreetFlourMill.accountManagement.model.Sales;
-import com.jaspreetFlourMill.accountManagement.model.Transaction;
+import com.jaspreetFlourMill.accountManagement.model.*;
+import com.jaspreetFlourMill.accountManagement.util.AlertDialog;
 import com.jaspreetFlourMill.accountManagement.util.FormValidation;
 import com.jaspreetFlourMill.accountManagement.util.Util;
 import javafx.beans.value.ChangeListener;
@@ -28,6 +27,7 @@ import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.context.ApplicationListener;
 import org.springframework.http.*;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -116,6 +116,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
     private final FxWeaver fxWeaver;
     private Stage stage;
     private FormValidation addTransactionFormValidation;
+    private Role currentUserRole;
 
 
     public AddTransactionController(FxWeaver fxWeaver) {
@@ -124,7 +125,21 @@ public class AddTransactionController implements Initializable, ApplicationListe
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        // Authorization Check
+        if(StageInitializer.authentication.isAuthenticated()){
+            System.out.println("Current Cashier - " + StageInitializer.authentication.getUser().getId());
+            try {
+                User signedInUser = StageInitializer.authentication.getUser();
+                Employee employee = Employee.getEmployee(signedInUser).orElseThrow(() -> new UsernameNotFoundException("userId: " + signedInUser));
+                cashierName = employee.getName();
+            } catch (Exception e) {
+                e.printStackTrace();
+                // Information dialog
+                AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(), Alert.AlertType.ERROR);
+                alertDialog.showErrorDialog(e);
+            }
+            currentUserRole = StageInitializer.authentication.getUser().getRole();
+        }
 
 
         // Loading customerDetails.fxml
@@ -146,7 +161,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
 
         this.addEventListeners();
 
-        cashierName = this.getEmployeeName(AuthController.currentSession.getUserId());
+//        cashierName = this.getEmployeeName(AuthController.currentSession.getUserId());
         cashierNameLabel.setText(cashierName);
 
         // Input Change Listener for grinding rate input field
@@ -175,7 +190,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
         });
 
         // Submit form if Enter key is pressed
-        this.stage.getScene().setOnKeyPressed(keyEvent -> {
+        addTransactionVBoxContainer.setOnKeyPressed(keyEvent -> {
             if(keyEvent.getCode() == KeyCode.ENTER){
                 submitTransaction();
             }
@@ -259,8 +274,12 @@ public class AddTransactionController implements Initializable, ApplicationListe
         double grindingChargesPaid = Double.parseDouble(grindingChargesPaidInput.getText());
         String orderPickedBy = orderPickedByInput.getText();
 
+        if(!this.validateForm()){
+            return;
+        }
+
         try{
-            Customer customer = Customer.getCustomer(customerId);
+            Customer customer = Customer.getCustomer(String.valueOf(customerId)).orElseThrow();
             System.out.println("Grinding Charges ---->" + grindingCharges);
             Transaction newTransaction = new Transaction(
                     customer,
@@ -326,6 +345,9 @@ public class AddTransactionController implements Initializable, ApplicationListe
         }
         catch(Exception e){
             e.getMessage();
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(),Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
         }
     }
 
@@ -411,6 +433,9 @@ public class AddTransactionController implements Initializable, ApplicationListe
             catch(Exception e){
                 System.out.println("Failed to retrieve employee name");
                 e.printStackTrace();
+                // Information dialog
+                AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(),Alert.AlertType.ERROR);
+                alertDialog.showErrorDialog(e);
             }
         }
         System.out.println("Please enter a valid employee id");
@@ -420,7 +445,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
     private void updateSales(String date, Double flourPickupQty, Double grindingCharges, Double grindingChargesPaid) throws Exception{
 //        System.out.println("Inside update sales");
         // Get current Sales for this date
-        Sales sales = Sales.getSalesForDate(date);
+        Sales sales = Sales.getSalesForDate(date).orElseThrow();
 //        System.out.println("Sales retrieved: " + sales);
 
         if(sales != null){

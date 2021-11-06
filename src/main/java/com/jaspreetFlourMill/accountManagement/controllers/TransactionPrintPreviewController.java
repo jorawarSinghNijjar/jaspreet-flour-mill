@@ -3,6 +3,7 @@ package com.jaspreetFlourMill.accountManagement.controllers;
 import com.jaspreetFlourMill.accountManagement.StageReadyEvent;
 import com.jaspreetFlourMill.accountManagement.model.CustomerAccount;
 import com.jaspreetFlourMill.accountManagement.model.Transaction;
+import com.jaspreetFlourMill.accountManagement.util.AlertDialog;
 import com.jaspreetFlourMill.accountManagement.util.Util;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -90,13 +91,17 @@ public class TransactionPrintPreviewController implements Initializable, Applica
 
         try {
             customerId = transaction.getCustomer().getCustomerId();
-            currentPrintRow = CustomerAccount.getCustomerAccount(customerId).getRowsPrinted();
+            CustomerAccount customerAccount = CustomerAccount.getCustomerAccount(customerId).orElseThrow();
+            currentPrintRow = customerAccount.getRowsPrinted();
             currentPrintRow++;
             if (currentPrintRow > printRowsMax) {
                 nextPage = true;
             }
         } catch (Exception e) {
             e.getMessage();
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(),Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
         }
 
 
