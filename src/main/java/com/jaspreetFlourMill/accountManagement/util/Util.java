@@ -8,11 +8,14 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.joda.time.format.DateTimeFormat;
 
+import java.awt.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+
+import static javafx.scene.control.Alert.AlertType.INFORMATION;
 
 
 public class Util {
@@ -90,6 +93,16 @@ public class Util {
         stage.setX((Util.getScreenWidth() - width) / 2);
         stage.setY((Util.getScreenHeight() - height) / 2);
         return new Dimension2D(width,height);
+    }
+
+    public static boolean fieldIsEmpty(String string, String fieldName){
+        if(string.trim().length() == 0){
+            // Info Dialog
+            AlertDialog alertDialog = new AlertDialog("INFO", String.format("Invalid %s", fieldName), String.format("Please enter %s. %s Field is empty!", fieldName),INFORMATION);
+            alertDialog.showInformationDialog();
+            return true;
+        }
+        return false;
     }
 
 }

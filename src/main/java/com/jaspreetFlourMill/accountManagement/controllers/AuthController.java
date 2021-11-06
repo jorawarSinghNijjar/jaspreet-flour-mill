@@ -5,6 +5,7 @@ import com.jaspreetFlourMill.accountManagement.StageReadyEvent;
 
 
 import com.jaspreetFlourMill.accountManagement.util.AlertDialog;
+import com.jaspreetFlourMill.accountManagement.util.FormValidation;
 import com.jaspreetFlourMill.accountManagement.util.Util;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -67,6 +68,7 @@ public class AuthController implements Initializable, ApplicationListener<StageR
 
     private final FxWeaver fxWeaver;
     private Stage stage;
+    private FormValidation loginFormValidation;
 
     public AuthController(FxWeaver fxWeaver) {
         this.fxWeaver = fxWeaver;
@@ -106,74 +108,13 @@ public class AuthController implements Initializable, ApplicationListener<StageR
         stage = event.getStage();
     }
 
-//    public boolean login() {
-//        String userId = userIdField.getText();
-//        String password = passwordField.getText();
-//
-//        //GET request to get employee with userId
-//        if (userId == "" || userId == null) {
-//            System.out.println("Please enter User Id. Field is empty!");
-//            return false;
-//        }
-//        try {
-//
-//            // Check if user is an ADMIN or EMPLOYEE
-//            System.out.println(userId + "getUser()");
-//            ResponseEntity<User> responseEntity = User.getUser(userId);
-//            if (responseEntity.getStatusCode().is2xxSuccessful()) {
-//                User user = responseEntity.getBody();
-//
-//                String encodedPassword = responseEntity.getBody().getPassword();
-//                BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-//                boolean validPassword = bCryptPasswordEncoder.matches(password, encodedPassword);
-//
-//                if (!validPassword) {
-//                    // Information dialog for unsuccessful login
-//                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//                    alert.setTitle("Invalid Password");
-//                    alert.setHeaderText("Unable to login !");
-//                    return false;
-//                } else {
-//
-//                    if (user.getRole() == Role.ADMIN) {
-////                        UserSession.getInstance(userId, UserSession.UserType.ADMIN);
-//                        stage.setScene(new Scene(fxWeaver.loadView(ContentController.class), Util.getScreenWidth(), Util.getScreenHeight()));
-//                        stage.setX(0);
-//                        stage.setY(0);
-//                        stage.setMaximized(true);
-//                        stage.show();
-//                        return true;
-//                    }
-//                    else{
-////                        UserSession.getInstance(userId, UserSession.UserType.EMPLOYEE);
-//                        stage.setScene(new Scene(fxWeaver.loadView(ContentController.class), Util.getScreenWidth(), Util.getScreenHeight()));
-//                        stage.setX(0);
-//                        stage.setY(0);
-//                        stage.setMaximized(true);
-//                        stage.show();
-//                        return true;
-//                    }
-//
-//                }
-//
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            // Information dialog
-//            AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(),Alert.AlertType.ERROR);
-//            alertDialog.showErrorDialog(e);
-//            return false;
-//        }
-//
-//       return false;
-//    }
-
     public boolean login(){
         String userId = userIdField.getText();
         String password = passwordField.getText();
         try {
-            StageInitializer.authentication.login(userId,password);
+            if(!StageInitializer.authentication.login(userId,password)){
+                return false;
+            }
             System.out.println("Loading Dashboard ....");
             stage.setScene(new Scene(fxWeaver.loadView(ContentController.class), Util.getScreenWidth(), Util.getScreenHeight()));
             stage.setX(0);
@@ -184,9 +125,10 @@ public class AuthController implements Initializable, ApplicationListener<StageR
         }
         catch (Exception e){
             // Error dialog
-            AlertDialog alertDialog = new AlertDialog("Error",e.getMessage(),e.getLocalizedMessage(), Alert.AlertType.ERROR);
+            AlertDialog alertDialog = new AlertDialog("Error","Unable to Login !",e.getLocalizedMessage(), Alert.AlertType.ERROR);
             alertDialog.showErrorDialog(e);
             return false;
         }
     }
+
 }
