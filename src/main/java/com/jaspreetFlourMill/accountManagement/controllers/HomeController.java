@@ -322,93 +322,74 @@ public class HomeController implements Initializable {
 
     // Display Sales for today
     private void displaySalesForToday(String currentDay){
-        try{
             salesQtyChart.getData().clear();
             salesAmtChart.getData().clear();
             this.initializeSalesQtySeries();
             this.initializeSalesAmtSeries();
-            Sales salesToday = Sales.getSalesForDate(currentDay).orElseThrow();
-
-            if(salesToday!=null){
-                wheatSoldDisplay.setText(salesToday.getTotalWheatSold().toString());
-                wheatBalanceDisplay.setText(salesToday.getTotalStoredWheatBalance().toString());
-                wheatDepositDisplay.setText(salesToday.getTotalWheatDeposited().toString());
-                grindingChargesPaidDisplay.setText(salesToday.getTotalGrindingChargesPaid().toString());
-                grindingChargesDisplay.setText(salesToday.getTotalGrindingCharges().toString());
-            }
-            else{
-                System.out.println("No sales made today");
-                wheatSoldDisplay.setText("0.00");
-                grindingChargesPaidDisplay.setText("0.00");
-                grindingChargesDisplay.setText("0.00");
-            }
-
-        }
-        catch (Exception e){
-            System.out.println(e.getMessage());
-            // Information dialog
-            AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(), Alert.AlertType.ERROR);
-            alertDialog.showErrorDialog(e);
-        }
+            Sales.getSalesForDate(currentDay).ifPresent( salesToday -> {
+                if(salesToday!=null){
+                    wheatSoldDisplay.setText(salesToday.getTotalWheatSold().toString());
+                    wheatBalanceDisplay.setText(salesToday.getTotalStoredWheatBalance().toString());
+                    wheatDepositDisplay.setText(salesToday.getTotalWheatDeposited().toString());
+                    grindingChargesPaidDisplay.setText(salesToday.getTotalGrindingChargesPaid().toString());
+                    grindingChargesDisplay.setText(salesToday.getTotalGrindingCharges().toString());
+                }
+                else{
+                    System.out.println("No sales made today");
+                    wheatSoldDisplay.setText("0.00");
+                    grindingChargesPaidDisplay.setText("0.00");
+                    grindingChargesDisplay.setText("0.00");
+                }
+            });
     }
+
     // Display Sales for month
     private void displaySalesForMonth(int month,int year){
         System.out.println("displaySalesForMonth()");
-        try {
+
             salesQtyChart.getData().clear();
             salesAmtChart.getData().clear();
             this.initializeSalesQtySeries();
             this.initializeSalesAmtSeries();
-            Sales[] salesForMonth = Sales.getSalesForMonth(month,year).orElseThrow();
-//            this.printTotalWheatSold(salesForMonth);
+            Sales.getSalesForMonth(month,year).ifPresent(salesForMonth -> {
+                if(salesForMonth != null && salesForMonth.length !=0){
+                    double monthlyWheatSold = 0.00;
+                    double monthlyGrindingAmountReceived =0.00;
+                    double monthlyGrindingAmount = 0.00;
 
-            if(salesForMonth != null && salesForMonth.length !=0){
-                double monthlyWheatSold = 0.00;
-                double monthlyGrindingAmountReceived =0.00;
-                double monthlyGrindingAmount = 0.00;
+                    for(Sales sale: salesForMonth){
+                        monthlyWheatSold+=sale.getTotalWheatSold();
+                        monthlyGrindingAmount+=sale.getTotalGrindingCharges();
+                        monthlyGrindingAmountReceived+=sale.getTotalGrindingChargesPaid();
+                    }
 
-                for(Sales sale: salesForMonth){
-                    monthlyWheatSold+=sale.getTotalWheatSold();
-                    monthlyGrindingAmount+=sale.getTotalGrindingCharges();
-                    monthlyGrindingAmountReceived+=sale.getTotalGrindingChargesPaid();
+                    // Round off to 2 decimal places
+                    monthlyWheatSold = Util.roundOff(monthlyWheatSold);
+                    monthlyGrindingAmount = Util.roundOff(monthlyGrindingAmount);
+                    monthlyGrindingAmountReceived = Util.roundOff(monthlyGrindingAmountReceived);
+
+                    wheatSoldDisplay.setText(String.valueOf(monthlyWheatSold));
+                    grindingChargesPaidDisplay.setText(String.valueOf(monthlyGrindingAmountReceived));
+                    grindingChargesDisplay.setText(String.valueOf(monthlyGrindingAmount));
+
+                    this.populateDailyDataToChart(wheatSalesSeries,salesForMonth,"MONTH");
+                    this.populateDailyDataToChart(wheatBalanceSeries,salesForMonth,"MONTH");
+                    this.populateDailyDataToChart(wheatDepositSeries,salesForMonth,"MONTH");
+                    this.populateDailyDataToChart(grindingChargesSeries,salesForMonth,"MONTH");
+                    this.populateDailyDataToChart(grindingChargesPaidSeries,salesForMonth,"MONTH");
+
                 }
-
-                // Round off to 2 decimal places
-                monthlyWheatSold = Util.roundOff(monthlyWheatSold);
-                monthlyGrindingAmount = Util.roundOff(monthlyGrindingAmount);
-                monthlyGrindingAmountReceived = Util.roundOff(monthlyGrindingAmountReceived);
-
-                wheatSoldDisplay.setText(String.valueOf(monthlyWheatSold));
-                grindingChargesPaidDisplay.setText(String.valueOf(monthlyGrindingAmountReceived));
-                grindingChargesDisplay.setText(String.valueOf(monthlyGrindingAmount));
-
-                this.populateDailyDataToChart(wheatSalesSeries,salesForMonth,"MONTH");
-                this.populateDailyDataToChart(wheatBalanceSeries,salesForMonth,"MONTH");
-                this.populateDailyDataToChart(wheatDepositSeries,salesForMonth,"MONTH");
-                this.populateDailyDataToChart(grindingChargesSeries,salesForMonth,"MONTH");
-                this.populateDailyDataToChart(grindingChargesPaidSeries,salesForMonth,"MONTH");
-
-            }
-            else{
-                System.out.println("No sales found in month: " + month);
-                wheatSoldDisplay.setText("0.00");
-                grindingChargesPaidDisplay.setText("0.00");
-                grindingChargesDisplay.setText("0.00");
-            }
-
-        }
-        catch (Exception e){
-            System.out.println(e.getMessage());
-            // Information dialog
-            AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(),Alert.AlertType.ERROR);
-            alertDialog.showErrorDialog(e);
-        }
-
+                else{
+                    System.out.println("No sales found in month: " + month);
+                    wheatSoldDisplay.setText("0.00");
+                    grindingChargesPaidDisplay.setText("0.00");
+                    grindingChargesDisplay.setText("0.00");
+                }
+            });
     }
     // Display Sales for year
     private void displaySalesforYear(int year){
-        System.out.println("displaySalesForYear()");
-        try {
+
             salesQtyChart.getData().clear();
             salesAmtChart.getData().clear();
             this.initializeSalesQtySeries();
@@ -422,49 +403,40 @@ public class HomeController implements Initializable {
                 monthlySales.put(i,new MonthlySales(i,salesForMonth));
             }
 
-            Sales[] salesForYear = Sales.getSalesForYear(year).orElseThrow();
+            Sales.getSalesForYear(year).ifPresentOrElse(salesForYear -> {
+                if(salesForYear != null && salesForYear.length !=0){
 
-            if(salesForYear != null && salesForYear.length !=0){
+                    double yearlyWheatSold = 0.00;
+                    double yearlyGrindingAmountReceived =0.00;
+                    double yearlyGrindingAmount = 0.00;
 
-                double yearlyWheatSold = 0.00;
-                double yearlyGrindingAmountReceived =0.00;
-                double yearlyGrindingAmount = 0.00;
+                    for(Sales sale: salesForYear){
+                        yearlyWheatSold+=sale.getTotalWheatSold();
+                        yearlyGrindingAmount+=sale.getTotalGrindingCharges();
+                        yearlyGrindingAmountReceived+=sale.getTotalGrindingChargesPaid();
+                    }
 
-                for(Sales sale: salesForYear){
-                    yearlyWheatSold+=sale.getTotalWheatSold();
-                    yearlyGrindingAmount+=sale.getTotalGrindingCharges();
-                    yearlyGrindingAmountReceived+=sale.getTotalGrindingChargesPaid();
+                    // Round off to 2 decimal places
+                    yearlyWheatSold = Util.roundOff(yearlyWheatSold);
+                    yearlyGrindingAmount = Util.roundOff(yearlyGrindingAmount);
+                    yearlyGrindingAmountReceived = Util.roundOff(yearlyGrindingAmountReceived);
+
+                    wheatSoldDisplay.setText(String.valueOf(yearlyWheatSold));
+                    grindingChargesPaidDisplay.setText(String.valueOf(yearlyGrindingAmountReceived));
+                    grindingChargesDisplay.setText(String.valueOf(yearlyGrindingAmount));
+
+                    this.populateMonthlyDataToChart(wheatSalesSeries,monthlySales,"YEAR");
+                    this.populateMonthlyDataToChart(wheatDepositSeries,monthlySales,"YEAR");
+                    this.populateMonthlyDataToChart(grindingChargesSeries,monthlySales,"YEAR");
+                    this.populateMonthlyDataToChart(grindingChargesPaidSeries,monthlySales,"YEAR");
                 }
 
-                // Round off to 2 decimal places
-                yearlyWheatSold = Util.roundOff(yearlyWheatSold);
-                yearlyGrindingAmount = Util.roundOff(yearlyGrindingAmount);
-                yearlyGrindingAmountReceived = Util.roundOff(yearlyGrindingAmountReceived);
-
-                wheatSoldDisplay.setText(String.valueOf(yearlyWheatSold));
-                grindingChargesPaidDisplay.setText(String.valueOf(yearlyGrindingAmountReceived));
-                grindingChargesDisplay.setText(String.valueOf(yearlyGrindingAmount));
-
-                this.populateMonthlyDataToChart(wheatSalesSeries,monthlySales,"YEAR");
-                this.populateMonthlyDataToChart(wheatDepositSeries,monthlySales,"YEAR");
-                this.populateMonthlyDataToChart(grindingChargesSeries,monthlySales,"YEAR");
-                this.populateMonthlyDataToChart(grindingChargesPaidSeries,monthlySales,"YEAR");
-            }
-            else{
+            }, () ->{
                 System.out.println("No sales found in year: " + year);
                 wheatSoldDisplay.setText("0.00");
                 grindingChargesPaidDisplay.setText("0.00");
                 grindingChargesDisplay.setText("0.00");
-            }
-
-        }
-        catch (Exception e){
-            System.out.println(e.getMessage());
-            // Information dialog
-            AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(),Alert.AlertType.ERROR);
-            alertDialog.showErrorDialog(e);
-        }
-
+            });
     }
 
     // Toggles comboBox visibility

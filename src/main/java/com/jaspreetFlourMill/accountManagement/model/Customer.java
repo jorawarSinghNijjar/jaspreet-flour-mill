@@ -3,6 +3,7 @@ package com.jaspreetFlourMill.accountManagement.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
@@ -38,7 +39,7 @@ public class Customer implements Serializable {
         this.idProof = idProof;
     }
 
-    public Customer(){
+    public Customer() {
 
     }
 
@@ -107,35 +108,46 @@ public class Customer implements Serializable {
         this.customerId = customerId;
     }
 
-    public static Optional<Customer[]> getAllCustomers() throws Exception{
-        System.out.println("Fetching all customers....");
-        String uri = BASE_URI + "/customers";
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Customer[]> responseEntity = restTemplate.getForEntity(uri,Customer[].class);
+    public static Optional<Customer[]> getAllCustomers() {
+        try {
+            System.out.println("Fetching all customers....");
+            String uri = BASE_URI + "/customers";
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<Customer[]> responseEntity = restTemplate.getForEntity(uri, Customer[].class);
 
-        // Find customers successful
-        if(responseEntity.getStatusCode() == HttpStatus.OK){
-            Customer[] customers = responseEntity.getBody();
-            System.out.println("Fetched customers: " + customers.length);
-            return Optional.of(customers);
+            // Find customers successful
+            if (responseEntity.getStatusCode() == HttpStatus.OK) {
+                Customer[] customers = responseEntity.getBody();
+                System.out.println("Fetched customers: " + customers.length);
+                return Optional.of(customers);
+            }
+        } catch (HttpClientErrorException.NotFound e) {
+            // Customers not found
+            System.out.println("Customers not found !");
+            return Optional.empty();
         }
 
-        // Find customers failed
-        System.out.println("Failed to fetch customers !!!");
         return Optional.empty();
     }
 
-    public static Optional<Customer> getCustomer(String id) throws Exception{
-        System.out.println("Fetching customer ...." + id);
-        String uri =  BASE_URI + "/customers/"+ id;
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Customer> responseEntity = restTemplate.getForEntity(uri,Customer.class);
+    public static Optional<Customer> getCustomer(String id) {
+        try {
+            System.out.println("Fetching customer ...." + id);
+            String uri = BASE_URI + "/customers/" + id;
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<Customer> responseEntity = restTemplate.getForEntity(uri, Customer.class);
 
-        // Find customer successful
-        if(responseEntity.getStatusCode() == HttpStatus.OK){
-            Customer customer = responseEntity.getBody();
-            System.out.println("Fetched Customer : " + customer.getCustomerId());
-            return Optional.of(customer);
+            // Find customer successful
+            if (responseEntity.getStatusCode() == HttpStatus.OK) {
+                Customer customer = responseEntity.getBody();
+                System.out.println("Fetched Customer : " + customer.getCustomerId());
+                return Optional.of(customer);
+            }
+
+        } catch (HttpClientErrorException.NotFound e) {
+            // Customer not found
+            System.out.println("Customer not found: " + id);
+            return Optional.empty();
         }
 
         // Find customer failed

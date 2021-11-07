@@ -1,8 +1,10 @@
 package com.jaspreetFlourMill.accountManagement.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.jaspreetFlourMill.accountManagement.util.AlertDialog;
+import javafx.scene.control.Alert;
+import org.springframework.http.*;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.Serializable;
@@ -203,20 +205,55 @@ public class Transaction implements Serializable {
     }
 
     // GET transaction by id
-    public static Optional<Transaction> getTransaction(String id) throws Exception{
-        String uri = BASE_URI  + "/transactions/" + id;
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Transaction> responseEntity = restTemplate.getForEntity(uri,Transaction.class);
+    public static Optional<Transaction> getTransaction(String id) {
+        try{
+            String uri = BASE_URI  + "/transactions/" + id;
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<Transaction> responseEntity = restTemplate.getForEntity(uri,Transaction.class);
 
-        // Find transaction successful
-        if(responseEntity.getStatusCode() == HttpStatus.OK){
-            Transaction transaction = responseEntity.getBody();
-            System.out.println("Fetched Transaction : " + transaction.getTransactionId());
-            return Optional.of(transaction);
+            // Find transaction successful
+            if(responseEntity.getStatusCode() == HttpStatus.OK){
+                Transaction transaction = responseEntity.getBody();
+                System.out.println("Fetched Transaction : " + transaction.getTransactionId());
+                return Optional.of(transaction);
+            }
+        }
+        catch (HttpClientErrorException.NotFound e){
+            System.out.println("Transaction not found: " + id);
+            return Optional.empty();
         }
 
         // Find transaction failed
         System.out.println("Failed to fetch transaction: " + id);
+        return Optional.empty();
+    }
+
+    // POST transaction
+    public static Optional<Transaction> saveTransaction(Transaction newTransaction) {
+        try {
+            String uri = BASE_URI  + "/transactions/";
+            RestTemplate restTemplate = new RestTemplate();
+
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+            HttpEntity<Transaction> req = new HttpEntity<>(newTransaction,httpHeaders);
+            ResponseEntity<Transaction> responseEntity = restTemplate.exchange(uri, HttpMethod.POST,req,Transaction.class);
+
+            if(responseEntity.getStatusCode() == HttpStatus.CREATED){
+                Transaction savedTransaction = responseEntity.getBody();
+                System.out.println("Saved Transaction : " + savedTransaction.getTransactionId());
+                return Optional.of(savedTransaction);
+            }
+        }
+        catch (Exception e){
+            String errMessage = "Failed to save transaction : " + newTransaction.getTransactionId();
+            System.out.println(errMessage);
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error",errMessage,e.getMessage(), Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
+            return Optional.empty();
+        }
         return Optional.empty();
     }
 }

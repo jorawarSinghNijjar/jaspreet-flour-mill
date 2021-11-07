@@ -2,6 +2,7 @@ package com.jaspreetFlourMill.accountManagement.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.http.*;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.naming.directory.SearchResult;
@@ -71,8 +72,7 @@ public class Stock implements Serializable {
     }
 
     // UPDATE Stock
-    public static Optional<Stock> updateStock(Stock stock) throws Exception{
-
+    public static Optional<Stock> updateStock(Stock stock){
         System.out.println("Updating Stock..........");
         String uri = BASE_URI + "/stocks/update";
         RestTemplate restTemplate = new RestTemplate();
@@ -92,21 +92,26 @@ public class Stock implements Serializable {
         // Updating stock unsuccessful
         System.out.println("Failed to update stock, Current Wheat Balance: " + stock.getWheatBalance());
         return Optional.empty();
-
-
     }
 
     // GET stock
-    public static Optional<Stock> getStock() throws Exception{
-        String uri = BASE_URI + "/stocks/get";
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Stock> responseEntity = restTemplate.getForEntity(uri, Stock.class);
+    public static Optional<Stock> getStock() {
+        try {
+            String uri = BASE_URI + "/stocks/get";
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<Stock> responseEntity = restTemplate.getForEntity(uri, Stock.class);
 
-        // Fetching stock successful
-        if (responseEntity.getStatusCode() == HttpStatus.OK) {
-            Stock stock = responseEntity.getBody();
-            System.out.println("Fetched stock, Current Wheat Balance: " + stock.getWheatBalance());
-            return Optional.of(stock);
+            // Fetching stock successful
+            if (responseEntity.getStatusCode() == HttpStatus.OK) {
+                Stock stock = responseEntity.getBody();
+                System.out.println("Fetched stock, Current Wheat Balance: " + stock.getWheatBalance());
+                return Optional.of(stock);
+            }
+
+        }
+        catch (HttpClientErrorException.NotFound e){
+            System.out.println("Stock does not exist !");
+            return Optional.empty();
         }
 
         // Fetching stock unsuccessful

@@ -109,9 +109,9 @@ public class AddTransactionController implements Initializable, ApplicationListe
 
     private FxControllerAndView<TransactionDetailController, Node> transactionDetailsCV;
 
-    private FxControllerAndView<TransactionDetailItemController,Node> transactionDetailItemCV;
+    private FxControllerAndView<TransactionDetailItemController, Node> transactionDetailItemCV;
 
-    private FxControllerAndView<TransactionPrintPreviewController,Node> transactionPrintPreviewCV;
+    private FxControllerAndView<TransactionPrintPreviewController, Node> transactionPrintPreviewCV;
 
     private final FxWeaver fxWeaver;
     private Stage stage;
@@ -126,7 +126,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Authorization Check
-        if(StageInitializer.authentication.isAuthenticated()){
+        if (StageInitializer.authentication.isAuthenticated()) {
             System.out.println("Current Cashier - " + StageInitializer.authentication.getUser().getId());
             try {
                 User signedInUser = StageInitializer.authentication.getUser();
@@ -135,7 +135,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
             } catch (Exception e) {
                 e.printStackTrace();
                 // Information dialog
-                AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(), Alert.AlertType.ERROR);
+                AlertDialog alertDialog = new AlertDialog("Error", e.getCause().getMessage(), e.getMessage(), Alert.AlertType.ERROR);
                 alertDialog.showErrorDialog(e);
             }
             currentUserRole = StageInitializer.authentication.getUser().getRole();
@@ -151,13 +151,13 @@ public class AddTransactionController implements Initializable, ApplicationListe
 
         // Form Validation
         addTransactionFormValidation = new FormValidation();
-        addTransactionFormValidation.getFormFields().put("customer-id",false);
-        addTransactionFormValidation.getFormFields().put("flour-pickup-qty",false);
-        addTransactionFormValidation.getFormFields().put("grinding-rate",false);
-        addTransactionFormValidation.getFormFields().put("grinding-charges",false);
-        addTransactionFormValidation.getFormFields().put("grinding-charges-paid",false);
-        addTransactionFormValidation.getFormFields().put("order-picked-by",false);
-        addTransactionFormValidation.getFormFields().put("cashier",false);
+        addTransactionFormValidation.getFormFields().put("customer-id", false);
+        addTransactionFormValidation.getFormFields().put("flour-pickup-qty", false);
+        addTransactionFormValidation.getFormFields().put("grinding-rate", false);
+        addTransactionFormValidation.getFormFields().put("grinding-charges", false);
+        addTransactionFormValidation.getFormFields().put("grinding-charges-paid", false);
+        addTransactionFormValidation.getFormFields().put("order-picked-by", false);
+        addTransactionFormValidation.getFormFields().put("cashier", false);
 
         this.addEventListeners();
 
@@ -165,10 +165,10 @@ public class AddTransactionController implements Initializable, ApplicationListe
         cashierNameLabel.setText(cashierName);
 
         // Input Change Listener for grinding rate input field
-        grindingRateInput.textProperty().addListener( (observableValue, oldValue, newValue) -> {
+        grindingRateInput.textProperty().addListener((observableValue, oldValue, newValue) -> {
             String flourPickupQtyInputText = flourPickupQtyInput.getText();
-            if( !flourPickupQtyInputText.isEmpty() && flourPickupQtyInputText !=null){
-                if(!newValue.isEmpty() && newValue != null) {
+            if (!flourPickupQtyInputText.isEmpty() && flourPickupQtyInputText != null) {
+                if (!newValue.isEmpty() && newValue != null) {
                     grindingCharges = Double.parseDouble(flourPickupQtyInputText)
                             * Double.parseDouble(newValue);
                     grindingChargesInput.setText(String.valueOf(grindingCharges));
@@ -178,10 +178,10 @@ public class AddTransactionController implements Initializable, ApplicationListe
         });
 
         // Input Change Listener for grinding rate input field
-        flourPickupQtyInput.textProperty().addListener( (observableValue, oldValue, newValue) -> {
+        flourPickupQtyInput.textProperty().addListener((observableValue, oldValue, newValue) -> {
             String grindingRateInputText = grindingRateInput.getText();
-            if( !grindingRateInputText.isEmpty() && grindingRateInputText !=null) {
-                if(!newValue.isEmpty() && newValue != null) {
+            if (!grindingRateInputText.isEmpty() && grindingRateInputText != null) {
+                if (!newValue.isEmpty() && newValue != null) {
                     grindingCharges = Double.parseDouble(grindingRateInputText)
                             * Double.parseDouble(newValue);
                     grindingChargesInput.setText(String.valueOf(grindingCharges));
@@ -191,7 +191,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
 
         // Submit form if Enter key is pressed
         addTransactionVBoxContainer.setOnKeyPressed(keyEvent -> {
-            if(keyEvent.getCode() == KeyCode.ENTER){
+            if (keyEvent.getCode() == KeyCode.ENTER) {
                 submitTransaction();
             }
         });
@@ -203,7 +203,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
                     newVal,
                     tfCustomerIdValidLabel
             ).isValid();
-            addTransactionFormValidation.getFormFields().put("customer-id",valid);
+            addTransactionFormValidation.getFormFields().put("customer-id", valid);
             this.validateForm();
 
         });
@@ -213,7 +213,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
                     newVal,
                     tfFlourPickupQtyValidLabel
             ).isValid();
-            addTransactionFormValidation.getFormFields().put("flour-pickup-qty",valid);
+            addTransactionFormValidation.getFormFields().put("flour-pickup-qty", valid);
             this.validateForm();
 
         });
@@ -223,7 +223,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
                     newVal,
                     tfGrindingRateValidLabel
             ).isValid();
-            addTransactionFormValidation.getFormFields().put("grinding-rate",valid);
+            addTransactionFormValidation.getFormFields().put("grinding-rate", valid);
             this.validateForm();
 
         });
@@ -233,7 +233,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
                     newVal,
                     tfGrindingChargesPaidValidLabel
             ).isValid();
-            addTransactionFormValidation.getFormFields().put("grinding-charges-paid",valid);
+            addTransactionFormValidation.getFormFields().put("grinding-charges-paid", valid);
             this.validateForm();
         });
 
@@ -242,7 +242,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
                     newVal,
                     tfOrderPickedByValidLabel
             ).isValid();
-            addTransactionFormValidation.getFormFields().put("order-picked-by",valid);
+            addTransactionFormValidation.getFormFields().put("order-picked-by", valid);
             this.validateForm();
         });
 
@@ -251,17 +251,16 @@ public class AddTransactionController implements Initializable, ApplicationListe
                     newVal,
                     tfCashierValidLabel
             ).isValid();
-            addTransactionFormValidation.getFormFields().put("cashier",valid);
+            addTransactionFormValidation.getFormFields().put("cashier", valid);
             this.validateForm();
         });
     }
 
     private boolean validateForm() {
-        if(addTransactionFormValidation.getFormFields().containsValue(false)){
+        if (addTransactionFormValidation.getFormFields().containsValue(false)) {
             submitTransactionBtn.setDisable(true);
             return false;
-        }
-        else{
+        } else {
             submitTransactionBtn.setDisable(false);
             return true;
         }
@@ -274,12 +273,11 @@ public class AddTransactionController implements Initializable, ApplicationListe
         double grindingChargesPaid = Double.parseDouble(grindingChargesPaidInput.getText());
         String orderPickedBy = orderPickedByInput.getText();
 
-        if(!this.validateForm()){
+        if (!this.validateForm()) {
             return;
         }
 
-        try{
-            Customer customer = Customer.getCustomer(String.valueOf(customerId)).orElseThrow();
+        Customer.getCustomer(String.valueOf(customerId)).ifPresent(customer -> {
             System.out.println("Grinding Charges ---->" + grindingCharges);
             Transaction newTransaction = new Transaction(
                     customer,
@@ -291,74 +289,52 @@ public class AddTransactionController implements Initializable, ApplicationListe
                     cashierName
             );
 
-//            System.out.println("New transaction: " + newTransaction.toString());
+            Transaction.saveTransaction(newTransaction).ifPresent(savedTransaction -> {
+                this.updateSales(
+                        newTransaction.getDate(),
+                        flourPickupQty,
+                        grindingCharges,
+                        grindingChargesPaid
+                );
 
-            if(newTransaction != null){
-                // POST request to register employee
-                final String uri =  "http://localhost:8080/transactions/";
-                RestTemplate restTemplate = new RestTemplate();
+                // Confirmation dialog for printing the transaction
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmation Dialog");
+                alert.setHeaderText("Transaction Successful !");
+                alert.setContentText("Do you want to print the transaction?");
 
-                HttpHeaders httpHeaders = new HttpHeaders();
-                httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+                Optional<ButtonType> response = alert.showAndWait();
+                if (response.get() == ButtonType.OK) {
+                    // ... user chose OK
+                    System.out.println("Printing Transaction...");
+                    this.printTransaction(newTransaction.getTransactionId());
 
-                HttpEntity<Transaction> req = new HttpEntity<>(newTransaction,httpHeaders);
-                ResponseEntity<String> result = restTemplate.exchange(uri, HttpMethod.POST,req,String.class);
-//                System.out.println(result);
-                if(result != null){
-//                    System.out.println("Before calling update sales....");
-                    this.updateSales(
-                            newTransaction.getDate(),
-                            flourPickupQty,
-                            grindingCharges,
-                            grindingChargesPaid
-                    );
-
-                    // Confirmation dialog for printing the transaction
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                    alert.setTitle("Confirmation Dialog");
-                    alert.setHeaderText("Transaction Successful !");
-                    alert.setContentText("Do you want to print the transaction?");
-
-                    Optional<ButtonType> response = alert.showAndWait();
-                    if (response.get() == ButtonType.OK){
-                        // ... user chose OK
-                        System.out.println("Printing Transaction...");
-                        this.printTransaction(newTransaction.getTransactionId());
-
-                    } else {
-                        // ... user chose CANCEL or closed the dialog
-                        System.out.println("Transaction printing cancelled");
-                    }
-
-                    flourPickupQtyInput.setText("");
-                    grindingChargesInput.setText("");
-                    grindingChargesPaidInput.setText("");
-                    orderPickedByInput.setText("");
-                    grindingRateInput.setText("");
-
-                    customerDetailsCV.getController().updateCustomerDetails(String.valueOf(customerId));
-                    transactionDetailsCV.getController().clearTransactionDisplay();
-                    transactionDetailsCV.getController().renderTransactions(String.valueOf(customerId));
+                } else {
+                    // ... user chose CANCEL or closed the dialog
+                    System.out.println("Transaction printing cancelled");
                 }
-            }
 
-        }
-        catch(Exception e){
-            e.getMessage();
-            // Information dialog
-            AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(),Alert.AlertType.ERROR);
-            alertDialog.showErrorDialog(e);
-        }
+                flourPickupQtyInput.setText("");
+                grindingChargesInput.setText("");
+                grindingChargesPaidInput.setText("");
+                orderPickedByInput.setText("");
+                grindingRateInput.setText("");
+
+                customerDetailsCV.getController().updateCustomerDetails(String.valueOf(customerId));
+                transactionDetailsCV.getController().clearTransactionDisplay();
+                transactionDetailsCV.getController().renderTransactions(String.valueOf(customerId));
+            });
+        });
     }
 
 
     @FXML
-    public void handleSubmitTransaction(ActionEvent event){
+    public void handleSubmitTransaction(ActionEvent event) {
         submitTransaction();
     }
 
     // Print Transaction
-    public void printTransaction(String transactionId){
+    public void printTransaction(String transactionId) {
         ObservableSet<Printer> printers = Printer.getAllPrinters();
 
         ListView<String> listView = new ListView();
@@ -369,29 +345,28 @@ public class AddTransactionController implements Initializable, ApplicationListe
         HBox jobStatusBox = new HBox(5, new Label("Job Status: "), jobStatus);
 //        pageSetupBtn = new Button("Page Setup");
 
-        for(Printer printer: printers){
+        for (Printer printer : printers) {
             listView.getItems().add(printer.getName());
         }
 
         // Change Listener to observe change in ListView to select a printer from the list
-        listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>()
-        {
+        listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             public void changed(ObservableValue<? extends String> ov,
-                                final String oldvalue, final String newvalue)
-            {
-                for(Printer printer: printers){
-                    if(printer.getName().matches(listView.getSelectionModel().getSelectedItem())){
+                                final String oldvalue, final String newvalue) {
+                for (Printer printer : printers) {
+                    if (printer.getName().matches(listView.getSelectionModel().getSelectedItem())) {
                         currentPrinter = printer;
                         System.out.println("Current Printer: " + currentPrinter.getName());
                     }
                 }
-            }});
+            }
+        });
 
         VBox vBox = new VBox(10);
         Label label = new Label("Printers");
         Button printBtn = new Button("Print");
-        vBox.getChildren().addAll(label,listView,printBtn,jobStatusBox);
-        vBox.setPrefSize(400,250);
+        vBox.getChildren().addAll(label, listView, printBtn, jobStatusBox);
+        vBox.setPrefSize(400, 250);
         vBox.setStyle("-fx-padding: 10;");
 
 //        Node node = (Node)e.getSource();
@@ -401,18 +376,18 @@ public class AddTransactionController implements Initializable, ApplicationListe
         printBtn.setOnAction(PrintEvent -> {
             transactionPrintPreviewCV.getView().ifPresent(view -> {
                 System.out.println(view);
-                transactionDetailItemCV.getController().printSetup(view,stage,transactionId,currentPrinter);
+                transactionDetailItemCV.getController().printSetup(view, stage, transactionId, currentPrinter);
             });
         });
 
-        Scene scene = new Scene(vBox, 400,300);
+        Scene scene = new Scene(vBox, 400, 300);
 
         // Submit form if Enter key is pressed
         listView.setOnKeyPressed(keyEvent -> {
-            if(keyEvent.getCode() == KeyCode.ENTER){
+            if (keyEvent.getCode() == KeyCode.ENTER) {
                 transactionPrintPreviewCV.getView().ifPresent(view -> {
                     System.out.println("Printing.......");
-                    transactionDetailItemCV.getController().printSetup(view,stage,transactionId,currentPrinter);
+                    transactionDetailItemCV.getController().printSetup(view, stage, transactionId, currentPrinter);
                 });
             }
         });
@@ -421,34 +396,13 @@ public class AddTransactionController implements Initializable, ApplicationListe
         this.stage.show();
     }
 
+    private void updateSales(String date, Double flourPickupQty, Double grindingCharges, Double grindingChargesPaid) {
 
-    private String getEmployeeName(String employeeId){
-        if(employeeId != null || !employeeId.isEmpty()){
-            try {
-                String uri = "http://localhost:8080/employees/" + employeeId;
-                RestTemplate restTemplate = new RestTemplate();
-                Employee responseEntity = restTemplate.getForObject(uri,Employee.class);
-                return responseEntity.getName();
-            }
-            catch(Exception e){
-                System.out.println("Failed to retrieve employee name");
-                e.printStackTrace();
-                // Information dialog
-                AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(),Alert.AlertType.ERROR);
-                alertDialog.showErrorDialog(e);
-            }
-        }
-        System.out.println("Please enter a valid employee id");
-        return "";
-    }
-
-    private void updateSales(String date, Double flourPickupQty, Double grindingCharges, Double grindingChargesPaid) throws Exception{
-//        System.out.println("Inside update sales");
         // Get current Sales for this date
-        Sales sales = Sales.getSalesForDate(date).orElseThrow();
-//        System.out.println("Sales retrieved: " + sales);
+        Optional<Sales> salesOpt = Sales.getSalesForDate(date);
 
-        if(sales != null){
+        if (salesOpt.isPresent()) {
+            Sales sales = salesOpt.get();
             String currentDate = sales.getDate();
             Double currentTotalWheatSold = sales.getTotalWheatSold();
             Double currentTotalGrindingChargesPaid = sales.getTotalGrindingChargesPaid();
@@ -459,19 +413,16 @@ public class AddTransactionController implements Initializable, ApplicationListe
             currentTotalGrindingCharges += grindingCharges;
             currentTotalGrindingChargesPaid += grindingChargesPaid;
 
-
-//            Sales updatedSales = new Sales(currentDate,currentTotalWheatSold,currentTotalGrindingCharges,
-//                    currentTotalGrindingChargesPaid);
             sales.setTotalWheatSold(currentTotalWheatSold);
             sales.setTotalGrindingChargesPaid(currentTotalGrindingChargesPaid);
             sales.setTotalGrindingCharges(currentTotalGrindingCharges);
 
-            Sales.updateSales(currentDate,sales);
+            Sales.updateSales(currentDate, sales);
 
             sales.deductWheatSold(flourPickupQty);
-        }
-        else{
-            Sales newSale = new Sales(date,flourPickupQty,grindingCharges,grindingChargesPaid);
+        } else {
+            // Save new sale for the particular date
+            Sales newSale = new Sales(date, flourPickupQty, grindingCharges, grindingChargesPaid);
             newSale.deductWheatSold(flourPickupQty);
             System.out.println("New Sale: " + newSale);
             Sales.saveSales(newSale);

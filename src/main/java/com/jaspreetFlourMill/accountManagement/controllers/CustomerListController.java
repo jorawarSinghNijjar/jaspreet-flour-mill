@@ -84,30 +84,22 @@ public class CustomerListController implements Initializable {
 
 
     public void displayCustomers(){
-        try {
-            this.customers = Customer.getAllCustomers().orElseThrow();
-            for(Customer customer: customers){
-                Label customerLabel = new Label(customer.getName()
-                        + "(ID-" + customer.getCustomerId() + " )" );
+          Customer.getAllCustomers().ifPresent(customers -> {
+              for(Customer customer: customers){
+                  Label customerLabel = new Label(customer.getName()
+                          + "(ID-" + customer.getCustomerId() + " )" );
 
-                customerLabel.setMinWidth(250);
-                customerLabel.setPrefWidth(customerListSP.getPrefWidth());
-                customerLabel.setMaxWidth(Double.MAX_VALUE);
+                  customerLabel.setMinWidth(250);
+                  customerLabel.setPrefWidth(customerListSP.getPrefWidth());
+                  customerLabel.setMaxWidth(Double.MAX_VALUE);
 //                customerLabel.setPrefHeight(400);
-                customerLabel.getStyleClass().add("list-item");
-                customerLabel.setOnMouseClicked(mouseEvent -> {
-                    showCustomerDetails(customer.getCustomerId().toString());
-                });
-                customerListBox.getChildren().add(customerLabel);
-            }
-        }
-        catch (Exception e){
-            System.out.println("Failed to get All Customers !");
-            System.out.println(e.getMessage());
-            // Information dialog
-            AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(), Alert.AlertType.ERROR);
-            alertDialog.showErrorDialog(e);
-        }
+                  customerLabel.getStyleClass().add("list-item");
+                  customerLabel.setOnMouseClicked(mouseEvent -> {
+                      showCustomerDetails(customer.getCustomerId().toString());
+                  });
+                  customerListBox.getChildren().add(customerLabel);
+              }
+          });
     }
 
     public void showCustomerDetails(String id){

@@ -1,8 +1,12 @@
 package com.jaspreetFlourMill.accountManagement.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.jaspreetFlourMill.accountManagement.controllers.ContentController;
+import com.jaspreetFlourMill.accountManagement.util.AlertDialog;
 import com.jaspreetFlourMill.accountManagement.util.Util;
+import javafx.scene.control.Alert;
 import org.springframework.http.*;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.Serializable;
@@ -15,7 +19,7 @@ import static com.jaspreetFlourMill.accountManagement.util.Rest.BASE_URI;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CustomerAccount implements Serializable {
     private Integer customerAccountId;
-//    private Integer customerId;
+    //    private Integer customerId;
     private Customer customer;
     private double wheatDepositQty;
     private double wheatProcessingDeductionQty;
@@ -47,11 +51,11 @@ public class CustomerAccount implements Serializable {
         this.rowsPrinted = rowsPrinted;
     }
 
-    public void incrementRow(){
+    public void incrementRow() {
         this.rowsPrinted++;
     }
 
-    public void printNextPage(){
+    public void printNextPage() {
         this.rowsPrinted = 0;
     }
 
@@ -63,7 +67,7 @@ public class CustomerAccount implements Serializable {
         this.grindingChargesBalance = grindingChargesBalance;
     }
 
-    public CustomerAccount(){
+    public CustomerAccount() {
 
     }
 
@@ -132,48 +136,95 @@ public class CustomerAccount implements Serializable {
         return grindingChargesBalance;
     }
 
-    public void addWheatToAccount(double wheatDepositQty, double wheatProcessingDeductionQty) throws Exception{
+    public void addWheatToAccount(double wheatDepositQty, double wheatProcessingDeductionQty) {
         this.wheatDepositQty += wheatDepositQty;
-        this.initialWheatQty += (wheatDepositQty-wheatProcessingDeductionQty);
+        this.initialWheatQty += (wheatDepositQty - wheatProcessingDeductionQty);
         this.currentWheatBalance = this.initialWheatQty;
         this.wheatProcessingDeductionQty += wheatProcessingDeductionQty;
     }
 
-    // GET Customer Account by id from API
-    public static Optional<CustomerAccount> getCustomerAccount(Integer id) throws Exception{
-        System.out.println("Fetching customer account ...." + id);
-        String uri = BASE_URI + "/customer-accounts/" + id;
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<CustomerAccount> responseEntity = restTemplate.getForEntity(uri,CustomerAccount.class);
+    // POST request to create customer account
+    public static boolean saveCustomerAccount(CustomerAccount newCustomerAccount) {
+        try{
+            System.out.println("Registering customer account .... ");
+            String uri = BASE_URI + "/customer-accounts";
+            RestTemplate restTemplate = new RestTemplate();
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
-        // Find customer account successful
-        if(responseEntity.getStatusCode() == HttpStatus.OK){
-            CustomerAccount customerAccount = responseEntity.getBody();
-            System.out.println("Fetched Customer Account : " + customerAccount.getCustomer().getCustomerId());
-            return Optional.of(customerAccount);
+            HttpEntity<CustomerAccount> req = new HttpEntity<>(newCustomerAccount, httpHeaders);
+            ResponseEntity<CustomerAccount> result = restTemplate.exchange(uri, HttpMethod.POST, req, CustomerAccount.class);
+
+            if (result.getStatusCode() == HttpStatus.CREATED) {
+                CustomerAccount savedCustomerAccount = result.getBody();
+                System.out.println("Customer Account created Successfully for : " + savedCustomerAccount);
+                return true;
+            }
         }
+        catch (Exception e){
+            String errMessage = "Customer Account creation failed for id: " + newCustomerAccount.getCustomer().getCustomerId();
+            System.out.println(errMessage);
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error",errMessage,e.getMessage(), Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
+            return false;
+        }
+        return false;
+    }
 
+    // GET Customer Account by id from API
+    public static Optional<CustomerAccount> getCustomerAccount(Integer id) {
+        System.out.println("Fetching customer account ...." + id);
+        try {
+            String uri = BASE_URI + "/customer-accounts/" + id;
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<CustomerAccount> responseEntity = restTemplate.getForEntity(uri, CustomerAccount.class);
+
+            // Find customer account successful
+            if (responseEntity.getStatusCode() == HttpStatus.OK) {
+                CustomerAccount customerAccount = responseEntity.getBody();
+                System.out.println("Fetched Customer Account : " + customerAccount.getCustomer().getCustomerId());
+                return Optional.of(customerAccount);
+            }  else if(responseEntity.getStatusCode() == HttpStatus.NOT_FOUND){
+                // Customer Account not found
+                System.out.println("Customer Account not found: " + id);
+                return Optional.empty();
+            }
+        } catch (HttpClientErrorException.NotFound e) {
+            System.out.println("Customer Account does not exist: " + id);
+            return Optional.empty();
+        }
         // Find customer account failed
         System.out.println("Failed to fetch customer account: " + id);
         return Optional.empty();
     }
 
     // UPDATE Customer Account using customerId and current customer account details
-    public static boolean updateCustomerAccount(Integer customerId,CustomerAccount customerAccount) throws Exception{
-        System.out.println("Updating customer account ...." + customerId);
-        String uri = BASE_URI + "/customer-accounts/" + customerId;
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+    public static boolean updateCustomerAccount(Integer customerId, CustomerAccount customerAccount) {
+        try {
+            System.out.println("Updating customer account ...." + customerId);
+            String uri = BASE_URI + "/customer-accounts/" + customerId;
+            RestTemplate restTemplate = new RestTemplate();
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpEntity<CustomerAccount> req = new HttpEntity<>(customerAccount,httpHeaders);
-        ResponseEntity<CustomerAccount> responseEntity = restTemplate.exchange(uri, HttpMethod.PUT,req,CustomerAccount.class);
+            HttpEntity<CustomerAccount> req = new HttpEntity<>(customerAccount, httpHeaders);
+            ResponseEntity<CustomerAccount> responseEntity = restTemplate.exchange(uri, HttpMethod.PUT, req, CustomerAccount.class);
 
-        // Update customer account successful
-        if(responseEntity.getStatusCode() == HttpStatus.OK){
-            CustomerAccount updatedCustomerAccount = responseEntity.getBody();
-            System.out.println("Updated Customer Account : " + updatedCustomerAccount.getCustomer().getCustomerId());
-            return true;
+            // Update customer account successful
+            if (responseEntity.getStatusCode() == HttpStatus.OK) {
+                CustomerAccount updatedCustomerAccount = responseEntity.getBody();
+                System.out.println("Updated Customer Account : " + updatedCustomerAccount.getCustomer().getCustomerId());
+                return true;
+            }
+        }
+        catch (Exception e){
+            String errMessage = "Failed to update customer account : " + customerId;
+            System.out.println(errMessage);
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error",errMessage,e.getMessage(), Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
+            return false;
         }
 
         // Update customer account failed
@@ -181,31 +232,38 @@ public class CustomerAccount implements Serializable {
         return false;
     }
 
-    public static boolean updatePrintedRow(Integer id, boolean nextPage) throws Exception{
-        System.out.println("Updating printed row .... for customer account: " + id);
-        CustomerAccount customerAccount = CustomerAccount.getCustomerAccount(id).orElseThrow();
-        if(nextPage){
-            customerAccount.printNextPage();
+    public static boolean updatePrintedRow(Integer id, boolean nextPage) {
+        try{
+            System.out.println("Updating printed row .... for customer account: " + id);
+            CustomerAccount customerAccount = CustomerAccount.getCustomerAccount(id).orElseThrow();
+            if (nextPage) {
+                customerAccount.printNextPage();
+            }
+            customerAccount.incrementRow();
+
+            String uri = BASE_URI + "/customer-accounts/" + id;
+            RestTemplate restTemplate = new RestTemplate();
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+            HttpEntity<CustomerAccount> req = new HttpEntity<>(customerAccount, httpHeaders);
+            ResponseEntity<CustomerAccount> responseEntity = restTemplate.exchange(uri, HttpMethod.PUT, req, CustomerAccount.class);
+
+            // Update printed row successful
+            if (responseEntity.getStatusCode() == HttpStatus.OK) {
+                CustomerAccount updatedCustomerAccount = responseEntity.getBody();
+                System.out.println("Rows printed : " + updatedCustomerAccount.getRowsPrinted());
+                return true;
+            }
+        }catch (Exception e){
+            String errMessage = "Failed to update printed rows for customer account: " + id;
+            System.out.println(errMessage);
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error",errMessage,e.getMessage(), Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
+            return false;
         }
-        customerAccount.incrementRow();
 
-        String uri = BASE_URI + "/customer-accounts/" + id;
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-
-        HttpEntity<CustomerAccount> req = new HttpEntity<>(customerAccount,httpHeaders);
-        ResponseEntity<CustomerAccount> responseEntity = restTemplate.exchange(uri, HttpMethod.PUT,req,CustomerAccount.class);
-
-        // Update printed row successful
-        if(responseEntity.getStatusCode() == HttpStatus.OK){
-            CustomerAccount updatedCustomerAccount = responseEntity.getBody();
-            System.out.println("Rows printed : " + updatedCustomerAccount.getRowsPrinted());
-            return true;
-        }
-
-        // Update customer account failed
-        System.out.println("Failed to update printed rows for customer account: " + id);
         return false;
     }
 

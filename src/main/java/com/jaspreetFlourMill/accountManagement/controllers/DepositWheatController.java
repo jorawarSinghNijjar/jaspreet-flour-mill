@@ -16,9 +16,11 @@ import javafx.scene.layout.GridPane;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 @Component
@@ -110,59 +112,33 @@ public class DepositWheatController implements Initializable {
         Double wheatDepositQty = Double.parseDouble(wheatDepositQtyInput.getText());
         Double wheatProcessingDeductionQty = Double.parseDouble(wheatProcessingDeductionQtyInput.getText());
 
-        try{
-            Customer customer = Customer.getCustomer(String.valueOf(customerId)).orElseThrow();
+            Optional<Customer> customer = Customer.getCustomer(String.valueOf(customerId));
 
-            CustomerAccount fetchedCustomerAccount = CustomerAccount.getCustomerAccount(customerId).orElseThrow();
+            if(customer.isPresent()){
+                Optional<CustomerAccount> fetchedCustomerAccount = CustomerAccount.getCustomerAccount(customerId);
 
-            if(fetchedCustomerAccount != null){
-                System.out.println("Updating Customer Account --> "
-                        + fetchedCustomerAccount.getCustomerAccountId());
+                if(fetchedCustomerAccount.isPresent()){
+                    // Add wheat balance to customer account
+                    fetchedCustomerAccount.get().addWheatToAccount(wheatDepositQty,wheatProcessingDeductionQty);
+                    // PUT request UPDATE customer account
+                    CustomerAccount.updateCustomerAccount(customerId,fetchedCustomerAccount.get());
+                    // add wheat to total wheat balance of company
+                    Sales.addWheatDeposit(wheatDepositQty);
 
-                fetchedCustomerAccount.addWheatToAccount(wheatDepositQty,wheatProcessingDeductionQty);
-                CustomerAccount.updateCustomerAccount(customerId,fetchedCustomerAccount);
-                // add wheat to total wheat balance of company
-                Sales.addWheatDeposit(wheatDepositQty);
-
-                System.out.println("\n Customer Account Update Successful");
-                ContentController.navigationHandler.handleShowHome();
-            }
-            else
+                    ContentController.navigationHandler.handleShowHome();
+                }
+                else
                 {
-                CustomerAccount newCustomerAccount = new CustomerAccount(customer,wheatDepositQty,
-                        wheatProcessingDeductionQty);
-                System.out.println("Updating Customer Account for" + newCustomerAccount.getCustomer().getName());
-                    System.out.println(newCustomerAccount.toString());
-                if(newCustomerAccount != null){
-                    // POST request to register customer account
-                    final String uri =  "http://localhost:8080/customer-accounts/";
-                    RestTemplate restTemplate = new RestTemplate();
+                    CustomerAccount newCustomerAccount = new CustomerAccount(customer.get(),wheatDepositQty,
+                            wheatProcessingDeductionQty);
 
-                    HttpHeaders httpHeaders = new HttpHeaders();
-                    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-
-                    HttpEntity<CustomerAccount> req = new HttpEntity<>(newCustomerAccount,httpHeaders);
-                    ResponseEntity<String> result = restTemplate.exchange(uri, HttpMethod.POST,req,String.class);
-
-                    if(result.getStatusCode() == HttpStatus.OK){
-                        System.out.println("Customer Acccount Created Successfully "+result.getBody());
+                    if(CustomerAccount.saveCustomerAccount(newCustomerAccount)){
                         // add wheat to total wheat balance of company
                         Sales.addWheatDeposit(wheatDepositQty);
-
                         ContentController.navigationHandler.handleShowHome();
-                    }
-                    else {
-                        System.out.println("Customer Account creation failed");
                     }
                 }
             }
-        }
-        catch(Exception e){
-            e.printStackTrace();
-            // Information dialog
-            AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(), Alert.AlertType.ERROR);
-            alertDialog.showErrorDialog(e);
-        }
     }
 
 }

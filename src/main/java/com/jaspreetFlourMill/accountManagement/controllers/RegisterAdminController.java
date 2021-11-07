@@ -204,33 +204,18 @@ public class RegisterAdminController implements Initializable, ApplicationListen
 
         if(newUser != null) {
             // POST request to register employee
-            try {
                 // User registration
                 if (User.register(newUser)) {
                     // Admin registration
                     Admin newAdmin = new Admin(newUser,emailId);
-                    try {
-                        Admin.register(newAdmin);
-                    }
-                    catch (Exception e){
-                        e.printStackTrace();
-                        System.out.println("Admin registration failed !!");
-                        // Information dialog
-                        AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(),Alert.AlertType.ERROR);
-                        alertDialog.showErrorDialog(e);
-                        return false;
+                    if(Admin.register(newAdmin)){
+                        return true;
                     }
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println("User registration failed !!");
-                // Information dialog
-                AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(),Alert.AlertType.ERROR);
-                alertDialog.showErrorDialog(e);
-                return false;
-            }
+                else{
+                    return false;
+                }
         }
-
         return true;
     }
 
@@ -246,12 +231,12 @@ public class RegisterAdminController implements Initializable, ApplicationListen
             this.stage.show();
         }
         else{
-            // Confirmation dialog for printing the transaction
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error registering");
-            alert.setHeaderText("Unable to register !");
-            alert.setContentText("Please contact the customer support");
-            alert.show();
+            // Admin creation failed
+            String errMessage = "Unable to register !";
+            System.out.println(errMessage);
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error",errMessage,"Something went wrong !", Alert.AlertType.ERROR);
+            alertDialog.showInformationDialog();
         }
     }
 

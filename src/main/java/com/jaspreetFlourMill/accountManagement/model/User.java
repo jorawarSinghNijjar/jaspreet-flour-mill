@@ -1,10 +1,13 @@
 package com.jaspreetFlourMill.accountManagement.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.jaspreetFlourMill.accountManagement.util.AlertDialog;
+import javafx.scene.control.Alert;
 import org.springframework.http.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.Serializable;
@@ -56,46 +59,53 @@ public class User implements Serializable {
         this.role = role;
     }
 
-    public static boolean register(User newUser) throws Exception {
-        String uri = BASE_URI + "/users";
-        RestTemplate restTemplate = new RestTemplate();
+    public static boolean register(User newUser) {
+        try{
+            String uri = BASE_URI + "/users";
+            RestTemplate restTemplate = new RestTemplate();
 
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpEntity<User> req = new HttpEntity<>(newUser, httpHeaders);
-        ResponseEntity<User> result = restTemplate.exchange(uri, HttpMethod.POST, req, User.class);
+            HttpEntity<User> req = new HttpEntity<>(newUser, httpHeaders);
+            ResponseEntity<User> result = restTemplate.exchange(uri, HttpMethod.POST, req, User.class);
 
-        // User registration Successful
-        if(result.getStatusCode() == HttpStatus.CREATED){
-            User savedUser =  result.getBody();
-            System.out.println("User Registration successful for: " + savedUser.getId());
-            return true;
+            // User registration Successful
+            if(result.getStatusCode() == HttpStatus.CREATED){
+                User savedUser =  result.getBody();
+                System.out.println("User Registration successful for: " + savedUser.getId());
+                return true;
+            }
         }
-
-        // User registration failed
-        System.out.println("User Registration failed for: " + newUser.getId());
+        catch (Exception e){
+            // User registration failed
+            String errMessage = "User Registration failed for: " + newUser.getId();
+            System.out.println(errMessage);
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error",errMessage,e.getMessage(), Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
+            return false;
+        }
         return false;
     }
 
-    public static Optional<User> getUser(String id) throws Exception{
-        String uri = BASE_URI + "/users/" + id;
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<User> responseEntity = restTemplate.getForEntity(uri,User.class);
+    public static Optional<User> getUser(String id) {
+        try{
+            String uri = BASE_URI + "/users/" + id;
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<User> responseEntity = restTemplate.getForEntity(uri,User.class);
 
-        // Find user successful
-        if(responseEntity.getStatusCode() == HttpStatus.NOT_FOUND){
-            System.out.println("Not founnnnnnnnnd");
-            throw new UsernameNotFoundException("User with user id-" + id + "does not exist!");
+            if(responseEntity.getStatusCode() == HttpStatus.OK){
+                User user = responseEntity.getBody();
+                System.out.println("Fetched User : " + user.getId());
+                return Optional.of(user);
+            }
         }
-        if(responseEntity.getStatusCode() == HttpStatus.OK){
-            User user = responseEntity.getBody();
-            System.out.println("Fetched User : " + user.getId());
-            return Optional.of(user);
+        catch(HttpClientErrorException.NotFound e){
+            System.out.println("User not found: " + id);
+            return Optional.empty();
         }
 
-        // Find user failed
-        System.out.println("Failed to fetch user: " + id);
         return Optional.empty();
     }
 

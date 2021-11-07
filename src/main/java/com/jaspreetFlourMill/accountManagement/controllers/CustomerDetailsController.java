@@ -98,40 +98,41 @@ public class CustomerDetailsController implements Initializable {
 
     }
 
-    public void updateCustomerDetails(String id){
-        try{
-            Customer updatedCustomer = Customer.getCustomer(id).orElseThrow();
-            CustomerAccount updatedCustomerAccount = CustomerAccount.getCustomerAccount(Integer.parseInt(id)).orElseThrow();
+    public void updateCustomerDetails(String id) {
+        // Find customer
+        Customer.getCustomer(id).ifPresent((updatedCustomer) -> {
+            // If customer is found, find customer account and update it to view
+            CustomerAccount.getCustomerAccount(updatedCustomer.getCustomerId()).ifPresent((updatedCustomerAccount) -> {
+                customerIdDisplay.setText(updatedCustomer.getCustomerId().toString());
+                customerAddress.setText(updatedCustomer.getAddress());
+                customerPhoneNumber.setText(updatedCustomer.getPhoneNumber());
+                customerRationCardNo.setText(updatedCustomer.getRationCardNo());
+                try {
+                    customerIdProofImage.setImage(new Image(new FileInputStream(updatedCustomer.getIdProof())));
+                    this.idProofImageUri = updatedCustomer.getIdProof();
+                } catch (Exception e) {
+                    // Information dialog
+                    AlertDialog alertDialog = new AlertDialog("Error", "Error reading updating input file", e.getMessage(), Alert.AlertType.ERROR);
+                    alertDialog.showErrorDialog(e);
+                }
 
-            customerIdDisplay.setText(updatedCustomer.getCustomerId().toString());
-            customerAddress.setText(updatedCustomer.getAddress());
-            customerPhoneNumber.setText(updatedCustomer.getPhoneNumber());
-            customerRationCardNo.setText(updatedCustomer.getRationCardNo());
-            customerIdProofImage.setImage(new Image(new FileInputStream(updatedCustomer.getIdProof())));
-            this.idProofImageUri = updatedCustomer.getIdProof();
+                String wheatQtyStoredDisplay = updatedCustomerAccount.getWheatDepositQty() + " kg";
+                String qtyDeductionDisplay = updatedCustomerAccount.getWheatProcessingDeductionQty() + " kg";
+                String initialWheatQtyDisplay = updatedCustomerAccount.getInitialWheatQty() + " kg";
+                String currentWheatBalanceDisplay = updatedCustomerAccount.getCurrentWheatBalance() + " kg";
+                String grindingRateDisplay = updatedCustomerAccount.getGrindingRate() + " kg";
+                String totalGrindingChargesBalanceDisplay = "\u20B9 " + updatedCustomerAccount.getGrindingChargesBalance();
+
+                wheatQtyStored.setText(wheatQtyStoredDisplay);
+                qtyDeduction.setText(qtyDeductionDisplay);
+                initialWheatQty.setText(initialWheatQtyDisplay);
+                currentWheatBalance.setText(currentWheatBalanceDisplay);
+                grindingRate.setText(grindingRateDisplay);
+                totalGrindingChargesBalance.setText(totalGrindingChargesBalanceDisplay);
+            });
+        });
 
 
-            String wheatQtyStoredDisplay = updatedCustomerAccount.getWheatDepositQty() + " kg";
-            String qtyDeductionDisplay = updatedCustomerAccount.getWheatProcessingDeductionQty() + " kg";
-            String initialWheatQtyDisplay = updatedCustomerAccount.getInitialWheatQty() + " kg";
-            String currentWheatBalanceDisplay = updatedCustomerAccount.getCurrentWheatBalance() + " kg";
-            String grindingRateDisplay = updatedCustomerAccount.getGrindingRate() + " kg";
-            String totalGrindingChargesBalanceDisplay = "\u20B9 " + updatedCustomerAccount.getGrindingChargesBalance();
-
-            wheatQtyStored.setText(wheatQtyStoredDisplay);
-            qtyDeduction.setText(qtyDeductionDisplay);
-            initialWheatQty.setText(initialWheatQtyDisplay);
-            currentWheatBalance.setText(currentWheatBalanceDisplay);
-            grindingRate.setText(grindingRateDisplay);
-            totalGrindingChargesBalance.setText(totalGrindingChargesBalanceDisplay);
-
-        }
-        catch(Exception e){
-            e.printStackTrace();
-            // Information dialog
-            AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(), Alert.AlertType.ERROR);
-            alertDialog.showErrorDialog(e);
-        }
     }
 
 }
