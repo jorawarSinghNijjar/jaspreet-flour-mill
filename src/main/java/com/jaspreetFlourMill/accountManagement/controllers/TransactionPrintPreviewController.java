@@ -318,7 +318,6 @@ public class TransactionPrintPreviewController implements Initializable, Applica
 
     private void print(PrinterJob job, Node node) {
         // Set the Job Status Message
-//        jobStatus.textProperty().bind(job.jobStatusProperty().asString());
 
         // Print the node
         boolean printed = job.printPage(node);
@@ -331,17 +330,21 @@ public class TransactionPrintPreviewController implements Initializable, Applica
             }
 
             job.endJob();
-
-            stage.setScene(new Scene(fxWeaver.loadView(ContentController.class), 1366, 768));
+            System.out.println("Loading Dashboard ....");
+            stage.setScene(new Scene(fxWeaver.loadView(ContentController.class), Util.getScreenWidth(), Util.getScreenHeight()));
             stage.setX(0);
             stage.setY(0);
+            stage.setMaximized(true);
             stage.show();
         } else {
-            System.out.println("Printing failed....");
-            stage.setScene(new Scene(fxWeaver.loadView(ContentController.class), 1366, 768));
+            stage.setScene(new Scene(fxWeaver.loadView(ContentController.class), Util.getScreenWidth(), Util.getScreenHeight()));
             stage.setX(0);
             stage.setY(0);
+            stage.setMaximized(true);
             stage.show();
+            // Error dialog
+            AlertDialog alertDialog = new AlertDialog("Error","Printing failed !!!", "Something went wrong! Try again or contact customer support", Alert.AlertType.ERROR);
+            alertDialog.showInformationDialog();
         }
     }
 

@@ -154,15 +154,23 @@ public class AddTransactionController implements Initializable, ApplicationListe
         addTransactionFormValidation.getFormFields().put("customer-id", false);
         addTransactionFormValidation.getFormFields().put("flour-pickup-qty", false);
         addTransactionFormValidation.getFormFields().put("grinding-rate", false);
-        addTransactionFormValidation.getFormFields().put("grinding-charges", false);
+//        addTransactionFormValidation.getFormFields().put("grinding-charges", false);
         addTransactionFormValidation.getFormFields().put("grinding-charges-paid", false);
         addTransactionFormValidation.getFormFields().put("order-picked-by", false);
         addTransactionFormValidation.getFormFields().put("cashier", false);
 
-        this.addEventListeners();
 
-//        cashierName = this.getEmployeeName(AuthController.currentSession.getUserId());
         cashierNameLabel.setText(cashierName);
+
+        // Validate cashier name
+        if(!cashierNameLabel.getText().isEmpty()){
+            addTransactionFormValidation.getFormFields().put("cashier", true);
+        }
+        else{
+            addTransactionFormValidation.getFormFields().put("cashier", false);
+        }
+
+        this.addEventListeners();
 
         // Input Change Listener for grinding rate input field
         grindingRateInput.textProperty().addListener((observableValue, oldValue, newValue) -> {
@@ -246,17 +254,12 @@ public class AddTransactionController implements Initializable, ApplicationListe
             this.validateForm();
         });
 
-        cashierNameLabel.textProperty().addListener((observableValue, oldVal, newVal) -> {
-            boolean valid = FormValidation.isName(
-                    newVal,
-                    tfCashierValidLabel
-            ).isValid();
-            addTransactionFormValidation.getFormFields().put("cashier", valid);
-            this.validateForm();
-        });
     }
 
     private boolean validateForm() {
+        addTransactionFormValidation.getFormFields().entrySet().forEach(entry->{
+            System.out.println(entry.getKey() + " = " + entry.getValue());
+        });
         if (addTransactionFormValidation.getFormFields().containsValue(false)) {
             submitTransactionBtn.setDisable(true);
             return false;
