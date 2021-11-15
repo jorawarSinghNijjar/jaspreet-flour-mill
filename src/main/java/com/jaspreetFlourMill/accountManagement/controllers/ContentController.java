@@ -11,6 +11,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Dimension2D;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
@@ -127,6 +128,9 @@ public class ContentController implements Initializable, ApplicationListener<Sta
     private Button registerEmployeeButton;
 
     @FXML
+    private Button addAdminButton;
+
+    @FXML
     private Button signOutButton;
 
     @FXML
@@ -143,7 +147,7 @@ public class ContentController implements Initializable, ApplicationListener<Sta
     private FileChooser fileChooser;
 
     private Image avatar;
-
+    private FxControllerAndView<RegisterAdminController, Node> registerAdminCV;
 
     public ContentController(FxWeaver fxWeaver) {
         this.fxWeaver = fxWeaver;
@@ -262,24 +266,11 @@ public class ContentController implements Initializable, ApplicationListener<Sta
             }
         });
 
-//        avatarFrame.setOnMouseEntered(mouseEvent -> {
-//            ColorAdjust colorAdjust = new ColorAdjust();
-//            colorAdjust.setBrightness(-0.4);
-//            avatarFrame.setEffect(colorAdjust);
-//            imageStackPaneContainer.getChildren().add(editProfileImageButton);
-//        });
-
-//        avatarFrame.setOnMouseExited(mouseEvent -> {
-//            ColorAdjust colorAdjust = new ColorAdjust();
-//            colorAdjust.setBrightness(0.0);
-//            avatarFrame.setEffect(colorAdjust);
-//            imageStackPaneContainer.getChildren().remove(editProfileImageButton);
-//        });
-
 //        Hide not admin content
         if (currentUserRole == Role.EMPLOYEE) {
             sideMenuBox.getChildren().remove(registerEmployeeButton);
             sideMenuBox.getChildren().remove(homeButton);
+            sideMenuBox.getChildren().remove(addAdminButton);
             showAddTransaction();
         } else if(currentUserRole == Role.ADMIN){
             sideMenuBox.getChildren().remove(addTransactionButton);
@@ -615,6 +606,24 @@ public class ContentController implements Initializable, ApplicationListener<Sta
             });
 
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(),Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
+        }
+    }
+
+    @FXML
+    public void showRegisterAdmin(){
+        try {
+            System.out.println("Redirecting to registration page....");
+            Dimension2D dimension2D = Util.getCenterSceneDim(stage,2.5,2.5);
+            registerAdminCV = fxWeaver.load(RegisterAdminController.class);
+            registerAdminCV.getController().setLayout(dimension2D);
+            registerAdminCV.getView().ifPresent(view -> {
+                stage.setScene(new Scene((Parent)(view),dimension2D.getWidth(),dimension2D.getHeight()));
+            });
         } catch (Exception e) {
             e.printStackTrace();
             // Information dialog
