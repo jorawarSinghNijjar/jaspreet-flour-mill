@@ -320,6 +320,10 @@ public class ContentController implements Initializable, ApplicationListener<Sta
         employeeAdd.setIconSize(18);
         employeeAdd.setFill(Color.WHITE);
 
+        IconNode adminAdd = new IconNode(FontAwesome.USER_PLUS);
+        adminAdd.setIconSize(18);
+        adminAdd.setFill(Color.WHITE);
+
         IconNode unlock = new IconNode(FontAwesome.UNLOCK);
         unlock.setIconSize(18);
         unlock.setFill(Color.WHITE);
@@ -327,6 +331,7 @@ public class ContentController implements Initializable, ApplicationListener<Sta
         homeButton.setGraphic(homeIcon);
         registerCustomerButton.setGraphic(customerCard);
         registerEmployeeButton.setGraphic(employeeAdd);
+        addAdminButton.setGraphic(adminAdd);
         signOutButton.setGraphic(unlock);
         addTransactionButton.setGraphic(assignmentIcon);
         wheatDepositButton.setGraphic(plusSquare);
