@@ -21,6 +21,7 @@ public class Employee implements Serializable {
     private User user;
     private String id;
     private String name;
+    private String emailId;
     private String password;
     private String contactNumber;
     private String address;
@@ -31,9 +32,10 @@ public class Employee implements Serializable {
 
     }
 
-    public Employee(User user,String name, String contactNumber, String address, String jobDesignation, LocalDate dob) {
+    public Employee(User user,String name, String emailId, String contactNumber, String address, String jobDesignation, LocalDate dob) {
         this.user = user;
         this.name = name;
+        this.emailId = emailId;
         this.contactNumber = contactNumber;
         this.address = address;
         this.jobDesignation = jobDesignation;
@@ -106,6 +108,14 @@ public class Employee implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getEmailId() {
+        return emailId;
+    }
+
+    public void setEmailId(String emailId) {
+        this.emailId = emailId;
     }
 
     @Override

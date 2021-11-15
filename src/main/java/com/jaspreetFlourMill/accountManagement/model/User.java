@@ -12,6 +12,8 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import static com.jaspreetFlourMill.accountManagement.util.Rest.BASE_URI;
@@ -170,4 +172,74 @@ public class User implements Serializable {
         }
         return Optional.empty();
     }
+
+
+    public static Optional<String> resetPassword(String emailId) {
+        try{
+            System.out.println("Resetting password ...." + emailId);
+            String uri = BASE_URI + "/users/forgot-password";
+            RestTemplate restTemplate = new RestTemplate();
+
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+            Map<String,String> data = new HashMap<>();
+            data.put("emailId",emailId);
+
+            HttpEntity<Map<String,String>> req = new HttpEntity<>(data, httpHeaders);
+            ResponseEntity<String> result = restTemplate.exchange(uri, HttpMethod.POST, req,String.class);
+
+            // Employee registration Successful
+            if(result.getStatusCode() == HttpStatus.ACCEPTED){
+                System.out.println("Reset Token sent to : " + emailId);
+                return Optional.of(result.getBody());
+            }
+        }
+        catch(Exception e){
+            // Employee registration failed
+            String errMessage = "Reset password failed for: " + emailId;
+            System.out.println(errMessage);
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error",errMessage,e.getMessage(), Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
+            return Optional.empty();
+        }
+        return Optional.empty();
+    }
+
+    public static Optional<User> authorizeToken(String token) {
+        try{
+            System.out.println("Authorizing token ....");
+            String uri = BASE_URI + "/users/reset-token";
+            RestTemplate restTemplate = new RestTemplate();
+
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+            Map<String,String> data = new HashMap<>();
+            data.put("reset-token",token);
+
+            HttpEntity<Map<String,String>> req = new HttpEntity<>(data, httpHeaders);
+            ResponseEntity<User> result = restTemplate.exchange(uri, HttpMethod.POST, req,User.class);
+
+            // Employee registration Successful
+            if(result.getStatusCode() == HttpStatus.ACCEPTED){
+                System.out.println("Reset Token matched");
+                User user = result.getBody();
+                return Optional.of(user);
+            }
+        }
+        catch(Exception e){
+            // Employee registration failed
+            String errMessage = "Reset token process failed !";
+            System.out.println(errMessage);
+            // Error dialog
+            AlertDialog alertDialog = new AlertDialog("Error",errMessage,e.getMessage(), Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
+            return Optional.empty();
+        }
+        return Optional.empty();
+    }
+
+
 }

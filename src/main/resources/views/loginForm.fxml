@@ -31,7 +31,7 @@
                 Password:
             </Label>
             <PasswordField fx:id="passwordField" maxWidth="1.7976931348623157E308" onKeyPressed="#handleLoginKeyPress" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Hyperlink alignment="CENTER_RIGHT" styleClass="small-text" text="Forgot Password ?" GridPane.columnIndex="1" GridPane.rowIndex="4">Forgot Password ?
+            <Hyperlink alignment="CENTER_RIGHT" onAction="#showForgotPassword" styleClass="small-text" text="Forgot Password ?" GridPane.columnIndex="1" GridPane.rowIndex="4">Forgot Password ?
             </Hyperlink>
            <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="h2" stylesheets="@css/main.css" text="Sign In" textAlignment="CENTER" GridPane.columnSpan="2" />
            <Button alignment="CENTER" maxWidth="1.7976931348623157E308" onAction="#handleLogin" styleClass="secondary-btn" stylesheets="@css/main.css" text="Sign In" GridPane.columnSpan="2" GridPane.rowIndex="5">

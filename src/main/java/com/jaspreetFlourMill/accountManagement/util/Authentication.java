@@ -15,6 +15,8 @@ public class Authentication {
 
     private boolean isAuthenticated;
 
+    private String resetToken;
+
     private User user;
 
     public Authentication() {
@@ -33,8 +35,16 @@ public class Authentication {
         return user;
     }
 
-    private void setUser(User user) {
+    public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getResetToken() {
+        return resetToken;
+    }
+
+    public void setResetToken(String resetToken) {
+        this.resetToken = resetToken;
     }
 
     public boolean login(String userId, String password) throws Exception {

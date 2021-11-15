@@ -10,7 +10,9 @@ import com.jaspreetFlourMill.accountManagement.util.Util;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Dimension2D;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
@@ -24,6 +26,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +72,7 @@ public class AuthController implements Initializable, ApplicationListener<StageR
     private final FxWeaver fxWeaver;
     private Stage stage;
     private FormValidation loginFormValidation;
+    private FxControllerAndView<ForgotPasswordController, Node> forgotPasswordCV;
 
     public AuthController(FxWeaver fxWeaver) {
         this.fxWeaver = fxWeaver;
@@ -102,6 +106,13 @@ public class AuthController implements Initializable, ApplicationListener<StageR
 
     @FXML
     public void handleLogin(ActionEvent event) { login(); }
+
+    @FXML
+    public void showForgotPassword(ActionEvent event){
+        Dimension2D dimension2D = Util.getCenterSceneDim(stage,3.5,2.5);
+        stage.setScene(new Scene(fxWeaver.loadView(ForgotPasswordController.class),dimension2D.getWidth(),dimension2D.getHeight()));
+        stage.show();
+    }
 
     @Override
     public void onApplicationEvent(StageReadyEvent event) {

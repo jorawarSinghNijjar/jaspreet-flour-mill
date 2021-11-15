@@ -1,5 +1,6 @@
 package com.jaspreetFlourMill.accountManagement.controllers;
 
+import ch.qos.logback.core.joran.event.BodyEvent;
 import com.jaspreetFlourMill.accountManagement.StageReadyEvent;
 import com.jaspreetFlourMill.accountManagement.model.*;
 import com.jaspreetFlourMill.accountManagement.util.AlertDialog;
@@ -47,6 +48,9 @@ public class RegisterEmployeeController implements Initializable, ApplicationLis
     private TextField employeeNameField;
 
     @FXML
+    private TextField employeeEmailIdField;
+
+    @FXML
     private TextField employeePasswordField;
 
     @FXML
@@ -76,6 +80,9 @@ public class RegisterEmployeeController implements Initializable, ApplicationLis
     private Label employeeNameValidLabel;
 
     @FXML
+    private Label employeeEmailIdValidLabel;
+
+    @FXML
     private Label employeeAddressValidLabel;
 
     @FXML
@@ -89,9 +96,11 @@ public class RegisterEmployeeController implements Initializable, ApplicationLis
 
     @FXML
     private Label employeePasswordValidLabel;
+
     @FXML
     private Label employeeConfPasswordValidLabel;
     private Stage stage;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -120,6 +129,7 @@ public class RegisterEmployeeController implements Initializable, ApplicationLis
         employeeFormValidation = new FormValidation();
         employeeFormValidation.getFormFields().put("user-id",false);
         employeeFormValidation.getFormFields().put("name",false);
+        employeeFormValidation.getFormFields().put("email-id",false);
         employeeFormValidation.getFormFields().put("password",false);
         employeeFormValidation.getFormFields().put("conf-password",false);
         employeeFormValidation.getFormFields().put("phone-number",false);
@@ -148,6 +158,16 @@ public class RegisterEmployeeController implements Initializable, ApplicationLis
                     employeeNameValidLabel
             ).isValid();
             employeeFormValidation.getFormFields().put("name",validName);
+            this.validateForm();
+
+        });
+
+        employeeEmailIdField.textProperty().addListener((observableValue, oldVal, newVal) -> {
+            boolean validName = FormValidation.isEmailId(
+                    newVal,
+                    employeeEmailIdValidLabel
+            ).isValid();
+            employeeFormValidation.getFormFields().put("email-id",validName);
             this.validateForm();
 
         });
@@ -237,6 +257,7 @@ public class RegisterEmployeeController implements Initializable, ApplicationLis
         // Temporary Id Usage
         String userId = employeeUserIdField.getText();
         String name = employeeNameField.getText();
+        String emailId = employeeEmailIdField.getText();
         String password = employeePasswordField.getText();
         String contactNo = employeeContactNoField.getText();
         String address = employeeAddressField.getText();
@@ -259,7 +280,7 @@ public class RegisterEmployeeController implements Initializable, ApplicationLis
                 // User registration
                 if (User.register(newUser)) {
                     // Employee registration
-                    Employee newEmployee = new Employee(newUser,name,contactNo,address,jobDesignation,dob);
+                    Employee newEmployee = new Employee(newUser,name, emailId, contactNo,address,jobDesignation,dob);
                     if (Employee.register(newEmployee)) {
                         ContentController.navigationHandler.handleShowHome();
                         return true;
