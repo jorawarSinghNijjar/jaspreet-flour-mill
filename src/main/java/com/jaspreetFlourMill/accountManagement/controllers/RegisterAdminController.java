@@ -43,6 +43,10 @@ public class RegisterAdminController implements Initializable, ApplicationListen
     @FXML
     private TextField adminIdInputField;
     @FXML
+    private TextField adminNameInputField;
+    @FXML
+    private TextField adminLicenseKeyInputField;
+    @FXML
     private PasswordField adminPasswordInputField;
     @FXML
     private PasswordField adminConfPasswordInputField;
@@ -57,11 +61,16 @@ public class RegisterAdminController implements Initializable, ApplicationListen
     @FXML
     private Label adminEmailIdInputValidLabel;
     @FXML
+    private Label adminNameValidLabel;
+    @FXML
+    private Label adminLicenseKeyValidLabel;
+    @FXML
     private Button adminRegisterBtn;
 
     private FormValidation adminFormValidation;
 
     private final FxWeaver fxWeaver;
+
 
     public RegisterAdminController(FxWeaver fxWeaver) {
         this.fxWeaver = fxWeaver;
@@ -77,6 +86,8 @@ public class RegisterAdminController implements Initializable, ApplicationListen
         adminFormValidation.getFormFields().put("password",false);
         adminFormValidation.getFormFields().put("conf-password",false);
         adminFormValidation.getFormFields().put("email-id",false);
+        adminFormValidation.getFormFields().put("name",false);
+        adminFormValidation.getFormFields().put("license-key",false);
 
         this.addEventListeners();
     }
@@ -88,10 +99,16 @@ public class RegisterAdminController implements Initializable, ApplicationListen
                     newVal,
                     adminIdInputValidLabel
             ).isValid();
-//            if(!valid){
-//                this.maximizeValidationLabels();
-//            }
             adminFormValidation.getFormFields().put("admin-id",valid);
+            this.validateForm();
+        });
+
+        adminNameInputField.textProperty().addListener((observableValue, oldVal, newVal) -> {
+            boolean valid = FormValidation.isName(
+                    newVal,
+                    adminNameValidLabel
+            ).isValid();
+            adminFormValidation.getFormFields().put("name", valid);
             this.validateForm();
         });
 
@@ -120,6 +137,15 @@ public class RegisterAdminController implements Initializable, ApplicationListen
                     adminEmailIdInputValidLabel
             ).isValid();
             adminFormValidation.getFormFields().put("email-id",valid);
+            this.validateForm();
+        });
+
+        adminLicenseKeyInputField.textProperty().addListener((observableValue, oldVal, newVal) -> {
+            boolean valid = FormValidation.isLicenseKey(
+                    newVal,
+                    adminLicenseKeyValidLabel
+            ).isValid();
+            adminFormValidation.getFormFields().put("license-key",valid);
             this.validateForm();
         });
 

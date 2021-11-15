@@ -1,5 +1,6 @@
 package com.jaspreetFlourMill.accountManagement.util;
 
+import com.jaspreetFlourMill.accountManagement.model.License;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -122,6 +123,13 @@ public class FormValidation {
         String msg = "Please enter a valid email address";
         return validationResponse(responseLabel,valid,msg);
     }
+
+    public static ValidatedResponse isLicenseKey(String licenseKey, Label responseLabel) {
+        boolean valid = License.match(licenseKey);
+        String msg = "Invalid License Key";
+        return validationResponse(responseLabel,valid,msg);
+    }
+
 
     // Simple methods with boolean returns
     public static boolean isImage(File file){
