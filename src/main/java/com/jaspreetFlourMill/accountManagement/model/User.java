@@ -24,7 +24,7 @@ public class User implements Serializable {
     private String id;
     private String password;
     private Role role;
-
+    private String profileImgLocation;
 
     public User() {
     }
@@ -58,6 +58,15 @@ public class User implements Serializable {
     public void setRole(Role role) {
         this.role = role;
     }
+
+    public String getProfileImgLocation() {
+        return profileImgLocation;
+    }
+
+    public void setProfileImgLocation(String profileImgLocation) {
+        this.profileImgLocation = profileImgLocation;
+    }
+
 
     public static boolean register(User newUser) {
         try{
@@ -129,6 +138,35 @@ public class User implements Serializable {
         else if(user.role == Role.EMPLOYEE){
            return Employee.getEmployee(user);
 
+        }
+        return Optional.empty();
+    }
+
+    public static Optional<User> updateUser(User user, String id) {
+        try{
+            String uri = BASE_URI + "/users/" + id;
+            RestTemplate restTemplate = new RestTemplate();
+
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+            HttpEntity<User> req = new HttpEntity<>(user, httpHeaders);
+            ResponseEntity<User> result = restTemplate.exchange(uri, HttpMethod.PUT, req, User.class);
+
+            // User registration Successful
+            if(result.getStatusCode() == HttpStatus.OK){
+                User updatedUser =  result.getBody();
+                System.out.println("User update successful for: " + updatedUser.getId());
+                return Optional.of(updatedUser);
+            }
+        }
+        catch (Exception e){
+            // User registration failed
+            String errMessage = "User update failed for: " + user.getId();
+            System.out.println(errMessage);
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error",errMessage,e.getMessage(), Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
         }
         return Optional.empty();
     }

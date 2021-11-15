@@ -123,6 +123,14 @@ public class FormValidation {
         return validationResponse(responseLabel,valid,msg);
     }
 
+    // Simple methods with boolean returns
+    public static boolean isImage(File file){
+        String ext = FilenameUtils.getExtension(file.getAbsolutePath());
+        String exp = "^(jpg|jpeg|png)$";
+        boolean result = ext.matches(exp);
+        return result;
+    }
+
     public static ValidatedResponse validationResponse(Label responseLabel, boolean valid,String msg){
         IconFontFX.register(GoogleMaterialDesignIcons.getIconFont());
 

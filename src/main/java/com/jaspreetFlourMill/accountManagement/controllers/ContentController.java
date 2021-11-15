@@ -7,6 +7,7 @@ import com.jaspreetFlourMill.accountManagement.model.User;
 import com.jaspreetFlourMill.accountManagement.util.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -22,12 +23,15 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.stage.FileChooser;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -42,6 +46,8 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
 
+import javax.swing.*;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
@@ -73,6 +79,12 @@ public class ContentController implements Initializable, ApplicationListener<Sta
 
     @FXML
     private Circle avatarFrame;
+
+    @FXML
+    private Button changeImageBtn;
+
+    @FXML
+    private StackPane imageStackPaneContainer;
 
     private FxControllerAndView<CustomerListController, Node> customerListCV;
 
@@ -128,6 +140,10 @@ public class ContentController implements Initializable, ApplicationListener<Sta
 
     private boolean modalMounted = false;
 
+    private FileChooser fileChooser;
+
+    private Image avatar;
+
 
     public ContentController(FxWeaver fxWeaver) {
         this.fxWeaver = fxWeaver;
@@ -170,8 +186,95 @@ public class ContentController implements Initializable, ApplicationListener<Sta
 
         contentAreaTitleLabel.setPrefWidth(titleHBox.getPrefWidth());
 
-        Image avatar = new Image("/images/avatar.png");
+        // Profile Image Layout
+        User user = StageInitializer.authentication.getUser();
+
+        avatar = new Image("C:\\Jorawar Singh\\software_dev\\projects\\jaspreet_flour_mill\\jaspreet-flour-mill\\src\\main\\resources\\images\\avatar.png");
+
+        if(user.getProfileImgLocation() != null){
+            avatar = new Image(user.getProfileImgLocation());
+        }
+
         avatarFrame.setFill(new ImagePattern(avatar));
+        changeImageBtn.setVisible(false);
+        changeImageBtn.setManaged(false);
+
+        // On hover effects
+        ChangeListener<Boolean> imageHoverListener = (observableValue, oldVal, newVal) -> {
+            if(newVal){
+                System.out.println("in...");
+                ColorAdjust colorAdjust = new ColorAdjust();
+                colorAdjust.setBrightness(-0.4);
+                avatarFrame.setEffect(colorAdjust);
+                changeImageBtn.setVisible(true);
+                changeImageBtn.setManaged(true);
+            }
+            else {
+                System.out.println("out...");
+                ColorAdjust colorAdjust = new ColorAdjust();
+                colorAdjust.setBrightness(0.0);
+                avatarFrame.setEffect(colorAdjust);
+                changeImageBtn.setVisible(false);
+                changeImageBtn.setManaged(false);
+            }
+        };
+
+        avatarFrame.hoverProperty().addListener(imageHoverListener);
+
+        // On click handler to handle changing the image
+        fileChooser = new FileChooser();
+
+        avatarFrame.setOnMouseClicked(mouseEvent -> {
+            try{
+                File selectedFile = fileChooser.showOpenDialog(stage);
+                if(selectedFile != null){
+                    String newProfileImageLocation = selectedFile.getAbsolutePath();
+                    boolean valid = FormValidation.isImage(selectedFile);
+                    if(valid){
+                        user.setProfileImgLocation(newProfileImageLocation);
+                        User.updateUser(user,user.getId()).ifPresentOrElse(
+                                (updatedUser) -> {
+                            avatarFrame.setFill(new ImagePattern(new Image(updatedUser.getProfileImgLocation())));
+                        },
+                                () ->{
+                                    // Information dialog
+                                    String msg = "Changing Image Unsuccessful. Try Again! ";
+                                    AlertDialog alertDialog = new AlertDialog("Info","Something went wrong",msg, Alert.AlertType.INFORMATION);
+                                    alertDialog.showInformationDialog();
+                        });
+                    }
+                    else{
+                        // Information dialog
+                        String msg = "Only jpeg /jpg / png are allowed";
+                        AlertDialog alertDialog = new AlertDialog("Info","Invalid File Type",msg, Alert.AlertType.INFORMATION);
+                        alertDialog.showInformationDialog();
+                    }
+                }
+                else {
+                    System.out.println("No file selected");
+                }
+            }
+            catch(Exception e){
+                e.getMessage();
+                // Information dialog
+                AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(), Alert.AlertType.ERROR);
+                alertDialog.showErrorDialog(e);
+            }
+        });
+
+//        avatarFrame.setOnMouseEntered(mouseEvent -> {
+//            ColorAdjust colorAdjust = new ColorAdjust();
+//            colorAdjust.setBrightness(-0.4);
+//            avatarFrame.setEffect(colorAdjust);
+//            imageStackPaneContainer.getChildren().add(editProfileImageButton);
+//        });
+
+//        avatarFrame.setOnMouseExited(mouseEvent -> {
+//            ColorAdjust colorAdjust = new ColorAdjust();
+//            colorAdjust.setBrightness(0.0);
+//            avatarFrame.setEffect(colorAdjust);
+//            imageStackPaneContainer.getChildren().remove(editProfileImageButton);
+//        });
 
 //        Hide not admin content
         if (currentUserRole == Role.EMPLOYEE) {
