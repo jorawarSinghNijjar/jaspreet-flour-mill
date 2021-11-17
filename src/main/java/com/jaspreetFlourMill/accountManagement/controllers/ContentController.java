@@ -7,6 +7,7 @@ import com.jaspreetFlourMill.accountManagement.model.User;
 import com.jaspreetFlourMill.accountManagement.util.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,10 +21,7 @@ import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -142,12 +140,19 @@ public class ContentController implements Initializable, ApplicationListener<Sta
     @FXML
     private HBox titleHBox;
 
+    @FXML
+    private HBox closeButtonContainerHBox;
+
+    @FXML
+    private Button closeButton;
+
     private boolean modalMounted = false;
 
     private FileChooser fileChooser;
 
     private Image avatar;
     private FxControllerAndView<RegisterAdminController, Node> registerAdminCV;
+
 
     public ContentController(FxWeaver fxWeaver) {
         this.fxWeaver = fxWeaver;
@@ -187,6 +192,15 @@ public class ContentController implements Initializable, ApplicationListener<Sta
         contentContainer.setPrefHeight(baseContainer.getPrefHeight() - (baseContainer.getPrefHeight() * 0.05));
         contentContainer.setLayoutY(titleHBox.getPrefHeight());
 
+//        closeButtonContainerHBox.setPrefWidth(contentContainer.getPrefWidth());
+
+        IconFontFX.register(GoogleMaterialDesignIcons.getIconFont());
+
+        IconNode closeIcon = new IconNode(GoogleMaterialDesignIcons.CLOSE);
+        closeIcon.setIconSize(24);
+        closeIcon.setFill(Color.valueOf("#272635"));
+
+        closeButton.setGraphic(closeIcon);
 
         contentAreaTitleLabel.setPrefWidth(titleHBox.getPrefWidth());
 
@@ -701,4 +715,7 @@ public class ContentController implements Initializable, ApplicationListener<Sta
     }
 
 
+    public void handleClose(ActionEvent actionEvent) {
+        stage.close();
+    }
 }

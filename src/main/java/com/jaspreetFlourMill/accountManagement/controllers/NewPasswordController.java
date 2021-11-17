@@ -6,6 +6,7 @@ import com.jaspreetFlourMill.accountManagement.model.User;
 import com.jaspreetFlourMill.accountManagement.util.FormValidation;
 import com.jaspreetFlourMill.accountManagement.util.Util;
 import com.sun.javafx.menu.MenuItemBase;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Dimension2D;
@@ -13,11 +14,17 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PopupControl;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
+import jiconfont.javafx.IconFontFX;
+import jiconfont.javafx.IconNode;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.context.ApplicationListener;
@@ -47,6 +54,10 @@ public class NewPasswordController implements Initializable, ApplicationListener
     private Label newPasswordValidLabel;
     @FXML
     private Label newConfPasswordValidLabel;
+    @FXML
+    private HBox closeButtonContainerHBox;
+    @FXML
+    private Button closeButton;
 
     public NewPasswordController(FxWeaver fxWeaver) {
         this.fxWeaver = fxWeaver;
@@ -69,6 +80,16 @@ public class NewPasswordController implements Initializable, ApplicationListener
         colConstList.get(0).setPercentWidth(30);
         colConstList.get(1).setPercentWidth(30);
         colConstList.get(1).setPercentWidth(60);
+
+        closeButtonContainerHBox.setPrefWidth(width);
+
+        IconFontFX.register(GoogleMaterialDesignIcons.getIconFont());
+
+        IconNode closeIcon = new IconNode(GoogleMaterialDesignIcons.CLOSE);
+        closeIcon.setIconSize(24);
+        closeIcon.setFill(Color.valueOf("#272635"));
+
+        closeButton.setGraphic(closeIcon);
 
         resetPasswordFormValidation = new FormValidation();
         resetPasswordFormValidation.getFormFields().put("password",false);
@@ -142,5 +163,10 @@ public class NewPasswordController implements Initializable, ApplicationListener
     @Override
     public void onApplicationEvent(StageReadyEvent event) {
         stage = event.getStage();
+    }
+
+    @FXML
+    public void handleClose(ActionEvent actionEvent) {
+        stage.close();
     }
 }

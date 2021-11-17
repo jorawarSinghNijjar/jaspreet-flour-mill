@@ -12,10 +12,16 @@ import javafx.geometry.Dimension2D;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
+import jiconfont.javafx.IconFontFX;
+import jiconfont.javafx.IconNode;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.context.ApplicationListener;
@@ -37,6 +43,11 @@ public class ForgotPasswordController implements Initializable, ApplicationListe
     @FXML
     private GridPane forgotPasswordGP;
 
+    @FXML
+    private HBox closeButtonContainerHBox;
+    @FXML
+    private Button closeButton;
+
     public ForgotPasswordController(FxWeaver fxWeaver) {
         this.fxWeaver = fxWeaver;
     }
@@ -55,6 +66,16 @@ public class ForgotPasswordController implements Initializable, ApplicationListe
         List<ColumnConstraints> colConstList = this.forgotPasswordGP.getColumnConstraints();
         colConstList.get(0).setPercentWidth(40);
         colConstList.get(1).setPercentWidth(60);
+
+        closeButtonContainerHBox.setPrefWidth(width);
+
+        IconFontFX.register(GoogleMaterialDesignIcons.getIconFont());
+
+        IconNode closeIcon = new IconNode(GoogleMaterialDesignIcons.CLOSE);
+        closeIcon.setIconSize(24);
+        closeIcon.setFill(Color.valueOf("#272635"));
+
+        closeButton.setGraphic(closeIcon);
     }
 
     @FXML
@@ -75,5 +96,9 @@ public class ForgotPasswordController implements Initializable, ApplicationListe
     @Override
     public void onApplicationEvent(StageReadyEvent event) {
         stage = event.getStage();
+    }
+
+    public void handleClose(ActionEvent actionEvent) {
+        stage.close();
     }
 }

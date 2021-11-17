@@ -150,6 +150,11 @@
     -fx-margin-bottom: 25;
 }
 
+/* Margin Bottom */
+
+.mb-2{
+    -fx-margin-bottom: 10;
+}
 
 .root{
     -fx-background-color: #3AAFA9;
@@ -158,8 +163,11 @@
     -fx-font-size:14;
 }
 
+.title-bar{
+    -fx-background-color: #ffffff;
+}
+
 .title-label{
-     -fx-background-color: #ffffff;
         -fx-text-fill: #272635;
         -fx-font-size: 22;
         -fx-font-weight: 800;
