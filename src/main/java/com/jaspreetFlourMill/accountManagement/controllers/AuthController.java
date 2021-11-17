@@ -15,17 +15,19 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.GestureEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
+import jiconfont.javafx.IconFontFX;
+import jiconfont.javafx.IconNode;
 import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
@@ -69,6 +71,12 @@ public class AuthController implements Initializable, ApplicationListener<StageR
     @FXML
     public VBox loginFormVBox;
 
+    @FXML
+    private HBox closeButtonContainerHBox;
+
+    @FXML
+    private Button closeButton;
+
     private final FxWeaver fxWeaver;
     private Stage stage;
     private FormValidation loginFormValidation;
@@ -94,6 +102,16 @@ public class AuthController implements Initializable, ApplicationListener<StageR
         colConstList.get(0).setPercentWidth(40);
         colConstList.get(1).setPercentWidth(60);
 
+        closeButtonContainerHBox.setPrefWidth(width);
+
+        IconFontFX.register(GoogleMaterialDesignIcons.getIconFont());
+
+        IconNode closeIcon = new IconNode(GoogleMaterialDesignIcons.CLOSE);
+        closeIcon.setIconSize(24);
+        closeIcon.setFill(Color.valueOf("#272635"));
+
+        closeButton.setGraphic(closeIcon);
+
     }
 
 
@@ -106,6 +124,11 @@ public class AuthController implements Initializable, ApplicationListener<StageR
 
     @FXML
     public void handleLogin(ActionEvent event) { login(); }
+
+    @FXML
+    public void handleClose(){
+        stage.close();
+    }
 
     @FXML
     public void showForgotPassword(ActionEvent event){

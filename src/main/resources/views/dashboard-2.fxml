@@ -12,7 +12,7 @@
 
 <AnchorPane fx:id="baseContainer" minHeight="768.0" minWidth="1366.0" prefHeight="768.0" prefWidth="1366.0" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.ContentController">
    <children>
-      <HBox fx:id="titleHBox" maxWidth="1.7976931348623157E308" stylesheets="@css/main.css">
+      <HBox fx:id="titleHBox" maxWidth="1.7976931348623157E308" styleClass="title-bar" stylesheets="@css/main.css">
          <children>
             <Label fx:id="contentAreaTitleLabel" contentDisplay="TEXT_ONLY" stylesheets="@css/main.css" text="Title">
                <opaqueInsets>
@@ -23,6 +23,7 @@
                   <String fx:value="p-5" />
                </styleClass>
             </Label>
+            <Button fx:id="closeButton" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#handleClose" styleClass="transparent-btn" stylesheets="@css/main.css" />
          </children>
       </HBox>
       <VBox id="menu" fx:id="sideMenuBox" alignment="TOP_CENTER" prefHeight="776.0" prefWidth="230.0" stylesheets="@css/main.css">
