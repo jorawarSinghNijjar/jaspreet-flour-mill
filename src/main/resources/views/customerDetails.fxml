@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="customerDetailVBox" alignment="TOP_CENTER" styleClass="p-5" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.CustomerDetailsController">
+<VBox fx:id="customerDetailVBox" alignment="TOP_CENTER" prefHeight="394.0" prefWidth="614.0" styleClass="p-5" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.CustomerDetailsController">
    <children>
       <GridPane fx:id="customerDetailGridPane" alignment="CENTER" prefHeight="340.0" prefWidth="544.0" stylesheets="@css/main.css">
         <columnConstraints>

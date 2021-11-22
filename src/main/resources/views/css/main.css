@@ -1,9 +1,9 @@
 /*Colors used:
-1. #17252A
-2. #3AAFA9
-3. #DEF2F1
-4. #272635
-5. #52515d
+1. #17252A - dark blue
+2. #3AAFA9 - sea green
+3. #DEF2F1 - light sea green
+4. #272635 - dark blue 2
+5. #52515d - grey
 */
 
 @font-face{
@@ -217,6 +217,46 @@
     -fx-cursor: hand;
 }
 
+.danger-btn{
+  -fx-background-color: #E03554;
+    -fx-text-fill: white;
+    -fx-font-size: 17;
+    -fx-font-weight:700;
+    -fx-padding: 5 30;
+}
+
+.danger-btn:hover{
+ -fx-background-color: #8c3846;
+    -fx-cursor: hand;
+}
+
+.alert-btn{
+  -fx-background-color: #fdca40;
+    -fx-text-fill: white;
+    -fx-font-size: 17;
+    -fx-font-weight:700;
+    -fx-padding: 5 30;
+}
+
+.alert-btn:hover{
+ -fx-background-color: #a38741;
+    -fx-cursor: hand;
+}
+
+.tertiary-btn{
+ -fx-background-color: #AF6F9F;
+    -fx-text-fill: white;
+    -fx-font-size: 17;
+    -fx-font-weight:700;
+    -fx-padding: 5 30;
+}
+
+.tertiary-btn:hover{
+-fx-background-color: #633758;
+    -fx-cursor: hand;
+
+}
+
 .utility-btn{
     -fx-background-color: #ffffff;
     -fx-text-fill: #FF4136 ;
@@ -330,6 +370,13 @@
      -fx-background-color: #3AAFA9;
 }
 
+.customer-detail-card{
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-border-color: #17252A;
+    -fx-background-color : white;
+	-fx-effect : dropshadow(two-pass-box,#485e66,10,0,0,0);
+}
 
 
 

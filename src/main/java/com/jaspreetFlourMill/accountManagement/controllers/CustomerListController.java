@@ -1,16 +1,15 @@
 package com.jaspreetFlourMill.accountManagement.controllers;
 
 import com.jaspreetFlourMill.accountManagement.model.Customer;
+import com.jaspreetFlourMill.accountManagement.model.CustomerAccount;
 import com.jaspreetFlourMill.accountManagement.util.AlertDialog;
+import com.jaspreetFlourMill.accountManagement.util.Util;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -30,10 +29,10 @@ import java.util.ResourceBundle;
 public class CustomerListController implements Initializable {
 
     @FXML
-    public AnchorPane customerListContainerAP;
+    public HBox customerListContainerHBox;
 
     @FXML
-    public GridPane customerListContainerGP;
+    public VBox customerListContainerVBox;
 
     @FXML
     public VBox customerListBox;
@@ -45,7 +44,7 @@ public class CustomerListController implements Initializable {
     public TextField searchCustomerTextField;
 
     @FXML
-    public HBox customerDetailsFromList;
+    public VBox customerDetailsFromList;
 
     private Customer[] customers;
 
@@ -60,58 +59,93 @@ public class CustomerListController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        this.displayCustomers();
-        searchCustomerTextField.textProperty().addListener((observableValue, oldVal, newVal) -> {
-            customerListBox.getChildren().clear();
-            for(Customer customer: customers){
-                if(customer.getName().toLowerCase().contains(newVal.toLowerCase())){
-                    Label customerLabel = new Label(customer.getName()
-                            + "(ID-" + customer.getCustomerId() + " )" );
+        Customer.getAllCustomers().ifPresent(customers -> {
+            this.displayCustomers(customers);
+            customerDetailsFromList.setVisible(false);
+            searchCustomerTextField.textProperty().addListener((observableValue, oldVal, newVal) -> {
+                customerListBox.getChildren().clear();
+                for (Customer customer : customers) {
+                    if (customer.getName().toLowerCase().contains(newVal.toLowerCase())) {
+                        Label customerLabel = new Label(customer.getName()
+                                + "(ID-" + customer.getCustomerId() + ")");
 
-                    customerLabel.setMinWidth(250);
-                    customerLabel.setPrefWidth(customerListSP.getPrefWidth());
-                    customerLabel.setMaxWidth(Double.MAX_VALUE);
-                    customerLabel.getStyleClass().add("list-item");
-                    customerLabel.setOnMouseClicked(mouseEvent -> {
-                        showCustomerDetails(customer.getCustomerId().toString());
-                    });
-                    customerListBox.getChildren().add(customerLabel);
+                        customerLabel.setMinWidth(250);
+                        customerLabel.setPrefWidth(customerListSP.getPrefWidth());
+                        customerLabel.setMaxWidth(Double.MAX_VALUE);
+                        customerLabel.getStyleClass().add("list-item");
+                        customerLabel.setOnMouseClicked(mouseEvent -> {
+                            showCustomerDetails(customer);
+                        });
+                        customerListBox.getChildren().add(customerLabel);
+                    }
                 }
-            }
+            });
         });
-
     }
 
 
-    public void displayCustomers(){
-          Customer.getAllCustomers().ifPresent(customers -> {
-              for(Customer customer: customers){
-                  Label customerLabel = new Label(customer.getName()
-                          + "(ID-" + customer.getCustomerId() + " )" );
+    public void displayCustomers(Customer[] customerArr) {
 
-                  customerLabel.setMinWidth(250);
-                  customerLabel.setPrefWidth(customerListSP.getPrefWidth());
-                  customerLabel.setMaxWidth(Double.MAX_VALUE);
+        for (Customer customer : customerArr) {
+            Label customerLabel = new Label(customer.getName()
+                    + "(ID-" + customer.getCustomerId() + " )");
+
+            customerLabel.setMinWidth(250);
+            customerLabel.setPrefWidth(customerListSP.getPrefWidth());
+            customerLabel.setMaxWidth(Double.MAX_VALUE);
 //                customerLabel.setPrefHeight(400);
-                  customerLabel.getStyleClass().add("list-item");
-                  customerLabel.setOnMouseClicked(mouseEvent -> {
-                      showCustomerDetails(customer.getCustomerId().toString());
-                  });
-                  customerListBox.getChildren().add(customerLabel);
-              }
-          });
+            customerLabel.getStyleClass().add("list-item");
+            customerLabel.setOnMouseClicked(mouseEvent -> {
+                showCustomerDetails(customer);
+            });
+            customerListBox.getChildren().add(customerLabel);
+        }
+
     }
 
-    public void showCustomerDetails(String id){
+    public void showCustomerDetails(Customer customer) {
         customerDetailsCV = fxWeaver.load(CustomerDetailsController.class);
         customerDetailsCV.getView().ifPresent(view -> {
             customerDetailsFromList.getChildren().clear();
             customerDetailsFromList.getChildren().add(view);
-            customerDetailsFromList.getStyleClass().add("no-border");
-            customerDetailsFromList.setAlignment(Pos.CENTER);
+            customerDetailsFromList.setVisible(true);
+            customerDetailsFromList.setAlignment(Pos.TOP_CENTER);
+
+            Button editBtn = new Button("Edit");
+            editBtn.getStyleClass().add("tertiary-btn");
+            Button deleteAccountBtn = new Button("Delete Account");
+            deleteAccountBtn.getStyleClass().add("danger-btn");
+//            Button deleteCustomerBtn = new Button("Delete Customer");
+//            deleteCustomerBtn.getStyleClass().add("danger-btn");
+            Button lostPassbookBtn = new Button("Passbook Lost");
+            lostPassbookBtn.getStyleClass().add("alert-btn");
+
+            // Edit Customer
+            editBtn.setOnAction(actionEvent -> {
+
+            });
+
+            // Delete Customer Account
+            deleteAccountBtn.setOnAction(actionEvent -> {
+                if(CustomerAccount.delete(customer)){
+                    ContentController.navigationHandler.handleShowCustomers();
+                }
+            });
+
+            // Lost Passbook
+            lostPassbookBtn.setOnAction(actionEvent -> {
+
+            });
+
+            HBox btnBox = new HBox(editBtn, deleteAccountBtn, lostPassbookBtn);
+            btnBox.setPrefWidth(customerDetailsFromList.getWidth());
+            btnBox.setSpacing(customerDetailsFromList.getWidth() * 0.08);
+            btnBox.setAlignment(Pos.CENTER);
+
+            customerDetailsFromList.getChildren().add(btnBox);
         });
 
-        customerDetailsCV.getController().updateCustomerDetails(id);
+        customerDetailsCV.getController().updateCustomerDetails(String.valueOf(customer.getCustomerId()));
     }
 
 }

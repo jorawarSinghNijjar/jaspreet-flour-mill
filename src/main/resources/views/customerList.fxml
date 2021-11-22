@@ -3,24 +3,15 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="customerListContainerAP" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.CustomerListController">
+<HBox fx:id="customerListContainerHBox" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.CustomerListController">
    <children>
-      <GridPane fx:id="customerListContainerGP" styleClass="p-5" stylesheets="@css/main.css">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="30.0" prefHeight="10.0" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" />
-        </rowConstraints>
+      <VBox fx:id="customerListContainerVBox" styleClass="p-5" stylesheets="@css/main.css">
          <children>
+            <TextField fx:id="searchCustomerTextField" promptText="Enter customer name ...." />
             <ScrollPane fx:id="customerListSP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" styleClass="base-background" stylesheets="@css/main.css" GridPane.rowIndex="1">
               <content>
                   <AnchorPane styleClass="transparent-background" stylesheets="@css/main.css">
@@ -30,10 +21,9 @@
                   </AnchorPane>
               </content>
             </ScrollPane>
-            <TextField fx:id="searchCustomerTextField" promptText="Enter customer name ...." />
-            <HBox fx:id="customerDetailsFromList" alignment="TOP_CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
-      </GridPane>
+      </VBox>
+      <VBox fx:id="customerDetailsFromList" alignment="CENTER" fillWidth="false" styleClass="customer-detail-card" stylesheets="@css/main.css" />
 <!--      <Label layoutX="15.0" layoutY="14.0" prefHeight="31.0" prefWidth="176.0" styleClass="h2" stylesheets="@css/main.css" text="Search Customers" />-->
    </children>
-</AnchorPane>
+</HBox>

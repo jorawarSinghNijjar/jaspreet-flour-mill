@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Dimension2D;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
@@ -65,12 +66,12 @@ public class ContentController implements Initializable, ApplicationListener<Sta
     private Role currentUserRole;
 
     @FXML
-    private AnchorPane contentContainer;
-
+    private HBox contentContainer;
+    @FXML
     private AnchorPane addTransactionContainer;
-
+    @FXML
     private AnchorPane customerDetailsContainer;
-
+    @FXML
     private AnchorPane transactionDetailsContainer;
 
     @FXML
@@ -189,8 +190,11 @@ public class ContentController implements Initializable, ApplicationListener<Sta
         titleHBox.setPrefHeight(baseContainer.getPrefHeight() * 0.05);
         titleHBox.setLayoutX(sideMenuBox.getPrefWidth());
 
+        contentAreaTitleLabel.setPrefWidth(titleHBox.getPrefWidth());
+        contentAreaTitleLabel.setPrefHeight(titleHBox.getPrefHeight());
+
         contentContainer.setPrefHeight(baseContainer.getPrefHeight() - (baseContainer.getPrefHeight() * 0.05));
-        contentContainer.setLayoutY(titleHBox.getPrefHeight());
+        contentContainer.setLayoutY(contentAreaTitleLabel.getPrefHeight() * 1.5);
 
 //        closeButtonContainerHBox.setPrefWidth(contentContainer.getPrefWidth());
 
@@ -202,7 +206,6 @@ public class ContentController implements Initializable, ApplicationListener<Sta
 
         closeButton.setGraphic(closeIcon);
 
-        contentAreaTitleLabel.setPrefWidth(titleHBox.getPrefWidth());
 
         // Profile Image Layout
         User user = StageInitializer.authentication.getUser();
@@ -309,6 +312,16 @@ public class ContentController implements Initializable, ApplicationListener<Sta
             public void handleShowWheatDeposit() {
                 showDepositWheat();
             }
+
+            @Override
+            public void handleShowCustomers() {
+                showCustomers();
+            }
+
+            @Override
+            public void handleShowAddTransaction() {
+                showAddTransaction();
+            }
         };
 
         // Icons
@@ -361,6 +374,9 @@ public class ContentController implements Initializable, ApplicationListener<Sta
 
     @FXML
     public void showHome() {
+        if(!StageInitializer.authentication.isAuthenticated() || StageInitializer.authentication.getUser().getRole() != Role.ADMIN){
+            navigationHandler.handleShowAddTransaction();
+        }
         contentAreaTitleLabel.setText("Sales Summary");
         contentContainer.getChildren().clear();
 
@@ -405,22 +421,19 @@ public class ContentController implements Initializable, ApplicationListener<Sta
 
         customerListCV.getView().ifPresent(view -> {
             // Layout
-            customerListCV.getController().customerListContainerAP.setPrefWidth(contentContainer.getPrefWidth());
-            customerListCV.getController().customerListContainerAP.setPrefHeight(contentContainer.getPrefHeight());
+            customerListCV.getController().customerListContainerHBox.setPrefWidth(contentContainer.getPrefWidth());
+            customerListCV.getController().customerListContainerHBox.setPrefHeight(contentContainer.getPrefHeight());
 
-            customerListCV.getController().customerListContainerGP.setPrefWidth(contentContainer.getPrefWidth());
-            customerListCV.getController().customerListContainerGP.setPrefHeight(contentContainer.getPrefHeight());
-            customerListCV.getController().customerListContainerGP.setHgap(contentContainer.getPrefWidth() * 0.01);
-            customerListCV.getController().customerListContainerGP.setVgap(contentContainer.getPrefHeight() * 0.01);
+            customerListCV.getController().customerListContainerHBox.setSpacing(contentContainer.getPrefWidth() * 0.1);
 
-            List<ColumnConstraints> colConstList = customerListCV.getController().customerListContainerGP.getColumnConstraints();
-            colConstList.get(0).setPercentWidth(30);
-            colConstList.get(1).setPercentWidth(70);
+            customerListCV.getController().customerListContainerVBox.setPrefWidth(contentContainer.getPrefWidth() * 0.4);
+            customerListCV.getController().customerListContainerVBox.setPrefHeight(contentContainer.getPrefHeight());
 
-            List<RowConstraints> rowConstConstList = customerListCV.getController().customerListContainerGP.getRowConstraints();
-            rowConstConstList.get(0).setPercentHeight(10);
-            rowConstConstList.get(1).setPercentHeight(90);
+            customerListCV.getController().customerListContainerVBox.setSpacing(contentContainer.getPrefHeight() * 0.05);
 
+            customerListCV.getController().customerDetailsFromList.setPrefWidth(contentContainer.getPrefWidth() * 0.4);
+            customerListCV.getController().customerDetailsFromList.setPrefHeight(contentContainer.getPrefWidth() * 0.3);
+            customerListCV.getController().customerDetailsFromList.setMaxHeight(contentContainer.getPrefWidth() * 0.3);
 
             contentContainer.getChildren().add(view);
         });

@@ -232,7 +232,7 @@ public class CustomerAccount implements Serializable {
         return false;
     }
 
-    public static void delete(Customer customer){
+    public static boolean delete(Customer customer){
         try{
             System.out.println("Deleting Customer Account....." + customer.getCustomerId());
             String uri = BASE_URI + "/customers/" + customer.getCustomerId();
@@ -241,12 +241,15 @@ public class CustomerAccount implements Serializable {
             restTemplate.delete(uri);
 
             System.out.println("Deleted Customer Account: " + customer.getCustomerId());
+
+            return true;
         }
         catch (Exception e){
             System.out.println("Error deleting customer account !");
             // Information dialog
             AlertDialog alertDialog = new AlertDialog("Error","Error deleting customer account!", e.getMessage(), Alert.AlertType.ERROR);
             alertDialog.showErrorDialog(e);
+            return false;
         }
     }
 

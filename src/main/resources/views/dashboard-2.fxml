@@ -12,7 +12,7 @@
 
 <AnchorPane fx:id="baseContainer" minHeight="768.0" minWidth="1366.0" prefHeight="768.0" prefWidth="1366.0" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.ContentController">
    <children>
-      <HBox fx:id="titleHBox" maxWidth="1.7976931348623157E308" styleClass="title-bar" stylesheets="@css/main.css">
+      <HBox fx:id="titleHBox" fillHeight="false" maxWidth="1.7976931348623157E308" stylesheets="@css/main.css">
          <children>
             <Label fx:id="contentAreaTitleLabel" contentDisplay="TEXT_ONLY" stylesheets="@css/main.css" text="Title">
                <opaqueInsets>
@@ -25,6 +25,9 @@
             </Label>
             <Button fx:id="closeButton" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#handleClose" styleClass="transparent-btn" stylesheets="@css/main.css" />
          </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
       </HBox>
       <VBox id="menu" fx:id="sideMenuBox" alignment="TOP_CENTER" prefHeight="776.0" prefWidth="230.0" stylesheets="@css/main.css">
          <children>
@@ -99,6 +102,6 @@
             <Insets top="40.0" />
          </padding>
       </VBox>
-      <AnchorPane fx:id="contentContainer" stylesheets="@css/main.css" />
+      <HBox fx:id="contentContainer" layoutX="230.0" layoutY="92.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="634.0" prefWidth="1131.0" styleClass="p-5" stylesheets="@css/main.css" />
    </children>
 </AnchorPane>
