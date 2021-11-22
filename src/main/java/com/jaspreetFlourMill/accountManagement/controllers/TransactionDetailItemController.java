@@ -247,7 +247,7 @@ public class TransactionDetailItemController implements Initializable, Applicati
                 transactionPrintPreviewCV.getController();
         Transaction transaction = null;
         try{
-             transaction = Transaction.getTransaction(selectedTransactionId).orElseThrow();
+             transaction = Transaction.get(selectedTransactionId).orElseThrow();
         }
         catch(Exception e){
             e.getMessage();

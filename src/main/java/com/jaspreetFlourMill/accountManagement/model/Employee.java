@@ -132,7 +132,7 @@ public class Employee implements Serializable {
     }
 
     // POST Employee to API
-    public static boolean register(Employee newEmployee) throws Exception {
+    public static boolean save(Employee newEmployee) throws Exception {
         try{
             System.out.println("Registering employee ...." + newEmployee.getName());
             String uri = BASE_URI + "/employees";
@@ -163,7 +163,7 @@ public class Employee implements Serializable {
     }
 
     // GET Employee
-    public static Optional<Employee> getEmployee(User user) {
+    public static Optional<Employee> get(User user) {
         try{
             System.out.println("Fetching employee ...." + user.getId());
             String uri = BASE_URI + "/employees/" + user.getId();
@@ -182,8 +182,61 @@ public class Employee implements Serializable {
             System.out.println("Employee not found: " + user.getId());
             return Optional.empty();
         }
+        catch(Exception e){
+            String errMessage = "Error finding employee: " + user.getId();
+            System.out.println(errMessage);
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error",errMessage,e.getMessage(), Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
+        }
 
         return Optional.empty();
 
+    }
+
+    public static Optional<Employee> update(User user, Employee employee){
+        try{
+            System.out.println("Updating Employee.....");
+            String uri = BASE_URI + "/employees/" + user.getId();
+            RestTemplate restTemplate = new RestTemplate();
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+            HttpEntity<Employee> req = new HttpEntity<>(employee, httpHeaders);
+            ResponseEntity<Employee> responseEntity = restTemplate.exchange(uri, HttpMethod.PUT, req, Employee.class);
+
+            if(responseEntity.getStatusCode() == HttpStatus.OK){
+                System.out.println("Updated Employee : " + responseEntity.getBody().getId());
+                return Optional.of(responseEntity.getBody());
+            }
+        }
+        catch (Exception e){
+            System.out.println("Error updating employee !");
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error","Error updating employee !", e.getMessage(), Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
+        }
+        return Optional.empty();
+    }
+
+    public static void delete(User user){
+        try{
+            System.out.println("Deleting Employee.....");
+            String uri = BASE_URI + "/employees/" + user.getId();
+            RestTemplate restTemplate = new RestTemplate();
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+            restTemplate.delete(uri);
+
+            System.out.println("Deleted Employee: " + user.getId());
+        }
+        catch (Exception e){
+            System.out.println("Error deleting employee !");
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error","Error deleting employee !", e.getMessage(), Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
+        }
+//        User.delete(user);
     }
 }

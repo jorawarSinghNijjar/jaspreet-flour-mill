@@ -250,7 +250,7 @@ public class ContentController implements Initializable, ApplicationListener<Sta
                     boolean valid = FormValidation.isImage(selectedFile);
                     if(valid){
                         user.setProfileImgLocation(newProfileImageLocation);
-                        User.updateUser(user,user.getId()).ifPresentOrElse(
+                        User.update(user,user.getId()).ifPresentOrElse(
                                 (updatedUser) -> {
                             avatarFrame.setFill(new ImagePattern(new Image(updatedUser.getProfileImgLocation())));
                         },
@@ -303,6 +303,11 @@ public class ContentController implements Initializable, ApplicationListener<Sta
             @Override
             public void handleShowHome() {
                 showHome();
+            }
+
+            @Override
+            public void handleShowWheatDeposit() {
+                showDepositWheat();
             }
         };
 

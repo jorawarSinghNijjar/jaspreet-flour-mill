@@ -57,7 +57,7 @@ public class Admin implements Serializable {
     }
 
     // Register new Admin (only 1 admin allowed for now)
-    public static boolean register(Admin newAdmin) {
+    public static boolean save(Admin newAdmin) {
         try{
             System.out.println("Registering admin...." + newAdmin.getUser().getId());
             String uri = BASE_URI + "/admins";
@@ -89,7 +89,7 @@ public class Admin implements Serializable {
         return false;
     }
 
-    public static Optional<Admin> getAdmin(User user) {
+    public static Optional<Admin> get(User user) {
         try {
             System.out.println("Fetching admin ...." + user.getId());
             String uri = BASE_URI + "/admins/" + user.getId();
@@ -132,6 +132,53 @@ public class Admin implements Serializable {
             alertDialog.showErrorDialog(e);
             return false;
         }
+    }
 
+
+    public static Optional<Admin> update(User user, Admin admin){
+        try{
+            System.out.println("Updating Admin.....");
+            String uri = BASE_URI + "/admins/" + user.getId();
+            RestTemplate restTemplate = new RestTemplate();
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+            HttpEntity<Admin> req = new HttpEntity<>(admin, httpHeaders);
+            ResponseEntity<Admin> responseEntity = restTemplate.exchange(uri, HttpMethod.PUT, req, Admin.class);
+
+            if(responseEntity.getStatusCode() == HttpStatus.OK){
+                System.out.println("Updated Admin : " + responseEntity.getBody().getId());
+                return Optional.of(responseEntity.getBody());
+            }
+        }
+        catch (Exception e){
+            System.out.println("Error updating admin !");
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error","Error updating admin !", e.getMessage(), Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
+        }
+        return Optional.empty();
+    }
+
+    public static void delete(User user){
+        try{
+            System.out.println("Deleting Admin.....");
+            String uri = BASE_URI + "/admins/" + user.getId();
+            RestTemplate restTemplate = new RestTemplate();
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+            restTemplate.delete(uri);
+
+            System.out.println("Deleted Admin: " + user.getId());
+        }
+        catch (Exception e){
+            System.out.println("Error deleting admin !");
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error","Error deleting admin !", e.getMessage(), Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
+        }
+
+//        User.delete(user);
     }
 }

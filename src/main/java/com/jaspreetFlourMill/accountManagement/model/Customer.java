@@ -1,8 +1,9 @@
 package com.jaspreetFlourMill.accountManagement.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.jaspreetFlourMill.accountManagement.util.AlertDialog;
+import javafx.scene.control.Alert;
+import org.springframework.http.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
@@ -130,7 +131,7 @@ public class Customer implements Serializable {
         return Optional.empty();
     }
 
-    public static Optional<Customer> getCustomer(String id) {
+    public static Optional<Customer> get(String id) {
         try {
             System.out.println("Fetching customer ...." + id);
             String uri = BASE_URI + "/customers/" + id;
@@ -153,6 +154,81 @@ public class Customer implements Serializable {
         // Find customer failed
         System.out.println("Failed to fetch customer: " + id);
         return Optional.empty();
+    }
+
+    public static boolean save(Customer customer){
+        try{
+            System.out.println("Registering customer...." + customer.getCustomerId());
+            String uri = BASE_URI + "/customers";
+            RestTemplate restTemplate = new RestTemplate();
+
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+            HttpEntity<Customer> req = new HttpEntity<>(customer, httpHeaders);
+            ResponseEntity<Customer> result = restTemplate.exchange(uri, HttpMethod.POST, req, Customer.class);
+
+            // Admin creation Successful
+            if (result.getStatusCode() == HttpStatus.CREATED) {
+                Customer savedCustomer = result.getBody();
+                System.out.println("Customer Registration successful for: " + savedCustomer.getCustomerId());
+                return true;
+            }
+        }
+        catch (Exception e){
+            // Admin creation failed
+            String errMessage = "Customer Registration failed for: " + customer.getCustomerId();
+            System.out.println(errMessage);
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error",errMessage,e.getMessage(), Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
+            return false;
+        }
+
+        return false;
+    }
+
+    public static Optional<Customer> update(Integer id, Customer customer){
+        try{
+            System.out.println("Updating Customer.....");
+            String uri = BASE_URI + "/customers/" + id;
+            RestTemplate restTemplate = new RestTemplate();
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+            HttpEntity<Customer> req = new HttpEntity<>(customer, httpHeaders);
+            ResponseEntity<Customer> responseEntity = restTemplate.exchange(uri, HttpMethod.PUT, req, Customer.class);
+
+            if(responseEntity.getStatusCode() == HttpStatus.OK){
+                System.out.println("Updated Customer : " + responseEntity.getBody().getCustomerId());
+                return Optional.of(responseEntity.getBody());
+            }
+        }
+        catch (Exception e){
+            System.out.println("Error updating customer !");
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error","Error updating customer !", e.getMessage(), Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
+        }
+        return Optional.empty();
+    }
+
+    public static void delete(Integer id){
+        try{
+            System.out.println("Deleting Customer....." + id);
+            String uri = BASE_URI + "/customers/" + id;
+            RestTemplate restTemplate = new RestTemplate();
+
+            restTemplate.delete(uri);
+
+            System.out.println("Deleted Customer: " + id);
+        }
+        catch (Exception e){
+            System.out.println("Error deleting customer !");
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error","Error deleting customer !", e.getMessage(), Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
+        }
     }
 
     @Override

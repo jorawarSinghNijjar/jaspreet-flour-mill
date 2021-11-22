@@ -278,10 +278,10 @@ public class RegisterEmployeeController implements Initializable, ApplicationLis
             // POST request to register employee
             try {
                 // User registration
-                if (User.register(newUser)) {
+                if (User.save(newUser)) {
                     // Employee registration
                     Employee newEmployee = new Employee(newUser,name, emailId, contactNo,address,jobDesignation,dob);
-                    if (Employee.register(newEmployee)) {
+                    if (Employee.save(newEmployee)) {
                         ContentController.navigationHandler.handleShowHome();
                         return true;
                     }

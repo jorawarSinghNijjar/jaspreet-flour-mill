@@ -206,19 +206,8 @@ public class RegisterCustomerController implements Initializable, ApplicationLis
                 customerDOB,customerAdhaarNo,idProofFileLabel.getText());
 
         if(newCustomer != null){
-            // POST request to register employee
-            final String uri =  "http://localhost:8080/customers/";
-            RestTemplate restTemplate = new RestTemplate();
-
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-
-            HttpEntity<Customer> req = new HttpEntity<>(newCustomer,httpHeaders);
-            ResponseEntity<String> result = restTemplate.exchange(uri, HttpMethod.POST,req,String.class);
-
-            if(result != null){
-                System.out.println(result.getBody());
-                ContentController.navigationHandler.handleShowHome();
+            if(Customer.save(newCustomer)){
+                ContentController.navigationHandler.handleShowWheatDeposit();
             }
         }
     }

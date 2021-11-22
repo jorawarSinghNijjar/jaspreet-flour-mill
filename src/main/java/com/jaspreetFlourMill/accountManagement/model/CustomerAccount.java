@@ -144,7 +144,7 @@ public class CustomerAccount implements Serializable {
     }
 
     // POST request to create customer account
-    public static boolean saveCustomerAccount(CustomerAccount newCustomerAccount) {
+    public static boolean save(CustomerAccount newCustomerAccount) {
         try{
             System.out.println("Registering customer account .... ");
             String uri = BASE_URI + "/customer-accounts";
@@ -173,7 +173,7 @@ public class CustomerAccount implements Serializable {
     }
 
     // GET Customer Account by id from API
-    public static Optional<CustomerAccount> getCustomerAccount(Integer id) {
+    public static Optional<CustomerAccount> get(Integer id) {
         System.out.println("Fetching customer account ...." + id);
         try {
             String uri = BASE_URI + "/customer-accounts/" + id;
@@ -200,7 +200,7 @@ public class CustomerAccount implements Serializable {
     }
 
     // UPDATE Customer Account using customerId and current customer account details
-    public static boolean updateCustomerAccount(Integer customerId, CustomerAccount customerAccount) {
+    public static boolean update(Integer customerId, CustomerAccount customerAccount) {
         try {
             System.out.println("Updating customer account ...." + customerId);
             String uri = BASE_URI + "/customer-accounts/" + customerId;
@@ -232,10 +232,28 @@ public class CustomerAccount implements Serializable {
         return false;
     }
 
+    public static void delete(Customer customer){
+        try{
+            System.out.println("Deleting Customer Account....." + customer.getCustomerId());
+            String uri = BASE_URI + "/customers/" + customer.getCustomerId();
+            RestTemplate restTemplate = new RestTemplate();
+
+            restTemplate.delete(uri);
+
+            System.out.println("Deleted Customer Account: " + customer.getCustomerId());
+        }
+        catch (Exception e){
+            System.out.println("Error deleting customer account !");
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error","Error deleting customer account!", e.getMessage(), Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
+        }
+    }
+
     public static boolean updatePrintedRow(Integer id, boolean nextPage) {
         try{
             System.out.println("Updating printed row .... for customer account: " + id);
-            CustomerAccount customerAccount = CustomerAccount.getCustomerAccount(id).orElseThrow();
+            CustomerAccount customerAccount = CustomerAccount.get(id).orElseThrow();
             if (nextPage) {
                 customerAccount.printNextPage();
             }

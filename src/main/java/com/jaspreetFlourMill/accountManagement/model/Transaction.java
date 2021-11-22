@@ -10,6 +10,8 @@ import org.springframework.web.client.RestTemplate;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -55,7 +57,7 @@ public class Transaction implements Serializable {
 
         // Update Transaction Details in Database
         try{
-            CustomerAccount customerAccount = CustomerAccount.getCustomerAccount(customer.getCustomerId()).orElseThrow();
+            CustomerAccount customerAccount = CustomerAccount.get(customer.getCustomerId()).orElseThrow();
 
             // Update customerBalanceGrindingCharges to database
             double currentGrindingChargesBalance = customerAccount.getGrindingChargesBalance();
@@ -76,7 +78,7 @@ public class Transaction implements Serializable {
 
             customerAccount.setGrindingRate(this.grindingRate);
 
-            CustomerAccount.updateCustomerAccount(customer.getCustomerId(),customerAccount);
+            CustomerAccount.update(customer.getCustomerId(),customerAccount);
         }
         catch(Exception e){
             e.printStackTrace();
@@ -204,8 +206,34 @@ public class Transaction implements Serializable {
         this.customer = customer;
     }
 
+    // GET ALL
+
+    public static List<Transaction> getAll(String customerId) {
+        try {
+            String uri = BASE_URI + "/transactions/query?customerId=" + customerId;
+            RestTemplate restTemplate = new RestTemplate();
+            Transaction[] responseEntity = restTemplate.getForObject(uri, Transaction[].class);
+
+            List<Transaction> transactions = new ArrayList<>();
+            for (Transaction transaction : responseEntity) {
+                transactions.add(transaction);
+            }
+
+            return transactions;
+        }
+        catch (Exception e){
+            String errMessage = "Failed to get transactions for : " + customerId;
+            System.out.println(errMessage);
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error",errMessage,e.getMessage(), Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
+
+        }
+        return null;
+    }
+
     // GET transaction by id
-    public static Optional<Transaction> getTransaction(String id) {
+    public static Optional<Transaction> get(String id) {
         try{
             String uri = BASE_URI  + "/transactions/" + id;
             RestTemplate restTemplate = new RestTemplate();
@@ -229,7 +257,7 @@ public class Transaction implements Serializable {
     }
 
     // POST transaction
-    public static Optional<Transaction> saveTransaction(Transaction newTransaction) {
+    public static Optional<Transaction> save(Transaction newTransaction) {
         try {
             String uri = BASE_URI  + "/transactions/";
             RestTemplate restTemplate = new RestTemplate();
@@ -255,5 +283,50 @@ public class Transaction implements Serializable {
             return Optional.empty();
         }
         return Optional.empty();
+    }
+
+    public static Optional<Transaction> update(String id, Transaction transaction){
+        try{
+            System.out.println("Updating Transaction.....");
+            String uri = BASE_URI + "/transactions/" + id;
+            RestTemplate restTemplate = new RestTemplate();
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+            HttpEntity<Transaction> req = new HttpEntity<>(transaction, httpHeaders);
+            ResponseEntity<Transaction> responseEntity = restTemplate.exchange(uri, HttpMethod.PUT, req, Transaction.class);
+
+            if(responseEntity.getStatusCode() == HttpStatus.OK){
+                System.out.println("Updated Transaction : " + responseEntity.getBody().getTransactionId());
+                return Optional.of(responseEntity.getBody());
+            }
+        }
+        catch (Exception e){
+            System.out.println("Error updating transaction !");
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error","Error updating transaction !", e.getMessage(), Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
+        }
+        return Optional.empty();
+    }
+
+    public static void delete(String id){
+        try{
+            System.out.println("Deleting Transaction.....");
+            String uri = BASE_URI + "/transactions/" + id;
+            RestTemplate restTemplate = new RestTemplate();
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+            restTemplate.delete(uri);
+
+            System.out.println("Deleted Transaction: " + id);
+        }
+        catch (Exception e){
+            System.out.println("Error deleting transaction !");
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error","Error deleting transaction !", e.getMessage(), Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
+        }
     }
 }

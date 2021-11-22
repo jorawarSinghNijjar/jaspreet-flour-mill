@@ -100,9 +100,9 @@ public class CustomerDetailsController implements Initializable {
 
     public void updateCustomerDetails(String id) {
         // Find customer
-        Customer.getCustomer(id).ifPresent((updatedCustomer) -> {
+        Customer.get(id).ifPresent((updatedCustomer) -> {
             // If customer is found, find customer account and update it to view
-            CustomerAccount.getCustomerAccount(updatedCustomer.getCustomerId()).ifPresent((updatedCustomerAccount) -> {
+            CustomerAccount.get(updatedCustomer.getCustomerId()).ifPresent((updatedCustomerAccount) -> {
                 customerIdDisplay.setText(updatedCustomer.getCustomerId().toString());
                 customerAddress.setText(updatedCustomer.getAddress());
                 customerPhoneNumber.setText(updatedCustomer.getPhoneNumber());

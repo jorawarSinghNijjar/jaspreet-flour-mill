@@ -70,7 +70,7 @@ public class User implements Serializable {
     }
 
 
-    public static boolean register(User newUser) {
+    public static boolean save(User newUser) {
         try{
             String uri = BASE_URI + "/users";
             RestTemplate restTemplate = new RestTemplate();
@@ -100,7 +100,7 @@ public class User implements Serializable {
         return false;
     }
 
-    public static Optional<User> getUser(String id) {
+    public static Optional<User> get(String id) {
         try{
             String uri = BASE_URI + "/users/" + id;
             RestTemplate restTemplate = new RestTemplate();
@@ -135,16 +135,16 @@ public class User implements Serializable {
 
     public static Optional getUserDetails(User user) throws Exception{
         if(user.role == Role.ADMIN){
-            return Admin.getAdmin(user);
+            return Admin.get(user);
         }
         else if(user.role == Role.EMPLOYEE){
-           return Employee.getEmployee(user);
+           return Employee.get(user);
 
         }
         return Optional.empty();
     }
 
-    public static Optional<User> updateUser(User user, String id) {
+    public static Optional<User> update(User user, String id) {
         try{
             String uri = BASE_URI + "/users/" + id;
             RestTemplate restTemplate = new RestTemplate();
@@ -172,6 +172,26 @@ public class User implements Serializable {
         }
         return Optional.empty();
     }
+//
+//    public static void delete(User user){
+//        try{
+//            System.out.println("Deleting User.....");
+//            String uri = BASE_URI + "/users/" + user.getId();
+//            RestTemplate restTemplate = new RestTemplate();
+//            HttpHeaders httpHeaders = new HttpHeaders();
+//            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+//
+//            restTemplate.delete(uri);
+//
+//            System.out.println("Deleted user: " + user.getId());
+//        }
+//        catch (Exception e){
+//            System.out.println("Error deleting user !");
+//            // Information dialog
+//            AlertDialog alertDialog = new AlertDialog("Error","Error deleting user !", e.getMessage(), Alert.AlertType.ERROR);
+//            alertDialog.showErrorDialog(e);
+//        }
+//    }
 
 
     public static Optional<String> resetPassword(String emailId) {

@@ -91,7 +91,7 @@ public class TransactionPrintPreviewController implements Initializable, Applica
 
         try {
             customerId = transaction.getCustomer().getCustomerId();
-            CustomerAccount customerAccount = CustomerAccount.getCustomerAccount(customerId).orElseThrow();
+            CustomerAccount customerAccount = CustomerAccount.get(customerId).orElseThrow();
             currentPrintRow = customerAccount.getRowsPrinted();
             currentPrintRow++;
             if (currentPrintRow > printRowsMax) {

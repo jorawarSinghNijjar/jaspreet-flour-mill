@@ -231,10 +231,10 @@ public class RegisterAdminController implements Initializable, ApplicationListen
         if(newUser != null) {
             // POST request to register employee
                 // User registration
-                if (User.register(newUser)) {
+                if (User.save(newUser)) {
                     // Admin registration
                     Admin newAdmin = new Admin(newUser,emailId);
-                    if(Admin.register(newAdmin)){
+                    if(Admin.save(newAdmin)){
                         return true;
                     }
                 }

@@ -20,10 +20,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 @Component
 @FxmlView("/views/transactionDetails.fxml")
@@ -103,78 +100,57 @@ public class TransactionDetailController implements Initializable {
         String orderPickedBy = "";
         String cashier ="";
 
-        try{
-            transactions = this.getTransactions(customerId);
-        }
-        catch(Exception e){
-            e.getMessage();
-            // Information dialog
-            AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(),Alert.AlertType.ERROR);
-            alertDialog.showErrorDialog(e);
-        }
+        transactions = Transaction.getAll(customerId);
 
-
-        for(int i=0; i<transactions.size(); i++){
-            try {
+        if(transactions != null){
+            for(int i=0; i<transactions.size(); i++){
+                try {
 //                System.out.println("--------------------->"+transactions.get(i).toString());
-                transactionDetailItemCV = fxWeaver.load(TransactionDetailItemController.class);
-                TransactionDetailItemController transactionDetailItemController =
-                        transactionDetailItemCV.getController();
+                    transactionDetailItemCV = fxWeaver.load(TransactionDetailItemController.class);
+                    TransactionDetailItemController transactionDetailItemController =
+                            transactionDetailItemCV.getController();
 
-                // Change of Date Time format from US to IND
-                String displayDate = Util.usToIndDateFormat(transactions.get(i).getDate());
-                String displayTime = Util.usToIndTimeFormat(transactions.get(i).getTime());
+                    // Change of Date Time format from US to IND
+                    String displayDate = Util.usToIndDateFormat(transactions.get(i).getDate());
+                    String displayTime = Util.usToIndTimeFormat(transactions.get(i).getTime());
 
-                transactionId = transactions.get(i).getTransactionId();
-                time = displayDate +" " + displayTime;
-                flourPickupQty = transactions.get(i).getFlourPickupQty();
-                grindingCharges = transactions.get(i).getGrindingCharges();
-                grindingBalance = transactions.get(i).getCustomerBalanceGrindingCharges();
-                grindingRate = transactions.get(i).getGrindingRate();
-                grindingChargesPaid = transactions.get(i).getGrindingChargesPaid();
-                storedWheatBalance = transactions.get(i).getCustomerStoredFlourBalanceQty();
-                orderPickedBy = transactions.get(i).getOrderPickedBy();
-                cashier = transactions.get(i).getCashierName();
+                    transactionId = transactions.get(i).getTransactionId();
+                    time = displayDate +" " + displayTime;
+                    flourPickupQty = transactions.get(i).getFlourPickupQty();
+                    grindingCharges = transactions.get(i).getGrindingCharges();
+                    grindingBalance = transactions.get(i).getCustomerBalanceGrindingCharges();
+                    grindingRate = transactions.get(i).getGrindingRate();
+                    grindingChargesPaid = transactions.get(i).getGrindingChargesPaid();
+                    storedWheatBalance = transactions.get(i).getCustomerStoredFlourBalanceQty();
+                    orderPickedBy = transactions.get(i).getOrderPickedBy();
+                    cashier = transactions.get(i).getCashierName();
 
-                transactionDetailItemController.setTransactionDetails(
-                        transactionId,
-                        time,
-                        flourPickupQty,
-                        grindingCharges,
-                        grindingRate,
-                        grindingChargesPaid,
-                        grindingBalance,
-                        storedWheatBalance,
-                        orderPickedBy,
-                        cashier
-                );
-                transactionDetailItemCVList.add(transactionDetailItemCV);
-                transactionDetailItemCV.getView().ifPresent(view -> {
-                    detailItemContainer.getChildren().add(view);
-                });
-            }
-            catch (Exception e){
-                System.out.println("Transaction rendering failed............");
-                // Information dialog
-                AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(), Alert.AlertType.ERROR);
-                alertDialog.showErrorDialog(e);
-                e.printStackTrace();
+                    transactionDetailItemController.setTransactionDetails(
+                            transactionId,
+                            time,
+                            flourPickupQty,
+                            grindingCharges,
+                            grindingRate,
+                            grindingChargesPaid,
+                            grindingBalance,
+                            storedWheatBalance,
+                            orderPickedBy,
+                            cashier
+                    );
+                    transactionDetailItemCVList.add(transactionDetailItemCV);
+                    transactionDetailItemCV.getView().ifPresent(view -> {
+                        detailItemContainer.getChildren().add(view);
+                    });
+                }
+                catch (Exception e){
+                    System.out.println("Transaction rendering failed............");
+                    // Information dialog
+                    AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(), Alert.AlertType.ERROR);
+                    alertDialog.showErrorDialog(e);
+                    e.printStackTrace();
+                }
             }
         }
-
-    }
-
-    public List<Transaction> getTransactions(String customerId) throws Exception{
-        String uri =  "http://localhost:8080/transactions/query?customerId="+customerId;
-        RestTemplate restTemplate = new RestTemplate();
-        Transaction[] responseEntity = restTemplate.getForObject(uri,Transaction[].class);
-
-        List<Transaction> transactions = new ArrayList<>();
-        for(Transaction transaction: responseEntity){
-            transactions.add(transaction);
-        }
-
-        return transactions;
 
     }
 

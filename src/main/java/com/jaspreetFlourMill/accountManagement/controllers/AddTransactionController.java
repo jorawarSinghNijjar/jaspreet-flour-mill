@@ -130,7 +130,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
             System.out.println("Current Cashier - " + StageInitializer.authentication.getUser().getId());
             try {
                 User signedInUser = StageInitializer.authentication.getUser();
-                Employee employee = Employee.getEmployee(signedInUser).orElseThrow(() -> new UsernameNotFoundException("userId: " + signedInUser));
+                Employee employee = Employee.get(signedInUser).orElseThrow(() -> new UsernameNotFoundException("userId: " + signedInUser));
                 cashierName = employee.getName();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -280,7 +280,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
             return;
         }
 
-        Customer.getCustomer(String.valueOf(customerId)).ifPresent(customer -> {
+        Customer.get(String.valueOf(customerId)).ifPresent(customer -> {
             System.out.println("Grinding Charges ---->" + grindingCharges);
             Transaction newTransaction = new Transaction(
                     customer,
@@ -292,7 +292,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
                     cashierName
             );
 
-            Transaction.saveTransaction(newTransaction).ifPresent(savedTransaction -> {
+            Transaction.save(newTransaction).ifPresent(savedTransaction -> {
                 this.updateSales(
                         newTransaction.getDate(),
                         flourPickupQty,

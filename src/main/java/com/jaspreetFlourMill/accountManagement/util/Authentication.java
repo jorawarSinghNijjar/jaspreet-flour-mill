@@ -76,7 +76,7 @@ public class Authentication {
 
         // Check if user is an ADMIN or EMPLOYEE
         System.out.println("Signing in ......");
-        User user = User.getUser(userId).orElseThrow();
+        User user = User.get(userId).orElseThrow();
         System.out.println("Authenticating ......" + user.getId());
 
         String encodedPassword = user.getPassword();

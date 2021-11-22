@@ -16,8 +16,6 @@ import javafx.scene.layout.GridPane;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
 
 import java.net.URL;
 import java.util.Optional;
@@ -112,16 +110,16 @@ public class DepositWheatController implements Initializable {
         Double wheatDepositQty = Double.parseDouble(wheatDepositQtyInput.getText());
         Double wheatProcessingDeductionQty = Double.parseDouble(wheatProcessingDeductionQtyInput.getText());
 
-            Optional<Customer> customer = Customer.getCustomer(String.valueOf(customerId));
+            Optional<Customer> customer = Customer.get(String.valueOf(customerId));
 
             if(customer.isPresent()){
-                Optional<CustomerAccount> fetchedCustomerAccount = CustomerAccount.getCustomerAccount(customerId);
+                Optional<CustomerAccount> fetchedCustomerAccount = CustomerAccount.get(customerId);
 
                 if(fetchedCustomerAccount.isPresent()){
                     // Add wheat balance to customer account
                     fetchedCustomerAccount.get().addWheatToAccount(wheatDepositQty,wheatProcessingDeductionQty);
                     // PUT request UPDATE customer account
-                    CustomerAccount.updateCustomerAccount(customerId,fetchedCustomerAccount.get());
+                    CustomerAccount.update(customerId,fetchedCustomerAccount.get());
                     // add wheat to total wheat balance of company
                     Sales.addWheatDeposit(wheatDepositQty);
 
@@ -132,7 +130,7 @@ public class DepositWheatController implements Initializable {
                     CustomerAccount newCustomerAccount = new CustomerAccount(customer.get(),wheatDepositQty,
                             wheatProcessingDeductionQty);
 
-                    if(CustomerAccount.saveCustomerAccount(newCustomerAccount)){
+                    if(CustomerAccount.save(newCustomerAccount)){
                         // add wheat to total wheat balance of company
                         Sales.addWheatDeposit(wheatDepositQty);
                         ContentController.navigationHandler.handleShowHome();
