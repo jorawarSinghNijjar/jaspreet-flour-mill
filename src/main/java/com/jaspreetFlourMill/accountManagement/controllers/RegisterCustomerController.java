@@ -116,6 +116,10 @@ public class RegisterCustomerController implements Initializable, ApplicationLis
 
     private boolean validForm;
 
+    public String formType;
+
+    private Customer currentCustomer;
+
 
     public RegisterCustomerController(FxWeaver fxWeaver) {
         this.fxWeaver = fxWeaver;
@@ -128,6 +132,7 @@ public class RegisterCustomerController implements Initializable, ApplicationLis
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         // Layout
         registerCustomerVBoxContainer.setPrefWidth(Util.getContentAreaWidth());
         registerCustomerVBoxContainer.setPrefHeight(Util.getContentAreaHeight());
@@ -162,7 +167,20 @@ public class RegisterCustomerController implements Initializable, ApplicationLis
         customerFormValidation.getFormFields().put("id-proof",false);
 
         this.addEventListeners();
+    }
 
+    public void populateFields(Customer customer) {
+        customerNameField.setText(customer.getName());
+        customerAddressField.setText(customer.getAddress());
+        customerPhoneNumberField.setText(customer.getPhoneNumber());
+        customerRationCardNoField.setText(customer.getRationCardNo());
+//        customerDOBField.setValue(customer.getDob());
+        customerAdhaarNoField.setText(customer.getAdhaarNo());
+        idProofFileLabel.setText(customer.getIdProof());
+
+        registerCustomerBtn.setText("Update Customer");
+
+        currentCustomer = customer;
     }
 
     @FXML
@@ -206,8 +224,18 @@ public class RegisterCustomerController implements Initializable, ApplicationLis
                 customerDOB,customerAdhaarNo,idProofFileLabel.getText());
 
         if(newCustomer != null){
-            if(Customer.save(newCustomer)){
-                ContentController.navigationHandler.handleShowWheatDeposit();
+            if(this.formType == "REGISTER") {
+                if (Customer.save(newCustomer)) {
+                    ContentController.navigationHandler.handleShowWheatDeposit();
+                }
+            }
+            else if(this.formType == "EDIT"){
+                Customer.update(currentCustomer.getCustomerId(),newCustomer).ifPresent(customer -> {
+                    ContentController.navigationHandler.handleShowWheatDeposit();
+                });
+            }
+            else {
+                System.out.println("form type is empty");
             }
         }
     }
@@ -264,7 +292,7 @@ public class RegisterCustomerController implements Initializable, ApplicationLis
             this.validateForm();
         });
 
-        customerAddressField.textProperty().addListener((observableValue, localDate, t1) -> {
+        customerAddressField.textProperty().addListener((observableValue, oldVal, newVal) -> {
             boolean validAddress = FormValidation.isAddress(
                     customerAddressField.getText(),
                     customerAddressValidLabel

@@ -122,7 +122,7 @@ public class CustomerListController implements Initializable {
 
             // Edit Customer
             editBtn.setOnAction(actionEvent -> {
-
+                ContentController.navigationHandler.handleEditCustomer(customer);
             });
 
             // Delete Customer Account

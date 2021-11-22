@@ -2,39 +2,29 @@ package com.jaspreetFlourMill.accountManagement.controllers;
 
 import com.jaspreetFlourMill.accountManagement.StageInitializer;
 import com.jaspreetFlourMill.accountManagement.StageReadyEvent;
+import com.jaspreetFlourMill.accountManagement.model.Customer;
 import com.jaspreetFlourMill.accountManagement.model.Role;
 import com.jaspreetFlourMill.accountManagement.model.User;
 import com.jaspreetFlourMill.accountManagement.util.*;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Dimension2D;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import jiconfont.icons.font_awesome.FontAwesome;
 import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
 import jiconfont.javafx.IconFontFX;
@@ -46,14 +36,11 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
 
-import javax.swing.*;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.Stack;
 
 
 @Component
@@ -322,6 +309,17 @@ public class ContentController implements Initializable, ApplicationListener<Sta
             public void handleShowAddTransaction() {
                 showAddTransaction();
             }
+
+            @Override
+            public void handleRegisterCustomer() {
+                showRegisterCustomer();
+            }
+
+            @Override
+            public void handleEditCustomer(Customer customer) {
+                showEditCustomer(customer);
+            }
+
         };
 
         // Icons
@@ -370,7 +368,6 @@ public class ContentController implements Initializable, ApplicationListener<Sta
         customersButton.setGraphic(groupIcon);
 
     }
-
 
     @FXML
     public void showHome() {
@@ -618,6 +615,7 @@ public class ContentController implements Initializable, ApplicationListener<Sta
             contentContainer.getChildren().clear();
             registerCustomerControllerCV = fxWeaver.load(RegisterCustomerController.class);
             registerCustomerControllerCV.getView().ifPresent(view -> {
+                registerCustomerControllerCV.getController().formType = "REGISTER";
                 contentContainer.getChildren().add(view);
             });
 
@@ -627,6 +625,17 @@ public class ContentController implements Initializable, ApplicationListener<Sta
             AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(),Alert.AlertType.ERROR);
             alertDialog.showErrorDialog(e);
         }
+    }
+
+    private void showEditCustomer(Customer customer) {
+        contentAreaTitleLabel.setText("Customer Edit Form");
+        contentContainer.getChildren().clear();
+        registerCustomerControllerCV = fxWeaver.load(RegisterCustomerController.class);
+        registerCustomerControllerCV.getView().ifPresent(view -> {
+            registerCustomerControllerCV.getController().formType = "EDIT";
+            registerCustomerControllerCV.getController().populateFields(customer);
+            contentContainer.getChildren().add(view);
+        });
     }
 
 
