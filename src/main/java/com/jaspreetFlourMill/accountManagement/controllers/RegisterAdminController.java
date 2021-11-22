@@ -1,5 +1,6 @@
 package com.jaspreetFlourMill.accountManagement.controllers;
 
+import com.jaspreetFlourMill.accountManagement.StageInitializer;
 import com.jaspreetFlourMill.accountManagement.StageReadyEvent;
 import com.jaspreetFlourMill.accountManagement.model.Admin;
 import com.jaspreetFlourMill.accountManagement.model.Role;
@@ -252,9 +253,19 @@ public class RegisterAdminController implements Initializable, ApplicationListen
 
     private void loadLoginView(){
         if(this.registerAdmin()){
-            Dimension2D dimension2D = Util.getCenterSceneDim(stage,2.5,2.5);
-            this.stage.setScene(new Scene(fxWeaver.loadView(AuthController.class), dimension2D.getWidth(),dimension2D.getHeight()));
-            this.stage.show();
+            if(StageInitializer.authentication.isAuthenticated()){
+                System.out.println("Loading Dashboard ....");
+                stage.setScene(new Scene(fxWeaver.loadView(ContentController.class), Util.getScreenWidth(), Util.getScreenHeight()));
+                stage.setX(0);
+                stage.setY(0);
+                stage.setMaximized(true);
+                stage.show();
+            }
+            else {
+                Dimension2D dimension2D = Util.getCenterSceneDim(stage,2.5,2.5);
+                this.stage.setScene(new Scene(fxWeaver.loadView(AuthController.class), dimension2D.getWidth(),dimension2D.getHeight()));
+                this.stage.show();
+            }
         }
         else{
             // Admin creation failed
