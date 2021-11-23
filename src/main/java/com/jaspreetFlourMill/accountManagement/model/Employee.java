@@ -150,9 +150,18 @@ public class Employee implements Serializable {
                 return true;
             }
         }
+        catch (HttpClientErrorException.Conflict e){
+            // Employee registration failed
+            String errMessage = "Error: Duplicate entry for email Id or phone number " + newEmployee.getEmailId();
+            System.out.println(errMessage);
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error",errMessage,"", Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
+            return false;
+        }
         catch(Exception e){
             // Employee registration failed
-            String errMessage = "Employee Registration failed for: " + newEmployee.getId();
+            String errMessage = "Employee Registration failed for: " + newEmployee.getName();
             System.out.println(errMessage);
             // Information dialog
             AlertDialog alertDialog = new AlertDialog("Error",errMessage,e.getMessage(), Alert.AlertType.ERROR);
