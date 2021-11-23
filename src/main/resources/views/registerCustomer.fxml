@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="registerCustomerVBoxContainer" fillWidth="false" prefHeight="700.0" prefWidth="800.0" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.RegisterCustomerController">
+<VBox fx:id="registerCustomerVBoxContainer" fillWidth="false" prefHeight="700.0" prefWidth="800.0" styleClass="p-10" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.RegisterCustomerController">
     <children>
 <!--        <Label alignment="CENTER" layoutX="280.0" layoutY="60.0" prefHeight="54.0" prefWidth="228.0" styleClass="h2"-->
 <!--               stylesheets="@css/main.css" text="Enter Customer Details" textAlignment="CENTER"/>-->

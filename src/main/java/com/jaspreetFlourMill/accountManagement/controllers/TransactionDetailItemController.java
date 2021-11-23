@@ -90,7 +90,7 @@ public class TransactionDetailItemController implements Initializable, Applicati
     public void initialize(URL url, ResourceBundle resourceBundle) {
         transactionPrintPreviewCV = fxWeaver.load(TransactionPrintPreviewController.class);
         transactionDetailItem.setPrefWidth(Util.getContentAreaWidth());
-        transactionDetailItem.setPrefHeight(Util.getContentAreaHeight() * 0.06);
+        transactionDetailItem.setPrefHeight(Util.getContentAreaHeight() * 0.1);
         transactionDetailItem.setSpacing(Util.getContentAreaWidth() * 0.02);
     }
 

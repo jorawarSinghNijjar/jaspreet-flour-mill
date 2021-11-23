@@ -53,7 +53,7 @@ public class ContentController implements Initializable, ApplicationListener<Sta
     private Role currentUserRole;
 
     @FXML
-    private HBox contentContainer;
+    private Pane contentContainer;
     @FXML
     private AnchorPane addTransactionContainer;
     @FXML
@@ -537,7 +537,7 @@ public class ContentController implements Initializable, ApplicationListener<Sta
             transactionDetailsContainer.setPrefHeight(contentContainer.getPrefHeight() * 0.5);
             transactionDetailsContainer.setPrefWidth(contentContainer.getPrefWidth());
             transactionDetailsContainer.setLayoutX(0);
-            transactionDetailsContainer.setLayoutY(addTransactionContainer.getPrefHeight() + titleHBox.getPrefHeight());
+            transactionDetailsContainer.setLayoutY(addTransactionContainer.getPrefHeight());
 
             transactionDetailsCV.getView().ifPresent(view -> {
                 // Layout

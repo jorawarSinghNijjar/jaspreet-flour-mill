@@ -72,6 +72,10 @@
     -fx-padding: 25;
 }
 
+.p-10{
+    -fx-padding: 100;
+}
+
 /* Margins all*/
 
 .m-1{
