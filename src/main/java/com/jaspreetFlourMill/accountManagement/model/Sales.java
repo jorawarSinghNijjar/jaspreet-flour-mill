@@ -275,20 +275,30 @@ public class Sales implements Serializable {
     // Add Wheat amount to Sales and Stock table
     public static void addWheatDeposit(double wheatDepositQty) {
         System.out.println("Adding wheat amount - " + wheatDepositQty + " to wheatBalance....");
-        Stock.getStock().ifPresent(stock -> {
+        Stock.getStock().ifPresentOrElse(stock -> {
             stock.addWheat(wheatDepositQty);
             Stock.updateStock(stock);
             Sales.updateWheatBalanceInSales(stock.getWheatBalance(), wheatDepositQty, true);
+        }, () -> {
+            Stock stock = new Stock();
+            stock.addWheat(wheatDepositQty);
+            Stock.save(stock);
         });
     }
 
     // Deduct Wheat amount from Sales and Stock table
     public void deductWheatSold(double flourPickupQty) {
         System.out.println("Deducting wheat amount - " + flourPickupQty + " from wheatBalance....");
-        Stock.getStock().ifPresent(stock -> {
+        Stock.getStock().ifPresentOrElse(stock -> {
             stock.deductWheat(flourPickupQty);
             Stock.updateStock(stock);
             Sales.updateWheatBalanceInSales(stock.getWheatBalance(), 0.00, false);
+        },() ->{
+            String errMessage = "Stock not found";
+            System.out.println(errMessage);
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error", errMessage,"", Alert.AlertType.INFORMATION);
+            alertDialog.showInformationDialog();
         });
 
 

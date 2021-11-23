@@ -48,45 +48,58 @@ public class Stock implements Serializable {
     }
 
     // Save stock
-    public static Optional<Stock> saveStock(Stock stock) throws Exception{
-        System.out.println("Saving stock........");
-        final String uri = BASE_URI + "/stocks/";
-        RestTemplate restTemplate = new RestTemplate();
+    public static Optional<Stock> save(Stock stock) {
+        try {
+            System.out.println("Saving stock........");
+            final String uri = BASE_URI + "/stocks/";
+            RestTemplate restTemplate = new RestTemplate();
 
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpEntity<Stock> req = new HttpEntity<>(stock, httpHeaders);
-        ResponseEntity<Stock> result = restTemplate.exchange(uri, HttpMethod.POST, req, Stock.class);
+            HttpEntity<Stock> req = new HttpEntity<>(stock, httpHeaders);
+            ResponseEntity<Stock> result = restTemplate.exchange(uri, HttpMethod.POST, req, Stock.class);
 
-        // Saving stock successful
-        if (result.getStatusCode() == HttpStatus.CREATED) {
-            Stock savedStock = result.getBody();
-            System.out.println("Saved stock, Current Wheat Balance: " + savedStock.getWheatBalance());
-            return Optional.of(savedStock);
+            // Saving stock successful
+            if (result.getStatusCode() == HttpStatus.CREATED) {
+                Stock savedStock = result.getBody();
+                System.out.println("Saved stock, Current Wheat Balance: " + savedStock.getWheatBalance());
+                return Optional.of(savedStock);
+            }
+
+        } catch (Exception e) {
+            System.out.println("Error saving stocks !");
+            return Optional.empty();
         }
-
         // Saving stock unsuccessful
         System.out.println("Failed to save stock, Current Wheat Balance: " + stock.getWheatBalance());
         return Optional.empty();
     }
 
     // UPDATE Stock
-    public static Optional<Stock> updateStock(Stock stock){
-        System.out.println("Updating Stock..........");
-        String uri = BASE_URI + "/stocks/update";
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+    public static Optional<Stock> updateStock(Stock stock) {
+        try {
+            System.out.println("Updating Stock..........");
+            String uri = BASE_URI + "/stocks/update";
+            RestTemplate restTemplate = new RestTemplate();
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpEntity<Stock> req = new HttpEntity<>(stock, httpHeaders);
-        ResponseEntity<Stock> responseEntity = restTemplate.exchange(uri, HttpMethod.PUT, req, Stock.class);
+            HttpEntity<Stock> req = new HttpEntity<>(stock, httpHeaders);
+            ResponseEntity<Stock> responseEntity = restTemplate.exchange(uri, HttpMethod.PUT, req, Stock.class);
 
-        // Updating stock successful
-        if (responseEntity.getStatusCode() == HttpStatus.OK) {
-            Stock updatedStock = responseEntity.getBody();
-            System.out.println("Updated stock, Current Wheat Balance: " + updatedStock.getWheatBalance());
-            return Optional.of(updatedStock);
+            // Updating stock successful
+            if (responseEntity.getStatusCode() == HttpStatus.OK) {
+                Stock updatedStock = responseEntity.getBody();
+                System.out.println("Updated stock, Current Wheat Balance: " + updatedStock.getWheatBalance());
+                return Optional.of(updatedStock);
+            }
+        } catch (HttpClientErrorException.NotFound e) {
+            System.out.println("Stock does not exist !");
+            return Optional.empty();
+        } catch (Exception e) {
+            System.out.println("Error updating stocks !");
+            return Optional.empty();
         }
 
         // Updating stock unsuccessful
@@ -108,9 +121,11 @@ public class Stock implements Serializable {
                 return Optional.of(stock);
             }
 
-        }
-        catch (HttpClientErrorException.NotFound e){
+        } catch (HttpClientErrorException.NotFound e) {
             System.out.println("Stock does not exist !");
+            return Optional.empty();
+        } catch (Exception e) {
+            System.out.println("Error fetching stocks !");
             return Optional.empty();
         }
 
