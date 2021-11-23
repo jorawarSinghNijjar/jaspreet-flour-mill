@@ -151,6 +151,9 @@ public class TransactionDetailController implements Initializable {
                 }
             }
         }
+        else {
+            System.out.println("No transactions found !");
+        }
 
     }
 

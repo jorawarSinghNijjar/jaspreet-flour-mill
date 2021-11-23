@@ -212,14 +212,20 @@ public class Transaction implements Serializable {
         try {
             String uri = BASE_URI + "/transactions/query?customerId=" + customerId;
             RestTemplate restTemplate = new RestTemplate();
-            Transaction[] responseEntity = restTemplate.getForObject(uri, Transaction[].class);
+            ResponseEntity<Transaction[]> responseEntity = restTemplate.getForEntity(uri, Transaction[].class);
 
-            List<Transaction> transactions = new ArrayList<>();
-            for (Transaction transaction : responseEntity) {
-                transactions.add(transaction);
+            if(responseEntity.getStatusCode() == HttpStatus.OK){
+                List<Transaction> transactions = new ArrayList<>();
+                for (Transaction transaction : responseEntity.getBody()) {
+                    transactions.add(transaction);
+                }
+
+                return transactions;
             }
-
-            return transactions;
+        }
+        catch (HttpClientErrorException.NotFound e){
+            System.out.println("Customer does not exist: " + customerId);
+            return null;
         }
         catch (Exception e){
             String errMessage = "Failed to get transactions for : " + customerId;
@@ -227,7 +233,7 @@ public class Transaction implements Serializable {
             // Information dialog
             AlertDialog alertDialog = new AlertDialog("Error",errMessage,e.getMessage(), Alert.AlertType.ERROR);
             alertDialog.showErrorDialog(e);
-
+            return null;
         }
         return null;
     }
