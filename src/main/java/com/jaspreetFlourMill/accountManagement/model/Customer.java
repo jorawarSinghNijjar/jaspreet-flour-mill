@@ -156,7 +156,7 @@ public class Customer implements Serializable {
         return Optional.empty();
     }
 
-    public static boolean save(Customer customer){
+    public static Optional<Customer> save(Customer customer){
         try{
             System.out.println("Registering customer...." + customer.getCustomerId());
             String uri = BASE_URI + "/customers";
@@ -172,7 +172,7 @@ public class Customer implements Serializable {
             if (result.getStatusCode() == HttpStatus.CREATED) {
                 Customer savedCustomer = result.getBody();
                 System.out.println("Customer Registration successful for: " + savedCustomer.getCustomerId());
-                return true;
+                return Optional.of(savedCustomer);
             }
         }
         catch (Exception e){
@@ -182,10 +182,9 @@ public class Customer implements Serializable {
             // Information dialog
             AlertDialog alertDialog = new AlertDialog("Error",errMessage,e.getMessage(), Alert.AlertType.ERROR);
             alertDialog.showErrorDialog(e);
-            return false;
+            return Optional.empty();
         }
-
-        return false;
+        return Optional.empty();
     }
 
     public static Optional<Customer> update(Integer id, Customer customer){

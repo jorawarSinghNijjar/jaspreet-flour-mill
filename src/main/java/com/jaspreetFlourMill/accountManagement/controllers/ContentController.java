@@ -296,8 +296,8 @@ public class ContentController implements Initializable, ApplicationListener<Sta
             }
 
             @Override
-            public void handleShowWheatDeposit() {
-                showDepositWheat();
+            public void handleShowWheatDeposit(Integer id) {
+                showDepositWheat(id);
             }
 
             @Override
@@ -366,6 +366,8 @@ public class ContentController implements Initializable, ApplicationListener<Sta
         addTransactionButton.setGraphic(assignmentIcon);
         wheatDepositButton.setGraphic(plusSquare);
         customersButton.setGraphic(groupIcon);
+
+        wheatDepositButton.setOnAction(actionEvent -> navigationHandler.handleShowWheatDeposit(-1));
 
     }
 
@@ -575,7 +577,7 @@ public class ContentController implements Initializable, ApplicationListener<Sta
     }
 
     @FXML
-    public void showDepositWheat() {
+    public void showDepositWheat(Integer id) {
 
         try {
             contentAreaTitleLabel.setText("Wheat Deposit Form");

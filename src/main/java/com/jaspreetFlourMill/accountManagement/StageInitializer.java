@@ -44,7 +44,7 @@ public class StageInitializer implements ApplicationListener<StageReadyEvent> {
         stage = event.getStage();
         stage.initStyle(StageStyle.UNDECORATED);
 
-        try {
+//        try {
             if(Admin.isRegistered()){
                 Dimension2D dimension2D = Util.getCenterSceneDim(stage,3.5,2.5);
                 stage.setScene(new Scene(fxWeaver.loadView(AuthController.class),dimension2D.getWidth(),dimension2D.getHeight()));
@@ -58,12 +58,12 @@ public class StageInitializer implements ApplicationListener<StageReadyEvent> {
                     stage.setScene(new Scene((Parent)(view),dimension2D.getWidth(),dimension2D.getHeight()));
                 });
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            // Information dialog
-            AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(),Alert.AlertType.ERROR);
-            alertDialog.showErrorDialog(e);
-        }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            // Information dialog
+//            AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(),Alert.AlertType.ERROR);
+//            alertDialog.showErrorDialog(e);
+//        }
 
         stage.show();
 

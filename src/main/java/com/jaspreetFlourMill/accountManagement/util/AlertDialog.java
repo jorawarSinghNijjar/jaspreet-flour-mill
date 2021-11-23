@@ -1,6 +1,7 @@
 package com.jaspreetFlourMill.accountManagement.util;
 
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
@@ -8,6 +9,7 @@ import javafx.scene.layout.Priority;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Optional;
 
 public class AlertDialog {
     private String title;
@@ -97,5 +99,15 @@ public class AlertDialog {
         alert.setContentText(contentText);
 
         alert.showAndWait();
+    }
+
+    public Alert showConfirmationDialog(){
+        // Confirmation dialog for printing the transaction
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(this.title);
+        alert.setHeaderText(this.headerText);
+        alert.setContentText(this.contentText);
+
+        return alert;
     }
 }

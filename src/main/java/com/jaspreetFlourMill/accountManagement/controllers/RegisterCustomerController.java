@@ -209,7 +209,6 @@ public class RegisterCustomerController implements Initializable, ApplicationLis
 
     private void registerCustomer(){
         if(!this.validateForm()){
-            customerRegisterAlertMsg.setText("Please fill the form correctly");
             return;
         }
 
@@ -225,13 +224,14 @@ public class RegisterCustomerController implements Initializable, ApplicationLis
 
         if(newCustomer != null){
             if(this.formType == "REGISTER") {
-                if (Customer.save(newCustomer)) {
-                    ContentController.navigationHandler.handleShowWheatDeposit();
-                }
+                Customer.save(newCustomer).ifPresent(savedCustomer -> {
+                    ContentController.navigationHandler.handleShowWheatDeposit(savedCustomer.getCustomerId());
+                });
+
             }
             else if(this.formType == "EDIT"){
-                Customer.update(currentCustomer.getCustomerId(),newCustomer).ifPresent(customer -> {
-                    ContentController.navigationHandler.handleShowWheatDeposit();
+                Customer.update(currentCustomer.getCustomerId(),newCustomer).ifPresent(updatedCustomer -> {
+                    ContentController.navigationHandler.handleShowWheatDeposit(updatedCustomer.getCustomerId());
                 });
             }
             else {
@@ -311,14 +311,10 @@ public class RegisterCustomerController implements Initializable, ApplicationLis
 
     private boolean validateForm(){
         if(customerFormValidation.getFormFields().containsValue(false)){
-//            customerRegisterAlertMsg.setText("Please fill the form correctly");
-//            customerRegisterAlertMsg.getStyleClass().add("validate-err");
             registerCustomerBtn.setDisable(true);
             return false;
         }
         else{
-//            customerRegisterAlertMsg.setText("");
-//            customerRegisterAlertMsg.getStyleClass().clear();
             registerCustomerBtn.setDisable(false);
             return true;
         }

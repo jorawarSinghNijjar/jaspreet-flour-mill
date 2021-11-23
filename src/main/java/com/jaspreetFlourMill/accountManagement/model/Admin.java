@@ -1,18 +1,24 @@
 package com.jaspreetFlourMill.accountManagement.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.jaspreetFlourMill.accountManagement.StageInitializer;
 import com.jaspreetFlourMill.accountManagement.util.AlertDialog;
 import com.jaspreetFlourMill.accountManagement.util.Rest;
 import com.jaspreetFlourMill.accountManagement.util.Util;
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import org.springframework.http.*;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.swing.text.html.Option;
+import java.io.IOException;
 import java.io.Serializable;
+import java.net.ConnectException;
 import java.util.Optional;
 
 import static com.jaspreetFlourMill.accountManagement.util.Rest.BASE_URI;
@@ -123,6 +129,16 @@ public class Admin implements Serializable {
                 return true;
             }
             System.out.println("No admin registered!");
+            return false;
+        }
+        catch (ResourceAccessException e){
+            System.out.println("Error connecting to server!");
+            String headerText = "Server is not up and running, start the server before launching the client";
+            String contentText = "Try connecting again";
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Info",headerText,contentText, Alert.AlertType.INFORMATION);
+            alertDialog.showInformationDialog();
+            Platform.exit();
             return false;
         }
         catch (Exception e){

@@ -4,7 +4,7 @@ import com.jaspreetFlourMill.accountManagement.model.Customer;
 
 public interface NavigationHandler {
     void handleShowHome();
-    void handleShowWheatDeposit();
+    void handleShowWheatDeposit(Integer id);
     void handleShowCustomers();
     void handleShowAddTransaction();
     void handleRegisterCustomer();

@@ -139,4 +139,8 @@ public class DepositWheatController implements Initializable {
             }
     }
 
+    public void setCurrentCustomerId(Integer id){
+        customerIdInputDepositPage.setText(String.valueOf(id));
+    }
+
 }
