@@ -119,7 +119,7 @@ public class NewPasswordController implements Initializable, ApplicationListener
         });
 
         // Submit form if Enter key is pressed
-        stage.getScene().setOnKeyPressed(keyEvent -> {
+        setNewPasswordGP.setOnKeyPressed(keyEvent -> {
             if(keyEvent.getCode() == KeyCode.ENTER && this.validateForm()){
                 this.handleNewPasswordSubmit();
             }

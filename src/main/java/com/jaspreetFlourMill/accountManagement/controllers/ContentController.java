@@ -596,6 +596,8 @@ public class ContentController implements Initializable, ApplicationListener<Sta
                 colConstList.get(1).setPercentWidth(20);
                 colConstList.get(2).setPercentWidth(40);
 
+                depositWheatCV.getController().setCurrentCustomerId(id);
+
                 contentContainer.getChildren().add(view);
             });
 

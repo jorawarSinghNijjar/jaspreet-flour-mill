@@ -225,6 +225,7 @@ public class RegisterCustomerController implements Initializable, ApplicationLis
         if(newCustomer != null){
             if(this.formType == "REGISTER") {
                 Customer.save(newCustomer).ifPresent(savedCustomer -> {
+                    System.out.println("Saved customer = " + savedCustomer.getCustomerId());
                     ContentController.navigationHandler.handleShowWheatDeposit(savedCustomer.getCustomerId());
                 });
 
@@ -302,8 +303,8 @@ public class RegisterCustomerController implements Initializable, ApplicationLis
         });
 
         // Submit form if Enter key is pressed
-        this.stage.getScene().setOnKeyPressed(keyEvent -> {
-            if(keyEvent.getCode() == KeyCode.ENTER){
+        registerCustomerVBoxContainer.setOnKeyPressed(keyEvent -> {
+            if(keyEvent.getCode() == KeyCode.ENTER && this.validateForm()){
                 registerCustomer();
             }
         });

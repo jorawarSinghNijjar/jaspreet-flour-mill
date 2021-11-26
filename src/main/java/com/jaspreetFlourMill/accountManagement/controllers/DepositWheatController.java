@@ -12,6 +12,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.http.*;
@@ -90,6 +91,13 @@ public class DepositWheatController implements Initializable {
             this.validateForm();
         });
 
+        // Submit form if Enter key is pressed
+        wheatDepositFormGP.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.ENTER && this.validateForm()) {
+                submitWheatDeposit();
+            }
+        });
+
     }
 
     private boolean validateForm() {
@@ -109,6 +117,10 @@ public class DepositWheatController implements Initializable {
         Integer customerId = Integer.parseInt(customerIdInputDepositPage.getText());
         Double wheatDepositQty = Double.parseDouble(wheatDepositQtyInput.getText());
         Double wheatProcessingDeductionQty = Double.parseDouble(wheatProcessingDeductionQtyInput.getText());
+
+        if(!this.validateForm()){
+            return;
+        }
 
             Optional<Customer> customer = Customer.get(String.valueOf(customerId));
 

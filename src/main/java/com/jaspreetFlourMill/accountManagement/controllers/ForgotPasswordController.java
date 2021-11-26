@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -76,11 +77,19 @@ public class ForgotPasswordController implements Initializable, ApplicationListe
         closeIcon.setFill(Color.valueOf("#272635"));
 
         closeButton.setGraphic(closeIcon);
+
+        // Submit form if Enter key is pressed
+        forgotPasswordGP.setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.ENTER) {
+                handleResetPassword();
+            }
+        });
     }
 
     @FXML
-    public void handleResetPassword(ActionEvent actionEvent){
+    public void handleResetPassword(){
         String emailId = forgotEmailIdField.getText();
+
         User.resetPassword(emailId).ifPresentOrElse((msg) -> {
             System.out.println(msg);
             Dimension2D dimension2D = Util.getCenterSceneDim(stage,3.5,2.5);

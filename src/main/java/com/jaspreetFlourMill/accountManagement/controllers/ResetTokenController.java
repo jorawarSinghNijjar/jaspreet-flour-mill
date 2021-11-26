@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -76,6 +77,13 @@ public class ResetTokenController implements Initializable, ApplicationListener<
         closeIcon.setFill(Color.valueOf("#272635"));
 
         closeButton.setGraphic(closeIcon);
+
+        // Submit form if Enter key is pressed
+        resetTokenGP.setOnKeyPressed(keyEvent -> {
+            if(keyEvent.getCode() == KeyCode.ENTER){
+                this.handleResetTokenSubmit();
+            }
+        });
 
     }
 
