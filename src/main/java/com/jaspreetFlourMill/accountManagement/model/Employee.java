@@ -152,11 +152,11 @@ public class Employee implements Serializable {
         }
         catch (HttpClientErrorException.Conflict e){
             // Employee registration failed
-            String errMessage = "Error: Duplicate entry for email Id or phone number " + newEmployee.getEmailId();
+            String errMessage = "Error: Duplicate entry for email Id or phone number or userId - " + newEmployee.getEmailId();
             System.out.println(errMessage);
             // Information dialog
             AlertDialog alertDialog = new AlertDialog("Error",errMessage,"", Alert.AlertType.ERROR);
-            alertDialog.showErrorDialog(e);
+            alertDialog.showInformationDialog();
             return false;
         }
         catch(Exception e){

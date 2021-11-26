@@ -59,7 +59,7 @@ public class AlertDialog {
     }
 
     public void showErrorDialog(Exception e) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+        Alert alert = new Alert(this.type);
         alert.setTitle(title);
         alert.setHeaderText(headerText);
         alert.setContentText(contentText);
@@ -93,7 +93,7 @@ public class AlertDialog {
     }
 
     public void showInformationDialog(){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        Alert alert = new Alert(this.type);
         alert.setTitle(title);
         alert.setHeaderText(headerText);
         alert.setContentText(contentText);
@@ -101,9 +101,9 @@ public class AlertDialog {
         alert.showAndWait();
     }
 
-    public Alert showConfirmationDialog(){
+    public Alert getConfirmationDialog(){
         // Confirmation dialog for printing the transaction
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        Alert alert = new Alert(this.type);
         alert.setTitle(this.title);
         alert.setHeaderText(this.headerText);
         alert.setContentText(this.contentText);

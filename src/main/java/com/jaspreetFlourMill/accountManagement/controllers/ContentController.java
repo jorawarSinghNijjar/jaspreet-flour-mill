@@ -196,8 +196,7 @@ public class ContentController implements Initializable, ApplicationListener<Sta
 
         // Profile Image Layout
         User user = StageInitializer.authentication.getUser();
-
-        avatar = new Image("C:\\Jorawar Singh\\software_dev\\projects\\jaspreet_flour_mill\\jaspreet-flour-mill\\src\\main\\resources\\images\\avatar.png");
+        avatar = new Image("images/avatar.png");
 
         if(user.getProfileImgLocation() != null){
             avatar = new Image(user.getProfileImgLocation());
