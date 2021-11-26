@@ -40,6 +40,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.net.URL;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 
@@ -375,7 +376,7 @@ public class ContentController implements Initializable, ApplicationListener<Sta
         if(!StageInitializer.authentication.isAuthenticated() || StageInitializer.authentication.getUser().getRole() != Role.ADMIN){
             navigationHandler.handleShowAddTransaction();
         }
-        contentAreaTitleLabel.setText("Sales Summary");
+        contentAreaTitleLabel.setText("Sales Summary".toUpperCase());
         contentContainer.getChildren().clear();
 
         homeCV = fxWeaver.load(HomeController.class);
@@ -413,7 +414,7 @@ public class ContentController implements Initializable, ApplicationListener<Sta
 
     @FXML
     public void showCustomers() {
-        contentAreaTitleLabel.setText("Search Customers By Name");
+        contentAreaTitleLabel.setText("Search Customers By Name".toUpperCase());
         contentContainer.getChildren().clear();
         customerListCV = fxWeaver.load(CustomerListController.class);
 
@@ -426,6 +427,8 @@ public class ContentController implements Initializable, ApplicationListener<Sta
 
             customerListCV.getController().customerListContainerVBox.setPrefWidth(contentContainer.getPrefWidth() * 0.4);
             customerListCV.getController().customerListContainerVBox.setPrefHeight(contentContainer.getPrefHeight());
+            customerListCV.getController().customerListContainerVBox.setMaxHeight(contentContainer.getPrefHeight());
+            customerListCV.getController().customerListContainerVBox.setMinHeight(contentContainer.getPrefHeight() * 0.75);
 
             customerListCV.getController().customerListContainerVBox.setSpacing(contentContainer.getPrefHeight() * 0.05);
 
@@ -440,7 +443,7 @@ public class ContentController implements Initializable, ApplicationListener<Sta
     @FXML
     public void showAddTransaction() {
         try {
-            contentAreaTitleLabel.setText("Transactions");
+            contentAreaTitleLabel.setText("Transactions".toUpperCase());
             contentContainer.getChildren().clear();
             System.out.println("Show add transaction");
             //Load add transaction view
@@ -579,7 +582,7 @@ public class ContentController implements Initializable, ApplicationListener<Sta
     public void showDepositWheat(Integer id) {
 
         try {
-            contentAreaTitleLabel.setText("Wheat Deposit Form");
+            contentAreaTitleLabel.setText("Wheat Deposit Form".toUpperCase());
             contentContainer.getChildren().clear();
             //Load Deposit Wheat View
             depositWheatCV = fxWeaver.load(DepositWheatController.class);
@@ -614,7 +617,7 @@ public class ContentController implements Initializable, ApplicationListener<Sta
     public void showRegisterCustomer() {
 
         try {
-            contentAreaTitleLabel.setText("Customer Registration Form");
+            contentAreaTitleLabel.setText("Customer Registration Form".toUpperCase());
             contentContainer.getChildren().clear();
             registerCustomerControllerCV = fxWeaver.load(RegisterCustomerController.class);
             registerCustomerControllerCV.getView().ifPresent(view -> {
@@ -631,7 +634,7 @@ public class ContentController implements Initializable, ApplicationListener<Sta
     }
 
     private void showEditCustomer(Customer customer) {
-        contentAreaTitleLabel.setText("Customer Edit Form");
+        contentAreaTitleLabel.setText("Customer Edit Form".toUpperCase());
         contentContainer.getChildren().clear();
         registerCustomerControllerCV = fxWeaver.load(RegisterCustomerController.class);
         registerCustomerControllerCV.getView().ifPresent(view -> {
@@ -645,7 +648,7 @@ public class ContentController implements Initializable, ApplicationListener<Sta
     @FXML
     public void showRegisterEmployee() {
         try {
-            contentAreaTitleLabel.setText("Employee Registration Form");
+            contentAreaTitleLabel.setText("Employee Registration Form".toUpperCase());
             contentContainer.getChildren().clear();
             //Load Register Employee View
             registerEmployeeCV = fxWeaver.load(RegisterEmployeeController.class);
@@ -667,7 +670,7 @@ public class ContentController implements Initializable, ApplicationListener<Sta
     public void showRegisterAdmin(){
         try {
             System.out.println("Redirecting to registration page....");
-            Dimension2D dimension2D = Util.getCenterSceneDim(stage,2.5,2.5);
+            Dimension2D dimension2D = Util.getCenterSceneDim(stage,2.5,1.5);
             registerAdminCV = fxWeaver.load(RegisterAdminController.class);
             registerAdminCV.getController().setLayout(dimension2D);
             registerAdminCV.getView().ifPresent(view -> {

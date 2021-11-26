@@ -24,11 +24,11 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Label maxWidth="1.7976931348623157E308" prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Customer ID" GridPane.rowIndex="1" />
-                <Label maxWidth="1.7976931348623157E308" prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Wheat Deposit Qty" GridPane.rowIndex="2" />
+                <Label maxWidth="1.7976931348623157E308" prefHeight="35.0" prefWidth="150.0" stylesheets="@css/main.css" text="Customer ID" GridPane.rowIndex="1" />
+                <Label maxWidth="1.7976931348623157E308" prefHeight="35.0" prefWidth="150.0" stylesheets="@css/main.css" text="Wheat Deposit Qty" GridPane.rowIndex="2" />
                 <TextField fx:id="customerIdInputDepositPage" maxWidth="1.7976931348623157E308" prefHeight="35.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                 <TextField fx:id="wheatDepositQtyInput" maxWidth="1.7976931348623157E308" prefHeight="35.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Label maxWidth="1.7976931348623157E308" prefHeight="49.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Wheat Processing Deduction Qty" wrapText="true" GridPane.rowIndex="3" />
+            <Label maxWidth="1.7976931348623157E308" prefHeight="49.0" prefWidth="150.0" stylesheets="@css/main.css" text="Wheat Processing Deduction Qty" wrapText="true" GridPane.rowIndex="3" />
             <TextField fx:id="wheatProcessingDeductionQtyInput" maxWidth="1.7976931348623157E308" prefHeight="35.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Label fx:id="customerIdValidLabel" maxWidth="1.7976931348623157E308" prefHeight="45.0" prefWidth="200.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1" />
             <Label fx:id="wheatDepositQtyValidLabel" maxWidth="1.7976931348623157E308" prefHeight="45.0" prefWidth="200.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />

@@ -15,11 +15,12 @@ import javafx.geometry.Dimension2D;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
+import jiconfont.javafx.IconFontFX;
+import jiconfont.javafx.IconNode;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.context.ApplicationListener;
@@ -67,6 +68,10 @@ public class RegisterAdminController implements Initializable, ApplicationListen
     private Label adminLicenseKeyValidLabel;
     @FXML
     private Button adminRegisterBtn;
+    @FXML
+    private HBox closeButtonContainerHBox;
+    @FXML
+    private Button closeButton;
 
     private FormValidation adminFormValidation;
 
@@ -80,6 +85,7 @@ public class RegisterAdminController implements Initializable, ApplicationListen
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         adminRegisterBtn.setDisable(true);
 
         adminFormValidation = new FormValidation();
@@ -206,12 +212,26 @@ public class RegisterAdminController implements Initializable, ApplicationListen
         this.resizeValidationLabels();
 
         List<RowConstraints> rowConstraints = adminRegisterFormGP.getRowConstraints();
-        rowConstraints.get(0).setPercentHeight(10);
-        rowConstraints.get(1).setPercentHeight(20);
-        rowConstraints.get(2).setPercentHeight(20);
-        rowConstraints.get(3).setPercentHeight(20);
-        rowConstraints.get(4).setPercentHeight(20);
-        rowConstraints.get(5).setPercentHeight(10);
+        rowConstraints.get(0).setPercentHeight(12.5);
+        rowConstraints.get(1).setPercentHeight(12.5);
+        rowConstraints.get(2).setPercentHeight(12.5);
+        rowConstraints.get(3).setPercentHeight(12.5);
+        rowConstraints.get(4).setPercentHeight(12.5);
+        rowConstraints.get(5).setPercentHeight(12.5);
+        rowConstraints.get(6).setPercentHeight(12.5);
+        rowConstraints.get(7).setPercentHeight(12.5);
+
+
+        closeButtonContainerHBox.setPrefWidth(adminRegisterContainerVBox.getPrefWidth());
+
+        IconFontFX.register(GoogleMaterialDesignIcons.getIconFont());
+
+        IconNode closeIcon = new IconNode(GoogleMaterialDesignIcons.CLOSE);
+        closeIcon.setIconSize(24);
+        closeIcon.setFill(Color.valueOf("#272635"));
+
+        closeButton.setGraphic(closeIcon);
+
 
     }
 
@@ -280,5 +300,9 @@ public class RegisterAdminController implements Initializable, ApplicationListen
     @Override
     public void onApplicationEvent(StageReadyEvent stageReadyEvent) {
         this.stage = stageReadyEvent.getStage();
+    }
+
+    public void handleClose(ActionEvent actionEvent) {
+        stage.close();
     }
 }

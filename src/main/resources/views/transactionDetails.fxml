@@ -11,8 +11,8 @@
     <children>
         <HBox fx:id="transactionDetailTitleBar" alignment="CENTER_LEFT" prefHeight="83.0" prefWidth="1136.0" style="-fx-background-color: #DEF2F1;" stylesheets="@css/main.css">
             <children>
-                <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" stylesheets="@css/main.css" text="Transaction ID" textAlignment="CENTER" wrapText="true" />
-                <Label fx:id="transactionTimeHeading" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" stylesheets="@css/main.css" text="Time" textAlignment="CENTER" wrapText="true" />
+                <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" styleClass="h5" stylesheets="@css/main.css" text="Transaction ID" textAlignment="CENTER" wrapText="true" />
+                <Label fx:id="transactionTimeHeading" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" styleClass="h5" stylesheets="@css/main.css" text="Time" textAlignment="CENTER" wrapText="true" />
                 <Label fx:id="transactionFlourPickupQtyHeading" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" styleClass="h5" stylesheets="@css/main.css" text="Flour Pickup Qty" textAlignment="CENTER" wrapText="true" />
                 <Label fx:id="transactionGrindingAmountHeading" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" styleClass="h5" stylesheets="@css/main.css" text="Grinding Amount" textAlignment="CENTER" wrapText="true" />
                 <Label fx:id="transactionGrindingAmountPaidHeading" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" styleClass="h5" stylesheets="@css/main.css" text="Amount Paid" textAlignment="CENTER" wrapText="true" />

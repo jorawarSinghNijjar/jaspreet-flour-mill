@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.ResetTokenController">
+<VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="400.0" prefWidth="600.0" styleClass="modal-box" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.ResetTokenController">
     <children>
         <HBox fx:id="closeButtonContainerHBox" alignment="TOP_RIGHT" fillHeight="false" maxWidth="1.7976931348623157E308" stylesheets="@css/main.css">
             <children>

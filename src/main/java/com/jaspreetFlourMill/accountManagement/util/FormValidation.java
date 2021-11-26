@@ -160,7 +160,7 @@ public class FormValidation {
             responseLabel.setText(msg);
             IconNode wrongIcon = new IconNode(GoogleMaterialDesignIcons.HIGHLIGHT_OFF);
             wrongIcon.setIconSize(24);
-            wrongIcon.setFill(Color.web("#fdca40"));
+            wrongIcon.setFill(Color.web("#8c2c20"));
             responseLabel.setGraphic(wrongIcon);
             responseLabel.getStyleClass().add("validate-err");
             return new ValidatedResponse(responseLabel,false);

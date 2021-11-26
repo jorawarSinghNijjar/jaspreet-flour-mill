@@ -34,13 +34,15 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Name" GridPane.rowIndex="1" />
-                <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Password" GridPane.rowIndex="3" />
-                <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Confirm Password" GridPane.rowIndex="4" />
-                <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Phone Number" GridPane.rowIndex="5" />
-                <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Address" GridPane.rowIndex="6" />
-                <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Job Designation" GridPane.rowIndex="7" />
-                <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Date of Birth" GridPane.rowIndex="8" />
+            <Label prefHeight="35.0" prefWidth="150.0" stylesheets="@css/main.css" text="User ID" />
+                <Label prefHeight="35.0" prefWidth="150.0" stylesheets="@css/main.css" text="Name" GridPane.rowIndex="1" />
+            <Label prefHeight="35.0" prefWidth="150.0" stylesheets="@css/main.css" text="Email ID" GridPane.rowIndex="2" />
+                <Label prefHeight="35.0" prefWidth="150.0" stylesheets="@css/main.css" text="Password" GridPane.rowIndex="3" />
+                <Label prefHeight="35.0" prefWidth="150.0" stylesheets="@css/main.css" text="Confirm Password" GridPane.rowIndex="4" />
+                <Label prefHeight="35.0" prefWidth="150.0" stylesheets="@css/main.css" text="Phone Number" GridPane.rowIndex="5" />
+                <Label prefHeight="35.0" prefWidth="150.0" stylesheets="@css/main.css" text="Address" GridPane.rowIndex="6" />
+                <Label prefHeight="35.0" prefWidth="150.0" stylesheets="@css/main.css" text="Job Designation" GridPane.rowIndex="7" />
+                <Label prefHeight="35.0" prefWidth="150.0" stylesheets="@css/main.css" text="Date of Birth" GridPane.rowIndex="8" />
             <TextField fx:id="employeeUserIdField" prefHeight="35.0" GridPane.columnIndex="1" />
                 <TextField fx:id="employeeNameField" prefHeight="35.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <TextField fx:id="employeeEmailIdField" prefHeight="35.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
@@ -58,9 +60,7 @@
                 <Label fx:id="employeeDesignationValidLabel" prefHeight="45.0" prefWidth="300.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="7" />
                 <Label fx:id="employeeDobValidLabel" prefHeight="45.0" prefWidth="300.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="8" />
               <Button fx:id="registerEmployeeBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleRegisterEmployeeSubmit" styleClass="secondary-btn" stylesheets="@css/main.css" text="Submit" GridPane.columnSpan="2" GridPane.rowIndex="9" />
-            <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="User ID" />
             <Label fx:id="employeeUserIdValidLabel" prefHeight="45.0" prefWidth="300.0" wrapText="true" GridPane.columnIndex="2" />
-            <Label prefHeight="35.0" prefWidth="150.0" styleClass="h5" stylesheets="@css/main.css" text="Email ID" GridPane.rowIndex="2" />
             <Label fx:id="employeeEmailIdValidLabel" prefHeight="45.0" prefWidth="300.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
             </children>
          <VBox.margin>

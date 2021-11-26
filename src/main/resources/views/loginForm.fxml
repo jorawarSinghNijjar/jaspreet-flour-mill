@@ -69,7 +69,8 @@
       <DropShadow height="214.45" radius="81.08" width="111.87" />
    </effect>
    <styleClass>
-      <String fx:value="login-form" />
+      <String fx:value="modal-box" />
+      <String fx:value="modal-big-radius" />
       <String fx:value="p-1" />
    </styleClass>
 </VBox>

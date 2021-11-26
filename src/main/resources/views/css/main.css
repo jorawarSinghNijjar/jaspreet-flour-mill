@@ -7,47 +7,74 @@
 */
 
 @font-face{
-    font-family: "OpenSans";
-    src: url("fonts/OpenSans-Regular.ttf");
+    font-family: "Poppins";
+    src: url("fonts/Poppins-Regular.ttf");
+}
+
+@font-face{
+    font-family: "Poppins Medium";
+    src: url("fonts/Poppins-Medium.ttf");
+}
+
+@font-face{
+    font-family: "Poppins SemiBold";
+    src: url("fonts/Poppins-SemiBold.ttf");
+}
+
+@font-face{
+    font-family: "Poppins";
+    src: url("fonts/Poppins-Bold.ttf");
 }
 
 /* Headings */
 
-.h1{
-    -fx-font-size: 24;
-    -fx-font-weight:700;
-    -fx-tex-fill: #17252A;
 
+.h1{
+    -fx-font-family: 'Poppins SemiBold', sans-serif;
+    -fx-font-size: 24;
+    -fx-font-weight:bold;
+    -fx-tex-fill: #17252A;
+    -fx-font-smoothing-type: lcd;
 }
 
 .h2{
+    -fx-font-family: 'Poppins SemiBold', sans-serif;
     -fx-font-size: 22;
-    -fx-font-weight:700;
+    -fx-font-weight:bold;
     -fx-tex-fill: #17252A;
+    -fx-font-smoothing-type: lcd;
 }
 
 .h3{
+ -fx-font-family: 'Poppins SemiBold', sans-serif;
     -fx-font-size: 20;
-    -fx-font-weight:700;
+    -fx-font-weight:bold;
     -fx-tex-fill: #17252A;
+    -fx-font-smoothing-type: lcd;
 }
 
 .h4{
+ -fx-font-family: 'Poppins SemiBold', sans-serif;
      -fx-font-size: 18;
         -fx-font-weight:700;
         -fx-tex-fill: #17252A;
+        -fx-font-smoothing-type: lcd;
 }
 
 .h5{
+    -fx-font-family: 'Poppins', sans-serif;
      -fx-font-size: 16;
         -fx-font-weight:700;
         -fx-tex-fill: #17252A;
+        -fx-font-smoothing-type: lcd;
 }
 
 .h6{
+ -fx-font-family: 'Poppins', sans-serif;
  -fx-font-size: 14;
     -fx-font-weight:700;
     -fx-tex-fill: #17252A;
+    -fx-font-smoothing-type: lcd;
 }
 
 /* Padding */
@@ -161,8 +188,8 @@
 }
 
 .root{
-    -fx-background-color: #3AAFA9;
-    -fx-font-family: "OpenSans";
+    -fx-background-color: #a4dbf4;
+    -fx-font-family: "Poppins";
     -fx-text-fill: #17252A;
     -fx-font-size:14;
 }
@@ -172,22 +199,28 @@
 }
 
 .title-label{
+        -fx-font-family: 'Poppins SemiBold', sans-serif;
         -fx-text-fill: #272635;
-        -fx-font-size: 22;
-        -fx-font-weight: 800;
+        -fx-font-size: 28;
+        -fx-font-weight: bold;
         /*-fx-padding: 5 5 5 30;*/
 }
 
+.modal-big-radius{
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+}
 
-.login-form{
-    -fx-background-color: #FFFAFA;
+.modal-box{
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-border-color: #EBEFF3;
+    -fx-background-color : #EBEFF3;
+    -fx-effect : dropshadow(two-pass-box,#485e66,15,0.1,10,10);
 }
 
 /* Controls */
 
-.label{
-    -fx-font-weight:600;
-}
 
 .text-field{
     -fx-text-fill: #272635;
@@ -317,10 +350,9 @@
 
 .list-item{
     -fx-padding: 8 10;
-    -fx-background-color: #2B7A78;
-    -fx-text-fill: white;
+    -fx-text-fill: #17252A;
     -fx-border-style: hidden hidden solid hidden;
-    -fx-border-color: white;
+    -fx-border-color: #17252A;
     -fx-border-width: 2;
 }
 .list-item:hover{
@@ -339,14 +371,13 @@
 }
 
 .validate-err{
-    -fx-text-fill: #fdca40;
-    -fx-font-size: 12px;
-    -fx-font-weight:bold;
+    -fx-text-fill: #8c2c20;
+    -fx-font-size: 14px;
 }
 
 .validate-success{
       -fx-text-fill: #002B00;
-      -fx-font-size: 12px;
+      -fx-font-size: 13px;
       -fx-font-weight:bold;
 }
 
@@ -377,7 +408,7 @@
 .customer-detail-card{
     -fx-border-radius: 8;
     -fx-background-radius: 8;
-    -fx-border-color: #17252A;
+    -fx-border-color: white;
     -fx-background-color : white;
 	-fx-effect : dropshadow(two-pass-box,#485e66,10,0,0,0);
 }
