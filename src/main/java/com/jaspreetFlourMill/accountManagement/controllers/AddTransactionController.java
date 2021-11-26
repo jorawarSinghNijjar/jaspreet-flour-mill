@@ -199,7 +199,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
 
         // Submit form if Enter key is pressed
         addTransactionVBoxContainer.setOnKeyPressed(keyEvent -> {
-            if (keyEvent.getCode() == KeyCode.ENTER) {
+            if (keyEvent.getCode() == KeyCode.ENTER && this.validateForm()) {
                 submitTransaction();
             }
         });

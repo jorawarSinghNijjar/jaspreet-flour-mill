@@ -229,8 +229,8 @@ public class RegisterEmployeeController implements Initializable, ApplicationLis
         });
 
         // Submit form if Enter key is pressed
-        this.stage.getScene().setOnKeyPressed(keyEvent -> {
-            if(keyEvent.getCode() == KeyCode.ENTER){
+        registerEmployeeVBoxContainer.setOnKeyPressed(keyEvent -> {
+            if(keyEvent.getCode() == KeyCode.ENTER && this.validateForm()){
                 this.registerEmployee();
             }
         });
