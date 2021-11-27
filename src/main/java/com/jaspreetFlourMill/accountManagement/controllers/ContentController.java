@@ -485,7 +485,7 @@ public class ContentController implements Initializable, ApplicationListener<Sta
 
             addTransactionContainer = new AnchorPane();
             addTransactionContainer.setPrefHeight(contentContainer.getPrefHeight() * 0.5);
-            addTransactionContainer.setPrefWidth(contentContainer.getPrefWidth() * 0.5);
+            addTransactionContainer.setPrefWidth(contentContainer.getPrefWidth() * 0.45);
             addTransactionContainer.setLayoutX(0);
             addTransactionContainer.setLayoutY(titleHBox.getPrefHeight());
             addTransactionCV.getView().ifPresent(view -> {
@@ -498,9 +498,9 @@ public class ContentController implements Initializable, ApplicationListener<Sta
                 addTransactionCV.getController().addTransactionFormGridPane.setVgap(addTransactionContainer.getPrefHeight() * 0.07);
 
                 List<ColumnConstraints> colConstList = addTransactionCV.getController().addTransactionFormGridPane.getColumnConstraints();
-                colConstList.get(0).setPercentWidth(25);
+                colConstList.get(0).setPercentWidth(35);
                 colConstList.get(1).setPercentWidth(25);
-                colConstList.get(2).setPercentWidth(50);
+                colConstList.get(2).setPercentWidth(40);
 
                 addTransactionCV.getController().submitTransactionBtn.setPrefWidth(Double.MAX_VALUE);
 
@@ -511,7 +511,7 @@ public class ContentController implements Initializable, ApplicationListener<Sta
 
             customerDetailsContainer = new AnchorPane();
             customerDetailsContainer.setPrefHeight(contentContainer.getPrefHeight() * 0.5);
-            customerDetailsContainer.setPrefWidth(contentContainer.getPrefWidth() * 0.5);
+            customerDetailsContainer.setPrefWidth(contentContainer.getPrefWidth() * 0.55);
             customerDetailsContainer.setLayoutX(addTransactionContainer.getPrefWidth());
             customerDetailsContainer.setLayoutY(titleHBox.getPrefHeight());
 
@@ -547,7 +547,7 @@ public class ContentController implements Initializable, ApplicationListener<Sta
                 transactionDetailsCV.getController().transactionDetailContainerPane.setPrefHeight(transactionDetailsContainer.getPrefHeight() * 0.5);
 
                 transactionDetailsCV.getController().transactionDetailTitleBar.setPrefWidth(contentContainer.getPrefWidth());
-                transactionDetailsCV.getController().transactionDetailTitleBar.setPrefHeight(transactionDetailsContainer.getPrefHeight() * 0.15);
+                transactionDetailsCV.getController().transactionDetailTitleBar.setPrefHeight(transactionDetailsContainer.getPrefHeight() * 0.20);
                 transactionDetailsCV.getController().transactionDetailTitleBar.setSpacing(transactionDetailsContainer.getPrefHeight() * 0.02);
 
                 transactionDetailsCV.getController().transactionDetailScrollPane.setPrefWidth(transactionDetailsContainer.getPrefWidth());

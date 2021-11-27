@@ -4,6 +4,8 @@
 3. #DEF2F1 - light sea green
 4. #272635 - dark blue 2
 5. #52515d - grey
+6.  #D4B9A2 -sandy
+7. #a4dbf4 -sky blue
 */
 
 @font-face{
@@ -212,11 +214,10 @@
 }
 
 .modal-box{
-    -fx-border-radius: 8;
-    -fx-background-radius: 8;
-    -fx-border-color: #EBEFF3;
+    -fx-border-radius: 10 10 10 10;
+    -fx-background-radius: 10 10 10 10;
     -fx-background-color : #EBEFF3;
-    -fx-effect : dropshadow(two-pass-box,#485e66,15,0.1,10,10);
+    -fx-effect : dropshadow(two-pass-box,#17252A,15,0.1,10,10);
 }
 
 /* Controls */
@@ -295,24 +296,26 @@
 }
 
 .utility-btn{
-    -fx-background-color: #ffffff;
-    -fx-text-fill: #FF4136 ;
-    -fx-border-radius: 8;
+    -fx-background-color: #D4B9A2;
+    -fx-text-fill: #17252A ;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
     -fx-border-width: 3;
     -fx-border-style: solid;
-    -fx-border-color: #FF4136;
+    -fx-border-color: #17252A;
     -fx-font-size: 13;
     -fx-font-weight:700;
     -fx-padding: 5 5;
 }
 
 .utility-btn:hover{
-    -fx-background-color: #FF4136;
-    -fx-text-fill: #ffffff ;
-    -fx-border-radius: 8;
+    -fx-background-color: #17252A;
+    -fx-text-fill: #D4B9A2 ;
+    -fx-border-radius: 12;
+    -fx-background-radius: 12;
     -fx-border-width: 3;
     -fx-border-style: solid;
-    -fx-border-color: #FF4136;
+    -fx-border-color: #17252A;
     -fx-font-size: 13;
     -fx-font-weight:700;
     -fx-padding: 5 5;
@@ -334,8 +337,16 @@
     -fx-background-color: #272635;
 }
 
+.secondary-title-bar{
+   -fx-background-color :  #457c93;
+}
+
+.seondary-title-bar-headings{
+    -fx-text-fill: white;
+}
+
 .table-items{
-    -fx-text-fill: #2B7A78;
+    -fx-text-fill: #457c93;
     -fx-font-weight: 700;
 }
 
@@ -412,6 +423,7 @@
     -fx-background-color : white;
 	-fx-effect : dropshadow(two-pass-box,#485e66,10,0,0,0);
 }
+
 
 
 

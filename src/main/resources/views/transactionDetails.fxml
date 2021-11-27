@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -9,17 +10,53 @@
 
 <AnchorPane fx:id="transactionDetailContainerPane" minHeight="500.0" minWidth="1000.0" style="-fx-border-style: solid hidden hidden hidden; -fx-border-color: #272635; -fx-border-width: 3;" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.TransactionDetailController">
     <children>
-        <HBox fx:id="transactionDetailTitleBar" alignment="CENTER_LEFT" prefHeight="83.0" prefWidth="1136.0" style="-fx-background-color: #DEF2F1;" stylesheets="@css/main.css">
+        <HBox fx:id="transactionDetailTitleBar" alignment="CENTER_LEFT" prefHeight="83.0" prefWidth="1136.0" styleClass="secondary-title-bar" stylesheets="@css/main.css">
             <children>
-                <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" styleClass="h5" stylesheets="@css/main.css" text="Transaction ID" textAlignment="CENTER" wrapText="true" />
-                <Label fx:id="transactionTimeHeading" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" styleClass="h5" stylesheets="@css/main.css" text="Time" textAlignment="CENTER" wrapText="true" />
-                <Label fx:id="transactionFlourPickupQtyHeading" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" styleClass="h5" stylesheets="@css/main.css" text="Flour Pickup Qty" textAlignment="CENTER" wrapText="true" />
-                <Label fx:id="transactionGrindingAmountHeading" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" styleClass="h5" stylesheets="@css/main.css" text="Grinding Amount" textAlignment="CENTER" wrapText="true" />
-                <Label fx:id="transactionGrindingAmountPaidHeading" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" styleClass="h5" stylesheets="@css/main.css" text="Amount Paid" textAlignment="CENTER" wrapText="true" />
-                <Label fx:id="transactionGrindingBalanceAmountHeading" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" styleClass="h5" stylesheets="@css/main.css" text="Unpaid Amount" textAlignment="CENTER" wrapText="true" />
-                <Label fx:id="transactionStoredWheatBalanceHeading" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" styleClass="h5" stylesheets="@css/main.css" text="Account Wheat Balance" textAlignment="CENTER" wrapText="true" />
-                <Label fx:id="transactionOrderPickedByHeading" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" styleClass="h5" stylesheets="@css/main.css" text="Order Picked By" textAlignment="CENTER" wrapText="true" />
-                <Label fx:id="transactionCashierHeading" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" styleClass="h5" stylesheets="@css/main.css" text="Cashier" textAlignment="CENTER" wrapText="true" />
+                <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" stylesheets="@css/main.css" text="Transaction ID" textAlignment="CENTER" wrapText="true">
+               <styleClass>
+                  <String fx:value="h5" />
+                  <String fx:value="seondary-title-bar-headings" />
+               </styleClass></Label>
+                <Label fx:id="transactionTimeHeading" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" stylesheets="@css/main.css" text="Time" textAlignment="CENTER" wrapText="true">
+               <styleClass>
+                  <String fx:value="h5" />
+                  <String fx:value="seondary-title-bar-headings" />
+               </styleClass></Label>
+                <Label fx:id="transactionFlourPickupQtyHeading" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" stylesheets="@css/main.css" text="Flour Pickup Qty" textAlignment="CENTER" wrapText="true">
+               <styleClass>
+                  <String fx:value="h5" />
+                  <String fx:value="seondary-title-bar-headings" />
+               </styleClass></Label>
+                <Label fx:id="transactionGrindingAmountHeading" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" stylesheets="@css/main.css" text="Grinding Amount" textAlignment="CENTER" wrapText="true">
+               <styleClass>
+                  <String fx:value="h5" />
+                  <String fx:value="seondary-title-bar-headings" />
+               </styleClass></Label>
+                <Label fx:id="transactionGrindingAmountPaidHeading" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" stylesheets="@css/main.css" text="Amount Paid" textAlignment="CENTER" wrapText="true">
+               <styleClass>
+                  <String fx:value="h5" />
+                  <String fx:value="seondary-title-bar-headings" />
+               </styleClass></Label>
+                <Label fx:id="transactionGrindingBalanceAmountHeading" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" stylesheets="@css/main.css" text="Unpaid Amount" textAlignment="CENTER" wrapText="true">
+               <styleClass>
+                  <String fx:value="h5" />
+                  <String fx:value="seondary-title-bar-headings" />
+               </styleClass></Label>
+                <Label fx:id="transactionStoredWheatBalanceHeading" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" stylesheets="@css/main.css" text="Account Wheat Balance" textAlignment="CENTER" wrapText="true">
+               <styleClass>
+                  <String fx:value="h5" />
+                  <String fx:value="seondary-title-bar-headings" />
+               </styleClass></Label>
+                <Label fx:id="transactionOrderPickedByHeading" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" stylesheets="@css/main.css" text="Order Picked By" textAlignment="CENTER" wrapText="true">
+               <styleClass>
+                  <String fx:value="h5" />
+                  <String fx:value="seondary-title-bar-headings" />
+               </styleClass></Label>
+                <Label fx:id="transactionCashierHeading" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" prefWidth="170.0" stylesheets="@css/main.css" text="Cashier" textAlignment="CENTER" wrapText="true">
+               <styleClass>
+                  <String fx:value="h5" />
+                  <String fx:value="seondary-title-bar-headings" />
+               </styleClass></Label>
             </children>
             <padding>
                 <Insets right="170.0" />
