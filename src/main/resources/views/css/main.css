@@ -217,16 +217,10 @@
     -fx-border-radius: 10 10 10 10;
     -fx-background-radius: 10 10 10 10;
     -fx-background-color : #EBEFF3;
-    -fx-effect : dropshadow(two-pass-box,#17252A,15,0.1,10,10);
+    -fx-effect : dropshadow(two-pass-box,rgba(24, 38, 43, 0.5),30,0.05,10,10);
 }
 
 /* Controls */
-
-
-.text-field{
-    -fx-text-fill: #272635;
-    -fx-pref-height: 40;
-}
 
 .small-text{
     -fx-font-size:10;
@@ -239,15 +233,15 @@
     -fx-background-color: #DEF2F1;
     -fx-text-fill: #17252A;
     -fx-font-weight:400;
-    -fx-padding: 5 30;
+    -fx-padding: 8 10;
 }
 
 .secondary-btn{
     -fx-background-color: #272635;
     -fx-text-fill: white;
     -fx-font-size: 17;
-    -fx-font-weight:700;
-    -fx-padding: 5 30;
+    -fx-font-weight:500;
+    -fx-padding: 8 10;
 }
 
 .secondary-btn:hover{
@@ -259,8 +253,8 @@
   -fx-background-color: #E03554;
     -fx-text-fill: white;
     -fx-font-size: 17;
-    -fx-font-weight:700;
-    -fx-padding: 5 30;
+    -fx-font-weight:500;
+    -fx-padding: 8 10;
 }
 
 .danger-btn:hover{
@@ -272,8 +266,8 @@
   -fx-background-color: #fdca40;
     -fx-text-fill: white;
     -fx-font-size: 17;
-    -fx-font-weight:700;
-    -fx-padding: 5 30;
+    -fx-font-weight:500;
+    -fx-padding: 8 10;
 }
 
 .alert-btn:hover{
@@ -285,8 +279,8 @@
  -fx-background-color: #AF6F9F;
     -fx-text-fill: white;
     -fx-font-size: 17;
-    -fx-font-weight:700;
-    -fx-padding: 5 30;
+    -fx-font-weight:500;
+    -fx-padding: 8 10;
 }
 
 .tertiary-btn:hover{
@@ -304,8 +298,8 @@
     -fx-border-style: solid;
     -fx-border-color: #17252A;
     -fx-font-size: 13;
-    -fx-font-weight:700;
-    -fx-padding: 5 5;
+    -fx-font-weight:500;
+    -fx-padding: 8 5;
 }
 
 .utility-btn:hover{
@@ -317,8 +311,8 @@
     -fx-border-style: solid;
     -fx-border-color: #17252A;
     -fx-font-size: 13;
-    -fx-font-weight:700;
-    -fx-padding: 5 5;
+    -fx-font-weight:500;
+    -fx-padding: 8 5;
     -fx-cursor:hand;
 }
 
@@ -424,6 +418,102 @@
 	-fx-effect : dropshadow(two-pass-box,#485e66,10,0,0,0);
 }
 
+/* Controls Base */
 
+.combo-box-base {
+    /*-fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color; */
+    -fx-background-color: transparent, #a4dbf4, white, transparent;
+    -fx-background-insets: 0 0 -1 0, 0, 1, 2;
+    -fx-background-radius: 5px, 5px, 5px, 5px;
+    -fx-padding: 0.333333em 0.666667em 0.333333em 0.666667em; /* 4 8 4 8 */
+    -fx-text-fill: -fx-text-base-color;
+    -fx-alignment: CENTER;
+    -fx-content-display: LEFT;
+}
+
+.text-field {
+     -fx-background-color:  transparent,  #272635, white, transparent;
+     -fx-background-radius: 5px, 5px, 5px, 5px;
+     -fx-background-insets: 0 -1 -1 -1, 0 0 0 0, 0 -1 1 -1;
+}
+
+.text-field:focused {
+     -fx-background-color: transparent, #272635, white, transparent;
+     -fx-background-radius: 5px, 5px, 5px, 5px;
+     -fx-background-insets: 0 -1 -1 -1, 0 0 0 0, 0 -1 1 -1;
+}
+
+.list-cell:filled:selected:focused, .list-cell:filled:selected {
+    -fx-background-color: #c3c0ee;
+    -fx-text-fill: white;
+}
+
+.list-cell:even { /* <=== changed to even */
+    -fx-background-color: white;
+}
+
+.list-cell:filled:hover {
+    -fx-background-color: #a4dbf4;
+    -fx-text-fill: white;
+}
+
+/* Chart Base */
+
+.chart{
+ -fx-padding: 30px;
+     -fx-border-radius: 10 10 10 10;
+       -fx-background-radius: 10 10 10 10;
+       -fx-background-color : #EBEFF3;
+       -fx-effect : dropshadow(two-pass-box,rgba(24, 38, 43, 0.5),30,0.05,10,10);
+}
+
+
+.chart-legend {
+   -fx-padding: 20px;
+    -fx-background-color : transparent;
+}
+
+.chart-legend-item-symbol{
+   -fx-background-radius: 15;
+    -fx-font-size: 1.4em;
+}
+
+.chart-legend-item{
+    -fx-text-fill: #191970;
+    -fx-font-size: 1.2em;
+}
+
+.chart-title {
+  -fx-text-fill: #272635;
+  -fx-font-size: 1.8em;
+}
+
+.axis-label {
+  -fx-text-fill: #272635;
+  -fx-font-size: 1.4em;
+}
+
+.chart-plot-background {
+    -fx-background-color: white;
+}
+.chart-vertical-grid-lines {
+    -fx-stroke: rgba(79, 107, 156, 0.2);
+}
+.chart-horizontal-grid-lines {
+    -fx-stroke: rgba(79, 107, 156, 0.2);
+}
+
+.chart-series-line {
+    -fx-stroke-width: 4px;
+    -fx-effect: null;
+}
+
+.axis {
+    -fx-font-size: 1.2em;
+}
+
+.axis-label {
+   -fx-text-fill: #272635;
+}
 
 

@@ -13,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Dimension2D;
 import javafx.print.*;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -122,6 +123,7 @@ public class TransactionDetailItemController implements Initializable, Applicati
         ListView<String> listView = new ListView();
 
         jobStatus = new Label();
+        jobStatus.getStyleClass().add("h6");
 
         // Create the Status Box
         HBox jobStatusBox = new HBox(5, new Label("Job Status: "), jobStatus);
@@ -147,10 +149,13 @@ public class TransactionDetailItemController implements Initializable, Applicati
 
         VBox vBox = new VBox(10);
         Label label = new Label("Printers");
+        label.getStyleClass().add("h5");
         Button printBtn = new Button("Print");
+        printBtn.getStyleClass().add("tertiary-btn");
         vBox.getChildren().addAll(label,listView,printBtn,jobStatusBox);
-        vBox.setPrefSize(400,250);
+//        vBox.setPrefSize(400,250);
         vBox.setStyle("-fx-padding: 10;");
+        vBox.getStyleClass().add("modal-box");
 
         Node node = (Node)e.getSource();
         Node selectedTransactionIdLabel = node.getParent().getChildrenUnmodifiable().get(0);
@@ -162,9 +167,10 @@ public class TransactionDetailItemController implements Initializable, Applicati
                 printSetup(view,stage,selectedTransactionId,currentPrinter);
             });
         });
-
-        Scene scene = new Scene(vBox, 400,300);
-
+        Dimension2D dimension2D = Util.getCenterSceneDim(stage,3.5,2.5);
+        Scene scene = new Scene(vBox, dimension2D.getWidth(), dimension2D.getHeight());
+        scene.getStylesheets().add(getClass().getResource("/views/css/main.css").toExternalForm());
+        
         // Submit form if Enter key is pressed
         listView.setOnKeyPressed(keyEvent -> {
             if(keyEvent.getCode() == KeyCode.ENTER){

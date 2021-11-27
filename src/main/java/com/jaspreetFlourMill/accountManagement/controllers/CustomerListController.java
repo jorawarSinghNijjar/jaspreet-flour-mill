@@ -4,6 +4,7 @@ import com.jaspreetFlourMill.accountManagement.model.Customer;
 import com.jaspreetFlourMill.accountManagement.model.CustomerAccount;
 import com.jaspreetFlourMill.accountManagement.util.AlertDialog;
 import com.jaspreetFlourMill.accountManagement.util.Util;
+import com.sun.javafx.menu.MenuItemBase;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
@@ -51,6 +52,7 @@ public class CustomerListController implements Initializable {
     private FxControllerAndView<CustomerDetailsController, Node> customerDetailsCV;
 
     private final FxWeaver fxWeaver;
+
 
     public CustomerListController(FxWeaver fxWeaver) {
         this.fxWeaver = fxWeaver;
@@ -111,6 +113,9 @@ public class CustomerListController implements Initializable {
             customerDetailsFromList.setVisible(true);
             customerDetailsFromList.setAlignment(Pos.TOP_CENTER);
 
+            Button depositWheatBtn = new Button("Deposit Wheat");
+            depositWheatBtn.getStyleClass().add("secondary-btn");
+
             Button editBtn = new Button("Edit");
             editBtn.getStyleClass().add("tertiary-btn");
             Button deleteAccountBtn = new Button("Delete Account");
@@ -119,6 +124,11 @@ public class CustomerListController implements Initializable {
 //            deleteCustomerBtn.getStyleClass().add("danger-btn");
             Button lostPassbookBtn = new Button("Passbook Lost");
             lostPassbookBtn.getStyleClass().add("alert-btn");
+
+            // Deposit wheat
+            depositWheatBtn.setOnAction(actionEvent -> {
+                ContentController.navigationHandler.handleShowWheatDeposit(customer.getCustomerId());
+            });
 
             // Edit Customer
             editBtn.setOnAction(actionEvent -> {
@@ -137,9 +147,9 @@ public class CustomerListController implements Initializable {
 
             });
 
-            HBox btnBox = new HBox(editBtn, deleteAccountBtn, lostPassbookBtn);
+            HBox btnBox = new HBox(depositWheatBtn, editBtn, deleteAccountBtn, lostPassbookBtn);
             btnBox.setPrefWidth(customerDetailsFromList.getWidth());
-            btnBox.setSpacing(customerDetailsFromList.getWidth() * 0.08);
+            btnBox.setSpacing(customerDetailsFromList.getWidth() * 0.02);
             btnBox.setAlignment(Pos.CENTER);
 
             customerDetailsFromList.getChildren().add(btnBox);

@@ -76,13 +76,15 @@ public class StageInitializer implements ApplicationListener<StageReadyEvent> {
                 @Override
                 protected Void call() throws Exception {
                     try {
-                        Thread.sleep(5000);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                     }
                     return null;
                 }
             };
-            sleeper.setOnSucceeded(event1 -> proceedToAuth());
+            sleeper.setOnSucceeded(event1 -> {
+                proceedToAuth();
+            });
             new Thread(sleeper).start();
 
         });

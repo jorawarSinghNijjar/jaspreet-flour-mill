@@ -310,7 +310,7 @@ public class Sales implements Serializable {
             double wheatDepositQty,
             boolean wheatDeposit
     ) {
-        try {
+//        try {
             // Update stocks in Sales table
             Optional<Sales> sales = Sales.getSalesForDate(Util.getDateForToday());
             if (sales.isPresent()) {
@@ -324,19 +324,35 @@ public class Sales implements Serializable {
                 // Update sales on backend
                 Sales.updateSales(Util.getDateForToday(), sales.get());
             }
-        } catch (HttpClientErrorException.NotFound e) {
-            System.out.println("Today's first update for total stored wheat balance...");
-            Sales sale = new Sales(
-                    Util.getDateForToday(),
-                    0.00,
-                    0.00,
-                    0.00);
-            sale.setTotalStoredWheatBalance(wheatBalance);
-            if (wheatDeposit) {
-                sale.updateTotalWheatDeposited(wheatDepositQty);
+            else {
+                System.out.println("Today's first update for total stored wheat balance...");
+                Sales sale = new Sales(
+                        Util.getDateForToday(),
+                        0.00,
+                        0.00,
+                        0.00);
+                sale.setTotalStoredWheatBalance(wheatBalance);
+                if (wheatDeposit) {
+                    sale.updateTotalWheatDeposited(wheatDepositQty);
+                }
+                Sales.saveSales(sale);
             }
-            Sales.saveSales(sale);
-        }
+//        } catch (HttpClientErrorException.NotFound e) {
+//            System.out.println("Today's first update for total stored wheat balance...");
+//            Sales sale = new Sales(
+//                    Util.getDateForToday(),
+//                    0.00,
+//                    0.00,
+//                    0.00);
+//            sale.setTotalStoredWheatBalance(wheatBalance);
+//            if (wheatDeposit) {
+//                sale.updateTotalWheatDeposited(wheatDepositQty);
+//            }
+//            Sales.saveSales(sale);
+//        }
+//        catch (Exception e){
+//            e.printStackTrace();
+//        }
     }
 
 

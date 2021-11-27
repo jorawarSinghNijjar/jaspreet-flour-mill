@@ -138,7 +138,7 @@ public class HomeController implements Initializable {
 
         // Get the number of days in that month
         todayDate = LocalDate.now();
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String currentDayStr = dateFormat.format(todayDate);
         currentDay = todayDate.getDayOfMonth();
         currentMonth = todayDate.getMonthValue();
@@ -164,6 +164,9 @@ public class HomeController implements Initializable {
 
         leftArrow.setGraphic(chevronLeft);
         rightArrow.setGraphic(chevronRight);
+
+        leftArrow.setTranslateY(-50);
+        rightArrow.setTranslateY(-50);
 
         // For animation
         salesQtyChart.setOpacity(0);
@@ -322,6 +325,7 @@ public class HomeController implements Initializable {
 
     // Display Sales for today
     private void displaySalesForToday(String currentDay){
+        System.out.println(currentDay);
             salesQtyChart.getData().clear();
             salesAmtChart.getData().clear();
             this.initializeSalesQtySeries();
@@ -607,8 +611,8 @@ public class HomeController implements Initializable {
         wheatDepositSeries = new XYChart.Series();
 
         wheatSalesSeries.setName("Wheat Sold");
-        wheatBalanceSeries.setName("Wheat Balance");
-        wheatDepositSeries.setName("Wheat Deposit");
+        wheatBalanceSeries.setName("Wheat Stock");
+        wheatDepositSeries.setName("Wheat Deposited");
 
         salesQtyChart.getData().add(wheatSalesSeries);
         salesQtyChart.getData().add(wheatBalanceSeries);
@@ -619,9 +623,9 @@ public class HomeController implements Initializable {
     private void initializeSalesAmtSeries(){
         //Defining series
         grindingChargesPaidSeries = new XYChart.Series();
-        grindingChargesPaidSeries.setName("Grinding Charges Paid");
+        grindingChargesPaidSeries.setName("Grinding Charges Received");
         grindingChargesSeries = new XYChart.Series();
-        grindingChargesSeries.setName("Grinding Charges");
+        grindingChargesSeries.setName("Grinding Charges Total");
 
         salesAmtChart.getData().add(grindingChargesPaidSeries);
         salesAmtChart.getData().add(grindingChargesSeries);
