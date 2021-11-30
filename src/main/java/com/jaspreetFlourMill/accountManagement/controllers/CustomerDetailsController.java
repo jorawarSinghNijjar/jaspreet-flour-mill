@@ -100,13 +100,13 @@ public class CustomerDetailsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        customerDetailVBox.setVisible(false);
 
     }
 
     public void updateCustomerDetails(String id) {
         // Find customer
-        Customer.get(id).ifPresent((updatedCustomer) -> {
+        Customer.get(id).ifPresentOrElse((updatedCustomer) -> {
             // If customer is found, find customer account and update it to view
             CustomerAccount.get(updatedCustomer.getCustomerId()).ifPresent((updatedCustomerAccount) -> {
                 customerIdDisplay.setText(updatedCustomer.getCustomerId().toString());
@@ -136,7 +136,11 @@ public class CustomerDetailsController implements Initializable {
                 currentWheatBalance.setText(currentWheatBalanceDisplay);
                 grindingRate.setText(grindingRateDisplay);
                 totalGrindingChargesBalance.setText(totalGrindingChargesBalanceDisplay);
+
+                customerDetailVBox.setVisible(true);
             });
+        }, () -> {
+            customerDetailVBox.setVisible(false);
         });
 
 

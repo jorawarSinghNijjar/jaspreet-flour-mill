@@ -134,18 +134,14 @@ public class TransactionDetailItemController implements Initializable, Applicati
         }
 
         // Change Listener to observe change in ListView to select a printer from the list
-        listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>()
-        {
-            public void changed(ObservableValue<? extends String> ov,
-                                final String oldvalue, final String newvalue)
-            {
-                for(Printer printer: printers){
-                    if(printer.getName().matches(listView.getSelectionModel().getSelectedItem())){
-                        currentPrinter = printer;
-                        System.out.println("Current Printer: " + currentPrinter.getName());
-                    }
+        listView.getSelectionModel().selectedItemProperty().addListener((ov, oldValue, newValue) -> {
+            for(Printer printer: printers){
+                if(printer.getName().matches(newValue)){
+                    currentPrinter = printer;
+                    System.out.println("Current Printer: " + currentPrinter.getName());
                 }
-            }});
+            }
+        });
 
         VBox vBox = new VBox(10);
         Label label = new Label("Printers");

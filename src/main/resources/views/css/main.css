@@ -377,7 +377,7 @@
 
 .validate-err{
     -fx-text-fill: #8c2c20;
-    -fx-font-size: 14px;
+    -fx-font-size: 13px;
 }
 
 .validate-success{

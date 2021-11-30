@@ -1,10 +1,13 @@
 package com.jaspreetFlourMill.accountManagement.util;
 
+import com.jaspreetFlourMill.accountManagement.model.Customer;
 import com.jaspreetFlourMill.accountManagement.model.License;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
 import jiconfont.javafx.IconFontFX;
 import jiconfont.javafx.IconNode;
@@ -25,6 +28,8 @@ public class FormValidation {
     public Map<String, Boolean> getFormFields() {
         return formFields;
     }
+
+    public static int iconSize;
 
 
     public static ValidatedResponse isName(String name, Label responseLabel){
@@ -164,10 +169,10 @@ public class FormValidation {
             valid = false;
         }
         else {
-            String exp = "[+-]?\\d*\\.?\\d+";
+            String exp = "^[+]?([0-9]+(?:[\\.][0-9]{1,2})?|\\.[0-9]+)$";
             valid = val.matches(exp);
         }
-        String msg = "Only decimal or integer value";
+        String msg = "Only positive 2 decimal or integer value";
         return validationResponse(responseLabel,valid,msg);
     }
 
@@ -227,6 +232,7 @@ public class FormValidation {
     }
 
     public static ValidatedResponse validationResponse(Label responseLabel, boolean valid,String msg){
+        FormValidation.iconSize = 24;
         IconFontFX.register(GoogleMaterialDesignIcons.getIconFont());
 
         responseLabel.setText("");
@@ -237,19 +243,24 @@ public class FormValidation {
         if(valid){
             responseLabel.setText("");
             IconNode correctIcon = new IconNode(GoogleMaterialDesignIcons.CHECK_CIRCLE);
-            correctIcon.setIconSize(24);
+            correctIcon.setIconSize(iconSize);
             correctIcon.setFill(Color.web("#152769"));
             responseLabel.setGraphic(correctIcon);
             responseLabel.getStyleClass().add("validate-success");
+            responseLabel.setTooltip(new Tooltip(msg));
+            responseLabel.setWrapText(true);
             return new ValidatedResponse(responseLabel,true);
         }
         else{
+            responseLabel.setFont(new Font(responseLabel.getPrefHeight() * 0.50));
             responseLabel.setText(msg);
             IconNode wrongIcon = new IconNode(GoogleMaterialDesignIcons.HIGHLIGHT_OFF);
-            wrongIcon.setIconSize(24);
+            wrongIcon.setIconSize(iconSize);
             wrongIcon.setFill(Color.web("#8c2c20"));
             responseLabel.setGraphic(wrongIcon);
             responseLabel.getStyleClass().add("validate-err");
+            responseLabel.setTooltip(new Tooltip(msg));
+            responseLabel.setWrapText(true);
             return new ValidatedResponse(responseLabel,false);
         }
     }

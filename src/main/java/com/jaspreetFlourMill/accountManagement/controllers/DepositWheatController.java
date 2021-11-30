@@ -6,6 +6,7 @@ import com.jaspreetFlourMill.accountManagement.model.Sales;
 import com.jaspreetFlourMill.accountManagement.util.AlertDialog;
 import com.jaspreetFlourMill.accountManagement.util.FormValidation;
 import com.jaspreetFlourMill.accountManagement.util.Util;
+import com.jaspreetFlourMill.accountManagement.util.ValidatedResponse;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -19,6 +20,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
+import java.text.Normalizer;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -69,7 +71,18 @@ public class DepositWheatController implements Initializable {
                     newVal,
                     customerIdValidLabel
             ).isValid();
-            wheatDepositFormValidation.getFormFields().put("customer-id",validCustomerId);
+
+            if(validCustomerId){
+                Customer.get(newVal).ifPresentOrElse(customer -> {
+                    System.out.println("Found customer: " + customer.getName());
+                    wheatDepositFormValidation.getFormFields().put("customer-id",true);
+                    this.validateForm();
+                },() -> {
+                    String validationMsg = "No customer found with Id: " + newVal;
+                    FormValidation.validationResponse(customerIdValidLabel,false,validationMsg);
+                    wheatDepositFormValidation.getFormFields().put("customer-id",false);
+                });
+            }
             this.validateForm();
         });
 

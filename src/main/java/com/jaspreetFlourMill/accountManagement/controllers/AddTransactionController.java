@@ -13,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Dimension2D;
 import javafx.print.Printer;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -118,6 +119,8 @@ public class AddTransactionController implements Initializable, ApplicationListe
     private FormValidation addTransactionFormValidation;
     private Role currentUserRole;
 
+    private CustomerAccount currentCustomerAccount;
+
 
     public AddTransactionController(FxWeaver fxWeaver) {
         this.fxWeaver = fxWeaver;
@@ -211,9 +214,21 @@ public class AddTransactionController implements Initializable, ApplicationListe
                     newVal,
                     tfCustomerIdValidLabel
             ).isValid();
-            addTransactionFormValidation.getFormFields().put("customer-id", valid);
-            this.validateForm();
 
+            if(valid){
+                Customer.get(newVal).ifPresentOrElse(customer -> {
+                    CustomerAccount.get(customer.getCustomerId()).ifPresent(customerAccount -> {
+                        currentCustomerAccount = customerAccount;
+                    });
+                    System.out.println("Found customer: " + customer.getName());
+                    addTransactionFormValidation.getFormFields().put("customer-id", true);
+                },() -> {
+                    String validationMsg = "No customer found with Id: " + newVal;
+                    FormValidation.validationResponse(tfCustomerIdValidLabel,false,validationMsg);
+                    addTransactionFormValidation.getFormFields().put("customer-id", false);
+                });
+            }
+            this.validateForm();
         });
 
         flourPickupQtyInput.textProperty().addListener((observableValue, oldVal, newVal) -> {
@@ -221,7 +236,16 @@ public class AddTransactionController implements Initializable, ApplicationListe
                     newVal,
                     tfFlourPickupQtyValidLabel
             ).isValid();
-            addTransactionFormValidation.getFormFields().put("flour-pickup-qty", valid);
+
+
+            if(valid){
+                String validationMsg = "Cannot be greater than wheat balance: " + currentCustomerAccount.getCurrentWheatBalance();
+                if(Integer.parseInt(newVal) > currentCustomerAccount.getCurrentWheatBalance() ){
+                    FormValidation.validationResponse(tfFlourPickupQtyValidLabel,false,validationMsg);
+                    addTransactionFormValidation.getFormFields().put("flour-pickup-qty", true);
+                }
+            }
+
             this.validateForm();
 
         });
@@ -343,6 +367,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
         ListView<String> listView = new ListView();
 
         Label jobStatus = new Label();
+        jobStatus.getStyleClass().add("h6");
 
         // Create the Status Box
         HBox jobStatusBox = new HBox(5, new Label("Job Status: "), jobStatus);
@@ -353,14 +378,11 @@ public class AddTransactionController implements Initializable, ApplicationListe
         }
 
         // Change Listener to observe change in ListView to select a printer from the list
-        listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-            public void changed(ObservableValue<? extends String> ov,
-                                final String oldvalue, final String newvalue) {
-                for (Printer printer : printers) {
-                    if (printer.getName().matches(listView.getSelectionModel().getSelectedItem())) {
-                        currentPrinter = printer;
-                        System.out.println("Current Printer: " + currentPrinter.getName());
-                    }
+        listView.getSelectionModel().selectedItemProperty().addListener((ov, oldValue, newValue) -> {
+            for (Printer printer : printers) {
+                if (printer.getName().matches(newValue)) {
+                    currentPrinter = printer;
+                    System.out.println("Current Printer: " + currentPrinter.getName());
                 }
             }
         });
@@ -368,9 +390,11 @@ public class AddTransactionController implements Initializable, ApplicationListe
         VBox vBox = new VBox(10);
         Label label = new Label("Printers");
         Button printBtn = new Button("Print");
+        printBtn.getStyleClass().add("tertiary-btn");
         vBox.getChildren().addAll(label, listView, printBtn, jobStatusBox);
         vBox.setPrefSize(400, 250);
         vBox.setStyle("-fx-padding: 10;");
+        vBox.getStyleClass().add("modal-box");
 
 //        Node node = (Node)e.getSource();
 //        Node selectedTransactionIdLabel = node.getParent().getChildrenUnmodifiable().get(0);
@@ -383,7 +407,9 @@ public class AddTransactionController implements Initializable, ApplicationListe
             });
         });
 
-        Scene scene = new Scene(vBox, 400, 300);
+        Dimension2D dimension2D = Util.getCenterSceneDim(stage,3.5,2.5);
+        Scene scene = new Scene(vBox, dimension2D.getWidth(), dimension2D.getHeight());
+        scene.getStylesheets().add(getClass().getResource("/views/css/main.css").toExternalForm());
 
         // Submit form if Enter key is pressed
         listView.setOnKeyPressed(keyEvent -> {
