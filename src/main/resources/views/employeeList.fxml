@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox fx:id="employeeListContainerHBox" fillHeight="false" styleClass="p-10" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.EmployeesListController">
+    <children>
+        <VBox fx:id="employeeListContainerVBox" styleClass="p-5" stylesheets="@css/main.css">
+            <children>
+                <TextField fx:id="searchEmployeeTextField" promptText="Enter employee name ...." />
+                <ScrollPane fx:id="employeeListSP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="root" stylesheets="@css/main.css" GridPane.rowIndex="1">
+                    <content>
+                        <AnchorPane styleClass="transparent-background" stylesheets="@css/main.css">
+                            <children>
+                                <VBox fx:id="employeeListBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@css/main.css" />
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </ScrollPane>
+            </children>
+        </VBox>
+        <VBox fx:id="employeeDetailsFromList" alignment="CENTER" fillWidth="false" styleClass="modal-box" stylesheets="@css/main.css">
+            <HBox.margin>
+                <Insets />
+            </HBox.margin></VBox>
+        <!--      <Label layoutX="15.0" layoutY="14.0" prefHeight="31.0" prefWidth="176.0" styleClass="h2" stylesheets="@css/main.css" text="Search Employees" />-->
+    </children>
+</HBox>

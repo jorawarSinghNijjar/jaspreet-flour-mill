@@ -1,6 +1,7 @@
 package com.jaspreetFlourMill.accountManagement.util;
 
 import com.jaspreetFlourMill.accountManagement.model.Customer;
+import com.jaspreetFlourMill.accountManagement.model.Employee;
 
 public interface NavigationHandler {
     void handleShowHome();
@@ -9,4 +10,6 @@ public interface NavigationHandler {
     void handleShowAddTransaction();
     void handleRegisterCustomer();
     void handleEditCustomer(Customer customer);
+    void handleEditEmployee(Employee employee);
+    void handleShowEmployees();
 }

@@ -63,6 +63,9 @@ public class CustomerDetailsController implements Initializable {
     private Label customerRationCardNo;
 
     @FXML
+    private Label customerAdhaarNo;
+
+    @FXML
     public ImageView customerIdProofImage;
 
     @FXML
@@ -83,9 +86,12 @@ public class CustomerDetailsController implements Initializable {
     @FXML
     private Label grindingRate;
 
+
+
     public String idProofImageUri;
 
     private final FxWeaver fxWeaver;
+
 
     public CustomerDetailsController(FxWeaver fxWeaver) {
         this.fxWeaver = fxWeaver;
@@ -107,6 +113,7 @@ public class CustomerDetailsController implements Initializable {
                 customerAddress.setText(updatedCustomer.getAddress());
                 customerPhoneNumber.setText(updatedCustomer.getPhoneNumber());
                 customerRationCardNo.setText(updatedCustomer.getRationCardNo());
+                customerAdhaarNo.setText(updatedCustomer.getAdhaarNo());
                 try {
                     customerIdProofImage.setImage(new Image(new FileInputStream(updatedCustomer.getIdProof())));
                     this.idProofImageUri = updatedCustomer.getIdProof();

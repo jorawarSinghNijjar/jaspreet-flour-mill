@@ -174,7 +174,7 @@ public class RegisterCustomerController implements Initializable, ApplicationLis
         customerAddressField.setText(customer.getAddress());
         customerPhoneNumberField.setText(customer.getPhoneNumber());
         customerRationCardNoField.setText(customer.getRationCardNo());
-//        customerDOBField.setValue(customer.getDob());
+        customerDOBField.setValue(Util.stringToLocalDate(customer.getDob()));
         customerAdhaarNoField.setText(customer.getAdhaarNo());
         idProofFileLabel.setText(customer.getIdProof());
 

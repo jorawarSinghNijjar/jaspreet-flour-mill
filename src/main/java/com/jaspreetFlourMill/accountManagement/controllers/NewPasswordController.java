@@ -142,7 +142,7 @@ public class NewPasswordController implements Initializable, ApplicationListener
 
         user.setPassword(encodedPassword);
 
-        User.update(user, user.getId()).ifPresent(updatedUser -> {
+        User.update(user.getId(),user).ifPresent(updatedUser -> {
             Dimension2D dimension2D = Util.getCenterSceneDim(stage,3.5,2.5);
             stage.setScene(new Scene(fxWeaver.loadView(AuthController.class),dimension2D.getWidth(),dimension2D.getHeight()));
         });

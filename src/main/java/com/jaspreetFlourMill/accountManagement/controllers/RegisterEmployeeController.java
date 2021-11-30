@@ -99,6 +99,11 @@ public class RegisterEmployeeController implements Initializable, ApplicationLis
 
     @FXML
     private Label employeeConfPasswordValidLabel;
+
+    public String formType;
+
+    public Employee currentEmployee;
+
     private Stage stage;
 
 
@@ -274,28 +279,52 @@ public class RegisterEmployeeController implements Initializable, ApplicationLis
 
 
         if(newUser != null){
+            Employee newEmployee = new Employee(newUser,name, emailId, contactNo,address,jobDesignation,dob);
 
-            // POST request to register employee
-            try {
-                // User registration
+            if(this.formType == "REGISTER") {
+                // POST request to register employee
                 if (User.save(newUser)) {
                     // Employee registration
-                    Employee newEmployee = new Employee(newUser,name, emailId, contactNo,address,jobDesignation,dob);
                     if (Employee.save(newEmployee)) {
                         ContentController.navigationHandler.handleShowHome();
                         return true;
                     }
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-                System.out.println("Error: registration failed !!");
-                // Information dialog
-                AlertDialog alertDialog = new AlertDialog("Error",e.getCause().getMessage(),e.getMessage(), Alert.AlertType.ERROR);
-                alertDialog.showErrorDialog(e);
-                return false;
             }
+            else if(this.formType == "EDIT"){
+//                User.update(currentEmployee.getUser().getId(), currentEmployee.getUser()).ifPresent(updatedUser -> {
+                    Employee.update(currentEmployee.getUser(),newEmployee).ifPresent(updatedEmployee -> ContentController.navigationHandler.handleShowHome());
+//                });
+                return true;
+            }
+            else {
+                System.out.println("form type is empty");
+            }
+
+
         }
         return false;
+    }
+
+    public void populateFields(Employee employee) {
+
+        employeeFormValidation.getFormFields().put("password",true);
+        employeeFormValidation.getFormFields().put("conf-password",true);
+
+        employeeNameField.setText(employee.getName());
+        employeeAddressField.setText(employee.getAddress());
+        employeeContactNoField.setText(employee.getContactNumber());
+        employeeEmailIdField.setText(employee.getEmailId());
+        employeeUserIdField.setText(employee.getUser().getId());
+        employeeUserIdField.setDisable(true);
+        employeePasswordField.setDisable(true);
+        employeeConfirmPasswordField.setDisable(true);
+        employeeJobDesignationField.setText(employee.getJobDesignation());
+        employeeDOBField.setValue(Util.stringToLocalDate(employee.getDob()));
+
+        registerEmployeeBtn.setText("Update Employee");
+
+        currentEmployee = employee;
     }
 
     @Override

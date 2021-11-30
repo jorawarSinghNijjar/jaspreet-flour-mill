@@ -144,7 +144,7 @@ public class User implements Serializable {
         return Optional.empty();
     }
 
-    public static Optional<User> update(User user, String id) {
+    public static Optional<User> update(String id,User user) {
         try{
             String uri = BASE_URI + "/users/" + id;
             RestTemplate restTemplate = new RestTemplate();

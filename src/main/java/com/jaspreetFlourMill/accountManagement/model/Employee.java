@@ -22,7 +22,7 @@ public class Employee implements Serializable {
     private String id;
     private String name;
     private String emailId;
-    private String password;
+//    private String password;
     private String contactNumber;
     private String address;
     private String jobDesignation;
@@ -57,14 +57,14 @@ public class Employee implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-
-       public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
+//
+//       public String getPassword() {
+//        return password;
+//    }
+//
+//    public void setPassword(String password) {
+//        this.password = password;
+//    }
 
     public String getContactNumber() {
         return contactNumber;
@@ -123,7 +123,7 @@ public class Employee implements Serializable {
         return "Employee{" +
                 "employeeId=" + id +
                 ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
+//                ", password='" + password + '\'' +
                 ", contactNumber='" + contactNumber + '\'' +
                 ", address='" + address + '\'' +
                 ", jobDesignation='" + jobDesignation + '\'' +
@@ -131,8 +131,40 @@ public class Employee implements Serializable {
                 '}';
     }
 
+    // Get all Employees
+    public static Optional<Employee[]> getAllEmployees() {
+        try {
+            System.out.println("Fetching all employees....");
+            String uri = BASE_URI + "/employees";
+            RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<Employee[]> responseEntity = restTemplate.getForEntity(uri, Employee[].class);
+
+            // Find employee successful
+            if (responseEntity.getStatusCode() == HttpStatus.OK) {
+                Employee[] employees = responseEntity.getBody();
+                System.out.println("Fetched employees: " + employees.length);
+                return Optional.of(employees);
+            }
+        } catch (HttpClientErrorException.NotFound e) {
+            // Employees not found
+            System.out.println("Employees not found !");
+            return Optional.empty();
+        }
+        catch (Exception e){
+            // Employees fetching failed
+            String errMessage = "Employee Fetching failed ! ";
+            System.out.println(errMessage);
+            // Information dialog
+            AlertDialog alertDialog = new AlertDialog("Error",errMessage,e.getMessage(), Alert.AlertType.ERROR);
+            alertDialog.showErrorDialog(e);
+            return Optional.empty();
+        }
+
+        return Optional.empty();
+    }
+
     // POST Employee to API
-    public static boolean save(Employee newEmployee) throws Exception {
+    public static boolean save(Employee newEmployee) {
         try{
             System.out.println("Registering employee ...." + newEmployee.getName());
             String uri = BASE_URI + "/employees";
@@ -228,7 +260,7 @@ public class Employee implements Serializable {
         return Optional.empty();
     }
 
-    public static void delete(User user){
+    public static boolean delete(User user){
         try{
             System.out.println("Deleting Employee.....");
             String uri = BASE_URI + "/employees/" + user.getId();
@@ -239,12 +271,14 @@ public class Employee implements Serializable {
             restTemplate.delete(uri);
 
             System.out.println("Deleted Employee: " + user.getId());
+            return true;
         }
         catch (Exception e){
             System.out.println("Error deleting employee !");
             // Information dialog
             AlertDialog alertDialog = new AlertDialog("Error","Error deleting employee !", e.getMessage(), Alert.AlertType.ERROR);
             alertDialog.showErrorDialog(e);
+            return false;
         }
 //        User.delete(user);
     }

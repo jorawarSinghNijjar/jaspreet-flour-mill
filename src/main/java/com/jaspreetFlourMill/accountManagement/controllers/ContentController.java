@@ -3,9 +3,11 @@ package com.jaspreetFlourMill.accountManagement.controllers;
 import com.jaspreetFlourMill.accountManagement.StageInitializer;
 import com.jaspreetFlourMill.accountManagement.StageReadyEvent;
 import com.jaspreetFlourMill.accountManagement.model.Customer;
+import com.jaspreetFlourMill.accountManagement.model.Employee;
 import com.jaspreetFlourMill.accountManagement.model.Role;
 import com.jaspreetFlourMill.accountManagement.model.User;
 import com.jaspreetFlourMill.accountManagement.util.*;
+import com.sun.javafx.menu.MenuItemBase;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -106,6 +108,9 @@ public class ContentController implements Initializable, ApplicationListener<Sta
     private Button customersButton;
 
     @FXML
+    private Button employeesButton;
+
+    @FXML
     private Button wheatDepositButton;
 
     @FXML
@@ -141,6 +146,9 @@ public class ContentController implements Initializable, ApplicationListener<Sta
 
     private Image avatar;
     private FxControllerAndView<RegisterAdminController, Node> registerAdminCV;
+    private FxControllerAndView<EmployeesListController, Node> employeeListCV;
+    private FxControllerAndView<RegisterEmployeeController, Node> registerEmployeeControllerCV;
+
 
 
     public ContentController(FxWeaver fxWeaver) {
@@ -240,7 +248,7 @@ public class ContentController implements Initializable, ApplicationListener<Sta
                     boolean valid = FormValidation.isImage(selectedFile);
                     if(valid){
                         user.setProfileImgLocation(newProfileImageLocation);
-                        User.update(user,user.getId()).ifPresentOrElse(
+                        User.update(user.getId(),user).ifPresentOrElse(
                                 (updatedUser) -> {
                             avatarFrame.setFill(new ImagePattern(new Image(updatedUser.getProfileImgLocation())));
                         },
@@ -320,6 +328,16 @@ public class ContentController implements Initializable, ApplicationListener<Sta
                 showEditCustomer(customer);
             }
 
+            @Override
+            public void handleEditEmployee(Employee employee) {
+                showEditEmployee(employee);
+            }
+
+            @Override
+            public void handleShowEmployees() {
+                showEmployees();
+            }
+
         };
 
         // Icons
@@ -337,6 +355,10 @@ public class ContentController implements Initializable, ApplicationListener<Sta
         IconNode assignmentIcon = new IconNode(GoogleMaterialDesignIcons.ASSIGNMENT);
         assignmentIcon.setIconSize(18);
         assignmentIcon.setFill(Color.WHITE);
+
+        IconNode employeeDetailsIcon = new IconNode(GoogleMaterialDesignIcons.ASSIGNMENT_IND);
+        employeeDetailsIcon.setIconSize(18);
+        employeeDetailsIcon.setFill(Color.WHITE);
 
         IconNode plusSquare = new IconNode(FontAwesome.PLUS_SQUARE);
         plusSquare.setIconSize(18);
@@ -366,6 +388,7 @@ public class ContentController implements Initializable, ApplicationListener<Sta
         addTransactionButton.setGraphic(assignmentIcon);
         wheatDepositButton.setGraphic(plusSquare);
         customersButton.setGraphic(groupIcon);
+        employeesButton.setGraphic(employeeDetailsIcon);
 
         wheatDepositButton.setOnAction(actionEvent -> navigationHandler.handleShowWheatDeposit(-1));
 
@@ -435,6 +458,34 @@ public class ContentController implements Initializable, ApplicationListener<Sta
             customerListCV.getController().customerDetailsFromList.setPrefWidth(contentContainer.getPrefWidth() * 0.4);
             customerListCV.getController().customerDetailsFromList.setPrefHeight(contentContainer.getPrefWidth() * 0.3);
             customerListCV.getController().customerDetailsFromList.setMaxHeight(contentContainer.getPrefWidth() * 0.3);
+
+            contentContainer.getChildren().add(view);
+        });
+    }
+
+    @FXML
+    private void showEmployees() {
+        contentAreaTitleLabel.setText("Search Employees By Name".toUpperCase());
+        contentContainer.getChildren().clear();
+        employeeListCV = fxWeaver.load(EmployeesListController.class);
+
+        employeeListCV.getView().ifPresent(view -> {
+            // Layout
+            employeeListCV.getController().employeeListContainerHBox.setPrefWidth(contentContainer.getPrefWidth());
+            employeeListCV.getController().employeeListContainerHBox.setPrefHeight(contentContainer.getPrefHeight());
+
+            employeeListCV.getController().employeeListContainerHBox.setSpacing(contentContainer.getPrefWidth() * 0.1);
+
+            employeeListCV.getController().employeeListContainerVBox.setPrefWidth(contentContainer.getPrefWidth() * 0.4);
+            employeeListCV.getController().employeeListContainerVBox.setPrefHeight(contentContainer.getPrefHeight());
+            employeeListCV.getController().employeeListContainerVBox.setMaxHeight(contentContainer.getPrefHeight());
+            employeeListCV.getController().employeeListContainerVBox.setMinHeight(contentContainer.getPrefHeight() * 0.75);
+
+            employeeListCV.getController().employeeListContainerVBox.setSpacing(contentContainer.getPrefHeight() * 0.05);
+
+            employeeListCV.getController().employeeDetailsFromList.setPrefWidth(contentContainer.getPrefWidth() * 0.4);
+            employeeListCV.getController().employeeDetailsFromList.setPrefHeight(contentContainer.getPrefWidth() * 0.3);
+            employeeListCV.getController().employeeDetailsFromList.setMaxHeight(contentContainer.getPrefWidth() * 0.3);
 
             contentContainer.getChildren().add(view);
         });
@@ -640,6 +691,17 @@ public class ContentController implements Initializable, ApplicationListener<Sta
         registerCustomerControllerCV.getView().ifPresent(view -> {
             registerCustomerControllerCV.getController().formType = "EDIT";
             registerCustomerControllerCV.getController().populateFields(customer);
+            contentContainer.getChildren().add(view);
+        });
+    }
+
+    private void showEditEmployee(Employee employee) {
+        contentAreaTitleLabel.setText("Employee Edit Form".toUpperCase());
+        contentContainer.getChildren().clear();
+        registerEmployeeControllerCV = fxWeaver.load(RegisterEmployeeController.class);
+        registerEmployeeControllerCV.getView().ifPresent(view -> {
+            registerEmployeeControllerCV.getController().formType = "EDIT";
+            registerEmployeeControllerCV.getController().populateFields(employee);
             contentContainer.getChildren().add(view);
         });
     }

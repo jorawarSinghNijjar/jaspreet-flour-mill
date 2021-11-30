@@ -61,6 +61,13 @@ public class Util {
         return outputFormat.format(time);
     }
 
+    // String ("dd MMM yyyy") to LocalDate
+
+    public static LocalDate stringToLocalDate(String strDate){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM yyyy");
+        return LocalDate.parse(strDate, formatter);
+    }
+
 
     // Rounds off to  2 decimal places
     public static double roundOff(double val){
