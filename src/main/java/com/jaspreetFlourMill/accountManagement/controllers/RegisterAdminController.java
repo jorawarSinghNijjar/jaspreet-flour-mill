@@ -72,6 +72,12 @@ public class RegisterAdminController implements Initializable, ApplicationListen
     private HBox closeButtonContainerHBox;
     @FXML
     private Button closeButton;
+    @FXML
+    private Button backButton;
+    @FXML
+    private HBox topButtonBar;
+    @FXML
+    private HBox backButtonContainerHBox;
 
     private FormValidation adminFormValidation;
 
@@ -162,6 +168,10 @@ public class RegisterAdminController implements Initializable, ApplicationListen
                 this.loadLoginView();
             }
         });
+
+        backButton.setOnAction((e) -> {
+            this.loadDashboard();
+        });
     }
 
     private boolean validateForm(){
@@ -221,8 +231,9 @@ public class RegisterAdminController implements Initializable, ApplicationListen
         rowConstraints.get(6).setPercentHeight(12.5);
         rowConstraints.get(7).setPercentHeight(12.5);
 
-
-        closeButtonContainerHBox.setPrefWidth(adminRegisterContainerVBox.getPrefWidth());
+        topButtonBar.setPrefWidth(adminRegisterContainerVBox.getPrefWidth());
+        closeButtonContainerHBox.setPrefWidth(topButtonBar.getPrefWidth() * 0.50);
+        backButtonContainerHBox.setPrefWidth(topButtonBar.getPrefWidth() * 0.50);
 
         IconFontFX.register(GoogleMaterialDesignIcons.getIconFont());
 
@@ -230,7 +241,12 @@ public class RegisterAdminController implements Initializable, ApplicationListen
         closeIcon.setIconSize(24);
         closeIcon.setFill(Color.valueOf("#272635"));
 
+        IconNode backIcon = new IconNode(GoogleMaterialDesignIcons.ARROW_BACK);
+        closeIcon.setIconSize(24);
+        closeIcon.setFill(Color.valueOf("#272635"));
+
         closeButton.setGraphic(closeIcon);
+        backButton.setGraphic(backIcon);
 
 
     }
@@ -271,15 +287,25 @@ public class RegisterAdminController implements Initializable, ApplicationListen
         this.loadLoginView();
     }
 
+    private void loadDashboard(){
+        System.out.println("Loading Dashboard ....");
+        stage.setScene(new Scene(fxWeaver.loadView(ContentController.class), Util.getScreenWidth(), Util.getScreenHeight()));
+        stage.setX(0);
+        stage.setY(0);
+        stage.setMaximized(true);
+        stage.show();
+    }
+
     private void loadLoginView(){
         if(this.registerAdmin()){
             if(StageInitializer.authentication.isAuthenticated()){
-                System.out.println("Loading Dashboard ....");
-                stage.setScene(new Scene(fxWeaver.loadView(ContentController.class), Util.getScreenWidth(), Util.getScreenHeight()));
-                stage.setX(0);
-                stage.setY(0);
-                stage.setMaximized(true);
-                stage.show();
+                this.loadDashboard();
+//                System.out.println("Loading Dashboard ....");
+//                stage.setScene(new Scene(fxWeaver.loadView(ContentController.class), Util.getScreenWidth(), Util.getScreenHeight()));
+//                stage.setX(0);
+//                stage.setY(0);
+//                stage.setMaximized(true);
+//                stage.show();
             }
             else {
                 Dimension2D dimension2D = Util.getCenterSceneDim(stage,2.5,2.5);
