@@ -183,6 +183,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
                 if (!newValue.isEmpty() && newValue != null) {
                     grindingCharges = Double.parseDouble(flourPickupQtyInputText)
                             * Double.parseDouble(newValue);
+                    grindingCharges = Util.roundOff(grindingCharges);
                     grindingChargesInput.setText(String.valueOf(grindingCharges));
                 }
             }
@@ -196,6 +197,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
                 if (!newValue.isEmpty() && newValue != null) {
                     grindingCharges = Double.parseDouble(grindingRateInputText)
                             * Double.parseDouble(newValue);
+                    grindingCharges = Util.roundOff(grindingCharges);
                     grindingChargesInput.setText(String.valueOf(grindingCharges));
                 }
             }
