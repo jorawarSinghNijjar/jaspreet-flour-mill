@@ -7,7 +7,6 @@ import com.jaspreetFlourMill.accountManagement.model.Employee;
 import com.jaspreetFlourMill.accountManagement.model.Role;
 import com.jaspreetFlourMill.accountManagement.model.User;
 import com.jaspreetFlourMill.accountManagement.util.*;
-import com.sun.javafx.menu.MenuItemBase;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -42,7 +41,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.net.URL;
 import java.util.List;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 
@@ -283,6 +281,7 @@ public class ContentController implements Initializable, ApplicationListener<Sta
             sideMenuBox.getChildren().remove(registerEmployeeButton);
             sideMenuBox.getChildren().remove(homeButton);
             sideMenuBox.getChildren().remove(addAdminButton);
+            sideMenuBox.getChildren().remove(employeesButton);
             showAddTransaction();
         } else if(currentUserRole == Role.ADMIN){
             sideMenuBox.getChildren().remove(addTransactionButton);
@@ -396,7 +395,7 @@ public class ContentController implements Initializable, ApplicationListener<Sta
 
     @FXML
     public void showHome() {
-        if(!StageInitializer.authentication.isAuthenticated() || StageInitializer.authentication.getUser().getRole() != Role.ADMIN){
+        if(StageInitializer.authentication.isAuthenticated() && StageInitializer.authentication.getUser().getRole() != Role.ADMIN){
             navigationHandler.handleShowAddTransaction();
         }
         contentAreaTitleLabel.setText("Sales Summary".toUpperCase());
@@ -505,6 +504,7 @@ public class ContentController implements Initializable, ApplicationListener<Sta
 
             AddTransactionController addTransactionController = addTransactionCV.getController();
 
+//            addTransactionController.customerIdInput.setText(String.valueOf(customerId));
             addTransactionController.customerIdInput.textProperty().addListener((
                     (observableValue, oldValue, newValue) -> {
                         if(!newValue.isEmpty()){

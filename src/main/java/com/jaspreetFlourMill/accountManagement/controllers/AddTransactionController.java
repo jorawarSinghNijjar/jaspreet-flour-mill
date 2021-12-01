@@ -120,6 +120,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
     private Role currentUserRole;
 
     private CustomerAccount currentCustomerAccount;
+    private Customer currentCustomer;
 
 
     public AddTransactionController(FxWeaver fxWeaver) {
@@ -217,6 +218,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
 
             if(valid){
                 Customer.get(newVal).ifPresentOrElse(customer -> {
+                        currentCustomer = customer;
                     CustomerAccount.get(customer.getCustomerId()).ifPresent(customerAccount -> {
                         currentCustomerAccount = customerAccount;
                     });
@@ -239,9 +241,12 @@ public class AddTransactionController implements Initializable, ApplicationListe
 
 
             if(valid){
-                String validationMsg = "Cannot be greater than wheat balance: " + currentCustomerAccount.getCurrentWheatBalance();
-                if(Integer.parseInt(newVal) > currentCustomerAccount.getCurrentWheatBalance() ){
+                if(Double.parseDouble(newVal) > currentCustomerAccount.getCurrentWheatBalance() ){
+                    String validationMsg = "Cannot be greater than wheat balance: " + currentCustomerAccount.getCurrentWheatBalance();
                     FormValidation.validationResponse(tfFlourPickupQtyValidLabel,false,validationMsg);
+                    addTransactionFormValidation.getFormFields().put("flour-pickup-qty", false);
+                }
+                else{
                     addTransactionFormValidation.getFormFields().put("flour-pickup-qty", true);
                 }
             }
@@ -265,7 +270,19 @@ public class AddTransactionController implements Initializable, ApplicationListe
                     newVal,
                     tfGrindingChargesPaidValidLabel
             ).isValid();
-            addTransactionFormValidation.getFormFields().put("grinding-charges-paid", valid);
+
+            if(valid){
+                Double expectedGrindingChargesBalance = currentCustomerAccount.getGrindingChargesBalance() + Double.parseDouble(grindingChargesInput.getText());
+                if(Double.parseDouble(newVal) > expectedGrindingChargesBalance ){
+                    String validationMsg = "Cannot be greater than grinding balance + today's charges: " + expectedGrindingChargesBalance;
+                    FormValidation.validationResponse(tfGrindingChargesPaidValidLabel,false,validationMsg);
+                    addTransactionFormValidation.getFormFields().put("grinding-charges-paid", false);
+                }
+                else {
+                    addTransactionFormValidation.getFormFields().put("grinding-charges-paid", true);
+                }
+            }
+
             this.validateForm();
         });
 
@@ -350,6 +367,7 @@ public class AddTransactionController implements Initializable, ApplicationListe
                 customerDetailsCV.getController().updateCustomerDetails(String.valueOf(customerId));
                 transactionDetailsCV.getController().clearTransactionDisplay();
                 transactionDetailsCV.getController().renderTransactions(String.valueOf(customerId));
+                ContentController.navigationHandler.handleShowAddTransaction();
             });
         });
     }

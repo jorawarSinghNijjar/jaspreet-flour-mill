@@ -365,6 +365,7 @@ public class HomeController implements Initializable {
                         monthlyWheatSold+=sale.getTotalWheatSold();
                         monthlyGrindingAmount+=sale.getTotalGrindingCharges();
                         monthlyGrindingAmountReceived+=sale.getTotalGrindingChargesPaid();
+                        System.out.println(sale);
                     }
 
                     // Round off to 2 decimal places
@@ -611,7 +612,7 @@ public class HomeController implements Initializable {
         wheatDepositSeries = new XYChart.Series();
 
         wheatSalesSeries.setName("Wheat Sold");
-        wheatBalanceSeries.setName("Wheat Stock");
+        wheatBalanceSeries.setName("Wheat Balance");
         wheatDepositSeries.setName("Wheat Deposited");
 
         salesQtyChart.getData().add(wheatSalesSeries);
