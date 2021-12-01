@@ -79,6 +79,14 @@
     -fx-font-smoothing-type: lcd;
 }
 
+.big-text{
+    -fx-font-family: 'Poppins', sans-serif;
+    -fx-font-size: 18;
+    -fx-font-weight:400;
+    -fx-tex-fill: #17252A;
+    -fx-font-smoothing-type: lcd;
+}
+
 /* Padding */
 
 .p-1{

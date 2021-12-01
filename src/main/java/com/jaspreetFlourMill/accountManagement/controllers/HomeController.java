@@ -131,6 +131,14 @@ public class HomeController implements Initializable {
 
     int displayChartIndex = 0;
 
+    // Constants
+
+    private final String WHEAT_SOLD = "Wheat Sold";
+    private final String WHEAT_BALANCE = "Wheat Balance";
+    private final String WHEAT_DEPOSITED = "Wheat Deposited";
+    private final String GRINDING_CHARGES_RECEIVED = "Grinding Charges Received";
+    private final String GRINDING_CHARGES_TOTAL ="Grinding Charges Total";
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -222,6 +230,9 @@ public class HomeController implements Initializable {
                 );
         salesSummaryTypeComboBox.getItems().addAll(salesSummaryTypeOptions);
 
+        // Initialize screen with Today's Summary
+        this.displaySalesForToday(currentDayStr);
+
         // Event Listeners
 
         salesSummaryTypeComboBox.getSelectionModel().selectedItemProperty()
@@ -233,7 +244,7 @@ public class HomeController implements Initializable {
                             this.setSalesYearComboBoxVisibility(false);
                             this.setSalesYearforMonthComboBoxVisibility(false);
                             this.displaySalesForToday(currentDayStr);
-                            this.displaySalesForMonth(currentMonth,currentYear);
+//                            this.displaySalesForMonth(currentMonth,currentYear);
 
                             break;
                         case "Monthly":
@@ -485,19 +496,19 @@ public class HomeController implements Initializable {
 
             for(int i=0; i < sales.length; i++){
                 switch (seriesName){
-                    case "Wheat Sold":
+                    case WHEAT_SOLD:
                         data = sales[i].getTotalWheatSold();
                         break;
-                    case "Wheat Balance":
+                    case WHEAT_BALANCE:
                         data = sales[i].getTotalStoredWheatBalance();
                         break;
-                    case "Wheat Deposit":
+                    case WHEAT_DEPOSITED:
                         data = sales[i].getTotalWheatDeposited();
                         break;
-                    case "Grinding Charges Paid":
+                    case GRINDING_CHARGES_RECEIVED:
                         data = sales[i].getTotalGrindingChargesPaid();
                         break;
-                    case "Grinding Charges":
+                    case GRINDING_CHARGES_TOTAL:
                         data = sales[i].getTotalGrindingCharges();
                         break;
                     default:
@@ -525,16 +536,16 @@ public class HomeController implements Initializable {
             for (Map.Entry<Integer, MonthlySales> entry : salesForMonth.entrySet()) {
                 int month = entry.getKey();
                 switch (seriesName){
-                    case "Wheat Sold":
+                    case WHEAT_BALANCE:
                         data = entry.getValue().getTotalWheatSold();
                         break;
-                    case "Wheat Deposit":
+                    case WHEAT_DEPOSITED:
                         data = entry.getValue().getTotalWheatDeposited();
                         break;
-                    case "Grinding Charges Paid":
+                    case GRINDING_CHARGES_RECEIVED:
                         data = entry.getValue().getTotalGrindingAmountReceived();
-                        break;
-                    case "Grinding Charges":
+                           break;
+                    case GRINDING_CHARGES_TOTAL:
                         data = entry.getValue().getTotalGrindingAmount();
                         break;
                     default:
@@ -611,9 +622,9 @@ public class HomeController implements Initializable {
         wheatBalanceSeries = new XYChart.Series();
         wheatDepositSeries = new XYChart.Series();
 
-        wheatSalesSeries.setName("Wheat Sold");
-        wheatBalanceSeries.setName("Wheat Balance");
-        wheatDepositSeries.setName("Wheat Deposited");
+        wheatSalesSeries.setName(WHEAT_SOLD);
+        wheatBalanceSeries.setName(WHEAT_BALANCE);
+        wheatDepositSeries.setName(WHEAT_DEPOSITED);
 
         salesQtyChart.getData().add(wheatSalesSeries);
         salesQtyChart.getData().add(wheatBalanceSeries);
@@ -624,9 +635,9 @@ public class HomeController implements Initializable {
     private void initializeSalesAmtSeries(){
         //Defining series
         grindingChargesPaidSeries = new XYChart.Series();
-        grindingChargesPaidSeries.setName("Grinding Charges Received");
+        grindingChargesPaidSeries.setName(GRINDING_CHARGES_RECEIVED);
         grindingChargesSeries = new XYChart.Series();
-        grindingChargesSeries.setName("Grinding Charges Total");
+        grindingChargesSeries.setName(GRINDING_CHARGES_TOTAL);
 
         salesAmtChart.getData().add(grindingChargesPaidSeries);
         salesAmtChart.getData().add(grindingChargesSeries);

@@ -278,11 +278,13 @@ public class Sales implements Serializable {
         Stock.getStock().ifPresentOrElse(stock -> {
             stock.addWheat(wheatDepositQty);
             Stock.updateStock(stock);
+            System.out.println("stock.getWheatBalance()" +  stock.getWheatBalance());
             Sales.updateWheatBalanceInSales(stock.getWheatBalance(), wheatDepositQty, true);
         }, () -> {
             Stock stock = new Stock();
             stock.addWheat(wheatDepositQty);
             Stock.save(stock);
+            Sales.updateWheatBalanceInSales(stock.getWheatBalance(), wheatDepositQty, true);
         });
     }
 
