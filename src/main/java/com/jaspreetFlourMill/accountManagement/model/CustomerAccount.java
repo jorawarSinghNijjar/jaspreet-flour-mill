@@ -237,7 +237,7 @@ public class CustomerAccount implements Serializable {
     public static boolean delete(Customer customer){
         try{
             System.out.println("Deleting Customer Account....." + customer.getCustomerId());
-            String uri = BASE_URI + "/customers/" + customer.getCustomerId();
+            String uri = BASE_URI + "/customer-accounts/" + customer.getCustomerId();
             RestTemplate restTemplate = new RestTemplate();
 
             restTemplate.delete(uri);

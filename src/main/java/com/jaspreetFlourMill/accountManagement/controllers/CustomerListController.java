@@ -22,6 +22,7 @@ import org.springframework.stereotype.Component;
 
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 
@@ -137,9 +138,24 @@ public class CustomerListController implements Initializable {
 
             // Delete Customer Account
             deleteAccountBtn.setOnAction(actionEvent -> {
-                if(CustomerAccount.delete(customer)){
-                    ContentController.navigationHandler.handleShowCustomers();
+                // Confirmation dialog for deleting the customer account
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmation to delete account");
+                alert.setHeaderText("Delete Customer Account !");
+                alert.setContentText("Do you want to delete customer account?");
+
+                Optional<ButtonType> response = alert.showAndWait();
+                if (response.get() == ButtonType.OK) {
+                    // ... user chose OK
+                    if(CustomerAccount.delete(customer)){
+                        ContentController.navigationHandler.handleShowCustomers();
+                    }
+
+                } else {
+                    // ... user chose CANCEL or closed the dialog
+                    System.out.println("Delete customer account cancelled");
                 }
+
             });
 
             // Lost Passbook

@@ -107,21 +107,31 @@ public class CustomerDetailsController implements Initializable {
     public void updateCustomerDetails(String id) {
         // Find customer
         Customer.get(id).ifPresentOrElse((updatedCustomer) -> {
+            customerIdDisplay.setText(updatedCustomer.getCustomerId().toString());
+            customerAddress.setText(updatedCustomer.getAddress());
+            customerPhoneNumber.setText(updatedCustomer.getPhoneNumber());
+            customerRationCardNo.setText(updatedCustomer.getRationCardNo());
+            customerAdhaarNo.setText(updatedCustomer.getAdhaarNo());
+            try {
+                customerIdProofImage.setImage(new Image(new FileInputStream(updatedCustomer.getIdProof())));
+                this.idProofImageUri = updatedCustomer.getIdProof();
+            } catch (Exception e) {
+                // Information dialog
+                AlertDialog alertDialog = new AlertDialog("Error", "Error reading updating input file", e.getMessage(), Alert.AlertType.ERROR);
+                alertDialog.showErrorDialog(e);
+            }
+
+            wheatQtyStored.setText("XXX kg");
+            qtyDeduction.setText("XXX kg");
+            initialWheatQty.setText("XXX kg");
+            currentWheatBalance.setText("\u20B9 XXX");
+            grindingRate.setText("\u20B9 XXX");
+            totalGrindingChargesBalance.setText("\u20B9 XXX");
+
+            customerDetailVBox.setVisible(true);
+
             // If customer is found, find customer account and update it to view
             CustomerAccount.get(updatedCustomer.getCustomerId()).ifPresent((updatedCustomerAccount) -> {
-                customerIdDisplay.setText(updatedCustomer.getCustomerId().toString());
-                customerAddress.setText(updatedCustomer.getAddress());
-                customerPhoneNumber.setText(updatedCustomer.getPhoneNumber());
-                customerRationCardNo.setText(updatedCustomer.getRationCardNo());
-                customerAdhaarNo.setText(updatedCustomer.getAdhaarNo());
-                try {
-                    customerIdProofImage.setImage(new Image(new FileInputStream(updatedCustomer.getIdProof())));
-                    this.idProofImageUri = updatedCustomer.getIdProof();
-                } catch (Exception e) {
-                    // Information dialog
-                    AlertDialog alertDialog = new AlertDialog("Error", "Error reading updating input file", e.getMessage(), Alert.AlertType.ERROR);
-                    alertDialog.showErrorDialog(e);
-                }
 
                 String wheatQtyStoredDisplay = updatedCustomerAccount.getWheatDepositQty() + " kg";
                 String qtyDeductionDisplay = updatedCustomerAccount.getWheatProcessingDeductionQty() + " kg";
