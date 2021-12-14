@@ -397,6 +397,7 @@ public class ContentController implements Initializable, ApplicationListener<Sta
     public void showHome() {
         if(StageInitializer.authentication.isAuthenticated() && StageInitializer.authentication.getUser().getRole() != Role.ADMIN){
             navigationHandler.handleShowAddTransaction();
+            return;
         }
         contentAreaTitleLabel.setText("Sales Summary".toUpperCase());
         contentContainer.getChildren().clear();

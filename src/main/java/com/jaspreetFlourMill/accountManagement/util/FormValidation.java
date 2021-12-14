@@ -90,7 +90,7 @@ public class FormValidation {
             valid = false;
         }
         else {
-            String exp = "^[0-9]{4}(\\s?|-?)[0-9]{4}(\\s?|-?)[0-9]{4}$";
+            String exp = "^[A-Za-z0-9]+$";
             valid = rationCardNumber.matches(exp);
         }
         String msg = "Invalid Ration Card Number";
