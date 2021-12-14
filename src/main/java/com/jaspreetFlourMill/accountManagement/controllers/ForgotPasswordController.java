@@ -97,12 +97,11 @@ public class ForgotPasswordController implements Initializable, ApplicationListe
         backButton.setGraphic(backIcon);
 
         backButton.setOnAction(backBtnEvent -> {
-            System.out.println("Loading Dashboard ....");
-            stage.setScene(new Scene(fxWeaver.loadView(ContentController.class), Util.getScreenWidth(), Util.getScreenHeight()));
-            stage.setX(0);
-            stage.setY(0);
-            stage.setMaximized(true);
-            stage.show();
+            Dimension2D dimension2D = Util.getCenterSceneDim(this.stage, 3.5, 2.5);
+            Scene root = new Scene(fxWeaver.loadView(AuthController.class), dimension2D.getWidth(), dimension2D.getHeight());
+            root.setFill(Color.TRANSPARENT);
+            this.stage.setScene(root);
+            this.stage.show();
         });
 
         // Submit form if Enter key is pressed

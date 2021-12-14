@@ -47,6 +47,12 @@ public class ResetTokenController implements Initializable, ApplicationListener<
     private HBox closeButtonContainerHBox;
     @FXML
     private Button closeButton;
+    @FXML
+    private Button backButton;
+    @FXML
+    private HBox topButtonBar;
+    @FXML
+    private HBox backButtonContainerHBox;
 
     public ResetTokenController(FxWeaver fxWeaver) {
         this.fxWeaver = fxWeaver;
@@ -68,7 +74,9 @@ public class ResetTokenController implements Initializable, ApplicationListener<
         colConstList.get(0).setPercentWidth(40);
         colConstList.get(1).setPercentWidth(60);
 
-        closeButtonContainerHBox.setPrefWidth(width);
+        topButtonBar.setPrefWidth(width);
+        closeButtonContainerHBox.setPrefWidth(topButtonBar.getPrefWidth() * 0.50);
+        backButtonContainerHBox.setPrefWidth(topButtonBar.getPrefWidth() * 0.50);
 
         IconFontFX.register(GoogleMaterialDesignIcons.getIconFont());
 
@@ -77,6 +85,20 @@ public class ResetTokenController implements Initializable, ApplicationListener<
         closeIcon.setFill(Color.valueOf("#272635"));
 
         closeButton.setGraphic(closeIcon);
+
+        IconNode backIcon = new IconNode(GoogleMaterialDesignIcons.ARROW_BACK);
+        backIcon.setIconSize(24);
+        backIcon.setFill(Color.valueOf("#272635"));
+
+        backButton.setGraphic(backIcon);
+
+        backButton.setOnAction(backBtnEvent -> {
+            Dimension2D dimension2D = Util.getCenterSceneDim(this.stage, 3.5, 2.5);
+            Scene root = new Scene(fxWeaver.loadView(ForgotPasswordController.class), dimension2D.getWidth(), dimension2D.getHeight());
+            root.setFill(Color.TRANSPARENT);
+            this.stage.setScene(root);
+            this.stage.show();
+        });
 
         // Submit form if Enter key is pressed
         resetTokenGP.setOnKeyPressed(keyEvent -> {
