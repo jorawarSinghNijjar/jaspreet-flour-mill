@@ -716,6 +716,7 @@ public class ContentController implements Initializable, ApplicationListener<Sta
             registerEmployeeCV = fxWeaver.load(RegisterEmployeeController.class);
 
             registerEmployeeCV.getView().ifPresent(view -> {
+                registerEmployeeCV.getController().formType = "REGISTER";
                 contentContainer.getChildren().add(view);
             });
 

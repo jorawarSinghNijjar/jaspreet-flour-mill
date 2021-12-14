@@ -14,6 +14,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Dimension2D;
+import javafx.geometry.Pos;
 import javafx.print.*;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -23,8 +24,12 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
+import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
+import jiconfont.javafx.IconFontFX;
+import jiconfont.javafx.IconNode;
 import net.rgielen.fxweaver.core.FxControllerAndView;
 import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
@@ -144,13 +149,40 @@ public class TransactionDetailItemController implements Initializable, Applicati
         });
 
         VBox vBox = new VBox(10);
+
+        // Back Button Settings
+        Button backBtn = new Button();
+        IconFontFX.register(GoogleMaterialDesignIcons.getIconFont());
+
+        IconNode backIcon = new IconNode(GoogleMaterialDesignIcons.ARROW_BACK);
+        backIcon.setIconSize(24);
+        backIcon.setFill(Color.valueOf("#272635"));
+
+        backBtn.setGraphic(backIcon);
+
+        backBtn.getStyleClass().add("transparent-btn");
+
+        backBtn.setOnAction(backBtnEvent -> {
+            System.out.println("Loading Dashboard ....");
+            stage.setScene(new Scene(fxWeaver.loadView(ContentController.class), Util.getScreenWidth(), Util.getScreenHeight()));
+            stage.setX(0);
+            stage.setY(0);
+            stage.setMaximized(true);
+            stage.show();
+        });
+
+        HBox topBtnBar = new HBox(backBtn);
+        topBtnBar.setPrefWidth(vBox.getPrefWidth());
+        topBtnBar.setAlignment(Pos.TOP_LEFT);
+
+        // Printers List Layout
         Label label = new Label("Printers");
         label.getStyleClass().add("h5");
         Button printBtn = new Button("Print");
         printBtn.getStyleClass().add("tertiary-btn");
-        vBox.getChildren().addAll(label,listView,printBtn,jobStatusBox);
+        vBox.getChildren().addAll(topBtnBar,label,listView,printBtn,jobStatusBox);
 //        vBox.setPrefSize(400,250);
-        vBox.setStyle("-fx-padding: 10;");
+        vBox.setStyle("-fx-padding: 30;");
         vBox.getStyleClass().add("modal-box");
 
         Node node = (Node)e.getSource();

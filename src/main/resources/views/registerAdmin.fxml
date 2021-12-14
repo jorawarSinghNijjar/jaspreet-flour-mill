@@ -17,7 +17,7 @@
          <children>
             <HBox fx:id="backButtonContainerHBox" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="209.0">
                <children>
-                  <Button fx:id="backButton" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#handleClose" styleClass="transparent-btn" stylesheets="@css/main.css" />
+                  <Button fx:id="backButton" contentDisplay="RIGHT" mnemonicParsing="false" styleClass="transparent-btn" stylesheets="@css/main.css" />
                </children>
             </HBox>
               <HBox fx:id="closeButtonContainerHBox" alignment="TOP_RIGHT" fillHeight="false" maxWidth="1.7976931348623157E308" prefHeight="30.0" prefWidth="209.0" stylesheets="@css/main.css">

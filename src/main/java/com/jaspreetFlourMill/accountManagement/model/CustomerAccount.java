@@ -137,10 +137,12 @@ public class CustomerAccount implements Serializable {
     }
 
     public void addWheatToAccount(double wheatDepositQty, double wheatProcessingDeductionQty) {
+        this.wheatDepositQty = 0.00;
+        this.wheatDepositQty += this.currentWheatBalance;
         this.wheatDepositQty += wheatDepositQty;
         this.initialWheatQty += (wheatDepositQty - wheatProcessingDeductionQty);
         this.currentWheatBalance = this.initialWheatQty;
-        this.wheatProcessingDeductionQty += wheatProcessingDeductionQty;
+        this.wheatProcessingDeductionQty = wheatProcessingDeductionQty;
     }
 
     // POST request to create customer account

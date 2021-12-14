@@ -5,6 +5,7 @@ import com.jaspreetFlourMill.accountManagement.StageReadyEvent;
 import com.jaspreetFlourMill.accountManagement.model.User;
 import com.jaspreetFlourMill.accountManagement.util.AlertDialog;
 import com.jaspreetFlourMill.accountManagement.util.Util;
+import com.sun.javafx.menu.MenuItemBase;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -13,11 +14,13 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.PopupControl;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import jiconfont.icons.google_material_design_icons.GoogleMaterialDesignIcons;
@@ -40,6 +43,8 @@ public class ForgotPasswordController implements Initializable, ApplicationListe
     private final FxWeaver fxWeaver;
 
     @FXML
+    private VBox forgotPasswordContainerVBox;
+    @FXML
     private TextField forgotEmailIdField;
     @FXML
     private GridPane forgotPasswordGP;
@@ -48,6 +53,12 @@ public class ForgotPasswordController implements Initializable, ApplicationListe
     private HBox closeButtonContainerHBox;
     @FXML
     private Button closeButton;
+    @FXML
+    private Button backButton;
+    @FXML
+    private HBox topButtonBar;
+    @FXML
+    private HBox backButtonContainerHBox;
 
     public ForgotPasswordController(FxWeaver fxWeaver) {
         this.fxWeaver = fxWeaver;
@@ -68,7 +79,9 @@ public class ForgotPasswordController implements Initializable, ApplicationListe
         colConstList.get(0).setPercentWidth(40);
         colConstList.get(1).setPercentWidth(60);
 
-        closeButtonContainerHBox.setPrefWidth(width);
+        topButtonBar.setPrefWidth(width);
+        closeButtonContainerHBox.setPrefWidth(topButtonBar.getPrefWidth() * 0.50);
+        backButtonContainerHBox.setPrefWidth(topButtonBar.getPrefWidth() * 0.50);
 
         IconFontFX.register(GoogleMaterialDesignIcons.getIconFont());
 
@@ -76,7 +89,21 @@ public class ForgotPasswordController implements Initializable, ApplicationListe
         closeIcon.setIconSize(24);
         closeIcon.setFill(Color.valueOf("#272635"));
 
+        IconNode backIcon = new IconNode(GoogleMaterialDesignIcons.ARROW_BACK);
+        backIcon.setIconSize(24);
+        backIcon.setFill(Color.valueOf("#272635"));
+
         closeButton.setGraphic(closeIcon);
+        backButton.setGraphic(backIcon);
+
+        backButton.setOnAction(backBtnEvent -> {
+            System.out.println("Loading Dashboard ....");
+            stage.setScene(new Scene(fxWeaver.loadView(ContentController.class), Util.getScreenWidth(), Util.getScreenHeight()));
+            stage.setX(0);
+            stage.setY(0);
+            stage.setMaximized(true);
+            stage.show();
+        });
 
         // Submit form if Enter key is pressed
         forgotPasswordGP.setOnKeyPressed(keyEvent -> {

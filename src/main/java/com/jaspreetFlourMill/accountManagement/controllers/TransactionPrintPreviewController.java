@@ -4,6 +4,7 @@ import com.jaspreetFlourMill.accountManagement.StageReadyEvent;
 import com.jaspreetFlourMill.accountManagement.model.CustomerAccount;
 import com.jaspreetFlourMill.accountManagement.model.Transaction;
 import com.jaspreetFlourMill.accountManagement.util.AlertDialog;
+import com.jaspreetFlourMill.accountManagement.util.PrintJob;
 import com.jaspreetFlourMill.accountManagement.util.Util;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -42,10 +43,10 @@ public class TransactionPrintPreviewController implements Initializable, Applica
 
     private int currentPrintRow;
 
-    private static final int printRowsMax = 6;
+    private static final int printRowsMax = PrintJob.printRowsMax;
     private boolean nextPage;
-    private static final double columnWidth = 132;
-    private static final double columnHeight = 80;
+    private static final double columnWidth = PrintJob.columnWidth;
+    private static final double columnHeight = PrintJob.columnHeight;
     private int customerId;
     private final FxWeaver fxWeaver;
 
@@ -56,14 +57,6 @@ public class TransactionPrintPreviewController implements Initializable, Applica
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         nextPage = false;
-//            backToHomeBtn = new Button("Back");
-//            backToHomeBtn.setOnAction(ActionEvent -> {
-//                stage.setScene(new Scene(fxWeaver.loadView(ContentController.class),1366,768));
-//                stage.setX(0);
-//                stage.setY(0);
-//                stage.show();
-//            });
-//            transactionPrintPreviewContainer.getChildren().add(backToHomeBtn);
         transactionPrintPreviewContainer.setStyle("-fx-background-color:white;");
 
         printPageVBox = new VBox();

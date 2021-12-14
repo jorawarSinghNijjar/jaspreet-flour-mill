@@ -242,8 +242,8 @@ public class RegisterAdminController implements Initializable, ApplicationListen
         closeIcon.setFill(Color.valueOf("#272635"));
 
         IconNode backIcon = new IconNode(GoogleMaterialDesignIcons.ARROW_BACK);
-        closeIcon.setIconSize(24);
-        closeIcon.setFill(Color.valueOf("#272635"));
+        backIcon.setIconSize(24);
+        backIcon.setFill(Color.valueOf("#272635"));
 
         closeButton.setGraphic(closeIcon);
         backButton.setGraphic(backIcon);

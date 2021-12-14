@@ -42,7 +42,7 @@
                   <Insets top="5.0" />
                </VBox.margin>
             </Button>
-            <Label fx:id="usernameLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="60.0" styleClass="h6" stylesheets="@css/main.css" text="John Doe" textFill="WHITE">
+            <Label fx:id="usernameLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="60.0" styleClass="h6" stylesheets="@css/main.css" text="John Doe" textAlignment="CENTER" textFill="WHITE">
                <VBox.margin>
                   <Insets top="20.0" />
                </VBox.margin>
