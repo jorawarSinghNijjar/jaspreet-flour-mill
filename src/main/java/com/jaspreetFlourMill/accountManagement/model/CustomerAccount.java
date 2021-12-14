@@ -140,7 +140,7 @@ public class CustomerAccount implements Serializable {
         this.wheatDepositQty = 0.00;
         this.wheatDepositQty += this.currentWheatBalance;
         this.wheatDepositQty += wheatDepositQty;
-        this.initialWheatQty += (wheatDepositQty - wheatProcessingDeductionQty);
+        this.initialWheatQty = (this.wheatDepositQty - wheatProcessingDeductionQty);
         this.currentWheatBalance = this.initialWheatQty;
         this.wheatProcessingDeductionQty = wheatProcessingDeductionQty;
     }
