@@ -423,21 +423,25 @@ public class HomeController implements Initializable {
                 if(salesForYear != null && salesForYear.length !=0){
 
                     double yearlyWheatSold = 0.00;
+                    double yearlyWheatDeposited = 0.00;
                     double yearlyGrindingAmountReceived =0.00;
                     double yearlyGrindingAmount = 0.00;
 
                     for(Sales sale: salesForYear){
                         yearlyWheatSold+=sale.getTotalWheatSold();
+                        yearlyWheatDeposited+=sale.getTotalWheatDeposited();
                         yearlyGrindingAmount+=sale.getTotalGrindingCharges();
                         yearlyGrindingAmountReceived+=sale.getTotalGrindingChargesPaid();
                     }
 
                     // Round off to 2 decimal places
                     yearlyWheatSold = Util.roundOff(yearlyWheatSold);
+                    yearlyWheatDeposited = Util.roundOff(yearlyWheatDeposited);
                     yearlyGrindingAmount = Util.roundOff(yearlyGrindingAmount);
                     yearlyGrindingAmountReceived = Util.roundOff(yearlyGrindingAmountReceived);
 
                     wheatSoldDisplay.setText(String.valueOf(yearlyWheatSold));
+                    wheatDepositDisplay.setText(String.valueOf(yearlyWheatDeposited));
                     grindingChargesPaidDisplay.setText(String.valueOf(yearlyGrindingAmountReceived));
                     grindingChargesDisplay.setText(String.valueOf(yearlyGrindingAmount));
 
@@ -536,7 +540,7 @@ public class HomeController implements Initializable {
             for (Map.Entry<Integer, MonthlySales> entry : salesForMonth.entrySet()) {
                 int month = entry.getKey();
                 switch (seriesName){
-                    case WHEAT_BALANCE:
+                    case WHEAT_SOLD:
                         data = entry.getValue().getTotalWheatSold();
                         break;
                     case WHEAT_DEPOSITED:
