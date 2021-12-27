@@ -9,8 +9,8 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.jaspreetFlourMill</groupId>
-	<artifactId>accountManagement</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>ams</artifactId>
+	<version>0.0.1</version>
 	<name>accountManagement</name>
 	<description>Account Management Application</description>
 	<properties>
@@ -150,6 +150,14 @@
 				<version>0.0.8</version>
 				<configuration>
 					<mainClass>com.jaspreetFlourMill.accountManagement.AccountManagementApplication</mainClass>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
+				<configuration>
+					<release>17</release>
 				</configuration>
 			</plugin>
 		</plugins>
