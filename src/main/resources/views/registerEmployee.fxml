@@ -64,7 +64,7 @@
             <Label fx:id="employeeEmailIdValidLabel" prefHeight="45.0" prefWidth="300.0" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2" />
             </children>
          <VBox.margin>
-            <Insets top="20.0" />
+            <Insets top="40.0" />
          </VBox.margin>
         </GridPane>
     </children>

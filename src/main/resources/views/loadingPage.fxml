@@ -10,7 +10,7 @@
 
 <AnchorPane prefHeight="432.0" prefWidth="510.0" style="-fx-background-color: #FFFFFF;" styleClass="modal-box" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.LoadingPageController">
    <children>
-      <VBox alignment="TOP_CENTER" layoutX="149.0" layoutY="14.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="10.0">
+      <VBox alignment="CENTER" layoutX="149.0" layoutY="14.0" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="100.0" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="14.0">
          <children>
             <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                <image>

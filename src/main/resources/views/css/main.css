@@ -33,7 +33,7 @@
 
 .h1{
     -fx-font-family: 'Poppins SemiBold', sans-serif;
-    -fx-font-size: 24;
+    -fx-font-size: 22;
     -fx-font-weight:bold;
     -fx-tex-fill: #17252A;
     -fx-font-smoothing-type: lcd;
@@ -41,7 +41,7 @@
 
 .h2{
     -fx-font-family: 'Poppins SemiBold', sans-serif;
-    -fx-font-size: 22;
+    -fx-font-size: 20;
     -fx-font-weight:bold;
     -fx-tex-fill: #17252A;
     -fx-font-smoothing-type: lcd;
@@ -49,7 +49,7 @@
 
 .h3{
  -fx-font-family: 'Poppins SemiBold', sans-serif;
-    -fx-font-size: 20;
+    -fx-font-size: 18;
     -fx-font-weight:bold;
     -fx-tex-fill: #17252A;
     -fx-font-smoothing-type: lcd;
@@ -57,7 +57,7 @@
 
 .h4{
  -fx-font-family: 'Poppins SemiBold', sans-serif;
-     -fx-font-size: 18;
+     -fx-font-size: 16;
         -fx-font-weight:700;
         -fx-tex-fill: #17252A;
         -fx-font-smoothing-type: lcd;
@@ -65,7 +65,7 @@
 
 .h5{
     -fx-font-family: 'Poppins', sans-serif;
-     -fx-font-size: 16;
+     -fx-font-size: 14;
         -fx-font-weight:700;
         -fx-tex-fill: #17252A;
         -fx-font-smoothing-type: lcd;
@@ -73,7 +73,7 @@
 
 .h6{
  -fx-font-family: 'Poppins', sans-serif;
- -fx-font-size: 14;
+ -fx-font-size: 12;
     -fx-font-weight:700;
     -fx-tex-fill: #17252A;
     -fx-font-smoothing-type: lcd;
@@ -235,7 +235,10 @@
     -fx-text-fill: #272635;
 }
 
-
+.regular-text{
+    -fx-font-size:12;
+    -fx-text-fill: #272635;
+}
 
 .primary-btn{
     -fx-background-color: #DEF2F1;
@@ -247,7 +250,7 @@
 .secondary-btn{
     -fx-background-color: #272635;
     -fx-text-fill: white;
-    -fx-font-size: 17;
+    -fx-font-size: 14;
     -fx-font-weight:500;
     -fx-padding: 8 10;
 }
@@ -260,7 +263,7 @@
 .danger-btn{
   -fx-background-color: #E03554;
     -fx-text-fill: white;
-    -fx-font-size: 17;
+    -fx-font-size: 14;
     -fx-font-weight:500;
     -fx-padding: 8 10;
 }
@@ -273,7 +276,7 @@
 .alert-btn{
   -fx-background-color: #fdca40;
     -fx-text-fill: white;
-    -fx-font-size: 17;
+    -fx-font-size: 14;
     -fx-font-weight:500;
     -fx-padding: 8 10;
 }
@@ -286,7 +289,7 @@
 .tertiary-btn{
  -fx-background-color: #AF6F9F;
     -fx-text-fill: white;
-    -fx-font-size: 17;
+    -fx-font-size: 14;
     -fx-font-weight:500;
     -fx-padding: 8 10;
 }
@@ -385,12 +388,12 @@
 
 .validate-err{
     -fx-text-fill: #8c2c20;
-    -fx-font-size: 13px;
+    -fx-font-size: 12px;
 }
 
 .validate-success{
       -fx-text-fill: #002B00;
-      -fx-font-size: 13px;
+      -fx-font-size: 12px;
       -fx-font-weight:bold;
 }
 
@@ -493,12 +496,12 @@
 
 .chart-title {
   -fx-text-fill: #272635;
-  -fx-font-size: 1.8em;
+  -fx-font-size: 1.5em;
 }
 
 .axis-label {
   -fx-text-fill: #272635;
-  -fx-font-size: 1.4em;
+  -fx-font-size: 1.2em;
 }
 
 .chart-plot-background {

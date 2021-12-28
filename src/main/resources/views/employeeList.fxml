@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
@@ -8,7 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox fx:id="employeeListContainerHBox" fillHeight="false" styleClass="p-10" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.EmployeesListController">
+<HBox fx:id="employeeListContainerHBox" fillHeight="false" styleClass="p-3" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.EmployeesListController">
     <children>
         <VBox fx:id="employeeListContainerVBox" styleClass="p-5" stylesheets="@css/main.css">
             <children>
@@ -23,11 +24,18 @@
                     </content>
                 </ScrollPane>
             </children>
+         <HBox.margin>
+            <Insets top="80.0" />
+         </HBox.margin>
         </VBox>
-        <VBox fx:id="employeeDetailsFromList" alignment="CENTER" fillWidth="false" styleClass="modal-box" stylesheets="@css/main.css">
+        <VBox fx:id="employeeDetailsFromList" alignment="CENTER" fillWidth="false" prefHeight="500.0" prefWidth="400.0" stylesheets="@css/main.css">
             <HBox.margin>
-                <Insets />
-            </HBox.margin></VBox>
+                <Insets top="80.0" />
+            </HBox.margin>
+         <styleClass>
+            <String fx:value="modal-box" />
+            <String fx:value="p-3" />
+         </styleClass></VBox>
         <!--      <Label layoutX="15.0" layoutY="14.0" prefHeight="31.0" prefWidth="176.0" styleClass="h2" stylesheets="@css/main.css" text="Search Employees" />-->
     </children>
 </HBox>

@@ -63,8 +63,8 @@ public class ResetTokenController implements Initializable, ApplicationListener<
 
         // Grid Pane styling
         this.resetTokenGP.setAlignment(Pos.CENTER);
-        double width = Util.getScreenWidth() / 3.5;
-        double height = Util.getScreenHeight() / 2.5;
+        double width = Util.getScreenWidth() / 2;
+        double height = Util.getScreenHeight() / 1.5;
         this.resetTokenGP.setPrefWidth(width * 0.8);
         this.resetTokenGP.setPrefHeight(height * 0.5);
         this.resetTokenGP.setVgap(height * 0.08);
@@ -93,7 +93,7 @@ public class ResetTokenController implements Initializable, ApplicationListener<
         backButton.setGraphic(backIcon);
 
         backButton.setOnAction(backBtnEvent -> {
-            Dimension2D dimension2D = Util.getCenterSceneDim(this.stage, 3.5, 2.5);
+            Dimension2D dimension2D = Util.getCenterSceneDim(this.stage, 2, 1.5);
             Scene root = new Scene(fxWeaver.loadView(ForgotPasswordController.class), dimension2D.getWidth(), dimension2D.getHeight());
             root.setFill(Color.TRANSPARENT);
             this.stage.setScene(root);
@@ -117,7 +117,7 @@ public class ResetTokenController implements Initializable, ApplicationListener<
 
             StageInitializer.authentication.setUser(user);
 
-            Dimension2D dimension2D = Util.getCenterSceneDim(stage,2.5,2.5);
+            Dimension2D dimension2D = Util.getCenterSceneDim(stage,2,1.5);
             stage.setScene(new Scene(fxWeaver.loadView(NewPasswordController.class),dimension2D.getWidth(),dimension2D.getHeight()));
             stage.show();
 

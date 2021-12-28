@@ -19,6 +19,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.PopupControl;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -39,9 +40,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Component
 @FxmlView("/views/home.fxml")
 public class HomeController implements Initializable {
-
     @FXML
-    protected AnchorPane homeContainer;
+    public GridPane homeStatsGP;
+    @FXML
+    public GridPane homeComboBoxGP;
+
+//    @FXML
+//    protected AnchorPane homeContainer;
 
     @FXML
     protected VBox homeVBoxContainer;
@@ -164,11 +169,11 @@ public class HomeController implements Initializable {
         IconFontFX.register(GoogleMaterialDesignIcons.getIconFont());
         IconNode chevronRight = new IconNode(GoogleMaterialDesignIcons.CHEVRON_RIGHT);
         chevronRight.setIconSize(32);
-        chevronRight.setStyle("-fx-font-size: 90px;");
+        chevronRight.setStyle("-fx-font-size: 70px;");
 
         IconNode chevronLeft = new IconNode(GoogleMaterialDesignIcons.CHEVRON_LEFT);
         chevronLeft.setIconSize(32);
-        chevronLeft.setStyle("-fx-font-size: 90px;");
+        chevronLeft.setStyle("-fx-font-size: 70px;");
 
         leftArrow.setGraphic(chevronLeft);
         rightArrow.setGraphic(chevronRight);

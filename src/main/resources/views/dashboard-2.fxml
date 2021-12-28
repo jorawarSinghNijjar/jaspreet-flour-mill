@@ -37,71 +37,71 @@
                   <Circle fx:id="avatarFrame" cache="true" fill="DODGERBLUE" radius="59.0" stroke="BLACK" strokeType="INSIDE" />
                </children>
             </StackPane>
-            <Button fx:id="changeImageBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="transparent-btn" stylesheets="@css/main.css" text="Change Image" textFill="#d0cbcb">
+            <Button fx:id="changeImageBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="transparent-btn" stylesheets="@css/main.css" text="Change Image" textAlignment="CENTER" textFill="#d0cbcb" wrapText="true">
                <VBox.margin>
                   <Insets top="5.0" />
                </VBox.margin>
             </Button>
-            <Label fx:id="usernameLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="60.0" styleClass="h6" stylesheets="@css/main.css" text="John Doe" textAlignment="CENTER" textFill="WHITE">
+            <Label fx:id="usernameLabel" alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="60.0" styleClass="h6" stylesheets="@css/main.css" text="John Doe" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <VBox.margin>
                   <Insets top="20.0" />
                </VBox.margin>
             </Label>
-            <Button fx:id="homeButton" mnemonicParsing="false" onAction="#showHome" prefHeight="60.0" prefWidth="229.0" stylesheets="@css/main.css" text="Home">
+            <Button fx:id="homeButton" mnemonicParsing="false" onAction="#showHome" prefHeight="60.0" prefWidth="229.0" stylesheets="@css/main.css" text="Home" textAlignment="CENTER" wrapText="true">
                <styleClass>
                   <String fx:value="menu-btn" />
-                  <String fx:value="h4" />
+                  <String fx:value="h5" />
                </styleClass>
                <VBox.margin>
                   <Insets top="20.0" />
                </VBox.margin>
             </Button>
-            <Button fx:id="customersButton" mnemonicParsing="false" onAction="#showCustomers" prefHeight="60.0" prefWidth="229.0" stylesheets="@css/main.css" text="Customers">
+            <Button fx:id="customersButton" mnemonicParsing="false" onAction="#showCustomers" prefHeight="60.0" prefWidth="229.0" stylesheets="@css/main.css" text="Customers" textAlignment="CENTER" wrapText="true">
                <styleClass>
                   <String fx:value="menu-btn" />
-                  <String fx:value="h4" />
+                  <String fx:value="h5" />
                </styleClass>
             </Button>
-            <Button fx:id="employeesButton" mnemonicParsing="false" onAction="#showEmployees" prefHeight="60.0" prefWidth="229.0" stylesheets="@css/main.css" text="Employees">
+            <Button fx:id="employeesButton" mnemonicParsing="false" onAction="#showEmployees" prefHeight="60.0" prefWidth="229.0" stylesheets="@css/main.css" text="Employees" textAlignment="CENTER" wrapText="true">
                <styleClass>
                   <String fx:value="menu-btn" />
-                  <String fx:value="h4" />
+                  <String fx:value="h5" />
                </styleClass>
             </Button>
-            <Button fx:id="addTransactionButton" mnemonicParsing="false" onAction="#showAddTransaction" prefHeight="60.0" prefWidth="229.0" stylesheets="@css/main.css" text="Add Transaction">
+            <Button fx:id="addTransactionButton" mnemonicParsing="false" onAction="#showAddTransaction" prefHeight="60.0" prefWidth="229.0" stylesheets="@css/main.css" text="Add Transaction" textAlignment="CENTER" wrapText="true">
                <styleClass>
                   <String fx:value="menu-btn" />
-                  <String fx:value="h4" />
+                  <String fx:value="h5" />
                </styleClass>
             </Button>
-            <Button fx:id="wheatDepositButton" mnemonicParsing="false" prefHeight="60.0" prefWidth="229.0" stylesheets="@css/main.css" text="Wheat Deposit">
+            <Button fx:id="wheatDepositButton" mnemonicParsing="false" prefHeight="60.0" prefWidth="229.0" stylesheets="@css/main.css" text="Wheat Deposit" textAlignment="CENTER" wrapText="true">
                <styleClass>
                   <String fx:value="menu-btn" />
-                  <String fx:value="h4" />
+                  <String fx:value="h5" />
                </styleClass>
             </Button>
-            <Button fx:id="registerCustomerButton" mnemonicParsing="false" onAction="#showRegisterCustomer" prefHeight="60.0" prefWidth="229.0" stylesheets="@css/main.css" text="Register Customer">
+            <Button fx:id="registerCustomerButton" mnemonicParsing="false" onAction="#showRegisterCustomer" prefHeight="60.0" prefWidth="229.0" stylesheets="@css/main.css" text="Register Customer" textAlignment="CENTER" wrapText="true">
                <styleClass>
                   <String fx:value="menu-btn" />
-                  <String fx:value="h4" />
+                  <String fx:value="h5" />
                </styleClass>
             </Button>
-            <Button fx:id="registerEmployeeButton" mnemonicParsing="false" onAction="#showRegisterEmployee" prefHeight="60.0" prefWidth="229.0" stylesheets="@css/main.css" text="Register Employee">
+            <Button fx:id="registerEmployeeButton" mnemonicParsing="false" onAction="#showRegisterEmployee" prefHeight="60.0" prefWidth="229.0" stylesheets="@css/main.css" text="Register Employee" textAlignment="CENTER" wrapText="true">
                <styleClass>
                   <String fx:value="menu-btn" />
-                  <String fx:value="h4" />
+                  <String fx:value="h5" />
                </styleClass>
             </Button>
-            <Button fx:id="addAdminButton" mnemonicParsing="false" onAction="#showRegisterAdmin" prefHeight="60.0" prefWidth="229.0" stylesheets="@css/main.css" text="Add Admin">
+            <Button fx:id="addAdminButton" mnemonicParsing="false" onAction="#showRegisterAdmin" prefHeight="60.0" prefWidth="229.0" stylesheets="@css/main.css" text="Add Admin" textAlignment="CENTER" wrapText="true">
                <styleClass>
                   <String fx:value="menu-btn" />
-                  <String fx:value="h4" />
+                  <String fx:value="h5" />
                </styleClass>
             </Button>
-            <Button fx:id="signOutButton" mnemonicParsing="false" onAction="#signOut" prefHeight="60.0" prefWidth="229.0" stylesheets="@css/main.css" text="Sign Out">
+            <Button fx:id="signOutButton" mnemonicParsing="false" onAction="#signOut" prefHeight="60.0" prefWidth="229.0" stylesheets="@css/main.css" text="Sign Out" textAlignment="CENTER" wrapText="true">
                <styleClass>
                   <String fx:value="menu-btn" />
-                  <String fx:value="h4" />
+                  <String fx:value="h5" />
                </styleClass>
             </Button>
          </children>

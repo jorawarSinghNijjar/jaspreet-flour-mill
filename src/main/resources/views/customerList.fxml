@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
@@ -8,9 +9,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox fx:id="customerListContainerHBox" fillHeight="false" styleClass="p-10" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.CustomerListController">
+<HBox fx:id="customerListContainerHBox" fillHeight="false" styleClass="p-3" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.CustomerListController">
    <children>
-      <VBox fx:id="customerListContainerVBox" styleClass="p-5" stylesheets="@css/main.css">
+      <VBox fx:id="customerListContainerVBox" styleClass="p-3" stylesheets="@css/main.css">
          <children>
             <TextField fx:id="searchCustomerTextField" promptText="Enter customer name ...." />
             <ScrollPane fx:id="customerListSP" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="root" stylesheets="@css/main.css" GridPane.rowIndex="1">
@@ -23,11 +24,18 @@
               </content>
             </ScrollPane>
          </children>
-      </VBox>
-      <VBox fx:id="customerDetailsFromList" alignment="CENTER" fillWidth="false" styleClass="modal-box" stylesheets="@css/main.css">
          <HBox.margin>
-            <Insets />
-         </HBox.margin></VBox>
+            <Insets top="80.0" />
+         </HBox.margin>
+      </VBox>
+      <VBox fx:id="customerDetailsFromList" alignment="CENTER" fillWidth="false" stylesheets="@css/main.css">
+         <HBox.margin>
+            <Insets top="80.0" />
+         </HBox.margin>
+         <styleClass>
+            <String fx:value="modal-box" />
+            <String fx:value="p-3" />
+         </styleClass></VBox>
 <!--      <Label layoutX="15.0" layoutY="14.0" prefHeight="31.0" prefWidth="176.0" styleClass="h2" stylesheets="@css/main.css" text="Search Customers" />-->
    </children>
 </HBox>

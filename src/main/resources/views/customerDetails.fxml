@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="customerDetailVBox" alignment="TOP_CENTER" prefHeight="421.0" prefWidth="614.0" styleClass="p-5" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.CustomerDetailsController">
+<VBox fx:id="customerDetailVBox" alignment="TOP_CENTER" prefHeight="400.0" prefWidth="600.0" styleClass="p-3" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.CustomerDetailsController">
    <children>
-      <GridPane fx:id="customerDetailGridPane" alignment="CENTER" prefHeight="340.0" prefWidth="544.0" stylesheets="@css/main.css">
+      <GridPane fx:id="customerDetailGridPane" alignment="CENTER" prefHeight="300.0" prefWidth="550.0" stylesheets="@css/main.css">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="216.0" minWidth="10.0" prefWidth="213.0" />
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="224.0" minWidth="10.0" prefWidth="106.0" />
@@ -24,50 +24,50 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="44.0" prefHeight="25.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="50.0" prefHeight="25.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="46.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
             <RowConstraints maxHeight="35.0" minHeight="10.0" prefHeight="25.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="h2" stylesheets="@css/main.css" text="Customer Details" wrapText="true" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <Label alignment="CENTER" maxWidth="1.7976931348623157E308" styleClass="h3" stylesheets="@css/main.css" text="Customer Details" wrapText="true" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
             <HBox fx:id="imageContainerHBox" alignment="CENTER" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.rowSpan="4" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                <children>
-                  <ImageView fx:id="customerIdProofImage" fitHeight="133.0" fitWidth="238.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="customerIdProofImage" fitHeight="111.0" fitWidth="168.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../../../../../../../Users/joraw/Pictures/5a319d761a3d6.image.jpg" />
                      </image>
                   </ImageView>
                </children>
             </HBox>
-            <Label maxWidth="1.7976931348623157E308" styleClass="h6" stylesheets="@css/main.css" text="Customer ID" wrapText="true" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-            <Label maxWidth="1.7976931348623157E308" styleClass="h6" stylesheets="@css/main.css" text="Wheat Qty Stored" wrapText="true" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-            <Label maxWidth="1.7976931348623157E308" styleClass="h6" stylesheets="@css/main.css" text="Qty Deduction (Processing)" wrapText="true" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
-            <Label maxWidth="1.7976931348623157E308" styleClass="h6" stylesheets="@css/main.css" text="Initial Wheat Qty" wrapText="true" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
-            <Label maxWidth="1.7976931348623157E308" styleClass="h6" stylesheets="@css/main.css" text="Current Wheat Balance" wrapText="true" GridPane.halignment="LEFT" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
-            <Label fx:id="customerIdDisplay" maxWidth="1.7976931348623157E308" text="XXXXXXXX" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
-            <Label fx:id="wheatQtyStored" maxWidth="1.7976931348623157E308" text="0.00" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
-            <Label fx:id="qtyDeduction" maxWidth="1.7976931348623157E308" text="0.00" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
-            <Label fx:id="initialWheatQty" maxWidth="1.7976931348623157E308" text="0.00" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
-            <Label fx:id="currentWheatBalance" maxWidth="1.7976931348623157E308" text="0.00" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
+            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="h6" stylesheets="@css/main.css" text="Customer ID" wrapText="true" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="h6" stylesheets="@css/main.css" text="Wheat Qty Stored" wrapText="true" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="h6" stylesheets="@css/main.css" text="Qty Deduction (Processing)" wrapText="true" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="h6" stylesheets="@css/main.css" text="Initial Wheat Qty" wrapText="true" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="h6" stylesheets="@css/main.css" text="Current Wheat Balance" wrapText="true" GridPane.halignment="LEFT" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
+            <Label fx:id="customerIdDisplay" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="XXXXXXXX" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+            <Label fx:id="wheatQtyStored" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="0.00" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+            <Label fx:id="qtyDeduction" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="0.00" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+            <Label fx:id="initialWheatQty" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="0.00" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+            <Label fx:id="currentWheatBalance" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="0.00" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
             <Label alignment="BOTTOM_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="h6" stylesheets="@css/main.css" text="Grinding Rate  / kg" wrapText="true" GridPane.halignment="LEFT" GridPane.rowIndex="9" GridPane.valignment="CENTER" />
             <Label fx:id="grindingRate" alignment="BOTTOM_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="0.00" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="9" GridPane.valignment="CENTER" />
-            <Label layoutX="10.0" layoutY="97.0" maxWidth="1.7976931348623157E308" styleClass="h6" stylesheets="@css/main.css" text="Total Grinding Charges Balance" wrapText="true" GridPane.halignment="LEFT" GridPane.rowIndex="7" GridPane.rowSpan="2" GridPane.valignment="CENTER" />
+            <Label layoutX="10.0" layoutY="97.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="h6" stylesheets="@css/main.css" text="Total Grinding Charges Balance" wrapText="true" GridPane.halignment="LEFT" GridPane.rowIndex="7" GridPane.rowSpan="2" GridPane.valignment="CENTER" />
             <Label fx:id="totalGrindingChargesBalance" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="0.00" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="7" GridPane.rowSpan="2" GridPane.valignment="CENTER" />
-            <Label maxWidth="1.7976931348623157E308" styleClass="h6" stylesheets="@css/main.css" text="Address" wrapText="true" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
-            <Label maxWidth="1.7976931348623157E308" styleClass="h6" stylesheets="@css/main.css" text="Phone Number" wrapText="true" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
-            <Label maxWidth="1.7976931348623157E308" styleClass="h6" stylesheets="@css/main.css" text="Ration Card No." wrapText="true" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="8" GridPane.valignment="CENTER" />
-            <Label fx:id="customerPhoneNumber" maxWidth="1.7976931348623157E308" text="9463479452" wrapText="true" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
-            <Label fx:id="customerRationCardNo" maxWidth="1.7976931348623157E308" text="65448864" wrapText="true" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="8" GridPane.valignment="CENTER" />
-            <Label fx:id="customerAddress" alignment="TOP_LEFT" maxWidth="1.7976931348623157E308" text="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" wrapText="true" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.rowSpan="2" GridPane.valignment="CENTER">
+            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="h6" stylesheets="@css/main.css" text="Address" wrapText="true" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="h6" stylesheets="@css/main.css" text="Phone Number" wrapText="true" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
+            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="h6" stylesheets="@css/main.css" text="Ration Card No." wrapText="true" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="8" GridPane.valignment="CENTER" />
+            <Label fx:id="customerPhoneNumber" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="9463479452" wrapText="true" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
+            <Label fx:id="customerRationCardNo" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="65448864" wrapText="true" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="8" GridPane.valignment="CENTER" />
+            <Label fx:id="customerAddress" alignment="TOP_LEFT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" wrapText="true" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.rowSpan="2" GridPane.valignment="CENTER">
                <padding>
                   <Insets top="5.0" />
                </padding>
             </Label>
-            <Label maxWidth="1.7976931348623157E308" styleClass="h6" stylesheets="@css/main.css" text="Adhaar No." wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="9" />
-            <Label fx:id="customerAdhaarNo" maxWidth="1.7976931348623157E308" text="65448864" wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="9" />
+            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="h6" stylesheets="@css/main.css" text="Adhaar No." wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="9" />
+            <Label fx:id="customerAdhaarNo" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="65448864" wrapText="true" GridPane.columnIndex="3" GridPane.rowIndex="9" />
          </children>
       </GridPane>
    </children>

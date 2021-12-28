@@ -46,28 +46,28 @@ public class LoadingPageController  implements Initializable, ApplicationListene
 
     }
 
-    public void proceedToAuth(){
-        Connection connection = this.getConnection();
-
-        if(connection.isConnected()){
-            if(Admin.isRegistered()){
-                Dimension2D dimension2D = Util.getCenterSceneDim(this.stage,3.5,2.5);
-                Scene root = new Scene(fxWeaver.loadView(AuthController.class),dimension2D.getWidth(),dimension2D.getHeight());
-                root.setFill(Color.TRANSPARENT);
-                this.stage.setScene(root);
-            }
-            else {
-                System.out.println("Redirecting to registration page....");
-                Dimension2D dimension2D = Util.getCenterSceneDim(this.stage,2.5,2.5);
-                registerAdminCV = fxWeaver.load(RegisterAdminController.class);
-                registerAdminCV.getController().setLayout(dimension2D);
-                registerAdminCV.getView().ifPresent(view -> {
-                    this.stage.setScene(new Scene((Parent)(view),dimension2D.getWidth(),dimension2D.getHeight()));
-                });
-            }
-            this.stage.show();
-        }
-    }
+//    public void proceedToAuth(){
+//        Connection connection = this.getConnection();
+//
+//        if(connection.isConnected()){
+//            if(Admin.isRegistered()){
+//                Dimension2D dimension2D = Util.getCenterSceneDim(this.stage,2,1.5);
+//                Scene root = new Scene(fxWeaver.loadView(AuthController.class),dimension2D.getWidth(),dimension2D.getHeight());
+//                root.setFill(Color.TRANSPARENT);
+//                this.stage.setScene(root);
+//            }
+//            else {
+//                System.out.println("Redirecting to registration page....");
+//                Dimension2D dimension2D = Util.getCenterSceneDim(this.stage,1,1);
+//                registerAdminCV = fxWeaver.load(RegisterAdminController.class);
+//                registerAdminCV.getController().setLayout(dimension2D);
+//                registerAdminCV.getView().ifPresent(view -> {
+//                    this.stage.setScene(new Scene((Parent)(view),dimension2D.getWidth(),dimension2D.getHeight()));
+//                });
+//            }
+//            this.stage.show();
+//        }
+//    }
 
     @Override
     public void onApplicationEvent(StageReadyEvent event) {

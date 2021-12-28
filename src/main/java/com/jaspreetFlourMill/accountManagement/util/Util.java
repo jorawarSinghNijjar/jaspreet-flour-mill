@@ -86,6 +86,15 @@ public class Util {
         return screenBounds.getHeight();
     }
 
+//    // Screen Width: 1024 X 768 for Testing
+//    public static double getScreenWidth(){
+//       return 1366.00;
+//    }
+//
+//    public static double getScreenHeight(){
+//        return 768.00;
+//    }
+
     public static double getContentAreaWidth(){
         return Util.getScreenWidth() * 0.85;
     }

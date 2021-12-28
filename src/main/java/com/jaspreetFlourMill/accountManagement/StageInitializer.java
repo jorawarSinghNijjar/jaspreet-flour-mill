@@ -65,7 +65,7 @@ public class StageInitializer implements ApplicationListener<StageReadyEvent> {
         stage.initStyle(StageStyle.UNDECORATED);
         stage.initStyle(StageStyle.TRANSPARENT);
 
-        Dimension2D dimension2DLoading = Util.getCenterSceneDim(stage, 3.5, 2.5);
+        Dimension2D dimension2DLoading = Util.getCenterSceneDim(stage, 2, 1.5);
         loadingPageCV = fxWeaver.load(LoadingPageController.class);
         loadingPageCV.getView().ifPresent(view -> {
             Scene loadScene = new Scene(fxWeaver.loadView(LoadingPageController.class), dimension2DLoading.getWidth(), dimension2DLoading.getHeight());
@@ -96,14 +96,14 @@ public class StageInitializer implements ApplicationListener<StageReadyEvent> {
 
         if (connection.isConnected()) {
             if (Admin.isRegistered()) {
-                Dimension2D dimension2D = Util.getCenterSceneDim(this.stage, 3.5, 2.5);
+                Dimension2D dimension2D = Util.getCenterSceneDim(this.stage, 2, 1.5);
                 Scene root = new Scene(fxWeaver.loadView(AuthController.class), dimension2D.getWidth(), dimension2D.getHeight());
                 root.setFill(Color.TRANSPARENT);
                 this.stage.setScene(root);
                 this.stage.show();
             } else {
                 System.out.println("Redirecting to registration page....");
-                Dimension2D dimension2D = Util.getCenterSceneDim(this.stage, 2.5, 2.5);
+                Dimension2D dimension2D = Util.getCenterSceneDim(this.stage, 1, 1);
                 registerAdminCV = fxWeaver.load(RegisterAdminController.class);
                 registerAdminCV.getController().setLayout(dimension2D);
                 registerAdminCV.getView().ifPresent(view -> {

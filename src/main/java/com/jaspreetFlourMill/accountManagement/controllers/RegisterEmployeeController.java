@@ -114,18 +114,18 @@ public class RegisterEmployeeController implements Initializable, ApplicationLis
         registerEmployeeVBoxContainer.setPrefHeight(Util.getContentAreaHeight());
         registerEmployeeVBoxContainer.setSpacing(registerEmployeeVBoxContainer.getPrefHeight() * 0.08);
 
-        registerEmployeeGridPane.setPrefWidth(registerEmployeeVBoxContainer.getPrefWidth() * 0.70);
+        registerEmployeeGridPane.setPrefWidth(registerEmployeeVBoxContainer.getPrefWidth());
         System.out.println(registerEmployeeGridPane.getPrefWidth());
         registerEmployeeGridPane.setPrefHeight(registerEmployeeVBoxContainer.getPrefHeight() * 0.50);
         registerEmployeeGridPane.setHgap(registerEmployeeGridPane.getPrefWidth() * 0.02);
-        registerEmployeeGridPane.setVgap(registerEmployeeGridPane.getPrefHeight() * 0.04);
+        registerEmployeeGridPane.setVgap(registerEmployeeGridPane.getPrefHeight() * 0.1);
 
 //        registerEmployeeBtn.setPrefWidth(registerEmployeeVBoxContainer.getPrefWidth() * 0.55 );
 
         List<ColumnConstraints> colConstList = registerEmployeeGridPane.getColumnConstraints();
-        colConstList.get(0).setPercentWidth(15);
-        colConstList.get(1).setPercentWidth(40);
-        colConstList.get(2).setPercentWidth(30);
+        colConstList.get(0).setPercentWidth(20);
+        colConstList.get(1).setPercentWidth(30);
+        colConstList.get(2).setPercentWidth(50);
 
         employeeDOBField.setPrefWidth(Double.MAX_VALUE);
 

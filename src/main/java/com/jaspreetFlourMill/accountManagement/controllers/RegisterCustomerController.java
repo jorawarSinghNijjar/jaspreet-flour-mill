@@ -138,15 +138,15 @@ public class RegisterCustomerController implements Initializable, ApplicationLis
         registerCustomerVBoxContainer.setPrefHeight(Util.getContentAreaHeight());
         registerCustomerVBoxContainer.setSpacing(registerCustomerVBoxContainer.getPrefHeight() * 0.08);
 
-        customerDetailFormGrid.setPrefWidth(registerCustomerVBoxContainer.getPrefWidth() * 0.70);
+        customerDetailFormGrid.setPrefWidth(registerCustomerVBoxContainer.getPrefWidth());
         customerDetailFormGrid.setPrefHeight(registerCustomerVBoxContainer.getPrefHeight() * 0.50);
         customerDetailFormGrid.setHgap(customerDetailFormGrid.getPrefWidth() * 0.02);
         customerDetailFormGrid.setVgap(customerDetailFormGrid.getPrefHeight() * 0.04);
 
         List<ColumnConstraints> colConstList = customerDetailFormGrid.getColumnConstraints();
-        colConstList.get(0).setPercentWidth(15);
-        colConstList.get(1).setPercentWidth(40);
-        colConstList.get(2).setPercentWidth(30);
+        colConstList.get(0).setPercentWidth(20);
+        colConstList.get(1).setPercentWidth(30);
+        colConstList.get(2).setPercentWidth(50);
 
         customerDOBField.setPrefWidth(Double.MAX_VALUE);
 

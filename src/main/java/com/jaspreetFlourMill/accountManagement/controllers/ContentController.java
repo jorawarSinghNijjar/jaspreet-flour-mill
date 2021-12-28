@@ -406,19 +406,24 @@ public class ContentController implements Initializable, ApplicationListener<Sta
 
         homeCV.getView().ifPresent(view -> {
             // Layout
-            homeCV.getController().homeContainer.setPrefWidth(contentContainer.getPrefWidth());
-            homeCV.getController().homeContainer.setPrefHeight(contentContainer.getPrefHeight());
+//            homeCV.getController().homeContainer.setPrefWidth(contentContainer.getPrefWidth());
+//            homeCV.getController().homeContainer.setPrefHeight(contentContainer.getPrefHeight());
 
-            homeCV.getController().homeVBoxContainer.setPrefWidth(homeCV.getController().homeContainer.getPrefWidth());
-            homeCV.getController().homeVBoxContainer.setPrefHeight(homeCV.getController().homeContainer.getPrefHeight());
-            homeCV.getController().homeVBoxContainer.setSpacing(homeCV.getController().homeContainer.getPrefHeight() * 0.08);
+            homeCV.getController().homeVBoxContainer.setPrefWidth(contentContainer.getPrefWidth());
+            homeCV.getController().homeVBoxContainer.setPrefHeight(contentContainer.getPrefHeight());
+            homeCV.getController().homeVBoxContainer.setSpacing(contentContainer.getPrefHeight() * 0.08);
+            homeCV.getController().homeVBoxContainer.setLayoutY(contentAreaTitleLabel.getPrefHeight());
 
-            double hBoxSpacing = homeCV.getController().homeHBoxContainer.getPrefWidth();
-            homeCV.getController().homeHBoxContainer.setSpacing(hBoxSpacing * 0.08);
-            homeCV.getController().homeHBoxContainer.setPrefHeight(homeCV.getController().homeVBoxContainer.getHeight() * 0.30);
+            double hBoxSpacing = homeCV.getController().homeHBoxContainer.getPrefWidth() * 0.05;
+            homeCV.getController().homeHBoxContainer.setSpacing(hBoxSpacing);
+            homeCV.getController().homeHBoxContainer.setPrefWidth(contentContainer.getPrefWidth());
+            homeCV.getController().homeHBoxContainer.setPrefHeight(contentContainer.getPrefHeight() * 0.30);
 
-            homeCV.getController().lineChartContainer.setPrefWidth(homeCV.getController().homeVBoxContainer.getPrefWidth() * 0.85);
-            homeCV.getController().lineChartContainer.setPrefHeight(homeCV.getController().homeVBoxContainer.getPrefHeight() * 0.60);
+            homeCV.getController().homeStatsGP.setPrefWidth(homeCV.getController().homeHBoxContainer.getPrefWidth() *  0.75);
+            homeCV.getController().homeComboBoxGP.setPrefWidth(homeCV.getController().homeHBoxContainer.getPrefWidth() *  0.25);
+
+            homeCV.getController().lineChartContainer.setPrefWidth(contentContainer.getPrefWidth() * 0.80);
+            homeCV.getController().lineChartContainer.setPrefHeight(contentContainer.getPrefHeight() * 0.60);
 
             homeCV.getController().salesAmtChart.setPrefSize(
                     homeCV.getController().lineChartContainer.getPrefWidth(),
@@ -428,8 +433,6 @@ public class ContentController implements Initializable, ApplicationListener<Sta
                     homeCV.getController().lineChartContainer.getPrefWidth(),
                     homeCV.getController().lineChartContainer.getPrefHeight() * 0.90
             );
-
-            homeCV.getController().leftArrow.setPrefWidth(homeCV.getController().lineChartGridPane.getCellBounds(0, 0).getWidth());
 
             contentContainer.getChildren().add(view);
         });
@@ -455,7 +458,7 @@ public class ContentController implements Initializable, ApplicationListener<Sta
 
             customerListCV.getController().customerListContainerVBox.setSpacing(contentContainer.getPrefHeight() * 0.05);
 
-            customerListCV.getController().customerDetailsFromList.setPrefWidth(contentContainer.getPrefWidth() * 0.4);
+            customerListCV.getController().customerDetailsFromList.setPrefWidth(contentContainer.getPrefWidth() * 0.6);
             customerListCV.getController().customerDetailsFromList.setPrefHeight(contentContainer.getPrefWidth() * 0.3);
             customerListCV.getController().customerDetailsFromList.setMaxHeight(contentContainer.getPrefWidth() * 0.3);
 
@@ -474,18 +477,23 @@ public class ContentController implements Initializable, ApplicationListener<Sta
             employeeListCV.getController().employeeListContainerHBox.setPrefWidth(contentContainer.getPrefWidth());
             employeeListCV.getController().employeeListContainerHBox.setPrefHeight(contentContainer.getPrefHeight());
 
-            employeeListCV.getController().employeeListContainerHBox.setSpacing(contentContainer.getPrefWidth() * 0.1);
+            employeeListCV.getController().employeeListContainerHBox.setSpacing(contentContainer.getPrefWidth() * 0.05);
 
             employeeListCV.getController().employeeListContainerVBox.setPrefWidth(contentContainer.getPrefWidth() * 0.4);
             employeeListCV.getController().employeeListContainerVBox.setPrefHeight(contentContainer.getPrefHeight());
             employeeListCV.getController().employeeListContainerVBox.setMaxHeight(contentContainer.getPrefHeight());
             employeeListCV.getController().employeeListContainerVBox.setMinHeight(contentContainer.getPrefHeight() * 0.75);
+            employeeListCV.getController().employeeListContainerVBox.setLayoutY(contentAreaTitleLabel.getPrefHeight());
 
             employeeListCV.getController().employeeListContainerVBox.setSpacing(contentContainer.getPrefHeight() * 0.05);
 
-            employeeListCV.getController().employeeDetailsFromList.setPrefWidth(contentContainer.getPrefWidth() * 0.4);
+            employeeListCV.getController().employeeDetailsFromList.setPrefWidth(contentContainer.getPrefWidth() * 0.6);
             employeeListCV.getController().employeeDetailsFromList.setPrefHeight(contentContainer.getPrefWidth() * 0.3);
             employeeListCV.getController().employeeDetailsFromList.setMaxHeight(contentContainer.getPrefWidth() * 0.3);
+            employeeListCV.getController().employeeDetailsFromList.setLayoutY(contentAreaTitleLabel.getPrefHeight());
+
+            employeeListCV.getController().employeeListSP.setPrefHeight(500);
+
 
             contentContainer.getChildren().add(view);
         });
@@ -537,7 +545,7 @@ public class ContentController implements Initializable, ApplicationListener<Sta
 
             addTransactionContainer = new AnchorPane();
             addTransactionContainer.setPrefHeight(contentContainer.getPrefHeight() * 0.5);
-            addTransactionContainer.setPrefWidth(contentContainer.getPrefWidth() * 0.45);
+            addTransactionContainer.setPrefWidth(contentContainer.getPrefWidth() * 0.40);
             addTransactionContainer.setLayoutX(0);
             addTransactionContainer.setLayoutY(titleHBox.getPrefHeight());
             addTransactionCV.getView().ifPresent(view -> {
@@ -563,7 +571,7 @@ public class ContentController implements Initializable, ApplicationListener<Sta
 
             customerDetailsContainer = new AnchorPane();
             customerDetailsContainer.setPrefHeight(contentContainer.getPrefHeight() * 0.5);
-            customerDetailsContainer.setPrefWidth(contentContainer.getPrefWidth() * 0.55);
+            customerDetailsContainer.setPrefWidth(contentContainer.getPrefWidth() * 0.60);
             customerDetailsContainer.setLayoutX(addTransactionContainer.getPrefWidth());
             customerDetailsContainer.setLayoutY(titleHBox.getPrefHeight());
 
@@ -588,27 +596,27 @@ public class ContentController implements Initializable, ApplicationListener<Sta
             //Load transaction details view
 
             transactionDetailsContainer = new AnchorPane();
-            transactionDetailsContainer.setPrefHeight(contentContainer.getPrefHeight() * 0.5);
+            transactionDetailsContainer.setPrefHeight(contentContainer.getPrefHeight() * 0.4);
             transactionDetailsContainer.setPrefWidth(contentContainer.getPrefWidth());
             transactionDetailsContainer.setLayoutX(0);
-            transactionDetailsContainer.setLayoutY(addTransactionContainer.getPrefHeight());
+            transactionDetailsContainer.setLayoutY(addTransactionContainer.getPrefHeight() + 20);
 
             transactionDetailsCV.getView().ifPresent(view -> {
                 // Layout
-                transactionDetailsCV.getController().transactionDetailContainerPane.setPrefWidth(transactionDetailsContainer.getPrefWidth());
-                transactionDetailsCV.getController().transactionDetailContainerPane.setPrefHeight(transactionDetailsContainer.getPrefHeight() * 0.5);
+//                transactionDetailsCV.getController().transactionDetailContainerPane.setPrefWidth(transactionDetailsContainer.getPrefWidth());
+//                transactionDetailsCV.getController().transactionDetailContainerPane.setPrefHeight(transactionDetailsContainer.getPrefHeight() * 0.5);
 
-                transactionDetailsCV.getController().transactionDetailTitleBar.setPrefWidth(contentContainer.getPrefWidth());
-                transactionDetailsCV.getController().transactionDetailTitleBar.setPrefHeight(transactionDetailsContainer.getPrefHeight() * 0.20);
-                transactionDetailsCV.getController().transactionDetailTitleBar.setSpacing(transactionDetailsContainer.getPrefHeight() * 0.02);
+//                transactionDetailsCV.getController().transactionDetailTitleBar.setPrefWidth(contentContainer.getPrefWidth());
+//                transactionDetailsCV.getController().transactionDetailTitleBar.setPrefHeight(transactionDetailsContainer.getPrefHeight() * 0.20);
+//                transactionDetailsCV.getController().transactionDetailTitleBar.setSpacing(transactionDetailsContainer.getPrefHeight() * 0.02);
 
-                transactionDetailsCV.getController().transactionDetailScrollPane.setPrefWidth(transactionDetailsContainer.getPrefWidth());
-                transactionDetailsCV.getController().transactionDetailScrollPane.setPrefHeight(
-                        transactionDetailsContainer.getPrefHeight() - transactionDetailsCV.getController().transactionDetailTitleBar.getPrefHeight());
-                transactionDetailsCV.getController().transactionDetailScrollPane.setLayoutY(transactionDetailsCV.getController().transactionDetailTitleBar.getPrefHeight());
+//                transactionDetailsCV.getController().transactionDetailScrollPane.setPrefWidth(transactionDetailsContainer.getPrefWidth());
+//                transactionDetailsCV.getController().transactionDetailScrollPane.setPrefHeight(
+//                        transactionDetailsContainer.getPrefHeight() - transactionDetailsCV.getController().transactionDetailTitleBar.getPrefHeight());
+//                transactionDetailsCV.getController().transactionDetailScrollPane.setLayoutY(transactionDetailsCV.getController().transactionDetailTitleBar.getPrefHeight());
 
-                transactionDetailsCV.getController().detailItemContainer.setPrefWidth(transactionDetailsContainer.getPrefWidth());
-                transactionDetailsCV.getController().detailItemContainer.setPrefHeight(transactionDetailsCV.getController().transactionDetailScrollPane.getHeight());
+//                transactionDetailsCV.getController().detailItemContainer.setPrefWidth(transactionDetailsContainer.getPrefWidth());
+//                transactionDetailsCV.getController().detailItemContainer.setPrefHeight(transactionDetailsCV.getController().transactionDetailScrollPane.getHeight());
 
                 transactionDetailsContainer.getChildren().add(view);
 
@@ -641,7 +649,7 @@ public class ContentController implements Initializable, ApplicationListener<Sta
 
             depositWheatCV.getView().ifPresent(view -> {
                 // Layout
-                depositWheatCV.getController().wheatDepositFormGP.setPrefWidth(contentContainer.getPrefWidth() * 0.5);
+                depositWheatCV.getController().wheatDepositFormGP.setPrefWidth(contentContainer.getPrefWidth());
                 depositWheatCV.getController().wheatDepositFormGP.setPrefHeight(contentContainer.getPrefHeight() * 0.5);
                 depositWheatCV.getController().wheatDepositFormGP.setHgap(depositWheatCV.getController().wheatDepositFormGP.getPrefWidth() * 0.02);
                 depositWheatCV.getController().wheatDepositFormGP.setVgap(depositWheatCV.getController().wheatDepositFormGP.getPrefHeight() * 0.01);
@@ -734,7 +742,7 @@ public class ContentController implements Initializable, ApplicationListener<Sta
     public void showRegisterAdmin(){
         try {
             System.out.println("Redirecting to registration page....");
-            Dimension2D dimension2D = Util.getCenterSceneDim(stage,2.5,1.5);
+            Dimension2D dimension2D = Util.getCenterSceneDim(stage,1,1);
             registerAdminCV = fxWeaver.load(RegisterAdminController.class);
             registerAdminCV.getController().setLayout(dimension2D);
             registerAdminCV.getView().ifPresent(view -> {
@@ -754,8 +762,8 @@ public class ContentController implements Initializable, ApplicationListener<Sta
             contentContainer.getChildren().clear();
 
             // Dashboard size setting
-            double width = Util.getScreenWidth() / 3.5;
-            double height = Util.getScreenHeight() / 2.5;
+            double width = Util.getScreenWidth() / 2;
+            double height = Util.getScreenHeight() / 1.5;
             stage.setX((Util.getScreenWidth() - width) / 2);
             stage.setY((Util.getScreenHeight() - height) / 2);
             stage.setScene(new Scene(fxWeaver.loadView(AuthController.class), width, height));

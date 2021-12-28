@@ -68,8 +68,8 @@ public class ForgotPasswordController implements Initializable, ApplicationListe
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Grid Pane styling
         this.forgotPasswordGP.setAlignment(Pos.CENTER);
-        double width = Util.getScreenWidth() / 3.5;
-        double height = Util.getScreenHeight() / 2.5;
+        double width = Util.getScreenWidth() / 2;
+        double height = Util.getScreenHeight() / 1.5;
         this.forgotPasswordGP.setPrefWidth(width * 0.8);
         this.forgotPasswordGP.setPrefHeight(height * 0.5);
         this.forgotPasswordGP.setVgap(height * 0.08);
@@ -97,7 +97,7 @@ public class ForgotPasswordController implements Initializable, ApplicationListe
         backButton.setGraphic(backIcon);
 
         backButton.setOnAction(backBtnEvent -> {
-            Dimension2D dimension2D = Util.getCenterSceneDim(this.stage, 3.5, 2.5);
+            Dimension2D dimension2D = Util.getCenterSceneDim(this.stage, 2, 1.5);
             Scene root = new Scene(fxWeaver.loadView(AuthController.class), dimension2D.getWidth(), dimension2D.getHeight());
             root.setFill(Color.TRANSPARENT);
             this.stage.setScene(root);
@@ -118,7 +118,7 @@ public class ForgotPasswordController implements Initializable, ApplicationListe
 
         User.resetPassword(emailId).ifPresentOrElse((msg) -> {
             System.out.println(msg);
-            Dimension2D dimension2D = Util.getCenterSceneDim(stage,3.5,2.5);
+            Dimension2D dimension2D = Util.getCenterSceneDim(stage,2,1.5);
             stage.setScene(new Scene(fxWeaver.loadView(ResetTokenController.class),dimension2D.getWidth(),dimension2D.getHeight()));
             stage.show();
         },() -> {

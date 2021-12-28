@@ -95,9 +95,9 @@ public class TransactionDetailItemController implements Initializable, Applicati
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         transactionPrintPreviewCV = fxWeaver.load(TransactionPrintPreviewController.class);
-        transactionDetailItem.setPrefWidth(Util.getContentAreaWidth());
-        transactionDetailItem.setPrefHeight(Util.getContentAreaHeight() * 0.1);
-        transactionDetailItem.setSpacing(Util.getContentAreaWidth() * 0.02);
+//        transactionDetailItem.setPrefWidth(Util.getContentAreaWidth());
+//        transactionDetailItem.setPrefHeight(Util.getContentAreaHeight() * 0.1);
+//        transactionDetailItem.setSpacing(Util.getContentAreaWidth() * 0.02);
     }
 
     public  void setTransactionDetails(
@@ -167,7 +167,7 @@ public class TransactionDetailItemController implements Initializable, Applicati
             stage.setScene(new Scene(fxWeaver.loadView(ContentController.class), Util.getScreenWidth(), Util.getScreenHeight()));
             stage.setX(0);
             stage.setY(0);
-            stage.setMaximized(true);
+//            stage.setMaximized(true);
             stage.show();
         });
 
@@ -195,7 +195,7 @@ public class TransactionDetailItemController implements Initializable, Applicati
                 printSetup(view,stage,selectedTransactionId,currentPrinter);
             });
         });
-        Dimension2D dimension2D = Util.getCenterSceneDim(stage,3.5,2.5);
+        Dimension2D dimension2D = Util.getCenterSceneDim(stage,2,1.5);
         Scene scene = new Scene(vBox, dimension2D.getWidth(), dimension2D.getHeight());
         scene.getStylesheets().add(getClass().getResource("/views/css/main.css").toExternalForm());
         

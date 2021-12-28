@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="registerCustomerVBoxContainer" fillWidth="false" prefHeight="700.0" prefWidth="800.0" styleClass="p-10" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.RegisterCustomerController">
+<VBox fx:id="registerCustomerVBoxContainer" fillWidth="false" prefHeight="700.0" prefWidth="800.0" styleClass="p-5" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jaspreetFlourMill.accountManagement.controllers.RegisterCustomerController">
     <children>
 <!--        <Label alignment="CENTER" layoutX="280.0" layoutY="60.0" prefHeight="54.0" prefWidth="228.0" styleClass="h2"-->
 <!--               stylesheets="@css/main.css" text="Enter Customer Details" textAlignment="CENTER"/>-->
@@ -51,13 +51,13 @@
                         <Button mnemonicParsing="false" onAction="#selectIDProof" prefHeight="25.0" prefWidth="112.0" text="Browse" />
                     </children>
                 </HBox>
-                <Label fx:id="customerNameValidLabel" prefHeight="45.0" prefWidth="255.0" stylesheets="@css/main.css" wrapText="true" GridPane.columnIndex="2" GridPane.vgrow="SOMETIMES" />
-                <Label fx:id="customerAddressValidLabel" prefHeight="45.0" prefWidth="255.0" stylesheets="@css/main.css" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.vgrow="SOMETIMES" />
-                <Label fx:id="customerPhoneNumberValidLabel" prefHeight="45.0" prefWidth="255.0" stylesheets="@css/main.css" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.vgrow="SOMETIMES" />
-                <Label fx:id="customerRationNumberValidLabel" prefHeight="45.0" prefWidth="255.0" stylesheets="@css/main.css" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="3" GridPane.vgrow="SOMETIMES" />
-                <Label fx:id="customerAdhaarNumberValidLabel" prefHeight="45.0" prefWidth="255.0" stylesheets="@css/main.css" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4" GridPane.vgrow="SOMETIMES" />
-                <Label fx:id="customerDobValidLabel" prefHeight="45.0" prefWidth="255.0" stylesheets="@css/main.css" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="5" GridPane.vgrow="SOMETIMES" />
-                <Label fx:id="customerIdProofValidLabel" prefHeight="45.0" prefWidth="255.0" stylesheets="@css/main.css" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="6" GridPane.vgrow="SOMETIMES" />
+                <Label fx:id="customerNameValidLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="45.0" prefWidth="255.0" stylesheets="@css/main.css" wrapText="true" GridPane.columnIndex="2" GridPane.vgrow="SOMETIMES" />
+                <Label fx:id="customerAddressValidLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="45.0" prefWidth="255.0" stylesheets="@css/main.css" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.vgrow="SOMETIMES" />
+                <Label fx:id="customerPhoneNumberValidLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="45.0" prefWidth="255.0" stylesheets="@css/main.css" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="2" GridPane.vgrow="SOMETIMES" />
+                <Label fx:id="customerRationNumberValidLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="45.0" prefWidth="255.0" stylesheets="@css/main.css" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="3" GridPane.vgrow="SOMETIMES" />
+                <Label fx:id="customerAdhaarNumberValidLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="45.0" prefWidth="255.0" stylesheets="@css/main.css" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="4" GridPane.vgrow="SOMETIMES" />
+                <Label fx:id="customerDobValidLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="45.0" prefWidth="255.0" stylesheets="@css/main.css" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="5" GridPane.vgrow="SOMETIMES" />
+                <Label fx:id="customerIdProofValidLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="45.0" prefWidth="255.0" stylesheets="@css/main.css" wrapText="true" GridPane.columnIndex="2" GridPane.rowIndex="6" GridPane.vgrow="SOMETIMES" />
               <Button fx:id="registerCustomerBtn" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleRegisterCustomerSubmit" styleClass="secondary-btn" stylesheets="@css/main.css" text="Submit" GridPane.columnSpan="2" GridPane.rowIndex="7" />
             </children>
          <VBox.margin>
